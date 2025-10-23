@@ -18,7 +18,7 @@ With Early Release ebooks, you get books in their earliest form—the author's r
 
 ![](_page_1_Picture_4.jpeg)
 
-# **Terraform at Scale**
+## **Terraform at Scale**
 
 by Robert Glenn
 
@@ -42,7 +42,7 @@ Interior Illustrator: Kate Dullea
 
 July 2026: First Edition
 
-# **Revision History for the Early Release**
+## **Revision History for the Early Release**
 
 2025-08-22: First Release
 
@@ -56,7 +56,7 @@ The views expressed in this work are those of the author and do not represent th
 
 # **Brief Table of Contents (***Not Yet Final***)**
 
-# **Part 1**
+## **Part 1**
 
 *Chapter 1 Terrible Terraform (unavailable)*
 
@@ -66,7 +66,7 @@ Chapter 3 Effective Use of Logic (available)
 
 *Chapter 4 Built-In Fields: Reference Attributes, Variables, Local Values, and Outputs (unavailable)*
 
-# **Part 2 Terraform Project Organization**
+## **Part 2 Terraform Project Organization**
 
 *Chapter 5 Tightly Coupled Projects (unavailable)*
 
@@ -76,7 +76,7 @@ Chapter 7 Balancing State Size with Cardinality (available)
 
 *Chapter 8 Everything Is Production (unavailable)*
 
-# **Part 3 Operations at Scale**
+## **Part 3 Operations at Scale**
 
 *Chapter 9 Automating Enterprise Scale (unavailable)*
 
@@ -94,7 +94,7 @@ Chapter 7 Balancing State Size with Cardinality (available)
 
 # <span id="page-5-0"></span>**Chapter 1. Effective Use of Logic**
 
-# **A NOTE FOR EARLY RELEASE READERS**
+## **A NOTE FOR EARLY RELEASE READERS**
 
 With Early Release ebooks, you get books in their earliest form—the author's raw and unedited content as they write—so you can take advantage of these technologies long before the official release of these titles.
 
@@ -128,7 +128,7 @@ The general guidance is to externalize as much of the more complex logic, and th
 
 TF will most likely be embedded in your automation tool's DSL, even if it amounts to yaml and free text bash scripts. This unlocks the breadth of tools (or lack thereof) available to the execution context. In many popular platforms, these execution contexts are already containerized and even allow for custom container images to be leveraged for a job's execution. This opens a world of possibilities to incorporate tools other than TF to perform operations on inputs and outputs.
 
-# **NOTE**
+## **NOTE**
 
 This may get messy if you are leveraging inline sed/awk commands or pipes in conjunction with the TF commands within the context of a shell.
 
@@ -150,7 +150,7 @@ recreate the steps), it may be cavalier to believe a repeat occurrence of succes
 
 The other problem is they scale very poorly, more or less linearly up to muscle memory related speed improvements, and arguably the worst out of most available methods. Depending on the provider, adding a permission to 100 groups, 1 by 1 in a cloud provider's web console, takes 100x the time it takes to configure 1 group. Doing it in the command line may be much faster, especially if you are skillful with shell scripting, but if you aren't hard coding the values and instead are building some kind of templating system and say storing it in a shared location for reuse, you're basically doing simplified infrastructure as code. Why reinvent the wheel? If you need to do something once or rarely (and you don't have a "wildcard job" as described in [Chapter 2\)](#page-52-0), it may be appropriate to do this manually, but if you're doing it often and repetitively, it only makes sense to encode the procedure in some way.
 
-# **NOTE**
+## **NOTE**
 
 There may be corporate or legal policies that dictate certain manual operations. For example, it is typical in some industries to require releases to production be initiated by a designated release manager, so that there is assumed responsibility and liability by someone with ostensibly sufficient experience and discernment. In such cases, you can integrate countless validation and reporting measures over endless efforts to make it "fool proof", thereby effectively reducing the level of acumen such a role requires to interpreting a dashboard and pressing one of two buttons: accept or reject. However, doing so undermines the spirit of the policy it is intended to support, effectively to the same degree as automating it (with perfectly implemented best practices) would. Sometimes the only way to implement a fully automated solution is to first modify the applicable policies. That this is easier said than done may not be lost on anyone.
 
@@ -172,7 +172,7 @@ In your pursuit of working code, you may introduce certain risky behavior that d
 
 may require a great deal of care and courage). The problem is their potential to congregate and become patterns that can hide unusual and mysterious issues possibly with indeterminate behavior. The following are common issues that are easy to avoid if you know what to look for.
 
-# **Inline Logic**
+## **Inline Logic**
 
 TF supports the use of logic directly as the assignment for a field, with the logic evaluated at runtime as a computed value that must adhere to (or may be interpreted as) the accepted data type of the field. This is especially common for using string interpolation to construct unique values e.g. for name, description, or resource tag fields. As we'll see later in the chapter, string interpolation can be a great way to reduce input variable footprint by reusing common parts, but doing this inline, especially excessively, is likely to result in mystifying puzzles of text.
 
@@ -180,11 +180,11 @@ Worse is the overuse of inline logic on e.g. collections. It's common, and perha
 
 Instead of inline logic, a better practice is to place logic in the local values. While these can't necessarily be evaluated any better than inline statements, they can be decomposed and identified for clear indication of how or where to reference. We'll see more of this below in the section on Clean TF.
 
-# **NOTE**
+## **NOTE**
 
 The order of evaluation of the TF state overall can depend on resources referenced in logical expressions. Evaluation of an expression during a tf apply is delayed until all of its referenced resources are computed. This is explored further in *[Chapter 2](#page-52-0)*.
 
-# **Implicit Type Conversion**
+## **Implicit Type Conversion**
 
 While string interpolation may be appropriate in many cases to construct new strings from smaller substrings, relying upon implicit type conversion is generally regarded as sloppy at best and potentially issue prone at worst. An example of this is using a string value in a numeric field, e.g. isolating a portion of an ID that reads 'myinstance\_m32\_d120', and extracting the values '32' and '120' to use directly in the fields that determine the sizes of memory and disk, respectively, of a compute resource.
 
@@ -258,13 +258,13 @@ As its name suggests, the for expression (along with its companion reserved word
 
 The for expression can iterate over any collection type. However, there are differences in how elements are referenced from the collection in the iteration statement depending on the type of collection iterated over. All collections in a for expression expose up to two temporary symbols to use as the current element's reference in the expression's predicate. For all collection types, if a single symbol is used, it will always contain the value of the current element. Also for all types, the inclusion of a second symbol causes it to be the symbol associated with the current element's value, with the first symbol repurposed to expose the index (list, tuple, and set type collections) or the current element's key (map and object type collections).
 
-# **TIP**
+## **TIP**
 
 It is highly recommended to establish and publish internal guidelines for use of these temporary symbols, both in when one or two temporary symbols should be used (to promote consistency and to avoid confusion or mistakes) and in how they are to be named (since this is up to the code author, and e.g. for map types, can be as simple as 'k' and 'v', or so expressive as to describe what the key represents and the entity type or purpose of the value).
 
 In addition to the uncommon syntax already presented, the for expression also requires a special bracket syntax surrounding the statement to denote the expected output type of either a list (surrounded by []) or a map (surrounded by {}). The former expects the result of each iteration to be some primitive or custom type, and places them in memory as a list. The latter requires a mapping from some primitive type to any other type (primitive or custom).
 
-# **TIP**
+## **TIP**
 
 While they may often be thought of as interchangeable (and indeed either syntax can be easily modified to produce the other result type), there are distinct use cases for the list and map versions of the for expression. Certainly, a particular collection type may be expected as the input type of e.g. a resource or module field, but there are plenty of other uses that are often subjective and the choice seems arbitrary. Nonetheless, there are good, objective reasons for selecting one over the other: it is recommended to use for expressions to output map collections when constructing the input for for\_each statements and to output list collections when constructing the value of module outputs. The former ensures a consistent order in which resulting resources are constructed (this is explored further in the subsequent section on the for\_each meta-argument), whereas the latter often provides a more readable (and theoretically more compressed) format of the data.
 
@@ -274,7 +274,7 @@ As evidence of this, see [Example 1-3](#page-19-0) below, depicting valid statem
 
 <span id="page-19-0"></span>
 
-# *Example 1-3. Using for and for\_each in exclusive situation*
+### *Example 1-3. Using for and for\_each in exclusive situation*
 
 ```
 variable "config_map" {
@@ -403,7 +403,7 @@ chapter-3 > figures > 3-2 > ₩ main.tf > ...
        locals {
         augmented_vms_map = {
         for vm in var. vms_map : vm => merge(
-             νm,
+             VM,
                           = "vm-${vm.app_id}-${slice(vm.machine_type, 0, 2)}-${slice(vm.zone, 0, 6)}"
                name
               description = "Dedicated ${vm.machine_type} vm for app ${vm.app_id}"
@@ -457,7 +457,7 @@ Splat Expressions are intended as shorthand for certain common collection expres
 
 <span id="page-27-0"></span>
 
-# *Example 1-10. Splat expression and equivalent for expression*
+### *Example 1-10. Splat expression and equivalent for expression*
 
 ```
 resource "google_compute_instance" gce-vms {
@@ -488,7 +488,7 @@ Splat expressions are very appropriate in the definition of output values intend
 
 Alternatively, splat expressions may be included in output definitions intended for convenient interpretation and reference by human users. This could be useful for recording lists of specific resource information (e.g. the list of compute resource instance IDs that was created by the script) into a spreadsheet or other document for reporting or tracking purposes.
 
-# **NOTE**
+## **NOTE**
 
 The splat operator has no way of filtering out elements. In any such situation, an if clause as part of a for expression is likely to be the best solution, as discussed previously.
 
@@ -541,7 +541,7 @@ The most useful collection functions are those used to combine, decompose, or ot
 
 <span id="page-33-0"></span>
 
-# *Example 1-12. Using* concat() *to combine two lists*
+### *Example 1-12. Using* concat() *to combine two lists*
 
 ```
 list_1 = [0, 1, 2, 3]
@@ -556,7 +556,7 @@ produce a set type, which is treated exactly like a list type except that it mus
 
 <span id="page-34-0"></span>
 
-# *Example 1-13. Using* merge() *to override required field defaults*
+### *Example 1-13. Using* merge() *to override required field defaults*
 
 ```
 locals {
@@ -699,7 +699,7 @@ HCL includes a number of encoding, hashing, and cryptographic functions. While t
 
 There are several encoding and decoding functions available in HCL, including functions to decode/encode into base64, properly encoded URLs, and to decode/encode various file encodings (e.g. json, yaml, and csv). The best use of the base64encode(), base64zip(), and textencodebase64() functions may be in order to compress certain information (perhaps e.g. for archival purpose) or to generate certain hash IDs that are based on strings.
 
-# **NOTE**
+## **NOTE**
 
 It is always important to note that encoding is not encryption. Nothing that is encoded into base64 is secure in any way.
 
@@ -711,7 +711,7 @@ Finally, there is the cryptographic function, rsadecrypt(), which will decrypt a
 
 There are two types of filesystem functions in HCL, those that actually access the filesystem, such as file(), fileexists(), and templatefile(), and those that simply help to format filepath-related strings, such as dirname(), pathexpand(), basename(). The former operate on files that exist (and are available) on the same local filesystem as what TF is running against.
 
-# **NOTE**
+## **NOTE**
 
 The functions that access the filesystem require the files on which they operate to exist on the filesystem in which TF is executed "before [TF] takes any actions" according to the documentation.
 
@@ -731,7 +731,7 @@ Perhaps the most basic such function is the type() function. This returns the ty
 
 In cases where you cannot control the type of a value, such as output values of a 3rd-party, it may indeed be appropriate (or at least most pragmatic) to cast one value to another. For converting from a number or a boolean to a string value, HCL exposes the tostring() function. While this adds syntax it's more than sugar as it advertises the intent to convert type. It also will throw an error if it receives anything other than a primitive type value (one of type string, number, or bool) and null, which means it provides better validation than simple type conversion.
 
-# **NOTE**
+## **NOTE**
 
 It is also possible to use the string interpolation method for converting from numeric or boolean values to strings. However, tostring() is arguably a far more expressive and readable method, and it is consistent with other recommended conversion approaches.
 
@@ -739,7 +739,7 @@ Likewise, for converting from a string to a numeric value, HCL provides the simi
 
 For converting from a string to a boolean, the tobool() function only accepts the exact strings "true" and "false". If this is found within a longer string, it may require additional logic to first isolate, and then cast to lowercase, the specific portion. Unfortunately, sometimes boolean values are output as a string by the cloud service provider (or the TF provider that operates it), making this explicit type conversion a good way to identify and handle such behavior.
 
-# **TIP**
+## **TIP**
 
 Note that none of these methods work for converting between boolean and numeric values. The safest way to convert between a boolean and the numeric representation is to use a ternary expression: e.g. numType = boolVal ? 1 : 0 and boolType = numVal == 1 ? 1 : 0.
 
@@ -825,7 +825,7 @@ General guidance on when, where, and why to implement logic in TF projects
 
 # <span id="page-52-0"></span>**Chapter 2. Optimizing State**
 
-# **A NOTE FOR EARLY RELEASE READERS**
+## **A NOTE FOR EARLY RELEASE READERS**
 
 With Early Release ebooks, you get books in their earliest form—the author's raw and unedited content as they write—so you can take advantage of these technologies long before the official release of these titles.
 
@@ -851,7 +851,7 @@ The state backend is configured by a hardcoded backend field as part of the prov
 
 The **state object**, or **state tree**, is a tree-like relationship construct stored in a JSON structure that represents the state of the instantiated services at the time of a tf apply operation. The JSON file itself is stored in the state backend location.
 
-# **NOTE**
+## **NOTE**
 
 Actually, the state tree could technically be considered a directed acyclic graph (DAG), but for the purposes of considering how the states are traversed (and how they are stored in memory) it is essentially treated as a tree, but with specific rules about how it may be ordered.
 
@@ -871,7 +871,7 @@ As alluded to, the state object creates a 3-way relationship along with the code
 
 *Figure 2-2. Illustration of multiple state triplets for separate TF states e.g. security controls (IAM), platform services, and commercial workloads.*
 
-# **NOTE**
+## **NOTE**
 
 This means changing the backend (and successfully running an apply) effectively moves the TF state.
 
@@ -891,7 +891,7 @@ In terms of TF, we would map data sources and resources to the leaf nodes and th
 
 *Figure 2-3. Representation of a tree with labels and annotations denoting its parts.*
 
-# **NOTE**
+## **NOTE**
 
 It's also worth noting that any valid JSON (JavaScript Object Notation) object can be considered as a tree (cycles are disallowed); YAML can also be depicted in this way. Conversely, every tree can be encoded as a JSON or YAML.
 
@@ -913,7 +913,7 @@ The TF CLI provides some functionality to manually manipulate the TF state objec
 
 Enter tf import. You can encode the resource into your codebase and import the resource (without modifying it) into your TF state object using the addressing scheme as described earlier.
 
-It is highly recommended to evaluate the configuration that gets incorporated into the codebase by running a `tf plan` to validate this state address, as shown in **Figure 2-5**, below.
+It is highly recommended to evaluate the configuration that gets incorporated into the codebase by running a `tf plan` to validate this state address, as shown in Figure 2-5, below.
 
 ```
 Terraform will perform the following actions:
@@ -979,11 +979,11 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 
 It can also be used in combination with other TF CLI state operations to reorganize or refactor existing IaC, moving it from one codebase (or location in the state object) to another, as we'll explore later on.
 
-# **NOTE**
+## **NOTE**
 
 This only establishes the second leg of our state triplet. Any subsequent tf apply will read from the encoded specification, so the resource must first be reflected (at the same level in the hierarchy and with all the non-default fields that were configured in the new instance) in the codebase, or the operation will remove it.
 
-# **TIP**
+## **TIP**
 
 Operations like tf import are extremely sensitive. It is highly recommended (if not imperative) that you as an operator ensure the result of a tf plan matches your expectation (i.e. it's reporting only necessary and expected changes). With a tf import and a matching resource definition, there should be no change reported from a tf plan.
 
@@ -993,11 +993,11 @@ In addition to importing state configuration, TF also provides functionality to 
 
 However, there is one scenario in which this can be the best way to preserve running instances: in the case of refactoring a codebase so that it breaks it down into multiple states. This may be useful especially in cases where resources in a state object (or their respective lifecycle needs) are sufficiently unrelated.
 
-# **NOTE**
+## **NOTE**
 
 It's important to note that the tf state rm operation does not remove the running resources, it simply removes it from the TF state object. The resource will be unaffected. Because of this, a subsequent tf apply on an unaltered codebase will expect to recreate the instance and reinsert the state into the state object. If the instance created by the resource is still present, this operation may fail altogether, if it would result in a duplicate resource that is impossibly similar to the old one.
 
-# **TIP**
+## **TIP**
 
 Because of the above, it is highly advised to complete all the operations across the state triplet: removing the portion of the TF state object, removing the code (or moving it to another repo or part of the codebase), and destroying the running instances (if necessary) all in the same sitting.
 
@@ -1017,7 +1017,7 @@ Moreover, and perhaps more importantly, under normal conditions one TF state won
 
 Thus, each state tree can be thought of as atomic. Any connections between TF states would need to be implemented outside of the confines of the state triplet: the TF state object stored in the designated backend, the TF codebase, and the configured cloud resources.
 
-# **NOTE**
+## **NOTE**
 
 It is certainly possible to encode a resource in two locations and import the instantiated resources into two distinct TF states; however, I would seriously challenge the rationale for doing so beyond a temporary (and cumbersome) unavoidability (i.e. a "necessary evil" or more often a "prescribed-by-superiors evil") or a contrived oddity.
 
@@ -1035,7 +1035,7 @@ In this section we will present some state do's and (many) state don't's to guid
 
 We'll begin with state don't's, and then show how to mitigate them with the state do's. I find it is more impactful to begin with the problematic practices, especially because many practitioners will relate to both how they can crop up and how time consuming and risky they can be to resolve. Some of these arise from common misconceptions, out of an uncontrolled evolution of a project, and yet others are essentially improper workarounds due to a lack of sound software practices.
 
-# **One-off Operations**
+## **One-off Operations**
 
 TF does not lend itself well to operations that must be run once and only once, or those that are expected to be fire-and-forget. The very nature of TF is to support the consistency of the instantiated resources that make up your IaC Ecosystem. Many one-off operations may be more appropriately performed directly with the underlying platform API request or CLI command.
 
@@ -1049,19 +1049,19 @@ Ideally, even things like state manipulation is done in a highly controlled and 
 
 That being said, incorporating one-off operations into normal TF operation is highly discouraged. The more you deliberately violate the idempotent nature of TF, the more overhead you must engage in and support. This goes beyond "using a hammer to screw in a nail" this is like using a screwdriver to pry apart a hammer, and using the hammer bits to screw in a nail (i.e. you already have the tools you need to address the policy: whatever software that was written to wrap around and operate TF in this non-standard way can be repurposed to leverage e.g. APIs, CLIs, or SDKs directly).
 
-# **TIP**
+## **TIP**
 
 A good practice is to introduce a "wildcard" job that allows any one of a specified set of TF operations, and with the flexibility to allow for a wide range of flags and freetext in order to enable certain operations that would otherwise be performed manually. An example of this approach is provided later in the chapter.
 
 Consider using a whitelist for the operations and a blacklist for the command flags.
 
-# **Abusing The** -target **Option**
+## **Abusing The** -target **Option**
 
 As referenced earlier, the -target option allows the execution of write operations to be focused on an individual resource (or all the resources managed by a particular module block), rather than the entire TF state object / relevant codebase. Also as alluded to, its use is probably best relegated to emergency corrective situations where you must quickly push a vital change, e.g. a security patch, but a specific resource (often not even in the patch) is currently misconfigured/drifted from the TF state object and is effectively breaking the state; rather than resolving this discrepancy, you instead choose (or are ordered) to essentially ignore it, for now, and to force the update through by using -target to bypass the full TF state object check against the complete collection of running resources
 
 It is strongly discouraged to include the -target option directly into normal infrastructure operations e.g. deployment pipeline execution or "self-service" platforms. Use the -target option at your own risk and with heightened caution. Overuse may indicate systemic issues that should be addressed more holistically, e.g. by refactoring portions of the codebase to enhance its robustness or to isolate the lifecycles of problematic and highly critical resources. It is also recommended to enforce procedural/access policies preventing the regular use of the -target option.
 
-# **Tightly-Coupled States**
+## **Tightly-Coupled States**
 
 Two states can become tightly-coupled when there is a high degree of dependency between them. A contrived example might be one state
 
@@ -1128,7 +1128,7 @@ chapter-7 > figures > 7-7 > tightly-coupled-upstream > ₩ main.tf > ...
 
 This can be especially problematic if the projects are mutually interdependent, i.e. they have dependencies going both directions: where one project relies on resources in another which itself relies on resources from the first project. This can happen as projects evolve and more and different resources are introduced. To extend the case above, let's say later on, custom routing rules were added to the project controlling the subnets with the rationale being they were more related to the connectivity and less related to security. Then, even later, some routing rules were introduced that relied on specific firewall configuration. Suddenly, both projects rely upon each other. Here, a cascading change can even make a cycle, where the first project must actually be changed twice: first to make the initial update (subnetwork), then to update the downstream project in response (firewalls), then to again update the first project (routes).
 
-# **Lopsided State**
+## **Lopsided State**
 
 It's almost impossible (and certainly more trouble than it's worth at the margin) to construct perfectly balanced state objects. However, there are some clear practices to avoid that greatly increase the chances of excessively unbalanced states.
 
@@ -1140,15 +1140,15 @@ should not be invoked within the same module. This is a lot harder to enforce es
 
 The final practice to avoid is including collection nodes (modules and resources treated with the for\_each meta argument) and non-collection nodes in the same code module. Like the first practice, this automatically creates an imbalance within the code module. This is also hard to enforce in the presence of 3rd-party code modules.
 
-# **TIP**
+## **TIP**
 
 It's often best to avoid using the for\_each meta argument outside of a root code module, altogether. There are some clear exceptions to this (e.g. a single subnet bundled with a static set of standard firewall rules). The point is to not introduce this mixing without good reason. This is covered in more detail in the chapter on module construction.
 
-# **NOTE**
+## **NOTE**
 
 Sometimes, the only way to truly achieve the desired degree of balance (especially of depth) would be by introducing code modules that simply wrap one of the offending modules, but this is not advised. Most likely, a more appropriate approach is to split up the module, possibly into multiple states (and projects/repos).
 
-# **"Too Many Cooks"**
+## **"Too Many Cooks"**
 
 For better or worse, multiple teams working in (sometimes loose) coordination on a single IaC Ecosystem is fairly standard. This might happen over time, as individuals move from team to team, or are promoted into new roles, and bring with them skills and tribal knowledge that might be tapped in cases of emergency or out of convenience. Or the phenomenon can occur suddenly as teams experience department-wide reorganizations, and responsibilities are shuffled amongst new teams and individuals.
 
@@ -1166,11 +1166,11 @@ must be replicated manually if they are ever needed to be taken again. ClickOps 
 
 Finally, ClickOps presents a poor security posture. Most typically, it puts an unnecessarily high level of personal responsibility on individual "specialists" with the relevant access. Or, in the case of extreme separation of duties, it requires complex coordination among multiple such individuals. In either case, there is a great deal of risk placed on a few team members' physical and mental health (and general desire to stay employed) that can only be mitigated by spreading the responsibility, thereby undermining whatever compliance measures that influenced the "specialist" policy in the first place.
 
-# **NOTE**
+## **NOTE**
 
 While ClickOps is wildly inefficient, especially in contrast to well architected solutions, it can bridge the gap in the case of inexperience, unfamiliarity, or under-coordination (e.g. or perhaps "severe asynchronicity").
 
-# **TIP**
+## **TIP**
 
 Perhaps a more economical use case would be to reserve this approach for rapid prototyping or proof of architecture via the ClickOps activities, after which a full IaC ecosystem architecture can be designed and scaled in TF.
 
@@ -1180,25 +1180,25 @@ Now that we've seen the don't's, it should be easy to understand the do's and th
 
 recommendations here, and any prescriptive path would likely have its own drawbacks or superceding approaches. However, being aware of them, even theoretically, and using them as north stars can help architects and teams avoid missteps: by implementing these practices, engineers can avoid all of the don't's.
 
-# **Balanced States**
+## **Balanced States**
 
 As previously stated, the TF object is represented as a tree structure in JSON with the root module (as defined above) as its root node. It is recommended to develop the code in a way that keeps the tree representing the TF object reasonably balanced: e.g. with approximately the same volume of child nodes under each branch of each node, with no depth more than 2logx(n) (with x as the average of the child branches across all nodes), and a difference between shortest and longest depth at most logx(n).
 
-# **NOTE**
+## **NOTE**
 
 This is an example, and while it allows a lot of wiggle room, it's not exactly trivial to achieve, as projects get more and more complex and modular.
 
 We will see how we can develop for balance in a later section.
 
-# **Environment-aligned State Objects**
+## **Environment-aligned State Objects**
 
 One of the most common ways to effectively separate state is by environment: production, integration, staging, etc. There are many ways to implement this, and once a path is selected, it can be difficult (and costly) to change direction. It's recommended to implement some kind of environment graduation process whereby some set of core components are configured so that updates can be introduced first in an environment that is not meant for your production workloads. We'll see an example of this later on in this chapter.
 
-# **NOTE**
+## **NOTE**
 
 Really, from the point of view of an operations or infrastructure specialist, all (or a vast majority) of your infrastructure is "production", as it is live and has active users (i.e. the application developers). However, there is a strong and reasonable desire to vet significant changes (e.g. new resource types or features thereof) outside of your applications' production environments.
 
-# **TIP**
+## **TIP**
 
 It's recommended to drive most of the environmental differences with a combination of versioned remote modules (so we can control when and where a new resource or feature is enabled) and the input variables (to provide the necessary changes in size, enumeration, and other environment-specific configuration). We'll see an example of this later in the chapter.
 
@@ -1206,7 +1206,7 @@ Regarding ephemeral environments, there are two typical scenarios: those with lo
 
 Implementing the guidance in the preceding tip will enable greater control over creating and destroying entire environments.
 
-# **Clean Up Unused States**
+## **Clean Up Unused States**
 
 This could have been presented as a don't as in "Don't leave unused states lying around". As we've seen in other sections, and as we will see later on in the chapter, there are times when resources in a particular state (or the
 
@@ -1214,7 +1214,7 @@ entire state itself) must be transferred, removed, or otherwise rearranged. This
 
 Many organizations have policies around archiving or otherwise preserving nearly everything. Such a policy highlights the value of cleaning up state objects: keeping around state files with non-empty objects that no longer reflect reality can confuse anyone who happens to review them in an audit scenario (the only scenario in which such an archival policy is actually fully implemented). Making sure all state files reflect empty state objects is the best way to show any would-be auditors that your resources are kept clean and fully tracked.
 
-# **Domain-aligned Code Modules**
+## **Domain-aligned Code Modules**
 
 It is not recommended to keep all of the TF code for an entire global conglomerate in a single state object. On the flip side, it's more of an art than a science to construct code modules that don't:
 
@@ -1274,7 +1274,7 @@ chapter-7 > figures > 7-8 > domain-alignment >
 
 *Figure 2-7. Several resources within the Networking domain grouped within a single TF module.*
 
-# **Lifecycle-aligned Code Modules**
+## **Lifecycle-aligned Code Modules**
 
 Lifecycle-aligned code modules are similar to their domain-aligned counterparts, except they group resources that might be updated in the same (or highly related) lifecycle. An example might be the resources supporting a standardized tech stack that updates in tandem. Whenever one component needs to be updated, the others are likely to need updating as well. Constructing the project that can be reused for the stack allows both bundled maintenance and separation of concerns.
 
@@ -1284,7 +1284,7 @@ Before you can optimize your TF state, it's worth discussing the various problem
 
 We will also describe common causes of each issue as well as mitigation techniques, both preventative and corrective.
 
-# **NOTE**
+## **NOTE**
 
 Not all of these are easy to avoid, even with this information.
 
@@ -1322,7 +1322,7 @@ One way this can occur is if an unsuccessful tf apply cannot fully undo an opera
 
 configure one resource, while it successfully creates a resource that is designated as protected by the cloud service provider: the failed resources causes TF to attempt to rollback its updates, but the protected resource refuses to be cleaned up given the protection. Suddenly, any new tf apply (even those that correct the failure with the one resource) now fails because the protected resource already exists. The only options are to remove the resource another way (ideally, not manually), or to remove the code that configures the protected resource to at least move past the gridlock.
 
-# **NOTE**
+## **NOTE**
 
 Note that this latter approach leaves an *untracked* resource. It is possible to later import the resource into the state as we've seen before.
 
@@ -1330,7 +1330,7 @@ Note that this latter approach leaves an *untracked* resource. It is possible to
 
 When the *state tree* has grown so large that it takes too much time and resources, it may begin to cause severe slowdowns to a tf plan or tf apply. Even with enough resources, the running time can be prohibitive in the case of a typical development team collaborating to rapidly construct a single state. Suddenly teams are met with artificial barriers to introducing their latest solutions, or far worse, a much-needed security patch. Avoiding state bloat is addressed further in the next post.
 
-# **NOTE**
+## **NOTE**
 
 The blast radius of a broken or locked state is the entire state tree. Therefore, it is recommended to keep state trees as self-contained as possible, without creating monolithic monstrosities that take the whole company to a standstill when a wrench makes its way into the works. All resources managed by a single state share a single lifecycle. Consider using a domain-driven approach to chunk states to a reasonable size and level of atomicity as described before.
 
@@ -1378,7 +1378,7 @@ There are a number of approaches we've discussed so far that are effectively "do
 
 In this section, we will discuss a few tactical approaches that can be incorporated directly. It is still up to you (and your architects, etc.) to determine when to introduce these approaches, if at all. Not every approach necessarily needs to be introduced in every code repository, and in fact there may be sound reasons (or compliance policies that dictate) to *not* incorporate an approach that would be theoretically advantageous. At the very least, these should illustrate a philosophical perspective to balancing TF ecosystems and codebases.
 
-# **Approach 1: Backend Key Variation**
+## **Approach 1: Backend Key Variation**
 
 Very often, the same resource or module configuration needs to be applied multiple times, with slight variation in e.g. naming or other identificationrelated fields. Multiple similar environments for a single workload may be configured this way: this way each environment has the same shape, keeping parallel copies of the same architecture, possibly for various testing or software integration purposes. Alternatively/additionally, you may want
 
@@ -1394,11 +1394,11 @@ Fortunately, the backend configuration fields may be partially configured and th
 
 *Figure 2-9. Depicts setting partial backend configuration and passing in the values from a config file at time of* tf init *execution.*
 
-# **TIP**
+## **TIP**
 
 In order to provide increased governance and protection of the TF state objects stored in remote backend locations, it is highly recommended to leverage an external location (or even a secure data store, such as Hashicorp Vault) to store backend configurations. In which case the file must be downloaded to the local disk before running the tf init command.
 
-# **Approach 2: Specifying Distinct Variable Files**
+## **Approach 2: Specifying Distinct Variable Files**
 
 In varying the state backend, you are likely looking to intentionally create distinct backends. While there are use cases or combinations of resources in which these states can be successfully constructed from the exact same inputs and codebase, in most cases you will want to provide distinct
 
@@ -1427,7 +1427,7 @@ A possible (though not perfect) alternative solution could be to encode any extr
 
 these file protections. See *Chapter 4* on *Other Built-In Fields* such as Local Values for more information.
 
-# **NOTE**
+## **NOTE**
 
 TF allows for both the .tfvars (a simplified encoding for assigning values to variables developed by Hashicorp) or .tfvars.json (JSON-encoded) constructions for assigning variables. While it is technically possible to include both encodings, and take advantage of additional layers of precedence, it is most certainly a more convoluted solution than it is worthwhile. Choose either encoding and stick with it.
 
@@ -1516,11 +1516,11 @@ OUTLINE
 
 *Figure 2-10. Depiction of multiple variable files to allow for complex layering of variable assignment.*
 
-# **Approach 3: Graduated Environment Configuration**
+## **Approach 3: Graduated Environment Configuration**
 
 Sometimes, there is a policy, written or otherwise, of taking a graduated approach to any software release process, including infrastructure as code, such that the infrastructure for each environment would be applied at different stages of the release process: e.g. the Integration stage of the IaC automation maintains the infrastructure for the Development environment of application workloads, the Staging stage maintains the Test environment, and the Deploy stage maintains the Production environment.
 
-# **NOTE**
+## **NOTE**
 
 It's worth reiterating: all of your infrastructure should be treated as "production" in terms of the quality with which it is developed and the security measures taken to protect it.
 
@@ -1530,7 +1530,7 @@ Really, this approach is perhaps most appropriate when piloting new services or 
 
 This could be governed by a protected main branch that applies the infrastructure for the lifecycle environments, and the ability to create feature branches that can be deployed to a sandbox copy of the infrastructure with the new capability enabled, perhaps as a webhook that is triggered by the source control system upon opening a pull/merge request. Then, feature branches of application workloads can be deployed to the test bed. This way, there is nothing impeding patch activities to either the application workloads or the cloud infrastructure responsible for hosting application workloads in any environment supporting the software delivery lifecycle.
 
-# **Approach 4: Versioned Environment Modules**
+## **Approach 4: Versioned Environment Modules**
 
 Many times, the true motive behind imposing a graduated approach to infrastructure as code is the goal of improving maintainability and reducing redundant configuration by way of using the same configuration for multiple environments, while also allowing for elevated control over when the configuration is applied. E.g. the ability to fully validate an infrastructure configuration (even a patch) before it is applied to the environment hosting the production application workloads. This goal is both understandable and noble, but it is not exactly straightforward.
 
@@ -1542,7 +1542,7 @@ A cleaner approach would be to leverage remote modules and module versioning. In
 
 While this doesn't fully resolve the risk of having to leapfrog a more experimental capability with a patch, it at least simplifies the activity of applying such a patch throughout your cloud infrastructure to a single line of code (the module's version).
 
-# **Approach 5: "Wildcard Jobs"**
+## **Approach 5: "Wildcard Jobs"**
 
 As discussed earlier in this chapter, there are certain operations that may only be appropriate in very limited situations such as those that directly manipulate the state object that acts as the memory for TF. These are
 
@@ -1554,7 +1554,7 @@ In most automation platforms, users can be permitted to operate particular jobs 
 
 Depending on how your total ecosystem's infrastructure is organized (and how access to your automation platform is scoped), it might be possible to provide such wildcard jobs associated with various points throughout the ecosystem and controlled via RBAC/ABAC. This can enable a particular team to address an issue they are experiencing using highly dangerous TF operations without the chance of affecting any other infrastructure.
 
-# **NOTE**
+## **NOTE**
 
 One major value to wildcard jobs is that you can have it record the operations in the same way that it records its other processes. This ensures consistent and complete tracking of all TF operations; especially important for the operations discussed here which can have severe implications and should be recorded accurately and transparently. While we are purely discussing the use of TF commands that modify the TF state object, the concept of wildcard jobs is not in any way confined to TF state and can certainly be extended to many other areas. Before doing so, however, consider the following guidance that considers the use of wildcard jobs for interacting with the cloud service provider (either directly through e.g. gcloud, awscli, or az CLIs, or indirectly through TF CLI).
 
@@ -1568,13 +1568,13 @@ Additionally, it's important to remember that, because TF requires access to a v
 
 Probably the toughest part of any TF ecosystem is when changes need to be made for one reason or another. Every organization that utilizes TF to maintain its infrastructure should expect to see changes in how the TF code, and its corresponding states, is constructed. Many of these events are impossible to avoid (at least technologically or logistically) and others are simply natural occurrences in the lifespan of a normal ecosystem.
 
-# **TIP**
+## **TIP**
 
 In each of the suggested approaches provided in the following scenarios, it is recommended that any TF command (e.g. tf plan, tf import, tf state rm, etc.) be run in a wildcard job as described above. In absence of such a capability, the utmost care must be taken in executing these commands.
 
 It is also strongly recommended that all steps be done in as narrow a window as possible without recklessly rushing or skipping any steps, or compromising the validation of a step's success. Certainly do not leave for the weekend before you complete any of the following procedures!
 
-# **Scenario 1: Organizational Scaling**
+## **Scenario 1: Organizational Scaling**
 
 One such scenario many organizations find themselves in over time is an expansion of the technology department, with teams growing, splitting, and replicating in order to support the growth of technology solutions offered to customers. Very often, this implies an evolution of responsibilities across the various teams. This means a team may become responsible for portions of a particular TF project (and more importantly, it means other teams are supposed to be restricted from modifying said portions). The most effective way to impose such distinction of responsibility begins with separating the configuration into separate locations (e.g. distinct repositories) within the codebase.
 
@@ -1601,7 +1601,7 @@ Most likely, the evolution described happens over time (very possibly in a "tria
 - 7. *Run removals:* Run tf state rm on each resource reported in the previous step (or, if you find that you are removing all the resources under a particular module, simply use tf state rm to remove the entire module and all its constituent resources)
 - 8. *Confirm removal:* Run another tf plan to confirm the tf state rm commands succeeded in the repurposed repository; no changes should be reported if the removals were successful
 
-# **Scenario 2: Reducing Duplication**
+## **Scenario 2: Reducing Duplication**
 
 Despite your best efforts, you may find that, as the TF code evolves over time, various instances of working configuration are copied and pasted for various reasons, even into the same repository. This duplication of code may have been done purposefully and with salient rationale, or it may have been introduced by blind mimicry. One or a few appearances of this may be a tolerated nuisance, but bad behavior has a tendency to propagate and just a few occurrences can quickly turn into several and then into multitudes.
 
@@ -1610,7 +1610,7 @@ Suppose you are charged with refactoring your department's networking components
 ```
 ₩ main.tf ×
                                                                                main.tf X
-chapter-7 > figures > 7-16 > reducing-duplication-before > \(\forall \) main.tf > ...
+chapter-7 > figures > 7-16 > reducing-duplication-before > \mathbf{Y} main.tf > ...
                                                                                 chapter-7 > figures > 7-16 > reducing-duplication-after > ₩ main.tf > ...
   7 resource "google_compute_subnetwork" tas-7-16-snet-01 {
                                                                                        resource "google_compute_network" "tas-7-16-vpc" {
@@ -1627,7 +1627,7 @@ chapter-7 > figures > 7-16 > reducing-duplication-before > \(\forall \) main.tf 
                                                                                            for_each = { for snet in var.snet_configs : snet.name => snet }_
        resource "google_compute_subnetwork" tas-7-16-snet-02 {
                           = var.snet_02_name
-                                                                                                          = each.value.name
+                                                                                                         = each.value.name
                                                                                            name
            ip_cidr_range = var.snet_02_cidr
                                                                                            ip_cidr_range = each.value.cidr
@@ -1660,7 +1660,7 @@ chapter-7 > figures > 7-16 > reducing-duplication-before > \ variables.tf > ...
                                                                                                name = string
                                                                                                cidr = string
        variable "snet_01_cidr" {
-                                                                                                region = string
+                                                                                               region = string
            description = "Subnet CIDR as a string."
            type
                                                                                  10
@@ -1692,11 +1692,11 @@ Again, the goal is also to seamlessly preserve all running workloads, leaving al
 
 15. *Confirm removals:* Run another set of tf plan commands to confirm the tf state rm commands succeeded; no changes should be reported if the removals were successful
 
-# **TIP**
+## **TIP**
 
 It is always a good idea to first run a tf state rm with the -dry-run option to preview the changes the command will attempt to make.
 
-# **Scenario 3: Merger/Acquisition**
+## **Scenario 3: Merger/Acquisition**
 
 A merger or acquisition can happen at any time to pretty much any company. While there is generally a great deal of time before deals are complete and activities have advanced to the point of needing to worry about integrating the two former companies' codebases and infrastructure, it will very likely eventually come to pass that keeping the two separate is deemed untenable (especially if they are using the same cloud service provider). After all the political jockeying concludes, and all components within a particular are designated for consolidation, it's very likely that one of the now redundant engineering teams (the ones that maintained these components) becomes the dominant, and eventually singular, team for that domain.
 
@@ -1704,7 +1704,7 @@ In a perfect world, none of the resources would need to be recreated. Because th
 
 In the former option, there will be a need for at least some resources to move, consolidate, or otherwise be modified. This might be in the form of combining codebases and TF state objects for certain network components like subnetworks and firewall rules. This may manifest as a many-to-one procedure for codebase and TF state within a particular domain space. Depending on the type of cloud service, it may be possible to establish an equivalent, parallel resource configuration in the receiving account and to perform an atomic cutover operation that minimizes service disruption and avoids downtime.
 
-# **TIP**
+## **TIP**
 
 Depending on the cloud service provider, it may be possible to leave certain other components in place, and to e.g. peer internal networks, which may further serve to minimize disruptions and downtime of this type of solution.
 
@@ -1727,11 +1727,11 @@ In terms of the latter option, we will still integrate the codebases and TF stat
 
 *Figure 2-14. Example result of merging two projects within the same domain, e.g. in the case of a merger or acquisition.*
 
-# **NOTE**
+## **NOTE**
 
 The option described above doesn't ensure that the resulting TF state object is balanced.
 
-# **Scenario 4: Organizational Change Management**
+## **Scenario 4: Organizational Change Management**
 
 Another almost inevitable event that happens at any sufficiently large organization is the dreaded "reorg". There are many causes of this, some more legitimate than others, but many bring along policy considerations such as new responsibilities. As we saw before, we can relocate portions of the codebase and TF state. This may be useful in order to redistribute the resources among repositories aligned to the new organization structure.
 
@@ -1747,7 +1747,7 @@ As with Scenario 1, our outcome may be multiple new (or repurposed) repositories
 
 *Figure 2-15. Refactoring multiple projects to better match the new organization structure. Greyed out components represent resources replicated to other regions.*
 
-# **TIP**
+## **TIP**
 
 It is once again highly recommended that this be an individual (or a very small team) with temporary permissions and who is performing all actions through "wildcard jobs" as described earlier.
 
@@ -1764,7 +1764,7 @@ Because this activity may be more prescribed and predefined, it has a higher lik
 - 8. *Run removals:* Run tf state rm on each resource reported in the previous step (or again, use tf state rm \$(terraform state list) to remove the entire root module and all resources)
 - 9. *Confirm removal:* Run another series of tf plan commands to confirm the tf state rm commands succeeded; in this case, because we preserved the previous organization of the TF code and simply copied over the configuration into the new repositories, all resources should be reported here if the removals were successful
 
-# **TIP**
+## **TIP**
 
 When copying over the code into the new repositories (step 2, above), it may not be appropriate or possible to preserve the state address of each resource in the new state objects. E.g. there may be a desire to bundle (or rebundle) certain resources when developing the new modules (optional step 3, above). It is highly recommended to track and record the mapping between the "from" TF state addresses and the "to" TF state addresses, e.g. in an internally shared spreadsheet. This can ensure no components become untracked when making the transition.
 

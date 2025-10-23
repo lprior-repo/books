@@ -1,0 +1,267 @@
+{
+  "table_of_contents": [
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          1052.871475649945,
+          11.997928534438115
+        ],
+        [
+          2017.2537532039544,
+          15.747281201450026
+        ],
+        [
+          2017.2537532039544,
+          193.4665976178146
+        ],
+        [
+          1052.871475649945,
+          193.4665976178146
+        ]
+      ]
+    },
+    {
+      "title": "What to Test, and When?",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          728.161113145368,
+          249.58203125
+        ],
+        [
+          1260.5961186378615,
+          249.58203125
+        ],
+        [
+          1260.5961186378615,
+          308.1967892283791
+        ],
+        [
+          728.161113145368,
+          308.1967892283791
+        ]
+      ]
+    },
+    {
+      "title": "More Information",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          244.99999999999997,
+          1128.421875
+        ],
+        [
+          436.4467228121567,
+          1128.421875
+        ],
+        [
+          436.4467228121567,
+          1156.703125
+        ],
+        [
+          244.99999999999997,
+          1156.703125
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER\nDAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          1050.6217502746247,
+          8.998446400828586
+        ],
+        [
+          2017.2537532039544,
+          15.747281201450026
+        ],
+        [
+          2017.2537532039544,
+          193.4665976178146
+        ],
+        [
+          1050.6217502746247,
+          193.4665976178146
+        ]
+      ]
+    },
+    {
+      "title": "Commit",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          287.9648480410106,
+          311.09375
+        ],
+        [
+          485.94068106920537,
+          311.09375
+        ],
+        [
+          485.94068106920537,
+          370.484375
+        ],
+        [
+          287.9648480410106,
+          370.484375
+        ]
+      ]
+    },
+    {
+      "title": "Acceptance",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          682.4166971805199,
+          313.921875
+        ],
+        [
+          980.8802636396923,
+          313.921875
+        ],
+        [
+          980.8802636396923,
+          376.140625
+        ],
+        [
+          682.4166971805199,
+          376.140625
+        ]
+      ]
+    },
+    {
+      "title": "Release",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          1177.0,
+          310.38671875
+        ],
+        [
+          1375.3321127792017,
+          310.38671875
+        ],
+        [
+          1375.3321127792017,
+          371.19140625
+        ],
+        [
+          1177.0,
+          371.19140625
+        ]
+      ]
+    },
+    {
+      "title": "Production",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          1581.5569388502379,
+          311.19627136198864
+        ],
+        [
+          1856.9999999999998,
+          311.19627136198864
+        ],
+        [
+          1856.9999999999998,
+          367.65625
+        ],
+        [
+          1581.5569388502379,
+          367.65625
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          36
+        ],
+        [
+          "Span",
+          14
+        ],
+        [
+          "Text",
+          10
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 2023,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          42
+        ],
+        [
+          "Span",
+          42
+        ],
+        [
+          "Text",
+          13
+        ],
+        [
+          "SectionHeader",
+          5
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 580,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/How To - What to Test and When 22-07-21"
+}

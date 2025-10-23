@@ -10909,7 +10909,7 @@
       "block_metadata": {
         "llm_request_count": 3,
         "llm_error_count": 0,
-        "llm_tokens_used": 253995,
+        "llm_tokens_used": 253981,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -10931,7 +10931,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2396,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -10979,7 +10979,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11089,7 +11089,7 @@
       "block_counts": [
         [
           "TableCell",
-          170
+          168
         ],
         [
           "Span",
@@ -11111,7 +11111,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 7063,
+        "llm_tokens_used": 7004,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11123,7 +11123,7 @@
       "block_counts": [
         [
           "TableCell",
-          252
+          170
         ],
         [
           "Span",
@@ -11145,7 +11145,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 8305,
+        "llm_tokens_used": 7665,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11179,7 +11179,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 8713,
+        "llm_tokens_used": 8554,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11191,7 +11191,7 @@
       "block_counts": [
         [
           "TableCell",
-          172
+          170
         ],
         [
           "Span",
@@ -11213,7 +11213,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 9609,
+        "llm_tokens_used": 9420,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11224,12 +11224,12 @@
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
-          "Span",
-          78
+          "TableCell",
+          140
         ],
         [
-          "TableCell",
-          70
+          "Span",
+          78
         ],
         [
           "Line",
@@ -11247,7 +11247,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 8992,
+        "llm_tokens_used": 10155,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11463,7 +11463,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2397,
+        "llm_tokens_used": 2396,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -13821,7 +13821,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2845,
+        "llm_tokens_used": 2820,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -13867,7 +13867,7 @@
       "block_metadata": {
         "llm_request_count": 3,
         "llm_error_count": 1,
-        "llm_tokens_used": 8025,
+        "llm_tokens_used": 8250,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -13999,7 +13999,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2394,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -14771,7 +14771,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2809,
+        "llm_tokens_used": 2808,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16105,7 +16105,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3066,
+        "llm_tokens_used": 3089,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16139,7 +16139,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 4930,
+        "llm_tokens_used": 4956,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16173,7 +16173,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5782,
+        "llm_tokens_used": 5741,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16207,7 +16207,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6917,
+        "llm_tokens_used": 6899,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16218,12 +16218,12 @@
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
-          "Span",
-          73
+          "TableCell",
+          96
         ],
         [
-          "TableCell",
-          60
+          "Span",
+          73
         ],
         [
           "Line",
@@ -16241,7 +16241,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6893,
+        "llm_tokens_used": 7374,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -16252,12 +16252,12 @@
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
-          "Span",
-          43
+          "TableCell",
+          52
         ],
         [
-          "TableCell",
-          32
+          "Span",
+          43
         ],
         [
           "Line",
@@ -16275,7 +16275,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6364,
+        "llm_tokens_used": 6336,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -17529,7 +17529,7 @@
       "block_counts": [
         [
           "TableCell",
-          79
+          40
         ],
         [
           "Line",
@@ -17571,7 +17571,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2954,
+        "llm_tokens_used": 2356,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18070,12 +18070,12 @@
           54
         ],
         [
-          "TableCell",
-          40
-        ],
-        [
           "Line",
           23
+        ],
+        [
+          "TableCell",
+          21
         ],
         [
           "PageHeader",
@@ -18113,7 +18113,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3491,
+        "llm_tokens_used": 3163,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18197,7 +18197,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2839,
+        "llm_tokens_used": 2852,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18231,7 +18231,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6060,
+        "llm_tokens_used": 6065,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18287,7 +18287,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2394,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18907,7 +18907,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3019,
+        "llm_tokens_used": 3073,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19083,7 +19083,7 @@
       "block_counts": [
         [
           "TableCell",
-          98
+          99
         ],
         [
           "Span",
@@ -19117,7 +19117,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3837,
+        "llm_tokens_used": 3733,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19309,7 +19309,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 1,
-        "llm_tokens_used": 8445,
+        "llm_tokens_used": 8602,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19320,12 +19320,12 @@
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
-          "Span",
-          120
+          "TableCell",
+          154
         ],
         [
-          "TableCell",
-          77
+          "Span",
+          120
         ],
         [
           "Line",
@@ -19371,7 +19371,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3328,
+        "llm_tokens_used": 3921,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19665,7 +19665,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5862,
+        "llm_tokens_used": 6263,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -20441,7 +20441,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2597,
+        "llm_tokens_used": 2582,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -21011,7 +21011,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3862,
+        "llm_tokens_used": 3892,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -21045,7 +21045,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6406,
+        "llm_tokens_used": 6480,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -21079,7 +21079,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6903,
+        "llm_tokens_used": 6969,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -21095,7 +21095,7 @@
         ],
         [
           "TableCell",
-          73
+          72
         ],
         [
           "Line",
@@ -21117,7 +21117,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 7678,
+        "llm_tokens_used": 7741,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -21181,7 +21181,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3647,
+        "llm_tokens_used": 3761,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23287,7 +23287,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 4309,
+        "llm_tokens_used": 4306,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23333,7 +23333,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5807,
+        "llm_tokens_used": 5744,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23951,7 +23951,7 @@
         ],
         [
           "TableCell",
-          20
+          10
         ],
         [
           "PageHeader",
@@ -23985,7 +23985,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2818,
+        "llm_tokens_used": 2365,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24027,7 +24027,7 @@
       "block_counts": [
         [
           "TableCell",
-          185
+          202
         ],
         [
           "Span",
@@ -24049,7 +24049,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 4723,
+        "llm_tokens_used": 4575,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24069,7 +24069,7 @@
         ],
         [
           "TableCell",
-          8
+          16
         ],
         [
           "PageHeader",
@@ -24083,7 +24083,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5234,
+        "llm_tokens_used": 5762,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24099,7 +24099,7 @@
         ],
         [
           "TableCell",
-          64
+          62
         ],
         [
           "Line",
@@ -24117,7 +24117,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5580,
+        "llm_tokens_used": 5533,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24128,12 +24128,12 @@
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
-          "TableCell",
-          100
-        ],
-        [
           "Span",
           63
+        ],
+        [
+          "TableCell",
+          60
         ],
         [
           "Line",
@@ -24151,7 +24151,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6171,
+        "llm_tokens_used": 5719,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24185,7 +24185,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 7352,
+        "llm_tokens_used": 7110,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24223,7 +24223,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6765,
+        "llm_tokens_used": 6508,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -24283,7 +24283,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2394,
+        "llm_tokens_used": 2396,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25125,7 +25125,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2996,
+        "llm_tokens_used": 2979,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25159,7 +25159,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5087,
+        "llm_tokens_used": 5043,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25193,7 +25193,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5578,
+        "llm_tokens_used": 5480,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25215,7 +25215,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2396,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25261,7 +25261,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2799,
+        "llm_tokens_used": 2807,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25277,7 +25277,7 @@
         ],
         [
           "TableCell",
-          62
+          59
         ],
         [
           "Line",
@@ -25295,7 +25295,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6112,
+        "llm_tokens_used": 6092,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25329,7 +25329,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6144,
+        "llm_tokens_used": 6103,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25417,7 +25417,7 @@
       "block_counts": [
         [
           "TableCell",
-          103
+          74
         ],
         [
           "Span",
@@ -25439,7 +25439,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5766,
+        "llm_tokens_used": 5512,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25489,7 +25489,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 3986,
+        "llm_tokens_used": 3952,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25577,7 +25577,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5936,
+        "llm_tokens_used": 5926,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25673,7 +25673,7 @@
       "block_counts": [
         [
           "TableCell",
-          78
+          126
         ],
         [
           "Span",
@@ -25695,7 +25695,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5799,
+        "llm_tokens_used": 6149,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -25751,7 +25751,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2396,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26349,7 +26349,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2932,
+        "llm_tokens_used": 2884,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26387,7 +26387,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6945,
+        "llm_tokens_used": 6923,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26429,7 +26429,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5886,
+        "llm_tokens_used": 5889,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26451,7 +26451,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2397,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26645,7 +26645,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 4227,
+        "llm_tokens_used": 4229,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26661,7 +26661,7 @@
         ],
         [
           "TableCell",
-          166
+          103
         ],
         [
           "Line",
@@ -26679,7 +26679,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 10434,
+        "llm_tokens_used": 10350,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26695,7 +26695,7 @@
         ],
         [
           "TableCell",
-          140
+          138
         ],
         [
           "Line",
@@ -26717,7 +26717,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 11717,
+        "llm_tokens_used": 11900,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -26737,7 +26737,7 @@
         ],
         [
           "TableCell",
-          82
+          72
         ],
         [
           "PageHeader",
@@ -26751,7 +26751,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 14878,
+        "llm_tokens_used": 14755,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

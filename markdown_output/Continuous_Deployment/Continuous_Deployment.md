@@ -8,7 +8,7 @@ Enable Faster Feedback, Safer Releases, and More Reliable Software
 
 Valentina Servile Foreword by David Farley
 
-## Continuous Deployment
+# Continuous Deployment
 
 Enable Faster Feedback, Safer Releases, and More Reliable Software
 
@@ -16,9 +16,11 @@ Valentina Servile Foreword by David Farley
 
 ![](_page_1_Picture_3.jpeg)
 
+Beijing • Boston • Farnham • Sebastopol • Tokyo
+
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Continuous Deployment
+# Continuous Deployment
 
 by Valentina Servile
 
@@ -50,7 +52,7 @@ Illustrator: Kate Dullea
 
 August 2024: First Edition
 
-## Revision History for the First Edition
+# Revision History for the First Edition
 
 2024-07-24: First Release
 
@@ -68,7 +70,7 @@ your own risk. If any code samples or other technology this work contains or des
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Foreword
+# Foreword
 
 In the last couple of decades I believe that we, the software development industry, have made many significant advances, but perhaps the most important, because it is the most fundamental, is in our approach to the development process itself.
 
@@ -112,7 +114,7 @@ recommend this book to you.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Preface
+# Preface
 
 This is a book about *continuous deployment*: the practice of structuring your software pipeline so that it is completely free of manual intervention. With this methodology, every code commit that passes its quality gates is automatically deployed to production.
 
@@ -130,7 +132,7 @@ I found that continuous deployment is an increment of continuous delivery that i
 
 because it brings extra benefits, has extra downsides, and requires some extra considerations to work well within a team. All of those "extras" are what we'll cover in this book, building on the foundation of continuous delivery to explore fully automated continuous deployment to production.
 
-## Who This Book Is For
+# Who This Book Is For
 
 I wrote this book for fellow software industry professionals, and especially for software engineers who see value in improving their code's path to production.
 
@@ -148,7 +150,7 @@ positions. If your job title is in this list, you might be particularly interest
 
 If you are a developer, you might want to especially focus on Part III, ["During Development" which goes into great detail on how to break t](#page-404-0)he development process into small, self-contained production deployments. You should also take a look at Part [V, "Case Studies"](#page-655-0) where you'll find realworld examples of companies practicing continuous deployment and see how they structure their pipelines and tools.
 
-## What You Need to Read This Book
+# What You Need to Read This Book
 
 Because continuous deployment builds on many other concepts that originated from the Agile movement, such as DevOps, CI, and CD, you should at least have some surface-level familiarity with them if you want to get the most out of this book.
 
@@ -156,7 +158,7 @@ Fortunately, most companies today have at least some knowledge of those practice
 
 However, if you and/or your team have never heard of these practices before, you might want to look into them before you consider adopting continuous deployment, and leave this book for later.
 
-## What This Book Will Cover
+# What This Book Will Cover
 
 The book consists of five parts, which are organized as follows:
 
@@ -180,7 +182,7 @@ In this part of the book, we get into the details that can make or break continu
 
 Finally, [Part](#page-655-0) V consists of a number of case studies written by fellow industry professionals. It contains the firsthand experiences of companies that use continuous deployment "in the wild," including the history of how they got there, which challenges they faced, and how they structure their products' path to production.
 
-## Conventions Used in This Book
+# Conventions Used in This Book
 
 The following typographical conventions are used in this book:
 
@@ -200,7 +202,7 @@ This element signifies a general note.
 
 This element indicates a warning or caution.
 
-## O'Reilly Online Learning
+# O'Reilly Online Learning
 
 #### **NOTE**
 
@@ -208,7 +210,7 @@ For more than 40 years, *[O'Reilly Media](https://oreilly.com/)* has provided te
 
 Our unique network of experts and innovators share their knowledge and expertise through books, articles, and our online learning platform. O'Reilly's online learning platform gives you on-demand access to live training courses, in-depth learning paths, interactive coding environments, and a vast collection of text and video from O'Reilly and 200+ other publishers. For more information, visit *[https://oreilly.com](https://oreilly.com/)*.
 
-## How to Contact Us
+# How to Contact Us
 
 Please address comments and questions concerning this book to the publisher:
 
@@ -230,7 +232,7 @@ Find us on LinkedIn: *<https://linkedin.com/company/oreilly-media>*
 
 Watch us on YouTube: *<https://youtube.com/oreillymedia>*
 
-## Acknowledgments
+# Acknowledgments
 
 When people say "this book would not have been possible without…," I find that it's usually an exaggeration. In my case, however, it's really true. This book would definitely not exist had I not received the support I did from two colleagues at Thoughtworks: Chris Ford and Andrew-Harmel Law, who encouraged me throughout the process and offered thoughtful technical review and input (some of which became a core part of this book). The same is true for several people in my personal life, but particularly Fergus Orbach, who provided all sorts of technical back-and-forth and fueled my passion for this topic; and Daniel Forsberg, who offered his expertise to help me finish the very last chapters. Thank you both for supporting me through the year while I was writing this book. For the same reason, I want to thank my good friends Rares Musina, Emma Baddeley, Anthony Scatchell, Giulia Mercurio, Glenn Wolfschoon, Nicolò Gardoni, Francesco Guatieri, and Davide Orsucci.
 
@@ -240,17 +242,17 @@ Speaking of case studies, I want to sincerely thank all the companies and indivi
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-21-0"></span>Part I. Continuous Deployment
+# <span id="page-21-0"></span>Part I. Continuous Deployment
 
 [Part](#page-21-0) I offers an overview of the theory behind continuous deployment. It starts with an introduction and historical background and then discusses its benefits and the shift in mindset required to accommodate automated deployments. It also addresses challenges, downsides, and critical aspects to be aware of. Finally, it covers the technical and organizational prerequisites needed to adopt this practice.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-22-0"></span>Chapter 1. Continuous Deployment
+# <span id="page-22-0"></span>Chapter 1. Continuous Deployment
 
 For as long as software engineering has been a discipline, a great deal of care and attention have been given to application code and its architecture. All manner of paradigms, programming languages, and architectural patterns have originated to ensure that code is both well-organized in developers' editors and running efficiently later in production. It took more than half a century to collectively realize that we hadn't given enough thought to what happens in between.
 
-## Deploying Every Few Months or Years
+# Deploying Every Few Months or Years
 
 <span id="page-22-1"></span>Before the early 2000s, the average software product's path to production was an error-prone and clunky journey full of repetitive manual tasks. On this journey, changes from individual contributors were often integrated with delays, artifacts were built by hand, configurations and dependencies were tweaked outside of version control, poorly documented deployment steps were executed in meticulous sequences…and let's not forget testing, which was performed painstakingly by hand for every new version. As a result, release life cycles could span months or even *years*. [Figure](#page-23-0) 1-1 is a fact-based depiction of those times.
 
@@ -264,7 +266,7 @@ Fortunately, that has changed. Over the past two decades, businesses and organiz
 
 <span id="page-24-2"></span>released to production. After all, production is the only environment where code can repay the debt it has incurred from having been written in the first place.
 
-## Deploying Every Few Days
+# Deploying Every Few Days
 
 <span id="page-24-1"></span>Companies have already been making their software delivery life cycles shorter and shorter, and they have achieved this mainly through the use of automation. The rationale behind automation's benefit is no mystery. Any human task or human decision represents a bottleneck in the fast-paced world of software development. Both our typing and thinking are several orders of magnitude slower than the pace at which code is executed—and both are vastly more error-prone. Therefore, major components of the path to production that used to be performed manually, such as building artifacts, testing, and deployment, have instead been automated through various tools over time (see [Figure](#page-24-0) 1-2).
 
@@ -278,7 +280,7 @@ Figure 1-2. The typical path to production today
 
 These movements have already produced results that used to be unthinkable: making software release cycles more reliable and dramatically faster. As a result, more than two-thirds of companies are now able to deploy to production *between once per day and once per month*. **[2](#page-65-1)**
 
-## <span id="page-26-2"></span><span id="page-26-0"></span>Deploying Continuously
+# <span id="page-26-2"></span><span id="page-26-0"></span>Deploying Continuously
 
 <span id="page-26-1"></span>Continuous deployment is another step forward along the progression of engineering excellence that has seen automation taking over software's path to production. In a sense, continuous deployment represents its logical culmination. While its predecessors automated some or even *most* of the code's journey to users, continuous deployment automates it all. Even the decision to perform the final production deployment is made by a pipeline agent, not by a person.
 
@@ -300,7 +302,7 @@ So how exactly does continuous deployment work? What else does it contribute to 
 
 Let's start chronologically: with the introduction of *eXtreme Programming*.
 
-## eXtreme Programming
+# eXtreme Programming
 
 <span id="page-29-1"></span>Tasks such as testing, reviewing, integrating, and deploying are central to code's path to production, but they can also be painful and awkward to execute. As a result, they used to be relegated to the very end of long iterations, completed infrequently, and completed mostly by hand.
 
@@ -308,7 +310,7 @@ Let's start chronologically: with the introduction of *eXtreme Programming*.
 
 XP was among the first movements to challenge the old-fashioned behavior of delaying painful steps, and it suggested instead that increasing the frequency of these tasks (doing them continuously) will in turn reduce their difficulty. It might seem counterintuitive, but the motto of XP was the first principle that enabled the automation of code's journey to production: "If it hurts, do it more often."
 
-### **If It Hurts, Do It More Often**
+# **If It Hurts, Do It More Often**
 
 When I started out, I thought that if reviewing, integrating, testing, and deploying were painful, we would surely want to put them off as much as possible. Why on earth would we want to do them more often than we needed to? We could write our code in our little walled gardens (or feature branches) for weeks and weeks, and when the merge-and-release hell could not be postponed any longer, we could put our heads down for a few days and just get them over with. Then we could forget all about the ordeal and return to the peace and quiet of our personal code gardens. That is, until somebody asked our team to show another working version of the software, including all the new features we had been working on individually. Then, we would have to start all over again. *If only those annoying stakeholders stopped interrupting us with their demos and releases*, I thought. *Then, we developers could get the* real *work done around here!*
 
@@ -340,7 +342,7 @@ For example, it could be said that the well-known practices of CI and CD are res
 
 Few people might quote XP nowadays, but the mindset that it sowed continues to guide teams and organizations as they shrink their feedback loops and go to market more and more quickly. Let's go through a bit more history to understand what happened following its introduction.
 
-## <span id="page-33-4"></span>DevOps
+# <span id="page-33-4"></span>DevOps
 
 <span id="page-33-3"></span><span id="page-33-2"></span><span id="page-33-1"></span><span id="page-33-0"></span>DevOps is not a job title (sorry, recruiters), but the name of a movement that emerged as a response to the dysfunctional separation between the activities of writing and running software. It emerged between 2007 and 2008, and in 2009 Patrick Debois founded the first DevOpsDays conference. The movement continued with the publishing of two key pieces of literature: *The Phoenix Project* and later, *The DevOps Handbook*. **[5](#page-65-4) [6](#page-65-5) [7](#page-65-6)**
 
@@ -350,7 +352,7 @@ The DevOps movement sought to change that, as it identified that separation as t
 
 Let's take a deeper look at those dysfunctions to understand why.
 
-## **The Barrier Between Dev and Ops**
+# **The Barrier Between Dev and Ops**
 
 Before DevOps, most development and operations teams worked in isolation from each other—sometimes physical isolation, with departments on different floors or even in different buildings. This would quickly lead to a lack of understanding of each other's work and priorities, and difficult handovers between departments. Of course, miscommunication would only get worse when the latest deployment wouldn't work as expected (which
 
@@ -362,7 +364,7 @@ However, and even more importantly, this "handover" process between departments 
 
 Addressing all of these dysfunctions would only be possible by removing the organizational problem at the heart of them: the separation between departments.
 
-### **Joining Dev and Ops**
+# **Joining Dev and Ops**
 
 Because of these issues, the DevOps movement advocates bridging the gap between the two functions. It should be no surprise that the primary tenet of the movement is focused on communication, collaboration, and a fundamental organizational reshuffling.
 
@@ -376,7 +378,7 @@ perfect example of the "It hurts [communication between Dev and Ops], so we do i
 
 Collaboration and cross-functional teams are also what unlocked the automation of software's path to production, which is the second tenet of the DevOps movement and the focus of this chapter. After all, automation of the path to production would not have been possible if its ownership had been scattered across multiple departments.
 
-### **Automation, Automation, Automation**
+# **Automation, Automation, Automation**
 
 <span id="page-38-0"></span>The other core tenet of the DevOps movement is indeed its explicit focus on automation. Automating repetitive and manual tasks such as infrastructure provisioning, configuration management, testing, and deployment has been a key interest of DevOps for all the reasons we already discussed: it is faster, reduces risk, and allows teams to streamline otherwise clunky and error-prone processes.
 
@@ -390,7 +392,7 @@ The rise of cloud computing was also conveniently timed around the emergence of 
 
 <span id="page-40-1"></span>The ability to both abstract away the physical infrastructure and represent it within its own codebase is what unlocked deployment capabilities for automated pipelines, which are fundamental to the practice of continuous integration and continuous delivery. Those are the practices we will talk about next.
 
-## Continuous Integration
+# Continuous Integration
 
 <span id="page-40-2"></span>The next fundamental practice for the automation of software delivery was *continuous integration* (CI), which radically changed the initial steps of the path to production. It was popularized in 2007 by Paul Duvall in *Continuous Integration*. Actually, continuous integration was already described as a practice by XP, but since the supporting practices that surround it took a while to develop and the Duvall book is the most complete account of it, I'm inserting it into our story here. Since then, CI tools have proliferated and have become mainstream.
 
@@ -422,7 +424,7 @@ Having this centralized source of truth and validation has radically changed dev
 
 <span id="page-44-0"></span>As I mentioned at the beginning of the chapter, before the concept of CI came along, there was little engineering around the process for code to reach its users once it had been written. Continuous integration was the first practice to change that, and the concept of a centralized pipeline has been the basis of all automation that followed.
 
-## Continuous Delivery
+# Continuous Delivery
 
 <span id="page-45-0"></span>Shortly after continuous integration came the concept of *continuous delivery* (CD), which can be seen as the obvious next step in the automation of the path to production. It was made popular in 2010 by Jez Humble and David Farley in *Continuous Delivery*, and since then it has enjoyed a similar level of popularity as continuous integration. It has become the latest de facto standard for engineering practices and the one most companies strive to implement today. This is made evident by the fact that most popular automated pipeline tools now feature all the capabilities required to perform CD as well as CI.
 
@@ -450,7 +452,7 @@ If continuous delivery has established anything, it's that "the real work around
 
 In short, the evolution from CI to CD can be framed in terms of what is being automated: CI automates the determination of "Does my change look safe and self-contained?" while CD automates the determination of "Is my change deployable?" Later, we will see how CD automates the question, "Shall I deploy *now*?"
 
-## A Final Gate to Production
+# A Final Gate to Production
 
 Most companies implement continuous delivery in such a way that deployments happen without human intervention in at least some preproduction environments for every build. However, the same automation does not carry changes all the way to production. To cover that last step, a human still has to press a button in the pipeline tool to deploy the release
 
@@ -476,7 +478,9 @@ Even though most companies are enjoying great benefits from continuous delivery,
 
 <span id="page-50-0"></span>
 
-### <span id="page-51-1"></span>**One Step Further: Continuous Deployment**
+- -
+
+# <span id="page-51-1"></span>**One Step Further: Continuous Deployment**
 
 <span id="page-51-2"></span>Now that we have learned about the principles of XP, DevOps, CI, and CD, we can finally understand the thinking behind continuous deployment.
 
@@ -522,7 +526,7 @@ With a 1:1 correspondence between commits and deployments, the state of the code
 
 <span id="page-56-0"></span>Overall, working in this fashion reduces the risk of production unpredictability by managing it in the smallest possible increments: within the granularity of every commit.
 
-### **Implementation**
+# **Implementation**
 
 <span id="page-56-1"></span>The implementation of continuous deployment itself can be quite simple. Adapting an existing continuous delivery pipeline to support continuous deployment usually only requires a reconfiguration of the production deployment step.
 
@@ -558,7 +562,7 @@ A continuous deployment pipeline is certainly not laborious to build. To switch 
 
 <span id="page-60-1"></span>So, what are we going to talk about in the rest of the book, then?
 
-## <span id="page-60-0"></span>Implications
+# <span id="page-60-0"></span>Implications
 
 <span id="page-60-2"></span>Continuous deployment could be dismissed as a trivial subcategory within continuous delivery, but this underestimates the radical simplicity of an automated pipeline that goes straight through from push to production.
 
@@ -578,7 +582,7 @@ For example, these are just some of the questions that we'll address in the rest
 
 <span id="page-61-0"></span>A continuous deployment workflow is radically different from a traditional continuous delivery workflow with a gate to production. So, because we have already talked about how to "implement" continuous deployment, the rest of this book will cover its ramifications and the implementation of all of its supporting practices.
 
-## Is It Dangerous?
+# Is It Dangerous?
 
 <span id="page-62-0"></span>If your heart skipped a beat when you read about manual production approvals being removed, don't worry. You are far from alone.
 
@@ -596,7 +600,7 @@ Continuous delivery practices are a necessary baseline, but some more precaution
 
 <span id="page-63-0"></span>Yet, doing continuous deployment responsibly is possible. Yes, even when not all team members are senior. Teams are doing it every day and enjoying great benefits and incredibly fast feedback from it. In this book, you will find out more about what those benefits are and how they do it. You will learn a framework to perform safe incremental releases during everyday development work that is structured exclusively around the challenges of continuous deployment in nontrivial, distributed systems.
 
-## Summary
+# Summary
 
 In this chapter, we introduced continuous deployment: the methodology that will be the focus of this book. In continuous deployment, the entirety of the path to production of code is fully automated—even the final decision to deploy to production.
 
@@ -623,7 +627,7 @@ Aficionados of Lean manufacturing will know this as "one-piece flow." See [Chapt
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-67-0"></span>Chapter 2. Benefits
+# <span id="page-67-0"></span>Chapter 2. Benefits
 
 <span id="page-67-1"></span>Adopting continuous deployment is a significant cultural undertaking for any team, even those that have a mature engineering culture and are already comfortable with continuous delivery. For continuous deployment to work well, it requires a comprehensive safety net of practices and buy-in at all levels, from management to newly hired junior developers. This might seem daunting, but the payoff has been high for the many companies that have achieved it and are doing it successfully.
 
@@ -644,13 +648,13 @@ You might have already recognized that this list includes several familiar conce
 
 Let's kick things off by talking about Lean manufacturing and the flow of inventory.
 
-## One-Piece Flow and Lean Manufacturing
+# One-Piece Flow and Lean Manufacturing
 
 <span id="page-68-1"></span><span id="page-68-0"></span>Some of the greatest benefits of continuous deployment are how it improves responsiveness to customer demand and market changes and minimizes wasteful work in the delivery pipeline. It achieves this by closely embodying the core tenet of Lean manufacturing: a one-piece, continuous flow of inventory. This means it can fully leverage all the benefits
 
 introduced by the Lean thought process and its heuristics for managing batching, queues, and bottlenecks. In the next section, we will see why continuous deployment gets closer to a one-piece flow than any other methodology. Some readers might not be familiar with Lean principles, so before we dive in, I will provide a condensed recap. However, if you are already well-versed in the topic, feel free to skip ahead.
 
-### **Origins of Lean Manufacturing**
+# **Origins of Lean Manufacturing**
 
 <span id="page-69-0"></span>Lean manufacturing is a systematic approach to production that aims to eliminate waste, optimize efficiency, and deliver high-quality products. Its roots go back to the 1940s, when Toyota revolutionized the automotive industry with its Toyota Production System (TPS) and Kanban system.
 
@@ -722,7 +726,7 @@ So far, we have covered inventory, batches, and transaction costs. To summarize,
 
 You might be wondering what this has to do with software development. To find out, we must understand what the similarities are between custom software manufacturing and physical manufacturing. That's what we are going to talk about in the next section.
 
-### **Lean and Software Development**
+# **Lean and Software Development**
 
 <span id="page-77-2"></span>The core principles of Lean have influenced various fields beyond manufacturing. One such field is, of course, software development. Agile methodologies, which emphasize short iterations and fast feedback, align well with the principles of Lean that we discussed in the previous section. As a result, when the Agile movement picked up momentum, the Lean thought process swiftly followed.
 
@@ -860,7 +864,7 @@ With continuous integration, a red pipeline prompts the team to stop whatever it
 
 If this ratio is treated as a service-level objective (SLO), teams can organize their work around an "error budget" and keep an eye on their current performance with continuous deployment. Dropping this metric might highlight issues, such as lots of failed builds or the team's low confidence in its current work (which might lead to behavior such as hoarding commits in long branches).
 
-## <span id="page-92-1"></span>DORA Metrics
+# <span id="page-92-1"></span>DORA Metrics
 
 <span id="page-92-0"></span>Lean manufacturing is an excellent framework for managing inventory and optimizing a value stream, but it can also be a very theoretical subject. In
 
@@ -884,7 +888,7 @@ The remainder of this section offers a detailed explanation of the impact this p
 
 perceived each change. We don't have academic research that is specific to continuous deployment at our disposal to judge its full impact yet, although I hope we will soon. Instead, this section includes qualitative considerations that originate from working with continuous deployment across multiple organizations—with vastly different scales and business models—and from exchanges with fellow industry professionals who have had similar experiences.
 
-### **Throughput Metrics**
+# **Throughput Metrics**
 
 <span id="page-96-1"></span>*Throughput* refers to the rate at which a development team delivers new features and updates. High team throughput means that a team is able to deliver new features and updates more quickly, while low team throughput means that a team is less efficient and takes longer to deliver new features or iterate. Several factors can affect throughput, including the team's skill level, the quality of its tools and processes, and the level of collaboration and communication within the team.
 
@@ -950,7 +954,7 @@ Most importantly, a short lead time generates insights quickly for developers an
 
 For end users, short lead time can provide a better user experience, as they have access to new features and improvements more quickly and more predictably. It can also help improve the overall stability of the software, as developers are able to quickly fix bugs and other issues. Overall, short lead time can help improve the speed, cost, and quality of software development. And the removal of manual steps encouraged by continuous deployment can shrink lead time in such a way that changes feel almost instantaneous.
 
-### <span id="page-104-1"></span>**Stability Metrics**
+# <span id="page-104-1"></span>**Stability Metrics**
 
 <span id="page-104-0"></span>*Stability* refers to the ability of a software system to function reliably and without unexpected behavior or errors. Stable software can be trusted to work reliably, even when undergoing frequent updates.
 
@@ -1018,7 +1022,7 @@ While the rate of bad commits is not a primary concern here, it is also somethin
 
 <span id="page-113-0"></span>In the next section, I will delve deeper into this topic and describe in detail how continuous deployment can influence the culture around software quality.
 
-## Shifting Quality Left
+# Shifting Quality Left
 
 <span id="page-113-1"></span>Shifting quality left, or building quality in, is an important principle of quality strategy that emphasizes the importance of ensuring quality at early stages of the development process.
 
@@ -1034,7 +1038,7 @@ This shift-left principle can be observed both from the perspective of the team'
 
 Building quality and testing early can save time and resources and can ultimately result in a better product, as has been confirmed by DORA research in several State of DevOps reports. **[6](#page-119-5)**
 
-## **How Continuous Deployments Force a Quality Shift to the Left**
+# **How Continuous Deployments Force a Quality Shift to the Left**
 
 By sending every code change to production, continuous deployment is an enormous influence for the entire team to shift quality and production readiness considerations to the very beginning of each task.
 
@@ -1054,13 +1058,13 @@ That feeling of immediate accountability made us care much earlier for our tests
 
 And yes, all of these tasks should be done even without continuous deployment, but it was continuous deployment that forced us to do them as early (as left) as possible.
 
-### **The Effects of Automating Quality Gates**
+# **The Effects of Automating Quality Gates**
 
 Automating and shifting quality gates is usually great news for QA engineers. With developers having to write thorough automated quality gates during implementation, repetitive and detailed manual regression checks by QAs become a thing of the past (as it should be, given that computers are much better at following checklists, and they don't have souls that get crushed by endless repetition). This frees people to do more valuable and rewarding work, such as helping their team reflect on their overall quality strategy, exploratory testing on new features, or outlining the quality requirements for whole products and programs: all things computers cannot do.
 
 <span id="page-118-0"></span>Taking care of testing and other cross-functional aspects of the code as early as the implementation phase also has the secondary effect of bringing all roles closer together so that they can collaborate on each in-progress item. By working together, developers, QA engineers, and designers can ensure that each code change is well-written, well-tested, and ready for deployment. Every role bringing their unique perspective early in development helps to create a more well-rounded and robust product. **[7](#page-119-6)**
 
-## <span id="page-118-1"></span>Summary
+# <span id="page-118-1"></span>Summary
 
 Continuous deployment can represent many improvements for teams willing to try it. Most importantly, it is the methodology that most closely resembles the one-piece flow of inventory that is core to Lean manufacturing. In addition, it positively affects the four key metrics for IT performance introduced by the DORA research: it increases deployment frequency and drastically lowers lead times, which implies lower mean times to recover, and it results in smaller change deltas that in turn lower the change failure rate. It also represents a very literal interpretation of the shift-left principle: ensuring that all the activities that make code production
 
@@ -1076,7 +1080,7 @@ Continuous deployment can represent many improvements for teams willing to try i
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-120-0"></span>Chapter 3. The Mindset Shift
+# <span id="page-120-0"></span>Chapter 3. The Mindset Shift
 
 As I mentioned in [Chapter](#page-22-0) 1, initiating continuous deployment requires only a small change for a team that already has a good continuous delivery pipeline. Usually, this change amounts to one line: removing manual approval from production deployments.
 
@@ -1116,13 +1120,13 @@ development process. After all, there is no "after development": there is only p
 
 In the following sections, however, I will explain not so much how to guarantee the correctness of changes, but rather which changes to make and *how*. In particular, I'll try to help you think more like an electrician making changes on-site: performing precautionary actions such as making diversions, installing temporary redundancies, and isolating subsystems.
 
-## <span id="page-125-1"></span><span id="page-125-0"></span>Hiding Work in Progress
+# <span id="page-125-1"></span><span id="page-125-0"></span>Hiding Work in Progress
 
 <span id="page-125-2"></span>As discussed in the preceding section, any commit that developers send to trunk will end up being applied to production soon after. With the practice of continuous integration, we are also told that commits on trunk should happen very frequently; ideally many times a day, especially with trunkbased development. How developers are able to achieve this without exposing users to broken, "in progress" code is one of the first questions I always receive whenever I mention continuous deployment. This is a great question because it highlights that this practice involves careful consideration of the development work itself. You don't get successful continuous deployment by coding like you always have and pushing straight to production.
 
 With code, "in progress" is usually synonymous with "unfinished," which, in turn, is almost always synonymous with "broken." Clearly, nobody wants to expose their users to broken changes. However, the association between "in progress" and "broken" is not necessarily true. In this section, we will discuss how we can keep unfinished changes hidden from users, keeping the codebase and production in *both* an unfinished *and* thriving state.
 
-### **Version Control Branches**
+# **Version Control Branches**
 
 <span id="page-126-0"></span>Even without continuous deployment, all teams have to deploy to production once in a while, and when they do, they normally have inprogress features they are working on at the same time that they aren't ready to send live. The problem of hiding work in progress during either the development of a big feature or refactoring is not unique to continuous deployment. It is present in any team with semi-frequent deployments to production.
 
@@ -1134,7 +1138,7 @@ Figure 3-3. Code divergence in a feature branch
 
 <span id="page-127-1"></span>But continuous integration tells us that long-lived feature branches are to be avoided, as they cause painful merges and allow lots of unverified work to pile up. In [Chapter](#page-67-0) 2, we talked extensively about the evils of batches of inventory (commits) piling up. Many teams that live by this principle either keep their branches short lived or perform trunk-based development. Their features might not be ready, and yet they will be routinely deployed to production, even in that state. So how do *they* do it?
 
-### **Execution Branches**
+# **Execution Branches**
 
 <span id="page-128-1"></span>In recent years, two techniques in particular have gained popularity; they allow developers to hide away their changes, even when committing them to trunk. These techniques are *feature toggles* (or *feature flags*) and *expand and contract* (or *parallel change*).
 
@@ -1269,14 +1273,12 @@ Ultimately, which technique to use for hiding work in progress is up to preferen
 
 <span id="page-142-0"></span>Table 3-1. Feature flags versus expand and contract by type of change
 
-|                        | Release/revert<br>speed                            | Overhead                                                                                                                | Type of<br>change:<br>Introducing<br>new feature           | Typ<br>cha<br>Ref<br>live<br>fun                                                        |
-|------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| Feature flag           | Very fast:<br>Happens at<br>runtime                | High:<br>Requires<br>managing<br>state,<br>configuration,<br>incremental<br>release, and<br>life cycle of<br>the toggle | Use by default                                             | Use<br>new<br>bran<br>and<br>to im<br>cros<br>func<br>requ<br>(CF<br>as<br>perf<br>resi |
-| Expand and<br>contract | Slow:<br>Requires new<br>commit<br>traveling along | Low:<br>Managed in<br>code only                                                                                         | Use when new<br>feature doesn't<br>need<br>experimentation | Use                                                                                     |
-
-| Release/revert<br>speed   | Overhead | Type of<br>change:<br>Introducing<br>new feature | Typ<br>cha<br>Ref<br>live<br>fun |
-|---------------------------|----------|--------------------------------------------------|----------------------------------|
-| the path to<br>production |          | and is very safe<br>to release                   |                                  |
+|                           | Release/revert<br>speed                            | Overhead                                                                                                                | Type of<br>change:<br>Introducing<br>new feature           | Type of<br>change:<br>Refactor<br>live<br>function                                                                            |
+|---------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Feature flag              | Very fast:<br>Happens at<br>runtime                | High:<br>Requires<br>managing<br>state,<br>configuration,<br>incremental<br>release, and<br>life cycle of<br>the toggle | Use by default                                             | Use<br>new<br>brain<br>and<br>to improve<br>cross-<br>functional<br>requirements<br>(CFRs)<br>as<br>performance<br>resilience |
+| Expand and<br>contract    | Slow:<br>Requires new<br>commit<br>traveling along | Low:<br>Managed in<br>code only                                                                                         | Use when new<br>feature doesn't<br>need<br>experimentation | Use                                                                                                                           |
+| Release/revert<br>speed   | Overhead                                           | Type of<br>change:<br>Introducing<br>new feature                                                                        | Refactoring<br>live<br>functionality                       |                                                                                                                               |
+| the path to<br>production |                                                    | and is very safe<br>to release                                                                                          |                                                            |                                                                                                                               |
 
 Based on my day-to-day work maintaining and growing codebases and production, I find this approach to be the most pragmatic, as it considers the speed and overhead trade-off in the context of different types of changes. In Chapters [8](#page-405-0) and [9](#page-449-0), I will provide practical examples of how to apply feature toggles and expand and contract in this fashion.
 
@@ -1298,7 +1300,7 @@ Changes piling up in an expand phase or under a feature flag can also start to f
 
 <span id="page-145-1"></span>That is why it is still important to release changes to real users in a timely manner, independent of the strategy we use to hide work in progress. Not doing so means forgoing the main benefit of continuous deployment, which is fast iteration. But more importantly, it jeopardizes the safety of our releases.
 
-## Distributed Systems
+# Distributed Systems
 
 <span id="page-145-0"></span>Another one of the pervasive mindset shifts we adopted in our workflow was recognizing that in most teams, continuous deployment doesn't deal with just one deployable unit of software. Rather, most teams are dealing with a network of distributed subsystems, all deployed continuously and independently.
 
@@ -1308,7 +1310,7 @@ they live within the same codebase, which complicates the management of contract
 
 In the rest of this section, I will explain how to manage contracts with continuous deployment affecting several distributed components. In the process, you will see how this practice might actually lead to better contract management.
 
-## **Contracts Between Systems**
+# **Contracts Between Systems**
 
 When talking about the complexities of distributed systems, the main topic is almost always their integration: in other words, the contracts between them.
 
@@ -1364,7 +1366,7 @@ These are just basic examples, and it only gets more complicated with domain-ric
 
 <span id="page-153-0"></span>By now you might be thinking, "Right, but how is this especially related to continuous deployment?" It turns out that the answer is "A lot more than one would expect."
 
-## Contracts Between Paths to Production
+# Contracts Between Paths to Production
 
 <span id="page-153-1"></span>When we have distributed subcomponents (i.e., separate executables), we almost always have separate paths to production for them as well. Even when they don't have separate pipelines, different steps within the same
 
@@ -1384,21 +1386,14 @@ The interdependencies between paths to production for consumer and provider syst
 
 <span id="page-156-0"></span>Table 3-2. Order and timing of deployments with and without a manual gate
 
-|                    | Order of deployments    | Timing of<br>deployments |
-|--------------------|-------------------------|--------------------------|
-| Path to production | Changes go live in the  | Changes go live only     |
-| with a manual gate | order in which the      | when the components      |
-| (traditional       | components are          | are manually deployed    |
-| continuous         | manually deployed       | (timing of               |
-| delivery)          | (order of deployment).  | deployment).             |
-| Path to production | Changes go live in the  | Changes go live as       |
-| without a manual   | order in which they are | soon as they are         |
-| gate (continuous   | developed (order of     | developed (timing of     |
-| deployment)        | development).           | development).            |
+|                                                                                     | Order of deployments                                                                                          | Timing of deployments                                                                              |
+|-------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Path to production<br>with a manual gate<br>(traditional<br>continuous<br>delivery) | Changes go live in the<br>order in which the<br>components are<br>manually deployed<br>(order of deployment). | Changes go live only<br>when the components<br>are manually deployed<br>(timing of<br>deployment). |
+| Path to production<br>without a manual<br>gate (continuous<br>deployment)           | Changes go live in the<br>order in which they are<br>developed (order of<br>development).                     | Changes go live as<br>soon as they are<br>developed (timing of<br>development).                    |
 
 Let's see how this impacts the two main activities around software products: adding new features and refactoring live functionality. We'll start with the former.
 
-### **Adding New Features: When Order Matters**
+# **Adding New Features: When Order Matters**
 
 <span id="page-156-1"></span>Adding new features almost always requires making changes to several systems bound by informal contracts, and it is the most common example of paths to production showing a dependency on each other.
 
@@ -1466,7 +1461,7 @@ In teams on which I have practiced continuous deployment, we have relied on feat
 
 Figure 3-14. The incorrect order between provider and consumer hidden behind a feature toggle
 
-### **Refactoring: When Timing Matters**
+# **Refactoring: When Timing Matters**
 
 <span id="page-164-1"></span>There is another common scenario where paths to production of different systems depend on each other. Interdependence doesn't only happen when adding new features; it also happens when teams rearchitect existing, live functionality across multiple components. Refactoring contracts and changing their shape introduces a new challenge.
 
@@ -1536,13 +1531,13 @@ Notice how this pattern removes the interdependency between changes completely, 
 
 <span id="page-173-0"></span>This approach relies on coordinating (but not synchronizing) changes, where the different phases must be implemented in sequence. It can get more complex when there are multiple layers of providers and consumers impacted by the same change, but the payoff is huge: all systems remain compatible with one another at all times, and their path to production is free of obstacles when we need to make unrelated changes. This is another example of how the workflow enforced by continuous deployment has a beneficial impact on stability. We will see a thorough example of how to apply this pattern with multiple layers of providers and consumers in [Chapter](#page-449-0) 9, and how to use it to refactor around databases without data consistency issues in [Chapter](#page-515-0) 10.
 
-## A Deployment Is Not a Release
+# A Deployment Is Not a Release
 
 As we have discussed in this chapter, continuous deployment implies the absence of a distinction between declaring and applying code changes. This means that development teams have to rely heavily on techniques to keep changes hidden and keep contracts compatible, such as the expand and contract pattern and feature flags.
 
 Incorporating those techniques into day-to-day work is already a mindset shift in and of itself, but their pervasiveness also brings another topic to the forefront of the conversation: the distinction between a production deployment and a production release.
 
-### **Releases**
+# **Releases**
 
 <span id="page-174-0"></span>We can define a *release* as a change that involves altering the observable behavior of the system as experienced by end users. This is not the case for most ungated deployments to production. After all, most types of deployments don't "release" anything new with continuous deployment: work in progress on new features is usually hidden under OFF feature flags or in separate execution branches, making deployments unnoticeable from the end users' perspective. A release also doesn't necessarily *require* a production deployment; for example, when it's hidden under a feature flag that can be enabled at runtime.
 
@@ -1550,13 +1545,13 @@ In short, with continuous deployment, not every deployment is a release, and a r
 
 An actual release (e.g., turning a feature flag ON at runtime) changes the visible behavior of the system, so it carries implications for business metrics (think of conversion rates, user engagement, etc.) and the stakeholders who are invested in how the product is performing. Visible additions are naturally surrounded by a lot of process and coordination, even beyond the team. Success depends on positive reception of the feature, so the process normally involves tracking user behavior to understand how users are experiencing it, coordinating an A/B testing window to compare it with the old behavior, and deciding whether the new functionality is there to stay or should be turned off. A release is all about improving the *external quality* of the system, as experienced by its end users.
 
-### <span id="page-175-1"></span>**Deployments**
+# <span id="page-175-1"></span>**Deployments**
 
 <span id="page-175-0"></span>A production deployment, on the other hand, will most often contain either new code hidden in a separate execution path, or other invisible changes such as refactoring, improvements to CFRs, and updating of test coverage. Ultimately, a deployment improves the *internal quality* of the system first and foremost, which can include adding new capabilities to it that can be released later.
 
 Under continuous deployment, a production deployment should not be perceptible to external users, and therefore, it can be treated as a purely technical event. As such, it can be fully managed by engineers within the team, and it can be driven fully by technical needs, such as the need to improve the system's maintainability or to keep the code delta small between trunk and production. Of course, this means that any unplanned change in observable behavior resulting from a deployment should be considered a regression.
 
-### **Differences**
+# **Differences**
 
 <span id="page-176-0"></span>In [Table](#page-177-0) 3-3, you can see a condensed version of the differences between production deployments and releases. These differences can also apply to continuous delivery, but they become much more pronounced with continuous deployment.
 
@@ -1571,18 +1566,16 @@ To summarize, we can consider production deployments as a technical means for en
 | Quality<br>assurance          | Does not require<br>extensive manual<br>testing; automated tests<br>can catch regressions | Requires manual<br>exploratory testing to<br>ensure that requirements<br>are met, and A/B testing to<br>ensure that users react<br>positively |
 | Who is<br>involved            | Self-managed by<br>engineers; does not<br>usually need other<br>stakeholders involved     | Requires coordination with<br>product owners and other<br>stakeholders                                                                        |
 | Which metrics<br>are impacted | No impact expected on<br>business metrics, but                                            | Implies an impact on<br>business metrics such as<br>user engagement                                                                           |
-
-|                | Production<br>deployment                                                    | Release                                                                                                                         |
-|----------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-|                | might have an impact<br>on technical metrics                                |                                                                                                                                 |
-| When to revert | Reverting means<br>something went wrong<br>with the change<br>(regression). | Reverting means a product<br>hypothesis didn't yield<br>good enough results.                                                    |
-| Frequency      | Performed routinely,<br>multiple times a day                                | Performed when there is<br>something substantial and<br>self-contained to release, in<br>coordination with other<br>departments |
+|                               | Production<br>deployment                                                                  | Release                                                                                                                                       |
+|                               | might have an impact<br>on technical metrics                                              |                                                                                                                                               |
+| When to revert                | Reverting means<br>something went wrong<br>with the change<br>(regression).               | Reverting means a product<br>hypothesis didn't yield<br>good enough results.                                                                  |
+| Frequency                     | Performed routinely,<br>multiple times a day                                              | Performed when there is<br>something substantial and<br>self-contained to release, in<br>coordination with other<br>departments               |
 
 For example, a product owner should never be in a situation where they have to ask developers to hold off on a deployment because another experiment is in progress (all new deployments should be undetectable, after all). At the same time, a developer should never be in a situation where they have to ask a product owner to delay a release because their deployment pipeline is stuck (the code for the feature should have been deployed well before release time).
 
 Overall, the number of releases performed by a product team will normally be much smaller than their number of production deployments, perhaps by several orders of magnitude.
 
-### **Overlap**
+# **Overlap**
 
 A production deployment is often not a release, and a release is not a production deployment. But in some cases, the two will overlap; for example, when exposing visible behavior through the expand and contract pattern or a static feature toggle (both of which require code updates). Sometimes teams implement visible changes that are so small they don't require a feature flag, such as bug fixes and tiny layout improvements. In [Figure](#page-180-0) 3-19, you can see a representation of this overlap, along with some examples.
 
@@ -1596,13 +1589,13 @@ By deliberately separating them in our vocabulary, we can also separate the proc
 
 <span id="page-181-2"></span>Continuous deployment doesn't mean continuous (and uncontrolled) releases, although it does enable releases to be more frequent.
 
-## End-to-End Delivery Life Cycle
+# End-to-End Delivery Life Cycle
 
 <span id="page-181-1"></span>In the preceding section, you saw how deployments to production happen routinely throughout development and are independent of releases. One of the least mentioned gotchas of continuous deployment is how that change, in turn, radically simplifies a team's day-to-day workflow. In the first team in which we used continuous deployment, this newfound simplicity was something that really surprised us. In retrospect, I now consider it one of the biggest improvements offered by this practice.
 
 To understand what happens to teams moving from continuous delivery to full continuous deployment, let's compare what a typical team workflow would look like before and after opening the gate to production. Personally, I find the most useful and concrete visualization of a team's workflow to be its daily board, so I will use that as a basis for our comparison.
 
-### **Without Continuous Deployment**
+# **Without Continuous Deployment**
 
 <span id="page-181-0"></span>Let's consider how a team's tasks might flow on the team's board with a gate to production. In my experience working in teams without continuous deployment, [Figure](#page-182-0) 3-20 shows what an abstracted team board usually looks like and how items progress within it.
 
@@ -1664,7 +1657,7 @@ After an issue is considered fixed, the original feature it belongs to will need
 
 Figure 3-24. Repeated rework without continuous deployment
 
-### **With Continuous Deployment**
+# **With Continuous Deployment**
 
 <span id="page-189-1"></span>With continuous deployment, a team's board might look quite similar, but the meaning of each step and the activities within them change. Columns on the board no longer map directly to running environments: "in progress" for the developer's laptop, "QA" for staging, and so on and so forth. Instead, any code commit is promoted through all environments and reaches [production at least once during the "in progress" phase alone; see Figure](#page-190-0) 3- 25.
 
@@ -1708,7 +1701,7 @@ With deployments to production shifting from a high-attention event to boring de
 
 <span id="page-194-0"></span>The team's board stops being tightly coupled to infrastructure (and to code physically running in certain machines), and instead it becomes purely a reflection of human activities. Human tasks such as exploratory testing, making release decisions, and evaluating usability become orthogonal to technical decisions such as when and how to deploy code.
 
-## Summary
+# Summary
 
 In this chapter, we saw how continuous deployment removes the distinction between the definition of a change and the application of a change. This presents teams with a stronger requirement to hide work in progress in production, which they can do through techniques relying on hidden execution branches, such as feature toggles and expand and contract.
 
@@ -1720,7 +1713,7 @@ These concepts represent the main differences when working with and without a ga
 
 #### *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-197-0"></span>Chapter 4. You Must Be This Tall
+# <span id="page-197-0"></span>Chapter 4. You Must Be This Tall
 
 The phrase "You must be this tall to ride" commonly appears on signs at amusement parks and carnivals to let people know the minimum height requirement for certain rides. The signs are not meant for gatekeeping, but for safety. Martin Fowler used this metaphor in his [article](https://oreil.ly/NFbbH) about prerequisites for microservices architecture. In the same fashion, you can think of this chapter as the "you must be this tall" sign that can help you figure out whether it's safe for your team to get on the very fast ride of continuous deployment. In particular, I will describe a list of safety-focused practices that teams should implement before switching to a fully automated pipeline.
 
@@ -1730,7 +1723,7 @@ The purpose of this chapter is not to explain how to prevent developer error. We
 
 Now that I have put forward this disclaimer, let's take a closer look at the practices themselves. Most of them are well-established practices of continuous delivery for which we'll just do a small refresher, while others have emerged more recently and are especially relevant for continuous deployment. This list will inevitably be incomplete, and new innovative techniques might pop up after this book is released. Nevertheless, let's use it as a start.
 
-## Cross-Functional, Autonomous Teams
+# Cross-Functional, Autonomous Teams
 
 <span id="page-198-0"></span>Siloed teams are typically organized around specific roles or disciplines, such as development, testing, or design. A cross-functional team, on the
 
@@ -1742,7 +1735,7 @@ Figure 4-1. Siloed teams (left) versus cross-functional teams (right)
 
 <span id="page-199-1"></span>Cross-functional teams have several benefits compared to teams that are siloed, with closer collaboration between roles, increased speed, and less organizational friction being the main ones. When a product team is truly cross-functional, it also has several qualities that enable continuous deployment.
 
-### <span id="page-199-2"></span>**Fast Decision Making**
+# <span id="page-199-2"></span>**Fast Decision Making**
 
 <span id="page-199-3"></span>The biggest enabler for fast-paced delivery is that cross-functional teams can act spontaneously and be flexible, without the need to involve others in their decisions. Their decision-making process is self-contained, so they can quickly adapt to changing requirements without having to reach across team boundaries to implement a change.
 
@@ -1750,7 +1743,7 @@ A team continuously deploying small increments to production needs to be equippe
 
 A team that depends on outside support or approval can quickly find itself overwhelming (or annoying) its external collaborators if it starts to deploy many times a day. The more the team succeeds in its goal to release frequently, the more it will upset the outsiders, which is not what the team wants.
 
-### <span id="page-200-0"></span>**Implementation Autonomy**
+# <span id="page-200-0"></span>**Implementation Autonomy**
 
 <span id="page-200-1"></span>A truly cross-functional team should contain all the engineering skills required to build and deploy the application. Continuous deployment (or even continuous delivery) doesn't do well with backend-only, frontendonly, or infrastructure-only teams, because deploying often can surface the complex interdependence between all these software components. Changes to one part of the system often require corresponding changes to another
 
@@ -1782,7 +1775,7 @@ Each of these teams will have a certain specialization, whether that is a busine
 
 For example, in one of this book's case studies, Tom Vollerthun from OTTO describes in detail how his company transitioned the QA role from being held by one gatekeeping team to letting individual QA engineers be members of product teams. This was a key enabler for the adoption of continuous deployment at OTTO, and I encourage you to read his case study to understand how the company achieved it.
 
-### <span id="page-203-0"></span>**Frequent Integration**
+# <span id="page-203-0"></span>**Frequent Integration**
 
 <span id="page-203-1"></span>As I discussed in Chapters [1](#page-22-0) and [2](#page-67-0), integrating code frequently is the backbone of continuous integration, and it is a baseline for continuous delivery and deployment too. In practice, it means adding our code changes to the team's shared, mainline branch at least once a day (or multiple times a day). Frequent integration keeps change deltas small and manageable, which is a principle that becomes imperative to follow when there is no manual verification in a preproduction environment.
 
@@ -1832,7 +1825,7 @@ In the case study on digital bank N26 in [Part](#page-655-0) V, you can read abo
 
 <span id="page-209-1"></span>This brings us to the next topic: reviewing code.
 
-### **Frequent Code Reviews**
+# **Frequent Code Reviews**
 
 <span id="page-209-0"></span>Code reviews are essential, as they provide a crucial point of human feedback for the design, correctness, and completeness of the code. Under continuous deployment, this human channel of feedback is also the *only*
 
@@ -1880,7 +1873,7 @@ Personally, I have used pair programming as a code review tool in almost all of 
 
 Regardless of whether your team uses PRs or pair programming, you should ensure that code reviews are a detailed and frequent process if you plan to adopt continuous deployment. It is the responsibility of all senior team members to create a space where all colleagues, especially junior ones, feel empowered to give honest feedback and ask difficult questions. The definition of "good code" can be personal, but it doesn't mean it shouldn't be debated and negotiated by the team every day. Briefly upsetting someone's feelings is never pleasant, but it is better than the alternative: a circle of ruinous empathy where everyone is patting one another on the back at the expense of the product's stability in production.
 
-### <span id="page-214-1"></span>**Automated Code Analysis**
+# <span id="page-214-1"></span>**Automated Code Analysis**
 
 <span id="page-214-0"></span>We have talked about the importance of more than one set of eyes looking at code, but that doesn't mean that catching common oversights and mistakes cannot be automated. This is where code analysis tools can play an important role, also enhancing the safety of continuous deployment. With the help of automation, developers and their pairs (or PR reviewers) can stop worrying about finding low-level issues that might easily be overlooked, and instead can focus on the bigger picture: for example, how
 
@@ -1896,7 +1889,7 @@ Some of the human errors with the direst consequences for popular applications a
 
 behavior rather than in the cross-functional characteristics of the software. As developers work in small increments, it is quite easy to be forgetful and introduce a resource leakage that will only cause problems in an environment experiencing heavy load, such as production. It can be equally easy to forget to sanitize our inputs correctly in every commit, opening the system up for yet another problem that will only be evident once it is in front of unknown, untrusted users. Automated code scanning alleviates those concerns and can give peace of mind to developers and stakeholders alike when considering everything that could go wrong with a constant stream of changes.
 
-### <span id="page-216-0"></span>**Test Automation**
+# <span id="page-216-0"></span>**Test Automation**
 
 <span id="page-216-1"></span>As this is the 21st century, it should go without saying that test automation is preferable to manual regression testing before each deployment. It is faster, more efficient, more consistent, and cheaper. Automated tests can be run quickly and repeatedly, without the need for human intervention, so they are not subject to human error or variation in the way that manual tests are. Software testing of every commit is the textbook example of a repetitive and exact task that is perfectly suited to the endless patience of a computer, and it has no business being performed by human hands. Human creativity and attention should be reserved for challenging assumptions and pushing the system in unexpected ways, not repeatedly verifying the same features over and over.
 
@@ -1998,7 +1991,7 @@ specification of what the production system currently does, and can protect it f
 
 <span id="page-229-0"></span>Characterization testing can be helpful in preparing a legacy application, if not for continuous deployment then at least for safe refactoring and adding features.
 
-### **Zero-Downtime Deployments**
+# **Zero-Downtime Deployments**
 
 <span id="page-229-1"></span>Perhaps one of the most obvious items on this list, but one worth mentioning just in case, is *zero-downtime deployments*. Zero-downtime deployments are a prerequisite for teams that want to deploy very often. We definitely don't want our users to see a maintenance window message multiple times per day, which is what happens if we just tear down our infrastructure and rebuild it with the new version, as shown in [Figure](#page-230-0) 4-6.
 
@@ -2084,7 +2077,7 @@ I would discourage such an approach, and I believe that runtime feature flags an
 
 I would recommend to any team thinking of switching to continuous deployment to replace manual deployment steps with a combination of <span id="page-239-0"></span>feature flags and automated tests before they open the gate to production. In a continuous deployment pipeline, the deployment to production should always be fully automated.
 
-### **Observability and Monitoring**
+# **Observability and Monitoring**
 
 <span id="page-239-1"></span>However sophisticated your code reviews, testing, and deployment strategies may be, production issues can still occur. Sometimes this can happen a long time after the latest deployment, as the necessary conditions for problems to surface can appear randomly.
 
@@ -2155,7 +2148,7 @@ The Datadog team provides a good heuristic on its blog for what constitutes "mea
 
 <span id="page-245-1"></span><span id="page-245-0"></span>*Paging on symptoms surfaces real, oftentimes user-facing problems, rather than hypothetical or internal problems. Contrast paging on a symptom, such as slow website responses, with paging on potential causes of the symptom, such as high load on your web servers. Your users will not know or care about server load if the website is still responding quickly, and your engineers will resent being bothered for something that is only internally noticeable and that may revert to normal levels without intervention. [8](#page-252-5)*
 
-## Stakeholder Trust
+# Stakeholder Trust
 
 <span id="page-246-0"></span>In this chapter, we talked a great deal about the *technical* prerequisites for working safely under continuous deployment. I think it's necessary to close the chapter with a reflection on the impact of the human factor.
 
@@ -2163,7 +2156,7 @@ Opening the gate to production to all commits is a trust exercise between stakeh
 
 Yet, enabling continuous deployment is a team effort, and our stakeholders being on board is necessary in order for them to make the most of this practice. Stakeholders being confident will also make them more patient with any teething pains as the team gets used to this new way of working. So let's talk about how to make them enthusiastic (rather than fearful) of automated deployments.
 
-### **How Do We Convince the Boss?**
+# **How Do We Convince the Boss?**
 
 As a consultant, I have had to do my fair share of convincing in the teams where we were close to continuous deployment, but not quite there yet. In my experience, this convincing is best done when little convincing is left to do.
 
@@ -2179,7 +2172,7 @@ This raises the question, "So how do we know when we are ready?"
 
 As you will see in the case studies in [Part](#page-655-0) V, some bold companies such as AutoScout24 make the decision to adopt continuous deployment from day one, as soon as they shift to a modern production ecosystem with microservices, feature flags, and so on. However, if your company is a bit more hesitant, the next section might give you some useful pointers.
 
-### **When Are We Ready?**
+# **When Are We Ready?**
 
 <span id="page-248-0"></span>We have covered a lot of practices here, and it might be tempting to think that each of them has to be gold-plated to perfection before even
 
@@ -2199,7 +2192,7 @@ Whether the time is right or not is a difficult question, and ultimately one tha
 
 <span id="page-250-0"></span>These are just some of the questions I like to ask when evaluating whether continuous deployment is the right choice at a particular point in time. Even for those who don't plan to implement it anytime soon, the process of finding the answers to these questions might lead to a more thorough understanding of the team's quality strategy and the robustness of its system.
 
-## Summary
+# Summary
 
 In this chapter, we talked about some of the practices that our teams should implement before switching to continuous deployment. Some requirements are cultural and organizational, such as stakeholder trust and crossfunctional, autonomous teams with a habit of frequent integration and code reviews. The majority of other requirements are technical: zero-downtime deployments, a pipeline with several layers of automated tests, observability, and alerts.
 
@@ -2220,7 +2213,7 @@ This foundation of practices can ensure that removal of the final gate to produc
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-253-0"></span>Chapter 5. Challenges
+# <span id="page-253-0"></span>Chapter 5. Challenges
 
 <span id="page-253-1"></span>No new technology or practice is a silver bullet, and continuous deployment is no exception to this rule. In addition to requiring that the team be wellpracticed in its implementation of continuous delivery, continuous deployment comes with its own set of challenges. It would be irresponsible of me not to mention these challenges in this book. Furthermore, I believe that understanding them provides a more well-rounded approach to continuous deployment itself. In case your team ends up facing these challenges, I will describe some strategies you can adopt to overcome them or mitigate them.
 
@@ -2236,7 +2229,7 @@ With a high deployment frequency, however, any deployment glitch is amplified an
 
 usability of the application. This is another example of the "If it hurts, do it more often" principle in action, which gives us an opportunity to improve areas that we wouldn't pay much attention to if our deployments were occurring weekly or monthly.
 
-### **Interruption of Long-Running Processes**
+# **Interruption of Long-Running Processes**
 
 <span id="page-255-0"></span>In some cases, application instances contain long-running processes that are at risk of being disrupted by deployments, such as background jobs that get triggered upon a user request. For example, a user might prompt the generation of a computationally intensive report that could not possibly be completed in time to send an HTTP response, so it is served asynchronously by the instance at a later time.
 
@@ -2264,7 +2257,7 @@ Teams can avoid this problem by moving the job's internal state externally so th
 
 <span id="page-258-0"></span>Due to these complications, this is an area where teams might want to carefully consider the trade-offs of continuous deployment and perhaps come to a compromise instead.
 
-### **Sticky Sessions**
+# **Sticky Sessions**
 
 <span id="page-258-1"></span>Another problem with the combination of instance-level state and frequent deployments is the disruption of sticky sessions. *Session stickiness* (or *session persistence*) is the process by which an application load balancer keeps track of which instance was assigned to a specific client at their first request. With session stickiness, the load balancer then tries to ensure that additional requests from the same client always arrive to that instance for the duration of the session.
 
@@ -2280,7 +2273,7 @@ Just like with long-running jobs, any application that relies on in-memory state
 
 Of course, this might complicate the application architecture (as in the case of external caches). However, I would argue that this case is outside the realm of a "nice-to-have" optimization: application-relevant data that is critical to the functioning of the overall system should be persisted properly in adequate, nontransient storage. Moving such state to a persistence layer is something I would always recommend, despite the additional overhead.
 
-### **Invalidation of Client-Side Caches**
+# **Invalidation of Client-Side Caches**
 
 <span id="page-260-0"></span>Many applications rely on some level of caching on the client side to guarantee that things that won't change between deployments also won't be fetched every single time. This usually applies to HTML/CSS and JavaScript assets in frontend applications, which are often distributed by content delivery networks (CDNs). However, client-side caches can also sneak in in more subtle ways; for example, by browsers doing heuristic caching on their own when there is no cache control.
 
@@ -2292,7 +2285,7 @@ If your application is popular enough for this to become a problem, then you mig
 
 In general, you should evaluate any point at which caching could occur in between client request and server response in your specific infrastructure, how each of those caches might be invalidated by a new deployment, and the likelihood of that happening. Once you have that information, not only can you configure cache expiration correctly, but you can also prepare the right components of your infrastructure for a slightly higher load after you open the gate to production.
 
-## <span id="page-261-0"></span>**Scaling Interruptions**
+# <span id="page-261-0"></span>**Scaling Interruptions**
 
 <span id="page-261-1"></span>Another possible effect of a high density of deployments is that, depending on your platform of choice and/or autoscaling configuration, the deployments might get in the way of scale-up or scale-down events. This problem might be more or less pronounced based on each team's type of
 
@@ -2332,7 +2325,7 @@ We have found ourselves relying on pre-scaling on rare occasions, usually in pre
 
 <span id="page-266-1"></span>responsive as possible and on shortening deployment times, but consider pre-scaling as another tool in your toolbox if you are dealing with planned and sharp traffic spikes.
 
-### **A Constant Stream of Cold Instances**
+# **A Constant Stream of Cold Instances**
 
 <span id="page-266-0"></span>Another side effect of a constant stream of deployments is that the likelihood of any given container or instance being brand new is very high. This might cause problems for applications that perform at their best when their uptime is on the longer side, such as services that need some warm-up time to fill up caches.
 
@@ -2341,6 +2334,8 @@ As developers *and* users are often most active during the day, lots of consecut
 In [Figure](#page-267-0) 5-2, you can see the potential impact of frequent deployments (represented by the thin vertical lines) on application caches warming up.
 
 <span id="page-267-0"></span>![](_page_267_Figure_0.jpeg)
+
+*Blue = cold cache Red = warm cache*
 
 Figure 5-2. Caches with and without continuous deployment
 
@@ -2358,7 +2353,7 @@ Finally, external caching systems introduce another persistence layer. All persi
 
 All of that said, external caching systems are pretty sophisticated these days, and they represent a viable option for teams that are worried about their application performance with a steady stream of fresh deployments.
 
-## <span id="page-268-0"></span>User-Installed Software
+# <span id="page-268-0"></span>User-Installed Software
 
 <span id="page-268-1"></span>Continuous deployment to production assumes that the product team has full control over the production system and what code is running within it. But what if the production system is a mobile device that is (literally) in the hands of users, a laptop sitting on their desk, or even an appliance that needs to be physically installed at a customer's location?
 
@@ -2366,7 +2361,7 @@ In such situations, the final step of the path to production is not as straightf
 
 That said, if a new team is starting up with a strong commitment to continuous delivery, there are ways to retain some control over what code is running on user-controlled devices. They involve either giving some rendering control back to the server or performing updates without the user explicitly installing a new version.
 
-### **Desktop Applications**
+# **Desktop Applications**
 
 <span id="page-270-0"></span>Desktop applications are a primary example of an environment where developers cannot control the software's installation. Even when the application can manage its own updates without downloading a new installer, prompting users for updates every hour of every day will quickly impact usability.
 
@@ -2382,7 +2377,7 @@ strategy, or by carefully implementing the auto-updating functionality by hand. 
 
 That said, whether users will react favorably to automatic updates is something that inevitably depends on the application and should be carefully considered by product teams.
 
-### **Mobile Apps**
+# **Mobile Apps**
 
 <span id="page-271-1"></span>In the case of mobile apps, self-updating functionality is not an option. In the most popular platforms (Android and iOS), the App Store or Play Store is in charge of managing application versions.
 
@@ -2442,7 +2437,7 @@ Even with an SDUI strategy, developers are still not completely free of app upda
 
 <span id="page-277-0"></span>At this time, there are no popular frameworks to quickly set up an SDUI, and implementing this paradigm from scratch might be a daunting challenge for small to medium-sized companies. However, SDUIs are worth keeping an eye on as a promising alternative to traditional native apps. While still able to leverage all of the device features (as opposed to web views and PWAs), they have the potential to greatly simplify app release cycles and can allow the continuous deployment of new features to a suitable degree.
 
-### **Appliances and Other Devices**
+# **Appliances and Other Devices**
 
 <span id="page-278-0"></span>When it comes to the vast world of software made for devices that are not smartphones or personal computers, providing updates over the internet seems to be the only practical way to make new software versions available. That is, if the devices can connect to the internet at all.
 
@@ -2454,7 +2449,7 @@ ecommerce website experiencing checkout issues after a bad deployment: not pleas
 
 These are just a few examples. Overall, due to the vastness of applications and the myriad of factors to consider in each case, this is one of the few areas where I would hesitate to recommend continuous deployment as a default option. When making software for the vast world of other devices out there, self-applying updates might be too risky, and focusing on users' consent and/or explicit update windows might be a safer default. Traditional continuous delivery with short release cycles should be the starting point, and whether continuous deployment is a sensible next step should be carefully evaluated.
 
-### **Libraries and Frameworks**
+# **Libraries and Frameworks**
 
 <span id="page-279-0"></span>Any piece of software that is built to be invoked by other software, rather than being executed on its own, is another tricky scenario for applying continuous deployment. The production environment in this case can be thought of as other developers' programs, and the installation process into production is each program's build configuration, which is fully under the control of the author.
 
@@ -2464,13 +2459,13 @@ However, each new library or framework update would represent a version upgrade 
 
 <span id="page-280-1"></span>For this reason, it might be in the interest of library or framework usability to avoid continuous deployment and to (sensibly) batch commits going into new versions instead.
 
-## Regulated Industries
+# Regulated Industries
 
 <span id="page-280-0"></span>Companies at the core of domains such as government, transportation, healthcare, and finance might have strong regulatory constraints around code being deployed to production. The goal of such regulations is usually to ensure that changes are being applied in a safe and high-quality manner, and at the same time to guarantee each change is auditable in case something goes wrong. These regulations are usually in place for *really* good reasons, mostly focused on protecting regular citizens. That is why it's hard to challenge their necessity, but that doesn't mean that their implementation should be immune to improvements.
 
 Regulatory constraints often take the concrete form of more eyes needed to oversee what gets included in each new release. This often translates to several process quirks: long feature branches, a subset of chosen "admins" to act as gatekeepers, mandatory stops in staging environments, and more formalities along the path to production; in other words, all of the things that continuous deployment aims to do without. This might make it seem like regulated industries and continuous deployment are mutually exclusive, but that is not necessarily the case.
 
-### **Mitigation: Isolate critical components**
+# **Mitigation: Isolate critical components**
 
 <span id="page-281-0"></span>One of the most straightforward ways to work around constraining processes is to isolate the critical systems by splitting them into separately deployable units, giving them independent paths to production, but most of all, implementing separate change approval processes. This can allow the noncritical areas of the business (which is usually most areas) to work in a more Agile fashion and only keep heavyweight processes where they are absolutely necessary.
 
@@ -2480,7 +2475,7 @@ creating mostly internal products that would never interact with critical produc
 
 Still, applying a lightweight process for only a few lucky teams is just a workaround, and it doesn't resolve the core issue for teams that handle more critical systems and whose health could also benefit from a more modern approach.
 
-### **Mitigation: Find the source of constraints**
+# **Mitigation: Find the source of constraints**
 
 <span id="page-282-0"></span>How do we know when we *truly* are in a situation where a heavyweight change approval process cannot be avoided? Usually, when a developer joins an existing team or organization, they find themselves immersed in an engineering culture shaped by processes that are years (sometimes decades) old and that are well accepted by their peers. It is a reasonable assumption to make that if certain gatekeeping is in place, it must be for good reasons that ought not be questioned. However, sometimes this is not the case. Avoiding asking tough questions can lead to missed opportunities to slim down engineering practices, even when time, organizational changes, or technological advancements have made existing gatekeeping redundant.
 
@@ -2488,7 +2483,7 @@ In my opinion, it is always worth investigating the source of anything that is f
 
 what they assumed would be a hard requirement of their industry was actually a company-level policy rooted in someone's risk aversion; maybe someone who worked at the company years ago and has already left. Or they might find that they are building a product that is only adjacent to the critical core of their business and can actually be built under much more relaxed conditions.
 
-## **Mitigation: Use leaner practices to satisfy compliance requirements**
+# **Mitigation: Use leaner practices to satisfy compliance requirements**
 
 <span id="page-283-0"></span>Compliance frameworks have to accommodate different scenarios. Therefore, they can actually be open to a variety of implementations.
 
@@ -2536,11 +2531,11 @@ Organizations applying Agile principles can satisfy these frameworks while still
 
 At the same time, as professionals, we also have to be prepared to find answers that we do not like and to accept that some gatekeeping might indeed be unavoidable after all. Slowing us down is sometimes a fair price to pay to shield the general public from defects or malicious actors that would cause them a disproportionate amount of harm.
 
-## <span id="page-288-2"></span>Cognitive Load
+# <span id="page-288-2"></span>Cognitive Load
 
 <span id="page-288-0"></span>When the influx of commits to trunk is significant, the resulting number of production deployments can throw our team into disarray, or simply add more to think about. In this section, we will look at the more human side of things: in particular, some of the effects that automated deployments can have on the team's cognitive load and how this can be mitigated.
 
-### **Overly Busy Path to Production**
+# **Overly Busy Path to Production**
 
 <span id="page-288-1"></span>When a very large team or multiple teams are working on a single service, the automated pipeline is undoubtedly working hard at all times. Changes are pushed to trunk frequently, which means there are many builds queued to be tested and deployed to higher environments, sometimes in a too-quick succession. It becomes tricky at best for engineers to feel like they have full
 
@@ -2574,7 +2569,7 @@ Keeping a close eye on product domains, microservices scope, and team sizes can 
 
 <span id="page-291-2"></span>Ultimately, however, this might be seen by some as a limitation. Companies in their startup phase, for example, often start from monolithic applications as they begin their journey and don't start splitting their services until they reach a critical number of engineers.
 
-### **Inattention During Deployments**
+# **Inattention During Deployments**
 
 <span id="page-292-0"></span>The company Etsy is famous for its continuous delivery maturity. Its engineers originated the concept of the push train, and Dan McKinley wrote about it in an [article](http://pushtrain.club/) in which he also brought forward the problem of developer inattention with fully automated deployments. He explains it in this anecdote:
 
@@ -2606,7 +2601,7 @@ However, once again continuous deployment cannot rely solely on technical means 
 
 The first time I was on a team where we adopted continuous deployment, this took a while to get used to, but once we settled into the idea of keeping an eye on production after every commit, we had remarkably few problems that went unnoticed. And the ones that did get noticed usually turned out to be very subtle, which meant they wouldn't have been noticed after a manual deployment either.
 
-## <span id="page-295-1"></span>**Breadth of Knowledge Required**
+# <span id="page-295-1"></span>**Breadth of Knowledge Required**
 
 <span id="page-295-0"></span>As the attentive reader might have noticed, the "you must be this tall" discussion in [Chapter](#page-197-0) 4 is quite long. It contains a few necessary organizational changes for managers to arrange, but the reality is that the brunt of the work to responsibly perform continuous deployment falls on the shoulders of the engineers. Sometimes the breadth of knowledge necessary to perform it can feel overwhelming.
 
@@ -2620,7 +2615,7 @@ Not all team members have to individually master all of these topics, of course,
 
 enter existing teams and to alleviate the workload for the colleagues onboarding them.
 
-### **Steep Onboarding Curve**
+# **Steep Onboarding Curve**
 
 <span id="page-297-0"></span>Even beyond theoretical concepts, a continuously deploying team has to keep its knowledge fresh on several artifacts that it needs in its everyday work. Writing just one truly production-ready commit requires familiarity with the team's testing strategy (possibly across several layers of the architecture), feature toggle systems, dashboards, metrics, logging systems, code scanning tools, alerts, and so on and so on.
 
@@ -2634,7 +2629,7 @@ supervision) is often the most effective way to learn and the quickest way for n
 
 For this reason, I would encourage companies that want to adopt continuous deployment to give pair programming a try, even if only for onboarding activities and/or supporting junior engineers.
 
-## **Scheduling Development Work**
+# **Scheduling Development Work**
 
 <span id="page-298-0"></span>Without continuous deployment, the way developers organize their schedules can be fairly relaxed. A commit represents a simple "save point" where developers can store their progress and resume later. Developers can freely self-organize their work with the knowledge that any upcoming deployments will have a dedicated time and place and can be executed with their full attention.
 
@@ -2664,7 +2659,7 @@ However, this limitation can become tedious, especially if this is not done on a
 
 Once back in normal working hours, the team can walk through the changes to regain the knowledge it has missed out on. This allows everyone to be up-to-date on the latest state of the codebase, and finally perform the deployment to production that was held back with all the necessary context.
 
-## <span id="page-301-1"></span>Summary
+# <span id="page-301-1"></span>Summary
 
 In this chapter, you saw how, depending on context, continuous deployment requires some compromises or might not be a sensible choice. In some cases, the challenges are technical, as in the case of an application that is especially sensitive to deployments, is too monolithic in architecture, or whose production environment is outside the developers' control. In other cases, they are organizational; for example, companies that operate in heavily regulated environments, or even very modern companies that place a high value on engineers being able to work solo most of the time. Even so, there are mitigations that can be used to implement continuous deployment in some of these difficult situations. Whether these mitigations
 
@@ -2676,13 +2671,13 @@ are feasible (or even advisable) in your unique context is something you will ha
 
 <span id="page-302-3"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-303-0"></span>Part II. Before Development
+# <span id="page-303-0"></span>Part II. Before Development
 
 This part of the book marks the beginning of our journey into the more practical aspects of continuous deployment and is focused on setting the team up for success before coding begins. In particular, it outlines how to slice upcoming work in a manner that facilitates immediate deployments and harnesses their full potential. It also showcases how to bring crossfunctional requirements into the process to guarantee built-in production readiness.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-304-0"></span>Chapter 6. Slicing Upcoming Work
+# <span id="page-304-0"></span>Chapter 6. Slicing Upcoming Work
 
 [Part](#page-303-0) II of the book takes a closer look at how the full software life cycle is affected by continuous deployment. This chapter starts at the beginning of that life cycle, focusing on what happens prior to the coding work: the construction and maintenance of a product backlog that works with continuous deployment rather than against it.
 
@@ -2692,7 +2687,7 @@ Slicing work in a product backlog is essential when dealing with initiatives (ep
 
 Let's start with the theory.
 
-## Horizontal Versus Vertical Slicing
+# Horizontal Versus Vertical Slicing
 
 <span id="page-305-1"></span>Most valuable features often extend way beyond a simple backlog task, and instead require an entire epic full of interdependent items. The way in which these epics are sliced into increments (and the order in which those increments are addressed) have many ramifications for automated deployments to production.
 
@@ -2702,7 +2697,7 @@ In this section, I will compare the two most common ways to subdivide large prog
 
 Figure 6-1. Horizontal versus vertical slicing
 
-### **Horizontal Slicing**
+# **Horizontal Slicing**
 
 <span id="page-306-0"></span>With horizontal slicing, tasks are split based on each layer of the tech stack that needs to be worked on. In a simple service, for example, these parts might comprise the backend, frontend, and database layers. This horizontal split allows developers of different specializations to work independently and only focus on one area of the architecture at a time. However, it also leads to siloed work and implementations in each layer that won't necessarily match when they are finally connected to each other. Horizontal slicing also requires that all of the functionality in every layer must be complete before the feature can be released to users.
 
@@ -2712,7 +2707,7 @@ Figure 6-1. Horizontal versus vertical slicing
 
 A user story is meant to represent a response to a user's needs, and this cannot be represented meaningfully through technical requirements about one layer of a tech stack. Therefore, horizontal slicing is not a good methodology for generating meaningful user stories, and that is why I will refer to its output as "tasks" from now on.
 
-### **Vertical Slicing**
+# **Vertical Slicing**
 
 <span id="page-307-0"></span>Vertical slicing aims to deliver small, visible increments that are a selfcontained subset of the whole feature. Each task encompasses all the necessary architectural layers that make the increment valuable and worthwhile to build. When talking about "value" here, I'm referring to value from the user's point of view. Therefore, with this strategy, we can create actual "user stories" because they reflect the system's behavior from the user's perspective. Ideally, they do so in terms of the goal that said user is trying to accomplish.
 
@@ -2728,7 +2723,7 @@ The most famous analogy for these two different styles is that of a layer cake, 
 
 <span id="page-309-1"></span>This is the essence of vertical slicing as opposed to horizontal slicing: portioning the "feature" cake so that each slice has a meaningful representation of all layers.
 
-## With Continuous Deployment
+# With Continuous Deployment
 
 <span id="page-309-0"></span>When building a backlog for a continuously deployed product, the benefits of vertical slicing over horizontal slicing are even more pronounced. Horizontal slicing can even actively harm the system's health and the team's workflow.
 
@@ -2742,7 +2737,7 @@ By using vertical slicing instead of horizontal slicing, we can get closer to th
 
 If you are constrained to using horizontal slicing (maybe because of some organizational agreement or a peculiarity of your technology stack), I suggest you think very hard about whether continuous deployment is right for you, because you will miss out on a big part of the benefit of this style of work—and continuous deployment might even make your workflow more complex to manage.
 
-## <span id="page-311-1"></span><span id="page-311-0"></span>Effective Vertical Slicing
+# <span id="page-311-1"></span><span id="page-311-0"></span>Effective Vertical Slicing
 
 <span id="page-311-2"></span>By now, the benefits of vertical slicing should be clear, but its implementation isn't always straightforward. After all, it is not easy for a team to understand which increments can bring value to users on their own and which ones cannot. Horizontal slicing is very intuitive for developers, while vertical slicing will most definitely require assistance from product owners or other stakeholders.
 
@@ -2752,7 +2747,7 @@ Figure 6-2. Iterative value
 
 <span id="page-312-0"></span>So let's understand the main techniques to make sure each increment we build is valuable on its own.
 
-### **MVP**
+# **MVP**
 
 <span id="page-312-1"></span>With vertical slicing, we have to first reduce a feature to its simplest possible form and treat every other improvement on it as an increment. Increments must then be played in a sensible order.
 
@@ -2760,7 +2755,7 @@ Figuring out this simplest possible form can be achieved by focusing on what the
 
 Once we have that first MVP, we can build it out in increments until we arrive at the whole feature. Of course, each increment should deliver something valuable and cohesive on its own. My personal rule of thumb when deciding whether an individual increment is cohesive enough is to ask myself the following: "If the budget for the whole initiative were pulled and I had to stop typing the second after this user story is implemented, would it bring any value to users as it is? Would I release it?" If the answer is ranging anywhere between "Meh" and "No way, I would rather revert the code," then I know I should go back to the drawing board.
 
-### <span id="page-313-1"></span>**INVEST**
+# <span id="page-313-1"></span>**INVEST**
 
 <span id="page-313-0"></span>If this rule of thumb is too generic for you, you can instead use the widely known INVEST acronym as a quick reference for when a user story is well sliced. According to INVEST, a meaningful user story should be the following:
 
@@ -2784,7 +2779,7 @@ If developers are exchanging puzzled looks when asked to estimate a particular u
 
 Every user story should add externally verifiable behavior to the system and express how to test it through acceptance criteria. If testing the outcome of a user story involves poking around in the innards of our system, then it is not testable.
 
-### **Small Slices**
+# **Small Slices**
 
 <span id="page-315-1"></span>Another crucial principle of effective vertical slices is that they should be as thin as possible. The duration of the implementation phase for an ideal user story is measured in hours or days, definitely not in weeks or months. As shown in [Figure](#page-315-0) 6-3, we should always strive to move our stories to the left end of the "vertical slicing spectrum."
 
@@ -2798,7 +2793,7 @@ Unfortunately, in my experience, many teams nowadays still settle for slicing th
 
 <span id="page-316-1"></span>As we have seen, however, effective and thin vertical slicing is more of a collection of good practices than an exact science. For that reason, it will be easier to demonstrate using an example. Keep reading to see how a real feature can be sliced into thin, independent increments that can be released independently.
 
-## Example: The Groceroo Company
+# Example: The Groceroo Company
 
 <span id="page-316-0"></span>In this section, we'll start to follow a fictional startup company called Groceroo. I'll be referring to this example in the rest of the book, with the goal of demonstrating how you can write code for production, test it, deploy it, and release it in an iterative manner.
 
@@ -2806,7 +2801,7 @@ Groceroo is a fictional company that provides at-home delivery services from aff
 
 Groceroo also maintains a partner portal that store managers can access with their credentials. In this portal, store managers can import their product <span id="page-317-0"></span>inventory, customize their shop logo, and update their stock information. For simplicity, let's imagine that the web application and partner portal are served by the same system. One of Groceroo's goals for the quarter is to increase its average order size, which it aims to achieve with a brand-new feature.
 
-### **The Feature: "Last-Minute Items"**
+# **The Feature: "Last-Minute Items"**
 
 <span id="page-317-1"></span>To achieve its goals, Groceroo is betting on a new feature: "last-minute items." With this new feature, it aims to bring the flow of its online platform closer to the in-person experience of the checkout counter in a physical grocery store.
 
@@ -2820,7 +2815,7 @@ stores. The product hypothesis is that users will be likely to add small items t
 
 Figure 6-4. A physical checkout counter
 
-### **The User Interface**
+# **The User Interface**
 
 <span id="page-318-1"></span>The carousel should be a scrollable selection of the store's preconfigured products, with an "Add to cart" button and a quantity selector. To maximize the visibility of popular items, the products should be "ranked" and ordered by the number of times they have been added to the carts of other users. [Figure](#page-319-0) 6-5 shows a mock-up of the user interface.
 
@@ -2828,7 +2823,7 @@ Figure 6-4. A physical checkout counter
 
 Figure 6-5. "Last-minute items" user interface design
 
-### **The Admin Interface**
+# **The Admin Interface**
 
 <span id="page-319-1"></span>As part of the "last-minute items" feature, a new section must be added to the shop manager portal so that each store can customize the products it wants to show just before checkout. This will be a simple form that allows for editing a list of product identifiers, as shown in [Figure](#page-320-0) 6-6.
 
@@ -2836,7 +2831,7 @@ Figure 6-5. "Last-minute items" user interface design
 
 Figure 6-6. Admin interface design for the "last-minute items" feature
 
-## **The Problems of Implementing with Horizontal Slicing**
+# **The Problems of Implementing with Horizontal Slicing**
 
 <span id="page-320-1"></span>Let's explore what would happen if we were to slice this feature horizontally. To do this, we will consider the changes on each layer as an individual developer task.
 
@@ -2918,7 +2913,7 @@ Even worse, notice how going layer by layer has pushed us to treat the feature a
 
 Working with continuous deployment actually allows us to release much more frequently than what we have just seen here, so let's go back to the drawing board and try slicing this feature vertically instead, taking advantage of granular deployments.
 
-## <span id="page-328-0"></span>**Implementation with Vertical Slicing**
+# <span id="page-328-0"></span>**Implementation with Vertical Slicing**
 
 <span id="page-328-1"></span>As I mentioned in ["Effective Vertical Slicing"](#page-311-0), we must first reduce the "last-minute items" carousel to its simplest possible form if we want to build on it effectively. Anything in the feature that is not fundamental to fulfilling the user's need must be stripped down, and it can be treated as an increment later. This way, we can avoid all the pitfalls of horizontal slicing, test and release in a more granular fashion, and also pivot if it looks like our carousel should go in a different direction.
 
@@ -3162,7 +3157,7 @@ The most interesting aspect of a follow-up A/B test like this would be that it d
 
 This approach of building out one "valuable increment" at a time also allows the team to stop when only a portion of the work is done if the value has already been delivered, as proven by the relevant metrics. This is not possible with horizontal slicing.
 
-## <span id="page-349-0"></span>Summary
+# <span id="page-349-0"></span>Summary
 
 As depicted in the Groceroo example, using vertical slicing for upcoming work allows us to fully leverage the speed and granularity of continuous deployment. Small product increments can go to production quickly, small questions about customer behavior can be tackled independently, and decisions can be made or reversed with extreme ease with the help of runtime feature flags. This way of working is the closest we can get to the "responding to change over following a plan" value of the Agile mindset.
 
@@ -3178,7 +3173,7 @@ Therefore, the understanding of this practice by nontechnical functions such as 
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-351-0"></span>Chapter 7. Building for Production
+# <span id="page-351-0"></span>Chapter 7. Building for Production
 
 <span id="page-351-2"></span>In [Chapter](#page-304-0) 6, we discussed the importance of preparing a backlog that makes the most of continuous deployment. In particular, you saw how narrow vertical slicing makes our changes more granular and gives us better control over incremental code updates to production.
 
@@ -3208,7 +3203,7 @@ technical, it's crucial that we leverage user stories as discussion tokens to in
 
 In this chapter, I will give you some prompts for these discussions. I will go over the major CFRs I mentioned and provide examples of how they should be discussed before the start of the implementation phase. I hope this will lead to more comprehensive conversations within your team, and therefore more comprehensive user stories and implementation. After all, a production system is only as healthy as its product backlog.
 
-## Deployability Requirements
+# Deployability Requirements
 
 <span id="page-355-0"></span>Perhaps unsurprisingly, given the focus of this book, the first crossfunctional requirement that I will cover is deployability of the system. No matter how wonderful new code is, when working under continuous deployment, developers may struggle to integrate the code to trunk if they are unsure of the plan to roll it out. By adding deployability requirements, developers can plan their changes accordingly, starting from the very first lines of code, and always keep the system in a deployable state.
 
@@ -3218,7 +3213,7 @@ execution branch. This needs to be addressed in the very first commit.
 
 Following are some strategies for how to plan for deployability depending on the task.
 
-### **Hiding with Feature Toggles**
+# **Hiding with Feature Toggles**
 
 <span id="page-356-0"></span>Feature toggles are one of the most commonly used tools for safely deploying work in progress, but they are also a product release tool, so some extra considerations need to be considered when we use them.
 
@@ -3258,7 +3253,7 @@ This strategy is best used when the new increment doesn't really need to be rele
 
 <span id="page-359-1"></span>Figure 7-3. The relationship between toggle approaches and release coupling
 
-## **Hiding with Expand and Contract**
+# **Hiding with Expand and Contract**
 
 Expand and contract (mentioned in [Chapter](#page-120-0) 3) is an excellent pattern for keeping the codebase deployable during development, and I like to use it especially for large refactoring activities. Often, these activities end up as tasks in a product backlog, so they definitely need a mention here.
 
@@ -3316,7 +3311,7 @@ Figure 7-4. The relationship between surface area and safety of expand and contr
 
 <span id="page-365-1"></span>In my day-to-day, I have refactored contracts most often with the strategies in the middle of this spectrum: namely, alternative operation and alternative field. However, I have also found myself involved in programs of work dedicated to rewriting whole legacy systems, and therefore adopting the alternative system approach. Other times, I have relied on the simplicity of generifying a field type, knowing it was a temporary measure and the simplest way to avoid stepping on other developers' toes. Like everything else, this choice too is based on trade-offs.
 
-### **Hiding in Version Control Branch**
+# **Hiding in Version Control Branch**
 
 <span id="page-366-0"></span>Some tasks are too pervasive to split into chunks, and they might be impossible to perform with alternative execution branches unless we want to duplicate our entire codebase. An example of this is updating foundational libraries or frameworks that are used throughout our application (I'm looking at you, new versions of frontend frameworks…).
 
@@ -3324,7 +3319,7 @@ Because we might end up changing a large proportion of our files, this is one of
 
 Fortunately, this scenario occurs very rarely. However, when it does happen, I would argue that such a complex task warrants stopping all other work on the same codebase to prevent nightmarish integration issues. This should be reflected on the team board and in our expectations of velocity for the iteration.
 
-### **Unhidden**
+# **Unhidden**
 
 <span id="page-367-1"></span>Some user stories might not be worth a feature toggle at all, even if they are visible to users. This is the case with minor visual changes, for example. Bug fixes are also often released without a toggle.
 
@@ -3332,7 +3327,7 @@ This is the simplest deployment strategy, but also the riskiest. Pushing unhidde
 
 In addition, using this strategy with continuous deployment means we must make all changes in a single commit (or a single merge), which might not be ideal if the changeset has the potential to grow quite big. Such a scenario can quickly make the system *undeployable*.
 
-## **Pausing the Pipeline**
+# **Pausing the Pipeline**
 
 <span id="page-367-0"></span>Some changes affect such tricky parts of the application that they cannot be thoroughly covered by automated tests or feature toggles and must be manually verified in another environment before production. Changing underlying application infrastructure is one of the main examples of this.
 
@@ -3346,7 +3341,7 @@ Just like changes that require longer-lived branches, however, this type of task
 
 However, after some consideration, we noticed that we could have both inmemory storage and Redis up and running at the same time, and flip between them through the use of a feature toggle instead. This allowed us to keep doing automated deployments and build up the new code connecting to Redis little by little, under the protection of the toggle. This was especially useful not only because it spared us having to do a big-bang deployment, but also because we could test the reads and writes to Redis in production itself, turning the toggle on for one QA user only. This is a good example of why I always encourage my teams to exhaust all other lines of thinking before resorting to pausing the pipeline.
 
-## <span id="page-369-0"></span>Testability Requirements
+# <span id="page-369-0"></span>Testability Requirements
 
 <span id="page-369-1"></span>Writing and refining user stories is an excellent occasion to involve the QA function of our team early in the delivery work. This is especially true with continuous deployment because there is little to no window for extra test automation to be added after development.
 
@@ -3356,7 +3351,7 @@ tests. These two setups don't work with continuous deployment, because test cove
 
 In a fully cross-functional team, QA roles can work alongside developers and product owners. They help advise on how testing a new task will fit into the existing quality strategy, help developers create and maintain existing tests, and provide helpful insights into what types of higher-level automation should be involved in the refinement process.
 
-### **High-Level Automated Tests**
+# **High-Level Automated Tests**
 
 <span id="page-370-0"></span>The most obvious example of an area where QAs have a lot of input is in automated, higher-level tests for the feature: namely, acceptance tests, component tests, contract tests, end-to-end tests, or however many layers the team maintains above the usual unit tests.
 
@@ -3366,17 +3361,17 @@ They can also help highlight whether any part of the testing infrastructure need
 
 All of these are notes that can be included in the user story, and they can help the developers write the right kinds of tests to guide their implementation, especially if they work in an outside-in test-driven development fashion. Of course, QAs should bring guidance and support, rather than writing predefined tests all by themselves.
 
-### **Manual Exploratory Testing**
+# **Manual Exploratory Testing**
 
 <span id="page-371-1"></span>Finally, features will end up being tested by humans one way or another, either locally or in production—or, hopefully, both. Therefore, it can be helpful to note how to trigger the desired behavior, any needed setup (e.g., can we create test data?), and what the observable effects on the system should be.
 
 <span id="page-371-0"></span>Any exploratory testing should follow the acceptance criteria of the story really closely, and reflecting on how to execute it at this stage can also validate whether we have split the user stories in a meaningful way. For example, being unable to verify the behavior by manually testing in production could highlight that the current user story doesn't deliver any value on its own.
 
-## Observability Requirements
+# Observability Requirements
 
 <span id="page-372-0"></span>As discussed in [Chapter](#page-197-0) 4, observability and alerts should be considered first-class citizens and be kept up-to-date as the codebase evolves. Including their maintenance in user stories is a great way to ensure that they don't fall behind the application code.
 
-### **Maintaining Logs and Metrics**
+# **Maintaining Logs and Metrics**
 
 <span id="page-372-1"></span>The first question we need to answer is whether new functionality requires new logging and metrics, or whether it changes the meaning of existing ones. Existing logs and metrics (e.g., counters and timers) might even become obsolete as a result of our changes.
 
@@ -3386,13 +3381,13 @@ Another positive effect of establishing this up front is that the developers can
 
 Finally, adding logs and metrics to each user story means we have many more tools to observe the functionality's behavior when we are testing it in production, whether by hand or through a canary release.
 
-### **Maintaining Dashboards and Alerts**
+# **Maintaining Dashboards and Alerts**
 
 <span id="page-373-0"></span>Wherever logs and metrics go, dashboards and alerts closely follow. It is easy to forget about them: they are farther away from the application code and are not embedded within it. Making a habit of including their maintenance in the definition of "done" for all user stories is a big driver in keeping them up-to-date.
 
 <span id="page-373-1"></span>Depending on the user story, the feature might require only minor updates to dashboards and alerts, no update at all, or a complete restructuring of how we observe the production system. Whatever the case, we must ensure that as the changes go live little by little, we have the means to watch the effects of our deployments to production. In fact, part of the testing in production should include looking at dashboards. This ensures not only that the feature works from the user's perspective, but also that it leaves the correct logs and metrics when it is triggered so that we can be notified if (when) it breaks later on.
 
-## Security Requirements
+# Security Requirements
 
 <span id="page-374-0"></span>Securing code only after deploying it to production is the equivalent of going back to lock your house after you have been away for hours already. It is better than not locking it at all, but it is a gamble nonetheless.
 
@@ -3400,13 +3395,13 @@ Therefore, security is another aspect that has to be shifted left during develop
 
 During backlog refinement, we can introduce discussions around the few "usual suspects" when it comes to security, so we can maximize our chances that every deployment will be secure from its inception and won't need rework at a later stage. I will cover some of these usual suspects in the following subsections.
 
-## **New User Input**
+# **New User Input**
 
 <span id="page-374-1"></span>An upcoming task might foresee introducing a new channel for user input to make its way into the system, or for existing user-generated data to be displayed. Any type of user input can be a new vector for attacks if not sanitized properly, so the team should discuss what type of sanitization is necessary and where in the application it should happen. As a simple
 
 example, a user story to provide a new form requires at least a mention of injection attacks.
 
-### **Storing New Data**
+# **Storing New Data**
 
 <span id="page-375-0"></span>When dealing with user-generated data, accepting it and displaying it are not the only issues we need to worry about. Data is vulnerable in our storage system too, both at rest and in transit. When our upcoming work requires storing new user-generated data that wasn't in the system before, we must ask at least a few important questions about it.
 
@@ -3418,7 +3413,7 @@ Yet another factor to consider is availability: will our system be the source of
 
 In some cases, these problems present even when the storage mechanism already exists. Think, for example, of onboarding customers from a new country onto an existing feature. Different countries have different laws and regulations in regard to securing customer data, and we might need to modify how (or where) we store it if we want to release a feature to a new market, even if functionality-wise it can be rolled out as is.
 
-### **New Dependencies**
+# **New Dependencies**
 
 <span id="page-376-0"></span>Another way incoming user stories might affect the security landscape is by bringing in new frameworks or libraries. Any code developed by third parties can be the object of newly found exploits at any given time. The team should take the time to discuss any new dependencies and ensure that they are trustworthy before it brings them in. I cannot count the number of times when we seemed to find a promising library that did exactly what we wanted, and only later, after a closer look, it turned out that said library
 
@@ -3426,19 +3421,19 @@ hadn't been patched in the past decade. Considering that we were building system
 
 Even when libraries are well-maintained and have an active community behind them, they can still bring a huge network of transitive dependencies into our build system (I'm looking at you, npm ecosystem). Any new transitive dependency can also be a source of new vulnerabilities, and it's easy for things to get out of hand when we try to patch and override their versions. All of this introduces a lot of overhead for teams, which have to play catch-up and mix and match versions of different libraries. In our case, the long-term cost of keeping dependencies up-to-date was often much bigger than if we had just implemented the code ourselves.
 
-### **New Infrastructure**
+# **New Infrastructure**
 
 <span id="page-377-0"></span>Occasionally, a new user story might require deploying new infrastructure into our cloud provider of choice. I still remember an acquaintance of mine setting up a new EC2 instance for a quick spike and leaving the access for it a bit too open. Within minutes, a crawler found it and turned it into a Bitcoin miner.
 
 It's all too easy to misconfigure infrastructure and storage while playing around with cloud services, exposing valuable company assets in the process. Some up-front research on permissions is always warranted when provisioning anything new, and it can save us from having embarrassing conversations like the one my friend had to have with the InfoSec department.
 
-## <span id="page-378-1"></span>Performance Requirements
+# <span id="page-378-1"></span>Performance Requirements
 
 <span id="page-378-0"></span>Performance is tricky. Not only is a performant system difficult to implement in the first place, but most performance issues only show up under production conditions, which also makes them difficult to test for (and replicate).
 
 However, just like with security, I believe we can at least round up a list of usual suspects and make a note when they are involved in our upcoming work. That way, we can get ahead of the most obvious issues and minimize time spent rearchitecting.
 
-### **New Network Requests**
+# **New Network Requests**
 
 <span id="page-378-2"></span>One of the usual suspects for affecting performance is when our task requires adding extra outbound network requests. Obviously, a synchronous network request will hold up our application and increase response times. The team should be proficient with the parallelization constructs of its
 
@@ -3452,7 +3447,7 @@ At the same time, we must also consider different failure modes: what happens if
 
 themselves. For example, the feature could change the ratio of hits and misses, or it could require invalidating the cache more frequently. This also needs to be considered while planning new work.
 
-### **Data Size**
+# **Data Size**
 
 <span id="page-380-0"></span>Another source of pain when dealing with network calls is the amount of data that needs to be transported in the first place. When response size gets out of control, even the most performant applications will hit a bottleneck.
 
@@ -3462,7 +3457,7 @@ This might not be an obvious question at all. New data in the system might start
 
 Finding these answers can be difficult, so I recommend involving product owners in this discussion. They can best understand how data is expected to grow (or stay stable) over time and help us strike a balance between underoptimizing and over-optimizing.
 
-## **Persistence Layer**
+# **Persistence Layer**
 
 <span id="page-381-0"></span>Another big culprit when dealing with slow applications is the persistence layer, which is a microcosm of possible performance considerations in and of itself.
 
@@ -3470,7 +3465,7 @@ A new user story might introduce a new table or collection, or include new queri
 
 Finally, some new features are so impactful that they might even impact the shape of the data store itself. For example, the team might want to introduce <span id="page-382-0"></span>sharding and/or increase the number of replicas.
 
-## A (More) Complete User Story Template
+# A (More) Complete User Story Template
 
 <span id="page-382-1"></span>As I mentioned in this chapter's introduction, user stories are to be used as placeholders for discussions in the team. That's why I usually rely on a user story template that includes not only traditional acceptance criteria, but also the key cross-functional requirements we talked about. This expands our baseline for discussion, prompting all the conversations that help us continuously deploy safely. Most user stories won't need an in-depth discussion of all CFRs, but even going through the list and explicitly acknowledging that something is not relevant can do wonders for our peace of mind.
 
@@ -3502,7 +3497,7 @@ missed the Groceroo example, have a quick look at [Chapter](#page-304-0) 6, or f
 
 In the following subsections, you will find considerations on deployability, testability, observability, performance, and security for all of the example user stories we created in [Chapter](#page-304-0) 6. Even though they might look very simple on the surface, you will see how more and more details pop up once one gets into the weeds of testing, securing, and releasing them. By "shifting left" this entire discussion, we can ensure that developers will have all of these aspects in mind from their very first deployments to production, which will indeed happen very early.
 
-## **User Story 1: Add Simple Carousel**
+# **User Story 1: Add Simple Carousel**
 
 <span id="page-385-0"></span>As a reminder from [Chapter](#page-304-0) 6, the first user story is a minimum viable product (MVP) of the feature. It includes just a scrollable carousel with a hardcoded selection of items for a test store (see [Figure](#page-386-0) 7-5).
 
@@ -3558,7 +3553,7 @@ can be inferred by the page size of the carousel on most screens, plus the estim
 
 Optionally, we could also cache the products by store to keep response times low. Since we don't expect the shop managers to change the configuration very often, cache entries for each shop could have a relatively high time to live (TTL). However, we also know that the following user stories deal with out-of-stock logic and also introduce ordering items by their popularity. This means that the cache logic might get more and more complicated, so it would be wise to postpone this decision until we have proof that a cache is necessary.
 
-### <span id="page-391-0"></span>**User Story 2: Admin Area**
+# <span id="page-391-0"></span>**User Story 2: Admin Area**
 
 <span id="page-391-1"></span>In this second user story, we are adding the ability for shop managers to edit their own list of last-minute recommended purchases (as opposed to the list being hardcoded by devs). We are creating a new tab in the admin area to perform basic CRUD operations on the list, as shown in [Figure](#page-392-0) 7-6.
 
@@ -3602,7 +3597,7 @@ We should also make a note to double-check the integration with the existing aut
 
 However, we should still keep an eye on the write performance for the lastminute items and ensure that updates don't disrupt the reads. In addition, in the last story, we introduced a limitation on the number of items retrieved by the GET endpoint. We can introduce a similar limit on the POST endpoint for creation. This will also help avoid long queries.
 
-### <span id="page-395-0"></span>**User Story 3: "Add to Basket" Button**
+# <span id="page-395-0"></span>**User Story 3: "Add to Basket" Button**
 
 <span id="page-395-1"></span>For our third user story, we are adding an "Add to basket" button on the carousel items, as shown in [Figure](#page-396-0) 7-7.
 
@@ -3636,7 +3631,7 @@ Most importantly, we need to ensure that we can track which "add to basket" even
 
 <span id="page-398-0"></span>Also, the basket data will be added to the items table and used for ordering. This implies new database queries (inserting and updating the ranking) and a modification to an existing one (retrieving items in a specific order). We should ensure that any modifications to the persistence layer take this into account and don't slow down the "add to basket" process or the read process for the items.
 
-### **User Story 4: Quantity Selector**
+# **User Story 4: Quantity Selector**
 
 <span id="page-399-1"></span><span id="page-399-0"></span>For our last user story, we are adding more capabilities to the "add to [basket" functionality by introducing a quantity selector, shown in Figure](#page-399-0) 7- 8.
 
@@ -3672,7 +3667,7 @@ basket" behavior did not support quantity before, we will probably want new metr
 
 Our last user story shouldn't require many extra performance considerations. After all, we have already taken care of the main pain points: writes, reads, and adding to the basket.
 
-## <span id="page-402-0"></span>Summary
+# <span id="page-402-0"></span>Summary
 
 In this chapter, we discussed how there are many layers above the traditional "vertical slicing cake" that we must also include when preparing our product backlog for continuous deployment. These additional layers are all of the cross-functional requirements we used to relegate to the end of software delivery: security, testability, deployability, observability, and performance. With a pipeline continuously deploying changes to production
 
@@ -3704,13 +3699,13 @@ have paid the price for it during development—or worse, after release.
 
 <span id="page-403-1"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-404-0"></span>Part III. During Development
+# <span id="page-404-0"></span>Part III. During Development
 
 [Part](#page-404-0) III examines technical details that are critical to the success of continuous deployment, particularly how to manage daily development as a series of small, safe production increments. The chapters in this part of the book showcase the deployment of a new feature incrementally, discuss the process of refactoring complex existing functionality in stages, and address how to evolve data stores safely when deployments are automated. This will be guided by practical examples.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-405-0"></span>Chapter 8. Adding New Features
+# <span id="page-405-0"></span>Chapter 8. Adding New Features
 
 Now that we have discussed all of the nuances of preparing a product backlog that is suitable for continuous deployment, it is time to finally get our hands dirty with implementation. In this chapter, we will keep following the Groceroo example to learn the ins and outs of developing features with the granularity of small, continuous deployments.
 
@@ -3726,7 +3721,7 @@ All of this planning might seem like extra work that is exclusive to continuous 
 
 So, let's dive right in and consider our example user story based on the fictional company Groceroo.
 
-## Our User Story
+# Our User Story
 
 <span id="page-407-0"></span>We will use the very first story from Groceroo's "last-minute items" feature as our example. As a reminder, Groceroo is a fictional company that arranges for groceries to be delivered to customers' homes. The "lastminute items" feature is about adding a carousel of last-minute recommended products to its checkout page. If you want to know more about the company or why this user story is sliced this way, I recommend you go back and have a quick look at [Chapter](#page-304-0) 6. However, you should be able to follow along even with the short summary I just provided. Here are the description and acceptance criteria:
 
@@ -3764,7 +3759,7 @@ Figure 8-1. A mockup of the "last-minute items" feature
 
 We spoke at length about cross-functional requirements (CFRs) in [Chapter](#page-351-0) 7, so for the sake of brevity, we will not cover them in this chapter. The purpose of this example implementation will be to showcase how to deliver small code increments into production, so augmenting all individual deployments with concerns such as logging, monitoring, and security will be left as an exercise for the reader.
 
-## <span id="page-409-2"></span>The Groceroo Application
+# <span id="page-409-2"></span>The Groceroo Application
 
 <span id="page-409-1"></span>We talked about Groceroo as a company, but we haven't said much about its actual tech stack. We will need some more insight into that before we get started with our code examples, so let's fix that now.
 
@@ -3788,7 +3783,7 @@ Each repository has its own independent pipeline that runs all the tests and, in
 
 production. As explained in [Chapter](#page-351-0) 7, we will also assume that this application is already live and is being enjoyed by hundreds of thousands of users whom we don't want to disturb as we make our changes.
 
-### **Current State**
+# **Current State**
 
 <span id="page-412-0"></span>To start development, we need to have a look at the current state: in particular, the existing checkout functionality in our frontend. Let's try to find the correct spot for our new feature in the interface, as well as in the code. What we know so far is that the new carousel will reside in the middle of the first checkout step page.
 
@@ -3822,7 +3817,7 @@ export const CheckoutPage = () => {
 
 We don't need to look at the backend codebase yet, because all of the endpoints we need to create to support the carousel will be brand new. <span id="page-415-1"></span>Now we have everything we need to get started. Let's move on to the target state to see which changes are needed to implement this feature.
 
-### <span id="page-415-0"></span>**Target State**
+# <span id="page-415-0"></span>**Target State**
 
 <span id="page-415-2"></span>In this section, we will try to imagine how the code should look when we are done and the feature is released as a stable part of the application. We can keep this new design in our head, write it on sticky notes, or even (my favorite) create throwaway code to give us a feel for the implementation. We will follow this last approach here for illustrative purposes.
 
@@ -3967,7 +3962,7 @@ CREATE TABLE LAST_MINUTE_ITEMS (
  );
 ```
 
-### **How Do We Get There?**
+# **How Do We Get There?**
 
 <span id="page-422-1"></span>Without continuous deployment, we might simply have started adding code to any of these three components (backend, frontend, or persistence layer) in any particular order. We might have started with the one we were most comfortable with, the one that required the most changes at a glance, or the one we preferred for any other reason. But as you saw in [Chapter](#page-253-0) 5, now that all code is going to production immediately, we need to pay a bit more attention. The order in which changes are made needs a certain structure because the distinction between "defining" a change to production and "applying" a change to production is gone.
 
@@ -4011,7 +4006,7 @@ It is beyond the scope of this chapter to explain all of the benefits of outside
 
 <span id="page-426-1"></span>Due to all of these benefits, developing in an outside-in order with the support of a feature flag is my recommended approach when adding new features with continuous deployment. The flexibility and the ability to test incrementally in production are the main advantages of this way of working, which I will showcase in the implementation phase of our example. So, let's see how we can apply this workflow, bringing the system from the status quo to its target state with small and incremental deployments.
 
-### **Implementing with a Feature Toggle**
+# **Implementing with a Feature Toggle**
 
 <span id="page-427-0"></span>Let's imagine that Groceroo already has a good framework for runtime feature toggles, and their current value (ON or OFF, true or false) can be retrieved from the frontend and backend alike.
 
@@ -4297,7 +4292,7 @@ This means that our codebase has finally fully reached the target state we imagi
 
 Reaching this target state incrementally can also be done without continuous deployment, of course, but automated deployments ensure that we take incremental steps in the most granular way possible. None of the code we produced has stopped in any staging environment, and yet we were able to manually verify our feature throughout development—and in the most prod-like test environment of all. Furthermore, each code addition to production has never been bigger than a handful of lines at a time, greatly improving our odds of diagnosing problems quickly if something goes wrong. This would not have been practical with a manual gate to production.
 
-## <span id="page-447-0"></span>Summary
+# <span id="page-447-0"></span>Summary
 
 In this chapter, we walked through our first real-world example of how to implement a feature incrementally under continuous deployment. Our example was simple enough: a monolithic system with three distributed components—a frontend, backend, and database layer—but the same principles can be applied with any type of distributed system.
 
@@ -4315,7 +4310,7 @@ In the next chapter, we will explore another type of change in which feature tog
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-449-0"></span>Chapter 9. Refactoring Live Features
+# <span id="page-449-0"></span>Chapter 9. Refactoring Live Features
 
 <span id="page-449-1"></span>In [Chapter](#page-405-0) 8, you saw how we can leverage feature toggles to deploy features to production little by little, even across different components of distributed systems. When we change features that are already live, however, we can't rely on the behavior being hidden under a toggle, yet to be seen by anyone. The stakes are much higher when the code we are working on is already being enjoyed by many users, who don't want any disruptions to their routine. That is why, when rearchitecting under continuous deployment, it is fundamental to deploy small and backwardcompatible changes at all times.
 
@@ -4327,7 +4322,7 @@ That is why I will showcase a complex refactoring example (from our Groceroo app
 
 Let's dive right into the example.
 
-## Our Task
+# Our Task
 
 Groceroo might seem like a shiny new company, but it is in fact a bit older than people would expect. At the very beginning, it was just one local chain of grocery stores that built its own website for offering home delivery.
 
@@ -4335,7 +4330,7 @@ The home delivery model became so successful that the company split, and the por
 
 You might wonder: what does the company history have to do with the codebase? As is often the case with complex IT systems, which for years have been exposed to the elements of corporate politics, human inertia, and entropy, it turns out that the answer is "a lot."
 
-## The Product Identifier System
+# The Product Identifier System
 
 <span id="page-451-1"></span><span id="page-451-0"></span>The fact that Groceroo is pretty old means that significant parts of the codebase reflect the information systems of the original store chain. One such system is the product identifier numbering system.
 
@@ -4343,7 +4338,7 @@ Before the original chain had a digital platform, products in the stores were id
 
 This numbering system was deeply embedded into the company's IT infrastructure and, of course, the logic mapping the ID's first digit to a product category leaked everywhere into the Groceroo platform. The sixdigit product number is the primary product identifier (and database pkey) to this day. When a new product gets added, its ID is generated based on this rule. As a result of this being so pervasive, hardcoded translations from first digit to product categories can be found littering the codebase.
 
-### **The Problem**
+# **The Problem**
 
 This might seem like little more than a curious archeological find as far as technical debt goes, but it is far from innocuous. Groceroo as a company has started growing rapidly in terms of traffic, users, and orders as well as partner stores. With each new store being onboarded, tens of thousands of new products are also being onboarded onto the system every month.
 
@@ -4357,7 +4352,7 @@ that this rearchitecting must be completely undetectable to users, so *zero* int
 
 Because of this, using a minimally disruptive hack to increase the number range is tempting, but it won't do. Stretching out the number range would only postpone the problem rather than solving it for good. Even more importantly, it would perpetuate the legacy of a counterintuitive system that increases the cognitive load on all the engineering teams. We should make the fix future-proof and bring the system closer to modern best practices rather than further away from them.
 
-### **The Solution**
+# **The Solution**
 
 After consulting with technical leads across the company, everyone agrees that the current numerical identifier should be replaced by two fields: a UUID for the product and a separate category field. This solution is intuitive, will scale indefinitely, and will solve the bizarre problem of restricted ID spaces at the root.
 
@@ -4367,11 +4362,11 @@ This is the point where some engineers might get spooked and close the gate to p
 
 In the rest of this example, I will illustrate how continuous deployment actually makes such a pervasive refactoring *easier*, because it keeps us locked into the good practice of making small and incremental changes. Where a gate to production might have tempted us to change most of the code all at once and then deploy and pray, continuous deployment forces us instead to rely on a framework of trivial increments. Let's see how.
 
-## <span id="page-454-3"></span><span id="page-454-1"></span>Current State
+# <span id="page-454-3"></span><span id="page-454-1"></span>Current State
 
 <span id="page-454-4"></span>As we did in the previous chapter, let's look at the current state of affairs in our codebase to get an idea of how pervasive the change is. We are looking for all occurrences of the old product IDs, and also for their translations to and from categories.
 
-### <span id="page-454-0"></span>**Frontend**
+# <span id="page-454-0"></span>**Frontend**
 
 <span id="page-454-2"></span>As we discussed, all our codebases are littered with mappings from the old product ID to their category. The frontend is our first example affected by
 
@@ -4398,6 +4393,10 @@ export const productCategoryFromId = (productId
 This function is used in many places throughout the component tree, and it is invoked whenever the product category is displayed, such as in each product detail page. [Figure](#page-456-0) 9-1 shows a breadcrumb containing the category being displayed at the top of the detail page.
 
 <span id="page-456-0"></span>![](_page_456_Figure_0.jpeg)
+
+Chocolate in our house was part of festivities, part of the good times when we came together to share and
+show that we care. It wasn't so much about the sweetness of the chocolate, yet the sweetness we keep in our
+hearts all the year round yet need these occasions to let it show.
 
 Figure 9-1. The product detail page with a category and an old product ID
 
@@ -4480,7 +4479,7 @@ export const CreateProductPage = () => {
 
 <span id="page-460-1"></span><span id="page-460-0"></span>Of course, there are many more examples of how to use product IDs in a typical ecommerce-like application such as Groceroo. Out of simplicity, let's keep our refactoring in this chapter confined to the three I just showcased: adding to the basket, product creation, and displaying the category in product detail pages. The principles you will learn will apply to any other functionality in exactly the same way.
 
-### **Backend**
+# **Backend**
 
 <span id="page-461-0"></span>Similarly to the frontend, categories are not considered first-class citizens in the backend. Instead of being stored in a database table of their own, they are hardcoded in an enum, shown in the following code snippet, which is used to translate to and from the first digit of the product ID:
 
@@ -4636,7 +4635,7 @@ public class BasketRepository {
 }
 ```
 
-### **Persistence**
+# **Persistence**
 
 In the persistence layer, we can of course find our main product table, which has the unwanted ID as its primary key . The following example shows its structure:
 
@@ -4692,11 +4691,11 @@ In the following table, we can observe the sequences responsible for generating 
 
 These sequences, along with the old ID column, should become obsolete after our replacement.
 
-## Target State
+# Target State
 
 <span id="page-469-2"></span><span id="page-469-1"></span><span id="page-469-0"></span>If we had to imagine an ideal target state for the codebase after this refactoring, the legacy product IDs would disappear in favor of a new UUID field. Moreover, category data should be a first-class citizen, stored in a database table with a proper relationship to the product table. Let's see what the target state should look like.
 
-### **Frontend**
+# **Frontend**
 
 In the frontend, we should have category information displayed without any translation. The category field will come directly from the product instead, as shown in the following code:
 
@@ -4760,7 +4759,7 @@ const createProduct = async (productData, store)
 
 Similar changes could be applied throughout the frontend, even though we are covering only four examples here.
 
-### **Backend**
+# **Backend**
 
 <span id="page-472-1"></span>In the backend, products should only have their new identifier and a category field, as shown in the signature of the following Product record:
 
@@ -4791,7 +4790,7 @@ public Product createProduct(CreateProductPayload
 }
 ```
 
-### **Persistence**
+# **Persistence**
 
 As I mentioned in the previous sections, the persistence layer will contain a new table for categories. A possible implementation is shown in the following code:
 
@@ -4843,7 +4842,7 @@ Foreign-key constraints:
 
 As we anticipated in ["Current State"](#page-454-1), all database sequences can be dropped because we don't need to generate the old IDs anymore.
 
-## How Do We Get There?
+# How Do We Get There?
 
 <span id="page-476-2"></span><span id="page-476-0"></span>As we discussed in [Chapter](#page-120-0) 3, refactoring live functionality under continuous deployment means we cannot simply go around changing all providers and consumers to their *N* + 1 version (the one shown in "Target [State"\). With no manual control over when the deployment happens, we](#page-469-0) risk long periods of incompatibility in production. Think, for example, of changing just the backend and frontend codebases to use the new ID. The codebase that gets pushed first (and therefore deployed first) will be incompatible with the other codebase.
 
@@ -4851,7 +4850,7 @@ As we anticipated in ["Current State"](#page-454-1), all database sequences can 
 
 We can achieve this with a pattern that lends itself wonderfully to this type of refactoring, and that I have by now mentioned many times: the expand and contract pattern. If you missed it, now would be a good time to go back to [Chapter](#page-120-0) 3 to have a look at the theory. In the next section, we will put it into practice.
 
-### **Expand and Contract**
+# **Expand and Contract**
 
 Let's see how the expand and contract pattern can be applied to this practical, nontrivial example. Let's zoom into the most pervasive change of this refactoring: shifting the source of truth for the product numbering system. Its current source of truth is in the database: the product ID column within the product table, which should change to a UUID.
 
@@ -4876,7 +4875,7 @@ Now that we have more insight into our expansion strategy, we are almost ready t
 
 We are assuming that the clients of the old column can be migrated atomically, in one simple step. In reality, our client (the backend) has another consumer above it: the frontend layer, which also depends on the old product ID. This makes the refactoring a little less trivial, and it gives us an excellent opportunity to showcase how to apply the expand and contract pattern on a system with multiple layers of providers and consumers.
 
-### **Multiple Layers: Inside Out**
+# **Multiple Layers: Inside Out**
 
 <span id="page-479-0"></span>In a distributed system with multiple layers of providers and consumers, we must refactor from the inside out: starting from the innermost provider and proceeding in the direction of the outermost consumer. The pattern begins by establishing the expansion path in the innermost provider. This expansion path is then also created in the direct consumers of that provider. This expansion should then proceed outward through each layer's consumers. This process continues until the outermost consumer is reached. Migration has to be done at this level to complete the transition.
 
@@ -4914,7 +4913,7 @@ can migrate all its clients in the frontend and contract it like before. However
 
 Let's see how we can apply this to the code of the Groceroo platform, deployment by deployment.
 
-## Implementing with Expand and Contract
+# Implementing with Expand and Contract
 
 <span id="page-484-1"></span><span id="page-484-0"></span>To perform the whole migration of the ID field, we have to start with the outer expand and contract cycle that will duplicate the product ID column in the database layer. Then we can also start addressing its first client: the POST /product endpoint, as shown in [Figure](#page-485-0) 9-7.
 
@@ -4926,7 +4925,7 @@ After the expansion of the database layer by creating the new UUID, we will zoom
 
 Let's take it step by step.
 
-### **Outer Expand Phase: The Product Table**
+# **Outer Expand Phase: The Product Table**
 
 We will begin with the first step of our refactoring: expanding the product table.
 
@@ -4977,7 +4976,7 @@ The same table is also subject to read operations. Another key aspect of providi
 
 We are now done with our expansion. Now that we have created the new ID field, we must migrate all of its clients. This is where our nested expand and contract cycles come in.
 
-### **Migrating the POST /product Endpoint**
+# **Migrating the POST /product Endpoint**
 
 <span id="page-489-2"></span>The first client using the old ID is the API to create a product, which has the frontend depending on it as well. So, for this endpoint to use the new ID, we need to perform another (nested) expand and contract pattern.
 
@@ -5134,13 +5133,11 @@ CASE
 
 The first client of the product table has now been taken care of. Our first nested expand and contract cycle is complete! However, we can't remove the old ID from the table yet, because there are two more clients left in our list. This means we cannot update our repository until then either, and we must keep creating both IDs. Let's address the next client first: the GET /product endpoint.
 
-### <span id="page-496-0"></span>**Migrating the GET /product Endpoint**
+# <span id="page-496-0"></span>**Migrating the GET /product Endpoint**
 
 <span id="page-496-2"></span>As shown in [Figure](#page-497-0) 9-8, we can follow a very similar process for the GET product API.
 
-<span id="page-496-1"></span>
-
-<span id="page-497-0"></span>![](_page_497_Figure_0.jpeg)
+<span id="page-496-1"></span><span id="page-497-0"></span>![](_page_497_Figure_0.jpeg)
 
 Figure 9-8. The nested expand and contract for the GET product API
 
@@ -5257,7 +5254,7 @@ public Product getProduct(UUID id) {
 
 The code is much cleaner now. After this step, there's only one last client remaining.
 
-### **Migrating the Basket Table**
+# **Migrating the Basket Table**
 
 <span id="page-503-1"></span>The last client is a slightly trickier one. Instead of the backend performing direct queries on the table, our last client is another database table. In fact, many other tables (orders, favorites, basket, etc.) could reference the product ID through a foreign key. For this chapter, we will focus on this one.
 
@@ -5403,7 +5400,7 @@ ALTER TABLE BASKET
  REFERENCES PRODUCTS(PRODUCT_UUID);
 ```
 
-## <span id="page-511-1"></span><span id="page-511-0"></span>**Outer Contract Phase: Cleaning Up the Product Table**
+# <span id="page-511-1"></span><span id="page-511-0"></span>**Outer Contract Phase: Cleaning Up the Product Table**
 
 Finally, we can bring our outer expand and contract cycle to fruition by removing the old ID in the product table.
 
@@ -5425,7 +5422,7 @@ Small and incremental deployments also don't prevent other work from going to pr
 
 This example was inspired by a real event on one of our projects, so it most definitely is within the realm of challenges that can be faced and overcome by a team using continuous deployment. Overall, this is to show that even the trickiest changes to a distributed system can be broken down, developed incrementally, and deployed continuously in total safety. All it takes is the right mindset, a little bit of planning, and resisting the temptation to dive headfirst in our IDEs and make changes wherever the code leads us.
 
-## Summary
+# Summary
 
 In this chapter, we explored a nontrivial example to showcase a framework for changing live features under continuous deployment.
 
@@ -5441,7 +5438,7 @@ One thing we did not cover are special considerations we must take when performi
 
 <span id="page-514-1"></span><span id="page-514-0"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-515-0"></span>Chapter 10. Data and Data Loss
+# <span id="page-515-0"></span>Chapter 10. Data and Data Loss
 
 <span id="page-515-1"></span>In [Chapter](#page-449-0) 9, you saw how to refactor live functionality under continuous deployment. Through the use of the expand and contract pattern, we can plan out our deployments across different codebases in such a way that all changes remain backward compatible. Backward compatibility ensures that all the features relying on the refactoring will keep running flawlessly for users, even though the code itself is still a work in progress. However, this only holds true until our refactoring crosses the contract boundary with a database or any state store. The expand and contract pattern is not enough on its own to safely refactor live databases without loss of service or data.
 
@@ -5459,27 +5456,27 @@ The book *Refactoring Databases* thoroughly addresses how to release changes to 
 
 <span id="page-516-1"></span>Nevertheless, and even without a full immersion into database literature, the goal of this chapter is to equip you with some fundamental tools for handling common scenarios that can arise during continuous deployment. I'll continue to rely on our ongoing Groceroo example to illustrate the problem. I'll initially focus on relational databases, which is what Groceroo uses, and at the end of the chapter I'll discuss how to adapt these techniques for NoSQL stores.
 
-## Our Task
+# Our Task
 
 <span id="page-517-0"></span>In [Chapter](#page-449-0) 9, we saw a database refactoring problem with the basket table having to switch its product ID from one format to another. Here, I will introduce a similar, simpler example to demonstrate the issue with databases and incremental changes: renaming a table column.
 
 A new task requires us to do some preparatory refactoring on the users table in our Groceroo system. Product stakeholders want us to persist some new details in the table: in particular, the user's real first name and last name, which will be needed later to fulfill orders and deliveries. Right now, customers have to input information this every time they go through the checkout. Instead, the system should add those fields to the user profiles so that they can be reused for all orders.
 
-### **The Problem**
+# **The Problem**
 
 On our users table, we already have a name field that represents the username the user entered during their registration process, but it doesn't have to be their full, legal name. In fact, it can be anything as long as it is unique in the system. This field is just like any old username: it's used for user registration and login. We *could* simply go ahead and add two new columns, first\_name and last\_name , but because we already have a column called "name," that would quickly become confusing.
 
-### **The Solution**
+# **The Solution**
 
 <span id="page-518-1"></span>We should change the existing column to "username" first, since that's what it really is. This makes it clearer what the column refers to, and it will save a few "WTFs per minute" when new joiners or existing engineers have a look at the system's internals. **[2](#page-567-1)**
 
 This refactoring, which looks rather innocuous, is actually interesting enough that it will be the focus of the rest of this chapter. Just like in the preceding chapter, we are aiming to deliver it in incremental deployments, with zero disruption of service in production and zero loss of existing data. Let's start by having a look at the current state of the name column and its usages.
 
-## <span id="page-518-2"></span>Current State
+# <span id="page-518-2"></span>Current State
 
 <span id="page-518-3"></span>Since we are focusing mainly on the persistence layer, we will only have a look at the database and its primary client: the backend.
 
-### **Persistence**
+# **Persistence**
 
 <span id="page-518-4"></span>Here is the name column in the users table:
 
@@ -5494,7 +5491,7 @@ This refactoring, which looks rather innocuous, is actually interesting enough t
  ...
 ```
 
-### <span id="page-519-0"></span>**Backend**
+# <span id="page-519-0"></span>**Backend**
 
 <span id="page-519-3"></span><span id="page-519-2"></span>As you can see from the following repository code, the backend performs both read and write operations on name . It is writing to it during user creation and reading from it during user retrieval. We will focus on these two for our example:
 
@@ -5529,11 +5526,11 @@ public class UserRepository {
 }
 ```
 
-## Target State
+# Target State
 
 <span id="page-521-2"></span>Our target state is also pretty simple this time: we just want the column to go by the new name in all layers.
 
-### **Persistence**
+# **Persistence**
 
 <span id="page-521-4"></span>First, we want the actual users table to look like it does in the following declaration. Notice the renaming of the column [:](#page-521-0)
 
@@ -5546,7 +5543,7 @@ groceroo=# \d users;
  username | text | | |
 ```
 
-### <span id="page-521-0"></span>**Backend**
+# <span id="page-521-0"></span>**Backend**
 
 <span id="page-521-3"></span>In the backend, all operations on the table should also use the new name , as shown in the updated repository:
 
@@ -5581,13 +5578,13 @@ public class UserRepository {
 }
 ```
 
-## <span id="page-523-0"></span>How Do We Get There?
+# <span id="page-523-0"></span>How Do We Get There?
 
 <span id="page-523-2"></span><span id="page-523-1"></span>A database is not often thought of as an independent system, separate from the backend it serves. However, it most definitely is. After all, the backend and the database are two separate executables, most likely running on different machines and usually talking to each other over the network.
 
 This makes it so that refactoring a contract between the two incurs all the complications that we discussed in [Chapter](#page-449-0) 9. We cannot simply bring the database and backend straight to the desired target state and cross our fingers during deployment. So, let's see how we might complete this refactoring in a backward-compatible manner, and how it is different from the other examples presented in [Chapter](#page-449-0) 9.
 
-### **Failure Mode: Simultaneous Change**
+# **Failure Mode: Simultaneous Change**
 
 <span id="page-524-0"></span>More often than not, persistence code (e.g., database evolutions) is kept in the same version control repository as backend code. On top of that, database evolutions are usually applied by the application code itself at startup, as soon as one of the instances with the new version comes alive and detects an out-of-date version of the schema. This further couples the path to production of those two systems, as they go live at more or less the same time.
 
@@ -5652,7 +5649,7 @@ To avoid an incompatibility window or incompatible instances, we can conclude th
 
 To put it more simply, a good rule of thumb is that database evolutions should always be deployed on their own. This also lowers the developers' cognitive load and lets them focus on the schema's backward compatibility.
 
-### <span id="page-528-1"></span>**Failure Mode: Simple Expand and Contract**
+# <span id="page-528-1"></span>**Failure Mode: Simple Expand and Contract**
 
 <span id="page-528-0"></span>To solve this scenario, it might also be tempting to try to apply a simple expand and contract pattern. We are dealing with refactoring an existing functionality, after all. We could imagine the expand and contract phases to look something like this:
 
@@ -5702,7 +5699,7 @@ Of course, we could try to avoid this by deploying the backend code for the migr
 
 <span id="page-530-0"></span>So, what do we do?
 
-### **Solution: Temporary Database Trigger**
+# **Solution: Temporary Database Trigger**
 
 <span id="page-531-0"></span>In *Refactoring Databases*, the authors tackle this sort of scenario, and they suggest relying on a database trigger to address the synchronization between columns and cover the gap. The trigger would augment the existing expand and contract pattern and start synchronizing the old and new columns from the moment the new column is created. Following is an excerpt from [Chapter](#page-304-0) 6 of that book:
 
@@ -5776,7 +5773,7 @@ This is what will happen to the table data:
 
 However, if you're like me and you're not exactly thrilled to be implementing important logic in SQL (and you just generally shiver at the thought of database triggers), you might find the next two solutions more interesting.
 
-### <span id="page-535-0"></span>**Solution: Double-Write**
+# <span id="page-535-0"></span>**Solution: Double-Write**
 
 <span id="page-535-1"></span>If we want to avoid database triggers but still want to solve our issue, we can make a different addition to our existing expand and contract pattern: once we have expanded the database column, we must implement a doublewriting mechanism for both columns. Once that is in place, we can also synchronize past data so that the new column is fully self-contained. Then, we can finally switch to the new column completely without incurring any data loss (this is the strategy we used with the basket column in the previous chapter).
 
@@ -5828,7 +5825,7 @@ Figure 10-8. The contract step in the double-write strategy
 
 Overall, this process ensures that we are successfully writing new data to both columns before we synchronize past entries, removing the gap we observed in the previous sections. It essentially replaces the update logic of the database trigger with application code, which is more easily testable and observable.
 
-### <span id="page-542-1"></span>**Solution: Double-Read**
+# <span id="page-542-1"></span>**Solution: Double-Read**
 
 <span id="page-542-0"></span>A similar valid strategy is to implement a double-reading mechanism as a fallback, instead of a double-writing mechanism. We can ensure that the backend tries to read from both columns while it is migrating, essentially using the old column as a fallback. In this manner, we can tolerate NULL values in the new column until we sync all the existing data later on.
 
@@ -5878,11 +5875,11 @@ This process, like the previous one, relies on the backend supporting both versi
 
 Next, I'll show code examples for how to implement the two alternatives.
 
-## <span id="page-548-0"></span>Implementing with Double-Write
+# <span id="page-548-0"></span>Implementing with Double-Write
 
 First, let's have a look at how we can reach the codebase target state with the double-write strategy.
 
-## <span id="page-548-1"></span>**Deployment 1: Expand the Database Column**
+# <span id="page-548-1"></span>**Deployment 1: Expand the Database Column**
 
 Let's start with the status quo. We already have production data in our users table (simplified here), which of course needs to be supported and preserved throughout:
 
@@ -5914,7 +5911,7 @@ groceroo=# select * from users;
 (3 rows)
 ```
 
-### **Deployment 2: Double-Write to Both Columns**
+# **Deployment 2: Double-Write to Both Columns**
 
 Next, we will implement the double-write behavior on the backend. The repository will write to both the name and username columns :
 
@@ -5947,7 +5944,7 @@ groceroo=# select * from users;
 
 However, all previous values are still NULL, which is something we will fix in the next deployment.
 
-### **Deployment 3: Synchronize the Data**
+# **Deployment 3: Synchronize the Data**
 
 Now that data is being written to username , it's time to synchronize the old values as well , which we can do with the following database evolution, Notice how, in the same database evolution, I have also added a NULL constraint. I was able to do this because, at this stage, we don't expect any NULLs in the column (past or future):
 
@@ -5969,7 +5966,7 @@ groceroo=# select * from users;
 (4 rows)
 ```
 
-## **Deployment 4: Migrate Write and Read to Both Columns**
+# **Deployment 4: Migrate Write and Read to Both Columns**
 
 Finally, we can proceed with the migration phase. Now that both columns have up-to-date data being written to, we can safely switch both reading and writingto the new column. The following change takes us to the target state we imagined for our backend:
 
@@ -6005,7 +6002,7 @@ groceroo=# select * from users;
 
 At this point, we can safely consider the old name column deprecated. All historical data is migrated to the new column, and new data is also just added to it. The old column is unused and will fill up with null values as time goes on. This means we can proceed with the contract phase.
 
-### **Deployment 5: Contract the Columns**
+# **Deployment 5: Contract the Columns**
 
 The contract phase is very simple. We just need to deploy an evolution that drops the old column:
 
@@ -6030,11 +6027,11 @@ groceroo=# select * from users;
 
 We have successfully refactored our database schema in production with the help of safe continuous deployments—and preserved data integrity throughout.
 
-## <span id="page-555-1"></span>Implementing with Double-Read
+# <span id="page-555-1"></span>Implementing with Double-Read
 
 As I explained in ["How Do We Get There?",](#page-523-0) we can also implement double-column support in the backend with read operations instead of write operations. Let's see how.
 
-### <span id="page-555-0"></span>**Deployment 1: Expand the Database Column**
+# <span id="page-555-0"></span>**Deployment 1: Expand the Database Column**
 
 Just like before, we are starting from an existing table that is very much in use and already contains data:
 
@@ -6067,7 +6064,7 @@ groceroo=# select * from users;
 (3 rows)
 ```
 
-## **Deployment 2: Double-Read and Migrate Write the Columns**
+# **Deployment 2: Double-Read and Migrate Write the Columns**
 
 Next, we want to perform the write migration and double-read phase. We can have the backend write to the username column, but try to read from both (prioritizing username ) [.](https://calibre-pdf-anchor.a/#a1904) Following is the repository code to achieve this:
 
@@ -6100,7 +6097,7 @@ groceroo=# select * from users;
 
 The double-read mechanism lets us exploit this fact by using name as a fallback. Next, we need to make the new column self-contained so that we can remove the fallback later.
 
-### **Deployment 3: Synchronize the Data**
+# **Deployment 3: Synchronize the Data**
 
 Just like before, we can now synchronize older data and reintroduce a NOT NULL constraint with this database evolution:
 
@@ -6122,7 +6119,7 @@ groceroo=# select * from users;
 (4 rows)
 ```
 
-### **Deployment 4: Migrate Read the Column**
+# **Deployment 4: Migrate Read the Column**
 
 Now that the new column is self-contained, we can rely on it completely for reading, which means we can remove the fallback logic from our repository [:](https://calibre-pdf-anchor.a/#a1912)
 
@@ -6141,7 +6138,7 @@ Now that the new column is self-contained, we can rely on it completely for read
 
 The name column is now unused, and the backend is in its desired target state.
 
-### **Deployment 5: Contract the Columns**
+# **Deployment 5: Contract the Columns**
 
 Finally, we can shrink the database schema again, dropping the unused column:
 
@@ -6162,7 +6159,7 @@ groceroo=# select * from users;
 (4 rows)
 ```
 
-## NoSQL
+# NoSQL
 
 If your persistence layer is not relational, you might think this chapter did not apply to you. You would be wrong. Even if your database system doesn't enforce a strict schema when writing, it doesn't mean that its clients <span id="page-561-0"></span>don't rely on the objects they retrieve being a certain shape (effectively an implicit schema on reading). You should always be careful to keep backward compatibility in your deployments, regardless of the presence of a formal schema.
 
@@ -6170,7 +6167,7 @@ Even if you are using MongoDB, Redis, DynamoDB, or just plain old files, all of 
 
 Of course, this leaves the problem of how to synchronize old data, especially if we have many records that aren't updated frequently by clients. Here, we have two choices: we can simply keep backward compatibility until all old data is eventually rewritten (or disappears), or we can also implement a background job to perform the migration for all records in our collection.
 
-### **Migrate on Read**
+# **Migrate on Read**
 
 If we can't, or don't want to, update old records, there's an option to let our application code keep doing the heavy lifting of conversion by retaining
 
@@ -6202,13 +6199,13 @@ This system refreshed the full product catalog from scratch every night, so we c
 
 I find that this approach is ideal for such a scenario: where "old data" is short-lived, or has an expiration date after which it becomes irrelevant.
 
-### **Custom Batch Update**
+# **Custom Batch Update**
 
 <span id="page-564-1"></span><span id="page-564-0"></span>If we want all data to match the new shape as quickly as possible, we can also add a background job that takes care of updating all the old records. Its execution should always follow the deployment that makes the code write in the new format, to prevent data in the deprecated shape from being accidentally written *after* the migration. Such a background job is necessary for applications in which old data does not expire. At least, that is if we want to clean up our backward-compatible code at some point.
 
 In the same product-data ingestion system from the preceding section, for example, we also maintained collections with data that was not "copied over" from someone else's feed, and for which our service was the source of truth (i.e., older data couldn't be erased). This meant that we had to adopt this strategy for those other collections, effectively mixing approaches. This can be a common occurrence if you use NoSQL for a variety of data coming from different sources.
 
-### **Conclusion on NoSQL**
+# **Conclusion on NoSQL**
 
 Overall, even if migrating data with NoSQL databases is trickier, it doesn't mean that NoSQL databases discourage refactoring. In fact, it might be quite the opposite. For example, the fallback mechanisms I described throughout this chapter are easier to manage in NoSQL than with a traditional relational database. Double-write is easy because there is no write schema to update first: the backend can just start writing whatever it wants, whenever it wants. Double-read can be easier too because queries themselves don't need to specify column names, and you can handle the fallback entirely in code.
 
@@ -6216,7 +6213,7 @@ With NoSQL, once you have figured out your relevant data migration mechanism(s),
 
 without worrying about updating an explicit schema.
 
-## Summary
+# Summary
 
 <span id="page-566-0"></span>In this chapter, I explained how databases and persistence layers in general are affected by automated deployments to production. When refactoring, we might need to change the contract of a persistence layer, which requires special consideration as any temporary incompatibility might cause data loss.
 
@@ -6230,13 +6227,13 @@ Zooming in on the implementation of these two strategies, you saw how they allow
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-568-0"></span>Part IV. After Development
+# <span id="page-568-0"></span>Part IV. After Development
 
 [Part](#page-568-0) IV explores the post-development activities that bring the process of continuous deployment to fruition. It explains how to safely conduct exploratory testing in production, and discusses release and A/B testing strategies.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-569-0"></span>Chapter 11. Testing in Production
+# <span id="page-569-0"></span>Chapter 11. Testing in Production
 
 <span id="page-569-1"></span>In this chapter, I'll talk about the benefits of testing in production, which is the environment we share with our users. I'll cover why it is worthwhile and how to do it safely.
 
@@ -6246,7 +6243,7 @@ In particular, we'll look at the most common activation strategies we can levera
 
 Overall, testing features in production is not just *possible* for continuous deployment teams: it should be part of their routine. Production exploratory tests should at the very least be done in addition to the preproduction tests we are all used to—and if they are good enough, a team might choose to *exclusively* test in production. If you want to know what that looks like, keep reading.
 
-## Why You Should Test in Production
+# Why You Should Test in Production
 
 <span id="page-570-0"></span>Overall, exploratory testing directly in production provides much better insights into how software behaves in the real world and helps uncover issues that are simply not reproducible in preproduction. Seeing features work in production gives greater confidence to stakeholders and developers alike, lowering the decision barrier for releases and leading to much quicker experimentation.
 
@@ -6256,7 +6253,7 @@ In both theory and practice, production environments are the most reliable way t
 
 multiple teams (and the high engineering cost in doing so). The following subsections detail some common ways that testing in production offers more reliable conditions for establishing trust in an upcoming release.
 
-### <span id="page-571-0"></span>**Data Volume Accuracy**
+# <span id="page-571-0"></span>**Data Volume Accuracy**
 
 <span id="page-571-1"></span>The size of data in databases, filesystems, caches, queues, or any state storage engine in production is not comparable to that in preproduction. Preproduction storage usually contains only whatever sample data is used for manual testing, or it contains seed data for automated tests, which is trivial in volume.
 
@@ -6270,7 +6267,7 @@ If we tested that functionality in production instead (under a feature toggle), 
 
 Some engineers might be tempted to solve this data volume mismatch by generating randomized filler data. This is still not ideal, because the frequency of certain values in a big data set (such as names or products) is another factor that can affect performance; for example, when caching or indexing. This approach is also vulnerable to another type of issue, which I will explain in the next section.
 
-### <span id="page-572-1"></span>**Data Shape Accuracy**
+# <span id="page-572-1"></span>**Data Shape Accuracy**
 
 <span id="page-572-0"></span>Real, user-generated data is often well outside of what we can predict and generate when we think of a feature from the happy path perspective. Even the most creative QA engineers can have blind spots, and if a user can enter weird enough inputs to break a feature, they will.
 
@@ -6288,7 +6285,7 @@ testing it in preproduction, however, everything seemed fine: that is because we
 
 <span id="page-574-0"></span>This could have been completely prevented if we had tested in production instead. If we had, we could have easily migrated the historical data to match, or we could have changed the code to handle both formats before the release.
 
-### **Realistic Request Patterns**
+# **Realistic Request Patterns**
 
 <span id="page-574-1"></span>Speaking of user behavior, sometimes users break features by generating requests in patterns that we might not expect.
 
@@ -6298,19 +6295,19 @@ evident, it can be handled, for example, by altering the UX to limit concurrent 
 
 This type of problem can also be caught through A/B testing and canary releases, which I'll describe in the next chapter.
 
-### **Realistic Incoming Traffic Volume**
+# **Realistic Incoming Traffic Volume**
 
 <span id="page-575-0"></span>Preproduction machines receive hardly any traffic under normal circumstances. Thoroughly load-testing every change going through the pipeline is not really an economically viable or time-sensitive option either. Because of this, each change being tested in preproduction might hide performance issues, memory leaks, or any other type of resource exhaustion defect. In addition, even the best load tests usually don't replicate fully realistic traffic patterns: production is a unique blend of specific traffic curves throughout the day, the number of reads versus writes, the delay between specific requests, and so on and so on.
 
 If we have our feature under a toggle, we can test its performance in production through a canary deployment, through shadow traffic, or by releasing it to a small section of users.
 
-### **Realistic Outgoing Traffic Volume**
+# **Realistic Outgoing Traffic Volume**
 
 <span id="page-576-0"></span>In addition to realistic incoming traffic to the application, we must also consider realistic outgoing traffic *from* the application.
 
 When our system relies on any downstream system to fulfill its contract, there will be a tight coupling between incoming requests and outgoing requests. These outgoing requests can affect the number of open network sockets/open files, application-facing connection pools, cache behavior… which can all cause problems when the application is faced with some realistic load coming from users. On top of that, most of the aspects affected by outgoing traffic are likely to be configured differently in production in the first place.
 
-### **Realistic Size and Number of Servers**
+# **Realistic Size and Number of Servers**
 
 <span id="page-576-1"></span>Preproduction environments are almost always smaller than production environments in terms of number of machines or containers, as the very low incoming traffic keeps scaling activity quiet. This can hide bugs that only show up when more than one instance is running (think of different instances competing for external resources, or code accidentally relying on the user hitting the same instance for consecutive requests).
 
@@ -6320,13 +6317,13 @@ to explain to our stakeholders why their cloud provider bills have doubled. It i
 
 While replicating horizontal scaling is at least somewhat achievable, this is often not the case with vertical scaling (i.e., the size of the machines themselves). If you have to deal with actual servers or virtual machines, it is especially common for preproduction infrastructure to be a low-powered version of the real thing. Instances, in addition to being fewer in number, are likely to have fewer resources, such as memory and CPU cores, making it hard to tell whether our code can make the most out of a powerful server. For example, if we test on production instances, we might find that we can parallelize some tasks differently to make the most out of a high number of CPUs. With more memory per instance, we might also find out that we can make application caching policies more aggressive.
 
-## **Realistic Application Configuration**
+# **Realistic Application Configuration**
 
 <span id="page-577-0"></span>Application configuration can differ between production and preproduction in many ways. For example, there can be variations in database configurations, including connection strings, credentials, and settings around connection pools. External service configurations such as third-party services, authentication, and access privileges may differ too. While preproduction environments use sandbox or stub APIs, the production environment connects to the actual third-party services, which might not respect exactly the same contract. Authentication settings, thread pool size,
 
 internal URLs, caching policies…any line in our application config that differs between production and preproduction is a potential minefield of surprises when releasing.
 
-### **Realistic Network Configuration**
+# **Realistic Network Configuration**
 
 <span id="page-578-0"></span>Any infrastructure in preproduction will likely be accessible only from within the organization, making the network setup look very different. The first obvious difference is the presence of authentication or IP-based restrictions. Having far fewer users in staging also means that content delivery networks (CDNs) or proxy services such as Cloudflare and Akamai might be absent or configured very differently. Their caching policies might be set up differently too: caching heavily in production to protect the origin servers but not caching at all in preproduction to allow for easier testing. This introduces yet another surprising difference between environments that is often forgotten.
 
@@ -6334,7 +6331,7 @@ Different rules might also apply to outbound requests. Think, for example, of co
 
 In one of my teams, a task once remained blocked on our board for a month because of a restrictive network configuration that was present in production only. This was blocking our app from talking to a specific thirdparty system. Fortunately, we were deploying and testing in production frequently, which allowed us to discover the issue during development. Because of this, we were able to parallelize other work while the issue was fixed by the appropriate team. If we had not deployed anything, or if we had not tested in production until the very end, things would have looked pretty bad for our release deadline.
 
-### <span id="page-579-0"></span>**Real Version of Other Teams' Services**
+# <span id="page-579-0"></span>**Real Version of Other Teams' Services**
 
 <span id="page-579-1"></span>We don't have many guarantees about how other teams' preproduction applications are managed: how similarly they are configured to the real thing, what test data they have been seeded with, and whether their deployed version corresponds to the live one during our testing. The big assumption made by each team testing service integration in preproduction is that they are verifying version *N* + 1 of their service against version *N* of all other services, where *N* is the current production version. But if all teams make that same assumption, then the preproduction integration starts to look more like a cluster of *N* + 1 versions talking to each other, with no guarantee of what will happen once one of them is released.
 
@@ -6342,19 +6339,19 @@ And things are hardly that simple. As teams accumulate different changes, some s
 
 integration with the live version of surrounding services is by checking and monitoring the integration in production itself.
 
-### **Real Version of Third-Party Services**
+# **Real Version of Third-Party Services**
 
 If we have few guarantees about other teams' test environments, we have even fewer guarantees with sandboxes provided by third-party vendors, which is often all we can use in preproduction. There is additional communication overhead whenever we need to figure out if their preproduction will behave similarly to the production at all.
 
 <span id="page-580-0"></span>Testing these interactions in production is far more reliable, but the logistics of it can get a bit tricky. There need to be strong agreements on how to perform manual tests in prod, especially when the third-party system deals with sensitive or monetary transactions. Using test data incorrectly might lead to costly or awkward mistakes here. However, the criticality of these exchanges between systems is a reason in and of itself to make the extra effort and arrange for safe test data in production. If a mistake in one or two test transactions can be costly and awkward, a mistake with thousands of real transactions (caused by inaccurate pre-prod testing) can be very much worse. Testing in production guarantees that our system integration is sound in the environment that gives us the highest level of confidence.
 
-### **Lower Cost**
+# **Lower Cost**
 
 <span id="page-581-0"></span>Load-testing in preproduction is a widely adopted practice by teams wanting to make sure their features are sound performance-wise. However, besides the high likelihood of being inaccurate, it can also get very expensive very quickly if done often, due to having to scale up extra resources. We can reduce the need for load testing (and also our cloud provider bills) by verifying our new features respond well to traffic with shadow traffic and/or canary releases instead. One of the companies I worked with also ran (gentler) load tests directly in production, to motivate the engineering teams to take scalability seriously.
 
 Another cost factor being reduced is engineering cost, which is often orders of magnitude higher than infrastructure cost. The amount of engineering time needed to arrange for a realistic preproduction environment is high, and we can diminish it by testing most features directly in production instead.
 
-### **Better Data Hygiene**
+# **Better Data Hygiene**
 
 <span id="page-581-1"></span>Last but not least, wanting to have the "perfect" staging environment sometimes leads teams—either by accident or on purpose—to copy production data or traffic into their preproduction infrastructure. Even when this data can be somehow anonymized, this is a very risky practice and can lead to serious security incidents. It's also easy to slip into accidental
 
@@ -6362,13 +6359,13 @@ noncompliance with regulations such as GDPR and CCPA. Furthermore, data anonymiz
 
 To make things worse, staging storage is often configured with less-strict access restrictions than production. This not only increases the risk of exposing data, but it also introduces another way production can fail when staging works. We can avoid this by having another way to prove that features won't break once they are faced with real user data: seeing if they fail where the real user data lives in the first place.
 
-## <span id="page-582-0"></span>How to Test in Production
+# <span id="page-582-0"></span>How to Test in Production
 
 We spent the first part of this chapter talking about the "why" of testing in production. Now let's talk about the "how."
 
 I mentioned feature toggles a lot so far, and it is indeed feature toggles that are the main enablers of this practice. The way the simplest toggle works is with two states: the feature is ON for everyone or OFF for everyone. However, the majority of feature toggle frameworks have evolved well past those two simple states, and they now allow for much more sophistication. This is especially useful for exploratory testing. In the next section, I will talk about a few solutions that I use very often, and I will provide examples that will be based once again on our Groceroo application.
 
-### **Feature Toggle Activation Strategies**
+# **Feature Toggle Activation Strategies**
 
 <span id="page-583-0"></span>The ideal feature flag configuration strategy for manual testing must respect just two criteria:
 
@@ -6430,22 +6427,10 @@ visible to us only while testing and the rest of the users keep seeing the "stat
 
 <span id="page-588-0"></span>
 
-|          | N                                       | Normal reque |     | Request           | with query                                                                  | para          | meter                                   |                       |
-|----------|-----------------------------------------|--------------|-----|-------------------|-----------------------------------------------------------------------------|---------------|-----------------------------------------|-----------------------|
-| Details  | TUEL NEED://sqroceroo-gonalns/checkoull |              |     |                   | GET http:// last-minute</th <th></th> <th>main&gt;</th> <th>·/checkout</th> |               | main>                                   | ·/checkout            |
-|          | Checkout                                |              |     |                   |                                                                             | Checkout      |                                         |                       |
-|          | 1 Delivery                              | Payment —    |     | Review your order | 1 Delivery                                                                  | Payment —     |                                         | 3 Review your order   |
-|          | Order Summary                           |              |     |                   | Order Summary                                                               |               | Qty                                     | Price                 |
-|          | Item                                    |              | Qty | Price             | Carrot                                                                      |               | x4                                      | \$4                   |
-|          | Carrot                                  |              | x4  | \$4               | Red Onion                                                                   |               | x2                                      | \$2                   |
-|          | Red Onion                               |              | x2  | \$2               | Minced beef 300g                                                            |               | x1                                      | \$5.50                |
-| Results  | Minced beef 300g                        |              | х1  | \$5.50            | Floor detergent 100ml                                                       |               | x1                                      | \$4<br>Total: \$15.50 |
-| Incourts | Floor detergent 100ml                   |              | x1  | \$4               | Forgot somethi                                                              | ing?          |                                         | 10181. \$15.50        |
-|          |                                         |              |     | Total: \$15.50    | Check out our last minute additions                                         |               |                                         |                       |
-|          | Shipping address                        |              |     |                   |                                                                             | Fa As         | CECC & ALLAN                            |                       |
-|          | First name *                            | Last name *  |     |                   |                                                                             | TEN B         | *************************************** |                       |
-|          | Address line 1*                         |              |     |                   | Test candy                                                                  | Test magazine |                                         | ocolate bar           |
-|          | Address line 2                          |              |     |                   | Shipping address                                                            | \$2           | \$3                                     |                       |
+|         | Normal request                                                                                                                                                                                                                                                                                  | Request with query parameter                                                                                                                                                                                                                                                                                                                               |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Details | GET http://<groceroo-domain>/checkout                                                                                                                                                                                                                                                           | GET http://<groceroo-domain>/checkout?last-minute-items=on                                                                                                                                                                                                                                                                                                 |
+| Results | Checkout<br>1 Delivery 2 Payment 3 Review your order<br>Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Shipping address<br>First name* Last name*<br>Address line 1*<br>Address line 2 | Checkout<br>1 Delivery 2 Payment 3 Review your order<br>Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Forgot something?<br>Check out our last minute additions<br>Test candy Test magazine Test chocolate bar<br>\$1 \$2 \$3<br>Shipping address |
 
 Figure 11-3. A feature flag with a query parameter
 
@@ -6467,21 +6452,10 @@ Manipulating query params offers control and granularity, and all the convenienc
 
 <span id="page-590-0"></span>
 
-|         | Normal request                                           |                      |     |                       | Red                       | quest with h                                  | eade                                   | r                     |
-|---------|----------------------------------------------------------|----------------------|-----|-----------------------|---------------------------|-----------------------------------------------|----------------------------------------|-----------------------|
-| Details | GET http:// <groceroo-domain>/checkout</groceroo-domain> |                      |     |                       |                           | <groceroo-do<br>last-minute-</groceroo-do<br> |                                        |                       |
-|         |                                                          | Checkout             |     |                       |                           | Checkout                                      |                                        |                       |
-|         | 1 Delivery                                               | 1 Delivery ② Payment |     | Review your order     | 1 Delivery                | Payment                                       |                                        | Review your order     |
-|         | Order Summary                                            |                      |     |                       | Order Summary             |                                               | Qty                                    | Price                 |
-|         | Item                                                     | •                    | Qty | Price                 | Carrot                    |                                               | x4                                     | \$4                   |
-|         | Carrot                                                   |                      | x4  | \$4                   | Red Onion                 |                                               | x2                                     | \$2                   |
-|         | Red Onion                                                |                      | x2  | \$2                   | Minced beef 300g          |                                               | x1                                     | \$5.50                |
-| Results | Minced beef 300g                                         |                      | х1  | \$5.50                | Floor detergent 100ml     |                                               | x1                                     | \$4<br>Total: \$15.50 |
-| resures | Floor detergent 100ml                                    |                      | x1  | \$4<br>Total: \$15.50 | Forgot somet              | •                                             |                                        | 10tal. \$15.50        |
-|         | Shipping address                                         |                      |     |                       | Check out our last minute | additions                                     | CEOC @ ATTAIX                          | -                     |
-|         | First name *                                             | Last name *          |     |                       |                           | TEN EN                                        | PROGRAM<br>INC. CONTRACT<br>PROGRAMMAN |                       |
-|         | Address line 1*                                          |                      |     |                       | Test candy                | Test magazine                                 | Test cho                               | colate bar            |
-|         | Address line 2                                           |                      |     |                       | Shipping address          | 46                                            |                                        |                       |
+|         | Normal request                                                                                                                                                                                                                                                                             | Request with header                                                                                                                                                                                                                                                                                                                                                  |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Details | GET http://<groceroo-domain>/checkout                                                                                                                                                                                                                                                      | GET http://<groceroo-domain>/checkout<br>X-Toggles: last-minute-items=on,<br>other=off...                                                                                                                                                                                                                                                                            |
+| Results | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Shipping address<br>First name Last name<br>Address line 1<br>Address line 2 | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Forgot something?<br>Check out our last minute additions<br>Test candy<br>\$1<br>Test magazine<br>\$2<br>Test chocolate bar<br>\$3<br>Shipping address |
 
 Figure 11-4. A feature flag with a custom header
 
@@ -6503,22 +6477,10 @@ Just like before, we can have a specific cookie to store all toggle states, as s
 
 <span id="page-592-0"></span>
 
-|          | ı                     | Normal reques |           | Re                     | quest with h                                                                                | eade           | r                                      |                       |
-|----------|-----------------------|---------------|-----------|------------------------|---------------------------------------------------------------------------------------------|----------------|----------------------------------------|-----------------------|
-| Details  |                       |               | /checkout | Cookie: togother-toggl | <pre><groceroo-do acookie="v" e;="" gles="last-mi" ie="value;&lt;/pre"></groceroo-do></pre> | nute-<br>alue; | items,                                 |                       |
-|          | Checkout              |               |           |                        |                                                                                             | Checkout       |                                        |                       |
-|          | 1 Delivery            | Payment —     |           | Review your order      | 1 Delivery                                                                                  | Payment —      |                                        | Review your order     |
-|          | Order Summary         |               |           |                        | Order Summary                                                                               |                | Qty                                    | Price                 |
-|          | Item                  |               | Qty       | Price                  | Carrot                                                                                      |                | x4                                     | \$4                   |
-|          | Carrot                |               | x4        | \$4                    | Red Onion                                                                                   |                | x2                                     | \$2                   |
-|          | Red Onion             |               | x2        | \$2                    | Minced beef 300g                                                                            |                | x1                                     | \$5.50                |
-| Results  | Minced beef 300g      |               | x1        | \$5.50                 | Floor detergent 100ml                                                                       |                | х1                                     | \$4<br>Total: \$15.50 |
-| licourts | Floor detergent 100ml |               | x1        | \$4                    |                                                                                             |                |                                        | Total: \$15.50        |
-|          |                       |               |           | Total: \$15.50         | Forgot something?  Check out our last minute additions                                      |                |                                        |                       |
-|          | Shipping address      |               |           |                        | Check out our last minut                                                                    | e additions    | CHOC @ATTACK                           |                       |
-|          | First name *          | Last name*    |           |                        |                                                                                             |                | PROBABI<br>MA OFFICIAL<br>Flade STREET |                       |
-|          | Address line 1*       |               |           |                        | Test candy                                                                                  | Test magazine  |                                        | colate bar            |
-|          | Address line 2        |               |           |                        | \$1<br>Shipping address                                                                     | \$2            | \$3                                    |                       |
+|         | Normal request                                                                                                                                                                                                                                                                             |  | Request with header                                                                                                                                                                                                                                                                                                                                   |  |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--|
+| Details | GET http://<groceroo-domain>/checkout<br>Cookie: acookie=value;<br>anothercookie=value...                                                                                                                                                                                                  |  | GET http://<groceroo-domain>/checkout<br>Cookie: toggles=last-minute-items,<br>other-toggle; acookie=value;<br>anothercookie=value;...                                                                                                                                                                                                                |  |
+| Results | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Shipping address<br>First name Last name<br>Address line 1<br>Address line 2 |  | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Forgot something?<br>Check out our last minute additions<br>Test candy \$1 Test magazine \$2 Test chocolate bar \$3<br>Shipping address |  |
 
 Figure 11-5. A feature flag with a cookie
 
@@ -6544,21 +6506,30 @@ In the context of the request, nothing in particular changes. Users authenticate
 
 <span id="page-595-0"></span>
 
-|          | N                     | lormal reque                                                                                                                                            |     | Request by user allowed to see<br>feature |                           |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | see the                                               |                       |
-|----------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|-----|-------------------------------------------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|-----------------------|
-| Details  |                       | groceroo-dom<br>on: Bearer <t< th=""><th></th><th>GET http://&lt; Authorizational allowed to s</th><th>on: Bearer &lt;</th><th>token</th><th></th></t<> |     | GET http://< Authorizational allowed to s | on: Bearer <              | token                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                                                       |                       |
-|          | Checkout              |                                                                                                                                                         |     |                                           |                           | Checkout                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |                                                       |                       |
-|          | 1 Delivery            | Payment —                                                                                                                                               |     | Review your order                         | 1 Delivery                | 2 Payment —                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |                                                       | Review your order     |
-|          | Order Summary         |                                                                                                                                                         |     |                                           | Order Summary             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Qty                                                   | Price                 |
-|          | Item                  |                                                                                                                                                         | Qty | Price                                     | Carrot                    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x4                                                    | \$4                   |
-|          | Carrot                |                                                                                                                                                         | x4  | \$4                                       | Red Onion                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x2                                                    | \$2                   |
-|          | Red Onion             |                                                                                                                                                         | x2  | \$2                                       | Minced beef 300g          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x1                                                    | \$5.50                |
-| Results  | Minced beef 300g      |                                                                                                                                                         | x1  | \$5.50                                    | Floor detergent 100ml     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x1                                                    | \$4<br>Total: \$15.50 |
-| INCOURTS | Floor detergent 100ml |                                                                                                                                                         | x1  | \$4<br>Total: \$15.50                     | Forgot somet              | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                                       | 10141: \$15.50        |
-|          | Shipping address      |                                                                                                                                                         |     |                                           | Check out our last minute | additions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | CHOC @ ATTACK                                         |                       |
-|          | First name *          | Last name *                                                                                                                                             |     |                                           |                           | THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE STATE OF THE S | RHUMARI<br>BIR DOCUMEN<br>Plan Streets<br>Safet Stock |                       |
-|          | Address line 1*       |                                                                                                                                                         |     |                                           | Test candy                | Test magazine                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Test cho                                              | ocolate bar           |
-|          | Address line 2        |                                                                                                                                                         |     |                                           | Shipping address          | , sc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | 23                                                    |                       |
+|         | Normal request                                                                                                                                                            | Request by user allowed to see the feature                                                                                                                                |
+|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Details | GET http://<groceroo-domain>/checkout<br>Authorization: Bearer <token of normal user>                                                                                     | GET http://<groceroo-domain>/checkout<br>Authorization: Bearer <token of user allowed to see the feature>                                                                 |
+|         | Checkout                                                                                                                                                                  |                                                                                                                                                                           |
+|         | <span style="display:inline-block;">1 Delivery</span> <span style="display:inline-block;">2 Payment</span> <span style="display:inline-block;">3 Review your order</span> | <span style="display:inline-block;">1 Delivery</span> <span style="display:inline-block;">2 Payment</span> <span style="display:inline-block;">3 Review your order</span> |
+|         | Order Summary                                                                                                                                                             | Order Summary                                                                                                                                                             |
+|         | Item                                                                                                                                                                      | Item                                                                                                                                                                      |
+|         | Qty                                                                                                                                                                       | Qty                                                                                                                                                                       |
+|         | Price                                                                                                                                                                     | Price                                                                                                                                                                     |
+|         | Carrot                                                                                                                                                                    | Carrot                                                                                                                                                                    |
+|         | x4                                                                                                                                                                        | x4                                                                                                                                                                        |
+|         | \$4                                                                                                                                                                       | \$4                                                                                                                                                                       |
+|         | Red Onion                                                                                                                                                                 | Red Onion                                                                                                                                                                 |
+|         | x2                                                                                                                                                                        | x2                                                                                                                                                                        |
+|         | \$2                                                                                                                                                                       | \$2                                                                                                                                                                       |
+|         | Minced beef 300g                                                                                                                                                          | Minced beef 300g                                                                                                                                                          |
+|         | x1                                                                                                                                                                        | x1                                                                                                                                                                        |
+|         | \$5.50                                                                                                                                                                    | \$5.50                                                                                                                                                                    |
+|         | Floor detergent 100ml                                                                                                                                                     | Floor detergent 100ml                                                                                                                                                     |
+|         | x1                                                                                                                                                                        | x1                                                                                                                                                                        |
+|         | \$4                                                                                                                                                                       | \$4                                                                                                                                                                       |
+| Results | Total: \$15.50                                                                                                                                                            | Total: \$15.50                                                                                                                                                            |
+|         | Shipping address                                                                                                                                                          | Forgot something?<br>Check out our last minute additions                                                                                                                  |
+|         | First name*<br>Last name*<br>Address line 1*<br>Address line 2                                                                                                            | Image: Test candy<br>Image: Test magazine<br>Image: Test chocolate bar<br>Shipping address                                                                                |
 
 Figure 11-6. A feature flag with a user identifier
 
@@ -6578,21 +6549,10 @@ Just like with the previous strategy, users authenticate as usual, and the appli
 
 <span id="page-596-0"></span>
 
-|         | ı                     | Normal reques                                                                 | t                                                            | Request by user allowed to see<br>feature |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | see the               |
-|---------|-----------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------|-------------------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
-| Details |                       | <groceroo-doma<sup>.<br/>on: Bearer <tol<br>&gt;</tol<br></groceroo-doma<sup> | GET http:// <gr<br>Authorization:<br/>belonging to a</gr<br> | : Bearer <                                | token         | of user                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                       |
-|         |                       | Checkout                                                                      |                                                              |                                           | Checkout      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
-|         | 1 Delivery —          | Payment —                                                                     | Review your order                                            | 1 Delivery                                | Payment —     | •                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Review your order     |
-|         | Order Summary         |                                                                               |                                                              | Order Summary                             |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
-|         | Item                  |                                                                               | Qty Price                                                    | Item                                      |               | Qty                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Price                 |
-|         | Carrot                |                                                                               | x4 \$4                                                       | Carrot  Red Onion                         |               | x4<br>x2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | \$4<br>\$2            |
-|         | Red Onion             |                                                                               | x2 \$2                                                       | Minced beef 300g                          |               | x1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | \$5.50                |
-| Results | Minced beef 300g      |                                                                               | x1 \$5.50                                                    | Floor detergent 100ml                     |               | x1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | \$4<br>Total: \$15.50 |
-| resures | Floor detergent 100ml |                                                                               | x1 \$4 Total: \$15.50                                        | Forgot something                          |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 10141. \$13.30        |
-|         | Shipping address      |                                                                               |                                                              | Check out our last minute additio         | ns A S        | CROC @ ANTAIR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |                       |
-|         | First name *          | Last name *                                                                   |                                                              |                                           |               | PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJECT PROJEC |                       |
-|         | Address line 1*       |                                                                               |                                                              | Test candy                                | Test magazine | Test choco                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | elate bar             |
-|         | Address line 2        |                                                                               |                                                              | Shipping address                          |               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
+|         | Normal request                                                                                                                                                                                                                                                                             | Request by user allowed to see the feature                                                                                                                                                                                                                                                                                        |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Details | GET http://<groceroo-domain>/checkout<br>Authorization: Bearer <token of normal user>                                                                                                                                                                                                      | GET http://<groceroo-domain>/checkout<br>Authorization: Bearer <token of user belonging to a preview group>                                                                                                                                                                                                                       |
+| Results | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Shipping address<br>First name Last name<br>Address line 1<br>Address line 2 | Checkout<br>Delivery Payment Review your order        Order Summary<br>Item Qty Price<br>Carrot x4 \$4<br>Red Onion x2 \$2<br>Minced beef 300g x1 \$5.50<br>Floor detergent 100ml x1 \$4<br>Total: \$15.50<br>Forgot something?<br>Check out our last minute additions<br>Test candy \$1 Test magazine \$2 Test chocolate bar \$3 |
 
 Figure 11-7. A feature flag with a user role
 
@@ -6604,7 +6564,7 @@ This strategy can be used whenever your application has a convenient domain conc
 
 This is best used in applications where different features are available to different users as a matter of the requirements and business logic of the application itself. That way, you can reuse these configuration mechanisms for testing in production and expose prerelease functionality in a way that's natural to users of the application.
 
-### <span id="page-597-0"></span>**Challenges**
+# <span id="page-597-0"></span>**Challenges**
 
 <span id="page-597-1"></span>In this section, I will cover some of the challenges that teams might encounter while switching their manual testing environment to production, along with some mitigations.
 
@@ -6665,7 +6625,7 @@ In conclusion, I warmly recommend enabling source maps in production. They only 
 
 <span id="page-604-0"></span>Where that is not possible, there are still possible workarounds: for example, hosting the source map files in separate production infrastructure that is IP restricted, or requiring special authentication headers.
 
-## Life After Staging
+# Life After Staging
 
 <span id="page-604-1"></span>Performing production testing with feature toggles means that the timeconsuming endeavor to build near-perfect, ever-so-complicated staging environments can finally diminish, or even become obsolete.
 
@@ -6711,7 +6671,7 @@ A lot of safety practices need to be mature enough to allow a team to test in pr
 
 It may not be funny anymore, but at least it is up-to-date.
 
-## Summary
+# Summary
 
 In this chapter, I talked about the ins and outs of performing exploratory testing in production.
 
@@ -6725,7 +6685,7 @@ In the next chapter, we will take a look at what happens *after* exploratory tes
 
 <span id="page-610-1"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-611-0"></span>Chapter 12. Releasing
+# <span id="page-611-0"></span>Chapter 12. Releasing
 
 <span id="page-611-1"></span>Congratulations! You've made it to the final chapter of this step-by-step journey to production with continuous deployment. In the preceding chapters, I described a workflow for building, testing, and of course *deploying* software continuously. Now it's time to turn our attention to *releasing* it.
 
@@ -6739,13 +6699,13 @@ In particular, I will focus on two techniques that have been key for my teams to
 
 Like I did earlier in this book, I will start with antipatterns of the past to talk through the motivations behind the best practices of today.
 
-## Antipattern: Big Bang Releases
+# Antipattern: Big Bang Releases
 
 <span id="page-612-0"></span>When code deployments and releases were synonymous, new features had only two states: either they were present in production or they weren't. Deploying all code that had accumulated for a given feature implied a big bang release of that feature to all users.
 
 From an engineering perspective, most of us already have an intuitive feeling for why big bang releases are a bad idea. We know how they increase the risk that uncaught bugs will affect the entire user base at once, and we know how they produce sudden influxes of traffic that our infrastructure might not withstand. However, something that some engineers might not have an intuitive understanding of is how they also complicate the data-gathering process, making life more difficult for data analysts and product owners.
 
-### **Comparing Before Versus After States**
+# **Comparing Before Versus After States**
 
 <span id="page-613-0"></span>With a big bang release process, the only data available about a feature's performance is a "before versus after"' comparison. Such a comparison is susceptible to pollution from all sorts of uncontrollable variables that affect engagement in different ways from one week to the next. Here are some examples:
 
@@ -6775,7 +6735,7 @@ When several releases are happening in close succession (perhaps managed by diff
 
 With all these variables at play in a "before versus after" scenario, it becomes nearly impossible to make confident cause-and-effect claims about a new feature. Unsurprisingly, this hinders the decision-making process around the product, making it hard to judge the performance of past iterations or predict the success of new ones.
 
-## <span id="page-615-0"></span>**Comparing Simultaneous States**
+# <span id="page-615-0"></span>**Comparing Simultaneous States**
 
 <span id="page-615-1"></span>All polluting variables mentioned in the previous section had one thing in common: they change over time and mostly unpredictably. The solution to collecting more meaningful feedback during a release is therefore to remove time as a factor and to compare users' behavior around the feature *simultaneously* rather than *sequentially*. This allows a much cleaner comparison, as all the variables are equal between the control and test groups.
 
@@ -6795,7 +6755,7 @@ This kind of gate to production, which is product based, can be even more troubl
 
 <span id="page-617-0"></span>By now, you have seen how deployments are inadequate as a feature experimentation tool, whether data collection happens in a "before versus after" fashion or in a "parallel" fashion by deploying to only parts of the infrastructure. So, what should we use instead?
 
-## Using Feature Flags for Releases
+# Using Feature Flags for Releases
 
 <span id="page-618-1"></span>We should manage feature releases with a mechanism that is much smarter and more expressive than code deployments: runtime feature flags.
 
@@ -6803,7 +6763,7 @@ Until now, we have seen the benefits of feature flags mostly from an engineering
 
 By now, it should be pretty evident that runtime feature flags are my overwhelming recommendation for managing new features at all stages of their life cycle. I already explained how to configure them for development and production testing, so now I'm going to show you how to integrate them in your infrastructure in a way that supports all kinds of releases.
 
-## **Coordinating Feature Flag Releases in Distributed Systems**
+# **Coordinating Feature Flag Releases in Distributed Systems**
 
 <span id="page-618-0"></span>Most interesting systems nowadays are not monolithic: they are split into (micro)services. As a consequence of that, interesting features within those interesting systems can span more than one service at the same time, leading to feature flags that also span more than one service.
 
@@ -6819,7 +6779,7 @@ If we have a feature spanning systems A, B, and D, we must find some way for tho
 
 <span id="page-621-0"></span>the state for feature flags. The first we will discuss is the simplest: where each application holds its own flag state.
 
-## **Antipattern: Independent Flag State for Each Service**
+# **Antipattern: Independent Flag State for Each Service**
 
 <span id="page-621-1"></span>As shown in [Figure](#page-622-0) 12-2, each application can independently hold the same toggle, which is technically the simplest solution and requires the least coordination across teams.
 
@@ -6833,7 +6793,7 @@ combinations that create opportunities for error. If the release of the feature 
 
 It follows that, while this setup is simple to manage (and often occurs organically in organizations that start to adopt feature flags one team at a time), it needs some refinement when releases start spanning multiple services. To avoid too much coordination at release time, we can coordinate flags at implementation time instead.
 
-### <span id="page-623-0"></span>**Propagating Flag State Down the Call Chain**
+# <span id="page-623-0"></span>**Propagating Flag State Down the Call Chain**
 
 <span id="page-623-1"></span>One way to coordinate feature flag implementation is to agree on a way to propagate flag state across different services. As shown in [Figure](#page-624-0) 12-3, the flag state is held by only one system, usually the one closest to the users. Once the user is assigned to the test group or control group, that information is propagated by all the downstream systems in the following requests.
 
@@ -6845,7 +6805,7 @@ With this approach, all systems will correctly see whichever group the request h
 
 Another coordination cost with this setup is that when a team wants to change a flag value, it must change it in the traffic entry point system, so the team needs to have some knowledge of how it works.
 
-### **Centralized Feature Flag State**
+# **Centralized Feature Flag State**
 
 <span id="page-625-0"></span>Another way to coordinate systems around flag states is not through propagation, but through centralization. In [Figure](#page-626-0) 12-4, you can see how a centralized feature flag service can be implemented to hold the flag state for all services and can be queried independently by any system that is interested in the state of the flag.
 
@@ -6859,7 +6819,7 @@ Another aspect to consider is that there is definitely a performance penalty in 
 
 Now that you have seen where we can store and propagate the feature flag state, let's consider how to configure it beyond a simple ON or OFF at release time: in particular, how to leverage this infrastructure to partially expose the traffic to new features.
 
-## <span id="page-627-2"></span>Canary Releases
+# <span id="page-627-2"></span>Canary Releases
 
 <span id="page-627-1"></span><span id="page-627-0"></span>Canary releases, inspired by the canaries used in coal mines as an early warning system, offer a phased approach to exposing changes at runtime. They work by selectively revealing a feature to a chosen group of users before letting it be seen by the whole audience. Just like the proverbial canary in the coal mine, these early adopters provide precious feedback, allowing teams to address any problems that weren't caught by automated and/or exploratory testing. The types of issues caught by canary releases are usually very interesting. They often go beyond simple bugs and logical flaws in implementation and can range from performance issues to data consistency issues—anything that can only be revealed by unleashing a sizable portion of real user traffic on a brand-new feature. **[1](#page-651-0)**
 
@@ -6869,7 +6829,7 @@ they are engaging with our product simultaneously, with the only different varia
 
 In the following subsections, I will describe several strategies we can use for selecting a relevant representative group of users in a canary release with feature flags. All feature flag frameworks are different, so once again, this is only meant to give you a broad idea of what is possible, rather than representing all the possible ways in which a runtime flag can be configured for a canary release.
 
-### **By Traffic Percentage**
+# **By Traffic Percentage**
 
 <span id="page-628-0"></span>With a canary release by traffic percentage, the feature will be enabled for a randomized group of users representing a subset of the total group. For instance, if the initial release percentage is set to 5%, only 5% of the user base will experience the new feature, while the remaining 95% continue to use the stable version.
 
@@ -6885,7 +6845,7 @@ Although the requests are chosen randomly at first, you should make sure to empl
 
 <span id="page-630-2"></span>This is the most straightforward strategy for canary-releasing a new feature, and it's the one I have personally been using the most often by virtue of its simplicity.
 
-### **By Device**
+# **By Device**
 
 <span id="page-630-1"></span>Canary releases by device involve gradually rolling out new features to specific device types or platforms, such as desktop, mobile web, iOS, or Android. This strategy allows us to assess the impact of changes on different devices before releasing them to the entire user base.
 
@@ -6907,7 +6867,7 @@ This strategy is simple to implement when we are talking about a mobile web ecos
 
 <span id="page-632-1"></span>later with centralized control over the release process and a simpler cleanup phase.
 
-### **By Country**
+# **By Country**
 
 <span id="page-632-0"></span>A canary release by country involves enabling or disabling a feature based on a user's geographical location. This type of release is useful for companies operating in multiple markets: each country has unique characteristics or user behaviors, sometimes making it necessary to gather market-specific feedback.
 
@@ -6937,7 +6897,7 @@ Some larger companies will own and use different top-level domains (TLDs) for di
 
 Even when multimarket companies only operate with one generic TLD, such as *.com*, there is most likely an internationalization framework built into the platform so that the language and content for each region can be customized. We can leverage that information to identify which market users come from, which in most cases we can find in the request URL (e.g., *my-website.com/FR-fr/some-page*) or headers.
 
-### <span id="page-634-0"></span>**By User Segment**
+# <span id="page-634-0"></span>**By User Segment**
 
 <span id="page-634-1"></span>Perhaps the most sophisticated approach, canaries by user segment allow releasing to specific, application-dependent segments within the overall user base. This approach allows us to assess the reception of features among groups with different behaviors.
 
@@ -6969,7 +6929,7 @@ Users who actively provide feedback or participate in beta-testing programs. Can
 
 <span id="page-636-1"></span>Users who are employees of the company or who have a family member who works there. Such users could be among the first beta testers.
 
-## A/B Testing
+# A/B Testing
 
 <span id="page-636-0"></span>A/B testing offers a more data-driven approach to releasing changes. This different way of managing releases allows us to evaluate and compare different variations of our software by exposing them to distinct user groups. It works by randomly assigning users to either the control group (A), which experiences the existing version of the software, or the experiment group (B), which uses the new version. Just like the "traffic
 
@@ -6981,7 +6941,7 @@ Figure 12-9. A/B testing groups
 
 By collecting and comparing data from both groups, a team can accurately measure the impact of its changes and make better-informed decisions about whether a feature is there to stay. Statistical rigor plays a fundamental role here, ensuring that conclusions are based not on random fluctuations but on statistically significant differences.
 
-### **Analytics**
+# **Analytics**
 
 <span id="page-637-1"></span>While the impact of canary releases is mostly evaluated through application monitoring and observability tools, in my experience A/B testing is where
 
@@ -6995,7 +6955,7 @@ As engineers, we need to enable data analyst roles in (or outside) our teams to 
 
 <span id="page-639-0"></span>information. This can be achieved by sending custom data or by utilizing built-in features for tracking experiments.
 
-### **Experiment Best Practices**
+# **Experiment Best Practices**
 
 <span id="page-639-1"></span>This is a book written by a software engineer for other software engineers, so I consider it out of scope to explain all the ways we arrange for the perfect A/B test or how to actually analyze results. However, I still want to give you an overview of some of the A/B testing practices I have encountered with clients so that you know what to expect from an engineering perspective. Most of all, I will focus on how those practices impact the software delivery life cycle.
 
@@ -7011,7 +6971,7 @@ For the same reasons we should only test one variable at a time within an A/B te
 
 Depending on your traffic volume, A/B tests may need to run for days or weeks to offer statistically sound insights. You can get an idea of exactly how much time could be needed by using a [sample size calculator](https://oreil.ly/Nna_3) to reliably determine how many data points you need in order to test a certain effect. Tools like these help data analysts avoid reaching rash conclusions on the basis of underpowered experiments, or having an experiment last longer than is necessary. Overall, you should expect a meaningful A/B test to last at least a few days, and you should plan your workflow accordingly as a team.
 
-## <span id="page-640-0"></span>**Schedule Delivery Around Experiments**
+# <span id="page-640-0"></span>**Schedule Delivery Around Experiments**
 
 <span id="page-640-1"></span>In the preceding section, we saw how A/B tests need to be granular, be isolated, and run for a long time (from an engineering perspective). In
 
@@ -7021,7 +6981,7 @@ The consequences of not doing this planning effectively can be serious for the t
 
 This confusion also happens at the product and human levels. Too many experiments-in-waiting lead to interference between tests and unclear organizational priorities. Whenever you can, pursue each experiment quickly, cleanly, and wholeheartedly so that you can learn its lessons before moving on to the next experiment.
 
-### **Types of A/B Tests**
+# **Types of A/B Tests**
 
 <span id="page-642-0"></span>Now that we have covered the best practices around A/B testing, we can go into a little more detail regarding the different types of A/B tests we might encounter in the wild. Let's start with the simplest.
 
@@ -7087,7 +7047,7 @@ As a result of thorough A/B testing, a new feature or initiative might be droppe
 
 Both A/B testing and canary releases have their own advantages and use cases, but together they form a powerful toolkit for managing releases. For example, one might choose a simpler canary release process where they have extremely high confidence that the feature will stay in production (perhaps it was explicitly requested by a customer, it is mandated by law, or it is a migration from a legacy system to a new one). If, on the other hand, our product team is betting on a shiny and courageous new idea, more rigorous validation with A/B testing could be the more appropriate tool. As always, it is up to us as engineers to ensure that we present all the tools available to our stakeholders so that they can make better-informed decisions.
 
-## <span id="page-649-0"></span>Summary
+# <span id="page-649-0"></span>Summary
 
 In this chapter, we explored feature toggles as a tool to perform canary releases and A/B testing, which allows teams to improve their precision around product experimentation.
 
@@ -7103,7 +7063,7 @@ By leveraging both of these techniques at the right times, organizations can min
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Conclusion and Next Steps
+# Conclusion and Next Steps
 
 This book took you on the full journey of continuous deployment. After a theoretical introduction in [Part](#page-21-0) I, we dove into the software delivery life cycle in [Part](#page-303-0) II, where we discussed how to prepare a sturdy and production-ready backlog, split features with the flexibility of granular deployments in mind, and make every increment production ready from its inception. This was followed by [Part](#page-404-0) III, where we dove even deeper, exploring the code itself and talking about breaking down user stories into small and immediate deployments to production—without disrupting our users and with backward compatibility kept in complex distributed systems. Finally, in [Part](#page-568-0) IV, you learned how to put this knowledge into practice by using exploratory testing in production and releasing changes gradually and safely, which unlocks data-driven product experimentation.
 
@@ -7123,17 +7083,17 @@ I leave you with a quotation from Kent Beck:
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## <span id="page-655-0"></span>Part V. Case Studies
+# <span id="page-655-0"></span>Part V. Case Studies
 
 [Part](#page-655-0) V features a collection of case studies written by industry professionals who have hands-on experience with continuous deployment. You will learn about their companies' journey toward continuous deployment, the challenges they overcame, the quality gates they implemented, and how they structured their software's path to production.
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: AutoScout24
+# Case Study: AutoScout24
 
 <span id="page-656-0"></span>To kickstart our case studies section, Simon Mittermüller and Thiago Vacare will tell us about the adoption of continuous deployment at AutoScout24, a European online car marketplace. Simon joined AutoScout24 in 2016. As a principal software engineer, he is a key contributor to the strategic direction of Product Engineering, driving technical decisions and cross-team efforts. Part of his role is to ensure a balance between rapid progress and the reliability and quality of AutoScout24. Thiago has been at AutoScout24 since 2020. As a platform engineer, he designs, builds, and maintains infrastructure and frameworks to support and abstract software applications and services from developer teams. He has worked in different platform teams, managing a Kubernetes cluster with more than 400 microservices, developing Accelerate metrics to enhance product delivery and continuous integration/continuous delivery (CI/CD), migrating platforms to AWS, and managing incidents. In this case study, you can read about their experience with continuous deployment.
 
-## AutoScout24's Context
+# AutoScout24's Context
 
 <span id="page-656-1"></span>AutoScout24 is the largest pan-European online car market, with over 30 million users per month and more than 43,000 dealer partners. It offers a comprehensive platform for buying and selling cars online, including used and new cars, motorcycles, caravans, and transporters. The platform
 
@@ -7157,7 +7117,7 @@ To achieve this goal, Platform Engineering develops internal products that cover
 
 We then started a cultural shift from monolithic applications in the data center to autoscaling microservices in the cloud ("cloud-native," AWS) and autonomous teams in an Agile setup. We adopted a trunk-based development approach, using blue/green deployments and feature toggles to make our deployments safer and more reliable. The new microservices were automatically deployed to production from day one.
 
-### **Overcoming Organizational Obstacles**
+# **Overcoming Organizational Obstacles**
 
 <span id="page-660-0"></span>There are always challenges when implementing standards, mainly because not everyone will understand the reasons behind them at first. People tend to think "things just work, so why change it?" However, we can show that our processes can be even better, and with the right approach, we can overcome these challenges.
 
@@ -7178,7 +7138,7 @@ We learned that assessing acquired companies' existing processes and technologie
 
 In all cases, it's essential to approach the transition to continuous deployment with patience, persistence, and a focus on continuous improvement. Addressing organizational obstacles systematically and involving key stakeholders in the process can pave the way for the successful adoption of continuous deployment within your organization.
 
-### <span id="page-662-0"></span>**Overcoming Technical Obstacles**
+# <span id="page-662-0"></span>**Overcoming Technical Obstacles**
 
 <span id="page-662-1"></span>During our journey toward continuous deployment, we faced several obstacles of a technical nature as well.
 
@@ -7200,7 +7160,7 @@ Subsequently, the pipeline automatically deploys the service to production via A
 
 Some steps, such as heavy integration tests with Dockerized environments, and normal unit tests, can be executed in parallel. Smoke tests or UI tests are executed on the production service, and finally the pipeline sends success metrics to Datadog and Slack. In rare cases, we even duplicate the infrastructure (e.g., the service, or even the database) to reduce the impact of a failed upgrade (such as a major upgrade of an Elasticsearch cluster version or other RDS database configuration).
 
-## **How AutoScout24 Makes Continuous Deployment Safe**
+# **How AutoScout24 Makes Continuous Deployment Safe**
 
 <span id="page-665-0"></span>Following are some of the main practices that act as quality gates in the path to production at AutoScout24.
 
@@ -7252,11 +7212,11 @@ We do a lot of pair programming, and we gradually increase the complexity of tas
 
 <span id="page-670-0"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: OTTO
+# Case Study: OTTO
 
 <span id="page-671-0"></span>For our second case study, we will look at continuous deployment at OTTO. Tom Vollerthun is an executive professional software developer (although he isn't entirely convinced job titles are helpful, he remarks), and he has been working at OTTO as a software engineer and technical team lead for over 10 years. Here is Tom's overview of OTTO's approach to continuous deployment.
 
-## OTTO's Context
+# OTTO's Context
 
 <span id="page-671-1"></span>OTTO is one of the biggest European retailers and ecommerce shops. At the time of writing this, it has over 6,100 employees, 14.5 million products (~26 million variations), and 20,000 brands from over 5,000 partners. The platform itself receives up to 6 million qualified visits per day and up to 10 orders per second.
 
@@ -7278,7 +7238,7 @@ Besides the main goal of creating value without undue delay, we saw several nice
 - Trunk-based development with toggles reduces the risk of big merges and allows, for example, code refactorings to benefit the whole development team quickly. The risk of long-lived feature branches (big change sets that are difficult to merge, roll out, or revert) is mitigated.
 - Comprehensive test suites prevent breaking valuable features while still allowing the quick deployment of bug fixes.
 
-### **Working with Organizational Barriers**
+# **Working with Organizational Barriers**
 
 <span id="page-673-0"></span>Since the OTTO company has a long tradition and was an early adopter of technology in general, waterfall processes with its infamously elaborate QA phases and long deployment cycles were well established when our department decided to change pace and embrace Agile development and deployment strategies. So, one of the main challenges was a cultural change for the management to trust the development teams to forgo all these manual QA tests and still develop stable software of the highest quality.
 
@@ -7296,7 +7256,7 @@ Here's a diagram of the count of weekly deployments in 2014–2015:
 
 <span id="page-676-0"></span>As you can see, a fundamental change took place in early 2015: not only did the number of live deployments start to skyrocket, but the number of live incidents didn't significantly change at the same time. The deep integration of QA into teams is still a recommended best practice in our department, and the number of live deployments has only gone up since then. Because we don't rely on a shared pipeline anymore (teams often run their own continuous integration [CI] server or use GitHub actions for deployments), getting the numbers is much more difficult these days, but the last time I checked we were at around 100 live deployments per day.
 
-### **Working with Technical Barriers**
+# **Working with Technical Barriers**
 
 <span id="page-677-1"></span>When starting with continuous deployment, apart from the organizational obstacles of establishing trust in Agile processes, we also encountered several technical hurdles. When we started our journey, the concept of consumer-driven contract tests as described by Martin Fowler in 2006 wasn't new, but despite the value and safety they provide, they weren't a well-established practice in the industry.
 
@@ -7312,7 +7272,7 @@ Some tests required the service providers to have a headless browser available o
 
 Every commit that passes the fully automatic pipeline will be deployed to the live system, so the number of times that happens depends on the time between commits. We encourage developers to commit very often, which might be as often as "every few minutes up to a half hour" or only once a day. At one point, we experimented with automatic pushes so that if all tests on the developer machine were successful, the change was immediately pushed by a script. But due to the poor comment messages and hardly any advantages to manual pushes, it never gained traction. It is very unusual for an unfinished feature to remain unpushed on the developer's machine until the next working day, especially since parents of young children (and not only them) enjoy the freedom to remain absent on very short notice. If it can't be helped at all, it has been known that a change is pushed into a branch instead of main, but since that counteracts most of the advantages of continuous deployment, it's very rare indeed.
 
-### **OTTO's Path to Production**
+# **OTTO's Path to Production**
 
 <span id="page-679-0"></span>It bears repeating that teams at OTTO enjoy a wide area of autonomy, so the path to production can differ vastly between teams. Using our sponsored products (advertisement) system as an example, a frontend change would see these steps:
 
@@ -7340,7 +7300,7 @@ Depending on the feature, the toggle's activation strategy in the live environme
 
 <span id="page-681-0"></span>Since the feature toggle is now permanently active and the product owner doesn't plan to revert the button to the old color anytime soon, the feature toggle is removed, and the pipeline will run again.
 
-### **How OTTO Makes Continuous Deployment Safe**
+# **How OTTO Makes Continuous Deployment Safe**
 
 <span id="page-681-1"></span>The realization that we will never be able to prevent bugs completely, no matter how elaborate the test suite or QA process is, has shifted our focus from bug prevention to the ability of fast rollout for bug fixes (MTBF/MTTR). Many teams find that prioritizing a green pipeline is valuable. It not only keeps the door open to quickly deploy eventually necessary bug fixes, but also keeps the team's focus on the most important gateway to bring fixes for inevitably occurring bugs to the live system.
 
@@ -7388,7 +7348,7 @@ While I have worked in teams that prefer code reviews, their biggest weakness in
 
 <span id="page-686-0"></span>Small refactorings to the code that would've been simple for a pair (like renaming things or extracting methods) now need the reviewer to explain the requested change in writing, the original developer to read that and implement the change, and the need to create another pull request, which might or might not meet the reviewer's expectation. It's not rare to see such a review cycle take several days before a feature can move on, or in the other extreme, to forgo these change requests completely because the overhead appears unreasonable compared to the improvement in code quality.
 
-## **How OTTO Supports Junior Engineers with Continuous Deployment**
+# **How OTTO Supports Junior Engineers with Continuous Deployment**
 
 <span id="page-687-0"></span>Junior engineers are treated exactly like all other developers in the team, because they work responsibly and to the best of their knowledge. Often, pair programming with other team members will result in a steep learning curve for them, and before long they are as focused on quality and delivery of value as everyone else.
 
@@ -7400,7 +7360,7 @@ There are a lot of reasons for errors: people can be tired because their child i
 
 Of course, focusing on fast recovery doesn't mean error prevention is completely irrelevant. But our processes and pipelines are streamlined to deliver value quickly instead of deliberately slowing down deployments in order to gain superficial safety.
 
-### <span id="page-688-1"></span>**Links and Resources**
+# <span id="page-688-1"></span>**Links and Resources**
 
 <span id="page-688-0"></span>You can find a lot of information about our processes and insights in our tech blog: *<https://oreil.ly/K0Co5>*.
 
@@ -7417,17 +7377,17 @@ Visual regression tests with JLineUp: *<https://oreil.ly/q1dWP>*
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: N26
+# Case Study: N26
 
 <span id="page-690-0"></span>For our third case study, we will look at continuous deployment at N26. Alberto Ramírez Fernández is a principal engineer in the N26 Platform Engineering group, and he has kindly offered to explain how N26 approaches continuous deployments to production. Before he switched to the principal engineer role, he worked within the continuous integration/continuous delivery (CI/CD) group (within the internal Platform Engineering domain), which maintains the tools that allow every engineer at N26 to build and deliver software.
 
-## N26's Context
+# N26's Context
 
 <span id="page-690-1"></span>Today N26 is one of the fastest-growing digital banks in the world. As a fully licensed German bank built on the latest technology, N26 makes banking faster, easier, and more trustworthy. Founded in 2013, N26 has welcomed more than 8 million customers in 24 markets to date. As of 2024, N26 employs a diverse team of more than 1,500 people from over 80 nations.
 
-## Adoption of Continuous Deployment at
+# Adoption of Continuous Deployment at
 
-## N26
+# N26
 
 <span id="page-691-0"></span>Continuous deployment was adopted around 2016 as part of the transition from a monolithic architecture to a service-oriented one. On the one hand, the monolithic application kept using a release train where the team had to manually promote changes following two weeks of testing them. On the other hand, new services came with changes in processes and practices, with continuous deployment being one of them. As more services popped up, better tooling and automation were required. Therefore, tooling to enhance automated end-to-end (E2E) testing in the distributed environment, CI/CD shared libraries, and much more made the transition easier. Adopting continuous deployment along with other practices (and investing in internal tooling to support them) proved to be the right thing to do, as a constellation of new services showed up in the following years.
 
@@ -7437,7 +7397,7 @@ As N26 is a digital bank that is 100% online, technology and best practices are 
 
 move quickly and detect potential issues earlier. As our internal team structures are optimized for autonomy and delivery speed, building incrementally and deploying software continuously allows us to iterate and learn more quickly.
 
-### **Working Within Industry Regulations**
+# **Working Within Industry Regulations**
 
 <span id="page-692-0"></span>Banking is a highly regulated industry, and N26 operates with a full German banking license. Understanding what is important for our customers when it comes to security, compliance, privacy, and availability is key to understanding the high level of requirements within the banking industry.
 
@@ -7455,7 +7415,7 @@ For us, it is imperative to keep a record of what goes live. In this regard, kee
 
 We cannot make continuous deployment work without defining all the change management processes and automating them as much as possible. In this regard, we found Dave Farley's post about [continuous compliance](https://oreil.ly/WRavx) quite inspiring. Nowadays, we have automated compliance checks that act as gates before going live, and we have further iterations planned for this.
 
-### **Working with Technical Barriers**
+# **Working with Technical Barriers**
 
 <span id="page-693-0"></span>Recently we adopted the Declarative GitOps paradigm to deploy services into Kubernetes (using ArgoCD). We wanted to have a declarative configuration per application, collocated either within the service's repository or in a repository sidecar (both of which have been trending in the past few years).
 
@@ -7477,7 +7437,7 @@ For bigger features, we may need to split the work into smaller iterations, deli
 
 All these steps are fully automated and are described as code (following all the same change management processes). They run automatically based on some events that trigger them (PR opened, push to the main branch, artifact is ready, etc.) and take between 20 and 40 minutes end to end (based on how big the testing suites are) for the majority of the services and a few hours for other, bigger repositories that use other branching and collaboration models.
 
-### **How N26 Makes Continuous Deployment Safe**
+# **How N26 Makes Continuous Deployment Safe**
 
 <span id="page-696-0"></span>Engineers at N26 use multiple patterns and techniques at different stages and levels to make it safer to go to production. I described some of them already: the four-eyes principle, where a review from a peer is mandatory; automated compliance and security checks; automated test suites and quality assurance; automatic promotion over multiple environments if the changes fulfill some requirements; using feature flags to turn new features on and off; and A/B testing to test them.
 
@@ -7529,7 +7489,7 @@ Furthermore, backend services may use a combination of metrics, traces, and logs
 
 Last but not least, it is worth noting that monitoring and alerting are usually defined as code along with each backend repository so that we can keep track of all the changes, reproduce and rebuild the monitors and dashboards in case of disaster, and bring them into multiple environments if needed.
 
-### <span id="page-701-0"></span>**How N26 Supports Junior Engineers**
+# <span id="page-701-0"></span>**How N26 Supports Junior Engineers**
 
 <span id="page-701-1"></span>When a junior engineer joins N26, they go through the regular onboarding process, from the more general overview sessions to the ones driven by their teams. These sessions make sure they understand the internal ways of working, our processes and practices, and our tooling and internal platform. Additionally, they get assigned a buddy who helps them during the first few months for a better ramp-up.
 
@@ -7537,7 +7497,7 @@ As soon as they start working in a team, junior engineers may require a bit more
 
 <span id="page-702-1"></span>nets, lines of defense, and monitoring in place. Therefore, they can start contributing as soon as they feel comfortable to do so.
 
-## Links and Resources
+# Links and Resources
 
 - *<https://medium.com/insiden26>*
 - *<https://n26.com/en/careers>*
@@ -7546,11 +7506,11 @@ As soon as they start working in a team, junior engineers may require a bit more
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: ClimatePartner
+# Case Study: ClimatePartner
 
 <span id="page-703-0"></span>For our next case study, Ilias Bartolini will describe continuous deployment at Climate Partner. Ilias is a team lead working across two teams in the Emission Reductions and Authorization & Identity Management domains. His role is a combination of people management, technical leadership, and delivery support.
 
-## ClimatePartner's Context
+# ClimatePartner's Context
 
 <span id="page-703-1"></span>ClimatePartner supports companies on their journey toward net zero. For around 20 years, the organization has been developing solutions that enable its clients to make voluntary climate action commitments combining software, consulting, and reduction solutions. ClimatePartner's industryspecific solutions cover the entire process, from calculating carbon footprints to setting reduction targets and implementing reduction measures. ClimatePartner also supports companies in financing global and regional climate projects and providing detailed and transparent communication on their climate action commitments. This includes labeling solutions that confirm the comprehensive and strategic approach of a company's voluntary climate action measures.
 
@@ -7582,7 +7542,7 @@ The other parts of the infrastructure (e.g., application cluster setup, domains,
 
 In parallel to the production deployment, we have actions that execute other nonblocking steps such as static code analysis and code coverage checks using Sonar.
 
-## **How ClimatePartner Makes Continuous Deployment Safe**
+# **How ClimatePartner Makes Continuous Deployment Safe**
 
 <span id="page-706-0"></span>There are three primary elements of the safety net for engineers:
 
@@ -7625,7 +7585,7 @@ This approach has become a challenge when integrating with third-party systems s
 
 <span id="page-710-1"></span>While building REST API integration with other applications, we also often practice expand and contract techniques to evolve our API contracts.
 
-## **How ClimatePartner Supports Junior Engineers with Continuous Deployment**
+# **How ClimatePartner Supports Junior Engineers with Continuous Deployment**
 
 <span id="page-710-2"></span>Continuous deployment is usually very easily embraced by junior engineers. Onboarding of junior engineers still goes through certain phases: starting only on one codebase, and selecting simpler tasks that we label "good for onboarding."
 
@@ -7633,11 +7593,11 @@ Pair programming allows for a faster learning and onboarding experience compared
 
 <span id="page-710-0"></span>At the same time, some new engineers reported feeling more apprehensive when initially pushing code directly to production. In the first two to three months, we make sure there is always a person available to pair with junior team members for small changes. Overall, we believe that continuous deployment needs to be adopted in an environment that is based on psychological safety and trust.
 
-## Case Study: Motability Operations
+# Case Study: Motability Operations
 
 <span id="page-711-0"></span>For our next case study, Julian Austin and Lloyd Jones will describe the practice of continuous deployment at the UK company Motability Operations. As head of software engineering and Agile transformation at Motability Operations, Julian has played a pivotal role in leading the adoption of continuous deployment throughout the organization, preparing a cultural baseline for its success. Lloyd has co-championed this effort and will share his experience working "on the ground" as an Agile and software engineering team lead, where he looks after all engineering practices required to perform continuous deployment effectively.
 
-## Motability Operations' Context
+# Motability Operations' Context
 
 <span id="page-711-1"></span>Motability Operations is the company behind the UK Motability car, powered wheelchair, and scooter, and we help over 690,000 people with disabilities and their families get on the road.
 
@@ -7655,7 +7615,7 @@ Software engineering teams build and *run* all the bespoke software used across 
 
 <span id="page-713-0"></span>We started talking about continuous deployment in 2018. We were embarking on a digital transformation initially, and we sent a small team on a residency to Red Hat Labs.
 
-### **Working with Organizational Barriers**
+# **Working with Organizational Barriers**
 
 <span id="page-713-1"></span>We found some organizational obstacles to the adoption of continuous deployment at first, including pushback from our Business Risk department, various security concerns, fear of the unknown, and a lack of automation. We also had separate pipelines for non-prod and prod environments. Here is how we worked to address these obstacles:
 
@@ -7665,7 +7625,7 @@ a *risk mitigation* control for reducing the risk of failure with software relea
 
 <span id="page-714-0"></span>**Lloyd:** I spent a lot of time with our Change and Release management team. They come from a world of legacy infrastructure, physical hardware, and scheduled ITIL-style release processes. Most of my time was spent educating them on the theory of continuous deployment and the fact that it reduces risk, enables agility, and enhances the ability to resolve issues quickly. I worked with them and our developer experience team to design a self-documenting continuous deployment pipeline that ensures visibility of changes that are happening. **[1](#page-720-0)**
 
-### **Working with technical barriers**
+# **Working with technical barriers**
 
 <span id="page-714-1"></span>We also had some technical barriers, mainly due to separate Jenkins instances for production, preproduction, and non-prod deployments. This made it challenging to manage a unified view of the entire pipeline. To solve this, we initially implemented a Jenkins instance in a management cluster that would simply orchestrate calls to the other Jenkins pipelines. We then iterated to remove the dependencies on the individual Jenkins instances.
 
@@ -7703,7 +7663,7 @@ The release note is updated per environment and closed by Jenkins once prod depl
 
 During the implementation of a single task or user story, this path to production is generally triggered end to end from 5 to 25 times. This is dependent on the component and on the maturity of the team maintaining it. We want to reduce the total number of non-prods to one, but we are not there just yet and different teams have slightly different numbers. However, flexibility was one of the aims when we started this journey.
 
-## **How Motability Makes Continuous Deployment Safe**
+# **How Motability Makes Continuous Deployment Safe**
 
 <span id="page-717-0"></span>At Motability, we employ several practices and tools to ensure the safety of continuous automated deployments.
 
@@ -7735,7 +7695,7 @@ Recently, a group kicked off an SRE initiative to better understand our capabili
 
 <span id="page-719-0"></span>We have a DevX team that acts as the custodian of the Path to Prod library. This team actively supports it and continues to add features, as well as educating others. It also encourages and welcomes contributions from others.
 
-### **How Motability Operations Supports Teams**
+# **How Motability Operations Supports Teams**
 
 <span id="page-719-1"></span>Motability aims to support engineers who might not be familiar with continuous deployment at different stages of their journey within the company.
 
@@ -7757,11 +7717,11 @@ We have a Path to Prod library that has the effect of abstracting a lot of the d
 
 #### *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: REA Group
+# Case Study: REA Group
 
 <span id="page-722-0"></span>For our next case study, Alison Rosewarne will walk us through the adoption of continuous deployment at REA Group. Alison is the executive manager of Architecture and Tech L&D at REA.
 
-## REA's Context
+# REA's Context
 
 <span id="page-722-1"></span>REA Group is an ASX-listed digital business specializing in property and one of Australia's startup success stories. We're using technology to change the way the world experiences property. Through our digital platforms, we provide access to the largest and most engaged audience of property seekers, deliver superior customer value, and offer comprehensive insights into Australia's housing market.
 
@@ -7787,7 +7747,7 @@ In 2021, we formalized our views by including "Deploy continuously" in our refre
 
 We codified this principle into our system health framework, REA's way to articulate our expectations of our software and assess progress toward improvement goals. CD, supported by fully scripted build steps and an effective suite of tests, is the baseline expectation. In addition, in 2022 we started tracking adoption of continuous deployment as well, with this criterion part of our highest expectations of engineering excellence. Over 80% of our fleet is continuously deployed today.
 
-### **Overcoming organizational barriers**
+# **Overcoming organizational barriers**
 
 <span id="page-725-0"></span>In hindsight, the early experimentation by cross-functional teams was a key ingredient to continued adoption. Our QAs were part of this team, as were our product managers. Involving our QAs up front allowed them to codesign and coach us through the transition to shift-left our quality thinking, where everyone needs to consider quality earlier in the process.
 
@@ -7833,7 +7793,7 @@ From this point on, we rely on monitoring and alerting to detect any issues. Hum
 
 Our mobile codebases, generally following a weekly release train, also embrace these practices to realize the value within this ecosystem as well. We continuously deploy builds to an internal app library that is then distributed to test devices, ensuring that each change is in the hands of real users in a short time frame.
 
-## **How REA Makes Continuous Deployment Safe**
+# **How REA Makes Continuous Deployment Safe**
 
 <span id="page-730-0"></span>The REA team uses many patterns and techniques to enable safe and frequent releases.
 
@@ -7875,7 +7835,7 @@ We've experimented with synthetic monitoring but have generally found that usage
 
 Excessive error rates or response times most frequently trigger alerting and human response. Deeper insights into root causes generally come from analyzing logs or digging into data from our application performance monitoring (APM) tools.
 
-## <span id="page-734-0"></span>**How REA Supports Junior Engineers with Continuous Deployment**
+# <span id="page-734-0"></span>**How REA Supports Junior Engineers with Continuous Deployment**
 
 <span id="page-734-1"></span>Our technical onboarding, which every role goes through (not just juniors), covers the what, why, and how of continuous deployment. This gives everyone a common understanding of the approach and value, while also showing the safety that has been built into the system and our culture.
 
@@ -7885,11 +7845,11 @@ We also run Entry to REA programs, supporting diverse cohorts of new joiners to 
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: Maze
+# Case Study: Maze
 
 <span id="page-736-0"></span>For our next case study, we'll look at Maze, a user research company that began its journey with continuous deployment during its startup phase. Atte Huhtakangas (engineering manager) and Maarten Ackermans (staff engineer) will walk us through their journey with the practice.
 
-## Maze's Context
+# Maze's Context
 
 <span id="page-736-1"></span>Maze is a user research platform that makes products work for people. Maze empowers companies to build the right products more quickly by making user insights available at the speed of product development. Built for ease of use, Maze allows researchers, designers, and product managers to collect and share user insights when they're needed most, putting them at the center of every decision.
 
@@ -7907,7 +7867,7 @@ The transition to continuous deployment was not without its challenges. The firs
 
 Continuous deployment was still our end goal; unfortunately, the next problem to solve seemed to be a greater obstacle because of the limitations of our CI/CD platform provider. However, the benefits of continuous deployment were too significant to ignore. One missing feature, in particular, was non-negotiable for continuous deployment to become a reality: we needed a sequential build and deployment queue for each releasable commit on our trunk branch. Therefore, we had to look at other CI/CD platforms. One RFC document and several proofs of concept later, we concluded that GitHub Actions was the way forward, as it promised everything we needed for continuous deployment. The following quarter, we completed the implementation and switched our monorepo deployments to the new GitHub Actions pipeline. We had finally achieved continuous deployment.
 
-### **Overcoming Organizational Challenges**
+# **Overcoming Organizational Challenges**
 
 <span id="page-738-0"></span>The biggest cultural obstacle to overcome in our move toward automated deployments was the need for more confidence in our tests. Those fears were not entirely unfounded; we needed better testing coverage in some parts of the product. We were also unsuccessful in dealing with flaky acceptance tests, the leading cause of instability in our deployment pipeline. As we scaled the company and the product, it became clear that manual testing was no longer feasible, forcing us to rely on automation. Only with time did our fears start to disappear. Our move to the trunk-based git workflow we mentioned earlier helped: more automatically tested
 
@@ -7917,7 +7877,7 @@ As we committed to migrating to the new CI/CD platform, we recognized the need t
 
 <span id="page-739-0"></span>As additional safeguards, we created CI workflows that anyone could trigger on demand. These workflows played a crucial role in creating peace of mind by providing a safety net in case of any issues. One of these workflows allows us to deploy any given commit to a single service, and another workflow makes it easy to roll the whole product back to a previous release, which is particularly useful during an incident.
 
-### **Overcoming Technical Challenges**
+# **Overcoming Technical Challenges**
 
 <span id="page-740-2"></span>Our main technical difficulty was handling deployments with the many packages in our monorepo. We programmatically determine which packages have changed since the last release and only build and deploy those. This change detection works with dependencies too: if a shared library changes that multiple services depend on, we rebuild and deploy all those services. End-to-end tests are also tricky: we run the changed services locally in CI containers and create a mesh with other shared services in one of our staging environments. This meshed approach has some downsides, mainly because tests in other feature branches with active work in progress also use this staging environment. Ideally, we would spin up short-lived, isolated environments for every release, but that is a problem for another day.
 
@@ -7931,7 +7891,7 @@ When the PR has at least one approval and is passing PR checks, the author merge
 
 Every commit on the trunk branch triggers a new release in CI. A queue exists for these releases too, as only one release can run simultaneously. A release builds and deploys changed services to the staging environments first, where it runs acceptance tests. If they pass, it continues by deploying those services to production. At the start of a release, it acquires a lock that it only unlocks again after the release successfully deploys to production. This lock ensures that any engineer can manually restart the release if it fails. It also prevents new, queued releases from running if the current release is incomplete.
 
-### **How Maze Makes Continuous Deployment Safe**
+# **How Maze Makes Continuous Deployment Safe**
 
 <span id="page-742-0"></span>We can safely deploy API changes by avoiding breaking changes in the same release. Instead, we mark API endpoints as deprecated and generate API schemas based on the existing endpoints. These generated schemas help detect breaking changes automatically and make changes to API endpoints more visible in PR reviews. After clients no longer use these deprecated API endpoints, a cleanup PR removes them.
 
@@ -7951,17 +7911,17 @@ We work with PRs, requiring at least one review to review all the changes. Pair 
 
 We use Datadog to monitor our production services. We utilize synthetic monitoring, Datadog Watchdog, and APM/RUM error tracking to detect issues and declare incidents. Most importantly, all telemetry includes the deployed version. This version annotation allows us to correlate any problems with a specific release.
 
-## <span id="page-744-1"></span>**How Maze Supports Junior Engineers with Continuous Deployment**
+# <span id="page-744-1"></span>**How Maze Supports Junior Engineers with Continuous Deployment**
 
 <span id="page-744-2"></span>We have written documentation about our release process covering our continuous deployment process. This documentation is part of the onboarding materials all new engineers read. Continuous deployment allows engineers to focus on development instead of how our deployments work technically, because the deployment pipeline is entirely automated after merging the PR. Finally, our team is always available in Slack to answer all engineers' questions.
 
 <span id="page-744-0"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Case Study: TravelPerk
+# Case Study: TravelPerk
 
 <span id="page-745-0"></span>For our last case study, we will learn about continuous deployment in the context of a rapidly growing startup: TravelPerk. Javier Tejero (director of architecture) and Roberto Mosca (principal software engineer) will share details about TravelPerk's continuous deployment culture, which started early and grew alongside the company. Both of them work in the Foundations team, which is the team responsible for the overall platform and infrastructure of the company.
 
-## TravelPerk's Context
+# TravelPerk's Context
 
 <span id="page-745-1"></span>TravelPerk is a hyper-growth business travel management platform. The platform aims to innovate business travel with an end-to-end solution that gives travelers freedom while providing their companies with more control. The company is headquartered in Barcelona, with business hubs in London; Birmingham, England; Edinburgh; Berlin; Chicago; Boston; and Miami.
 
@@ -7973,9 +7933,9 @@ The company has around 1,200 employees, including over 350 of what we call "buil
 
 TravelPerk customers access the core business offering through three client apps: a web application, and mobile apps for iOS and Android. These client apps are powered by a constellation of backend services, including the main monolith and a few dozen microservices. All these services process millions of requests a day. In our engineering department, we have a strong sense of ownership, which is summarized by the motto "You build it, you own it." Each squad owns and runs its own services and applications. For the two monoliths that we have, frontend and backend, ownership is split between the different teams, and we make sure every line of code is owned by someone. This means that each team is responsible for the deployment of its own services/apps. The team takes care of its own infrastructure and the health of the continuous integration/continuous delivery (CI/CD) pipelines it owns.
 
-## <span id="page-746-0"></span>Adoption of Continuous Deployment at
+# <span id="page-746-0"></span>Adoption of Continuous Deployment at
 
-## TravelPerk
+# TravelPerk
 
 <span id="page-747-0"></span>In the early stages of our startup, circa 2017, we made the strategic decision to implement continuous deployment to our production environment as we transitioned from Heroku to AWS. This pivotal move was guided by our desire to significantly enhance our adaptability and responsiveness to changes, and to foster a culture of rapid innovation. We believe that many players at that time were captivated by the "Move fast and break things" philosophy, which underscored the importance of speed and flexibility in the development processes. To ensure a seamless and safe transition to continuous deployment, we invested heavily in automated testing.
 
@@ -7997,7 +7957,7 @@ deployment. Each merge to the main branch triggers a build that produces a deplo
 
 We make our artifacts immutable and customize each environment through configuration. For our web application, we are also in the process of creating a release manager that provides better observability on all deployments and allows for quick automatic rollback of failed deployments.
 
-## **How TravelPerk Makes Continuous Deployment Safe**
+# **How TravelPerk Makes Continuous Deployment Safe**
 
 <span id="page-750-0"></span>Within TravelPerk, we use a number of techniques to guarantee no regressions with continuous deployment, such as feature flags, API versioning, the expand and contract pattern, and observability.
 
@@ -8029,7 +7989,7 @@ Observability is key to our strategy, and we strive to create effective, actiona
 
 <span id="page-753-0"></span>We have more than 1,000 monitors covering known and unexpected sources of errors, such as HTTP errors, slow endpoints, slow queries, queue congestion, and database resources, connected to our incident management process to ensure prompt intervention and recovery. We have been investing in response times through the monitoring of service-level objectives (SLOs) at several levels, from low-level response time of single endpoints to highlevel metrics on user workflows. This allows us to receive quick feedback when a change leads to a degradation in the performance of an endpoint or the execution of a workflow and the possibility of a quick intervention to fix it. As we mentioned before, we also use synthetic tests on our production environment to quickly identify and solve problems that made their way to production.
 
-## **How TravelPerk Onboards Engineers to Continuous Deployment**
+# **How TravelPerk Onboards Engineers to Continuous Deployment**
 
 <span id="page-754-1"></span>Our engineering onboarding process ensures that our developers can start contributing code in a matter of days. As such, developers can very quickly see their contribution go live in our production environment.
 
@@ -8037,7 +7997,7 @@ Continuous deployment is such an integral part of our engineering culture that i
 
 <span id="page-754-0"></span>*[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Index
+# Index
 
 **A**
 
@@ -8613,6 +8573,8 @@ NoSQL databases, [NoSQL](#page-561-0)-[Conclusion on NoSQL](#page-566-0) [produc
 [basket table migration, M](#page-511-1)[igrating the Basket Table](#page-503-0)[-Deployment](#page-511-1) 12: Contracting the basket table
 
 GET /product endpoint migration, Migrating the GET /product [Endpoint-Deployment 7: Contracting the GET /product endpo](#page-496-1)[int](#page-503-1) [POST /product endpoint migration, Migrating the POST /product](#page-489-1) Endpoint-[Deployment 4: Contracting the POST /product endpoint](#page-496-2) [product table contraction, Outer Contract Phase: Cleaning Up the](#page-511-2) Product Table[-Deployment 13: Contracting the product table](#page-513-0) product table expansion, [Outer Expand Phase: The Product Table](#page-486-0)-[Deployment 1: Expand the product table](#page-489-2)
+
+# Deployment 1: Expand the product table
 
 temporary database triggers, [Solution: Temporary Database Trigger-](#page-531-0)[Solution: Temporary Database Trigger](#page-535-0)
 
@@ -9339,6 +9301,8 @@ Deployment
 
 [daily/weekly, Deploying Every Few Days-Deploying Every Few](#page-26-2) Days
 
+1. Citing a Book in APA
+
 definition of, [Releases-](#page-174-0)[Releases](#page-175-1)
 
 deployments versus, [Deployment frequency](#page-97-1), [Differences](#page-176-0)[-Overlap](#page-181-2)
@@ -9728,7 +9692,7 @@ AutoScout24 case study, [Zero-downtime deployments](#page-668-1) [blue/green dep
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## About the Author
+# About the Author
 
 **Valentina Servile** is lead software developer at Thoughtworks based in Bangkok, working with and advising multiple clients on continuous deployment in distributed systems. She has worked in several crossfunctional teams dealing with big distributed systems and microservices, continuous delivery practices, and evolutionary architectures in a variety of tech stacks.
 
@@ -9736,7 +9700,7 @@ As well as writing code, she enjoys mentoring her colleagues and helping Thought
 
 *[OceanofPDF.com](https://oceanofpdf.com/)*
 
-## Colophon
+# Colophon
 
 The animal on the cover of *Continuous Deployment* is a northern fulmar (*Fulmarus glacialis*), also known as an Arctic fulmar. It is a seabird native to the subarctic regions of the northern Pacific and Atlantic Oceans. Though superficially similar to gulls, they are in fact more closely related to petrels and albatrosses. Northern fulmars vary in color from mostly white with gray wings to uniformly gray. They have hooked beaks with two nasal tubes along the top edge.
 

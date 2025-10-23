@@ -5544,9 +5544,9 @@
         ]
       ],
       "block_metadata": {
-        "llm_request_count": 2,
+        "llm_request_count": 0,
         "llm_error_count": 0,
-        "llm_tokens_used": 86076,
+        "llm_tokens_used": 0,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

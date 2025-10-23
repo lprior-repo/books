@@ -7641,9 +7641,9 @@
         ]
       ],
       "block_metadata": {
-        "llm_request_count": 1,
+        "llm_request_count": 0,
         "llm_error_count": 0,
-        "llm_tokens_used": 58418,
+        "llm_tokens_used": 0,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -8227,7 +8227,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3138,
+        "llm_tokens_used": 3196,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -10081,11 +10081,11 @@
       "block_counts": [
         [
           "Line",
-          31
+          35
         ],
         [
           "Span",
-          11
+          15
         ],
         [
           "Text",
@@ -17251,7 +17251,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3130,
+        "llm_tokens_used": 3164,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23491,7 +23491,7 @@
       "block_counts": [
         [
           "TableCell",
-          86
+          87
         ],
         [
           "Span",
@@ -23525,7 +23525,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 4892,
+        "llm_tokens_used": 4488,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

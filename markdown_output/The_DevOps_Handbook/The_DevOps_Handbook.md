@@ -54,15 +54,15 @@ THE DEVOPS HANDBOOK
 
 # THE DEVOPS HANDBOOK
 
-### **Preface**
+# **Preface**
 
-### Aha!
+# Aha!
 
 The journey to complete *The DevOps Handbook* has been a long one—it started with weekly working Skype calls between the coauthors in February of 2011, with the vision of creating a prescriptive guide that would serve as a companion to the as-yet unfinished book *The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win*.
 
 More than five years later, with over two thousand hours of work, *The DevOps Handbook* is finally here. Completing this book has been an extremely long process, although one that has been highly rewarding and full of incredible learning, with a scope that is much broader than we originally envisioned. Throughout the project, all the co-authors shared a belief that DevOps is genuinely important, formed in a personal "aha" moment much earlier in each of our professional careers, which I suspect many of our readers will resonate with.
 
-# *Gene Kim*
+### *Gene Kim*
 
 I've had the privilege of studying high-performing technology organizations since 1999, and one of the earliest findings was that boundary-spanning between the different functional groups of IT Operations, Information Security, and
 
@@ -76,7 +76,7 @@ For many years, many of us knew that there must be a better way. I remember seei
 
 now know as DevOps. I was so excited, because it clearly pointed to the better way that we had all been searching for. And helping spread that word was one of my personal motivations to co-author *The Phoenix Project*. You can imagine how incredibly rewarding it was to see the broader community react to that book, describing how it helped them achieve their own "aha" moments.
 
-# *Jez Humble*
+### *Jez Humble*
 
 My DevOps "aha" moment was at a start-up in 2000—my first job after graduating. For some time, I was one of two technical staff. I did everything: networking, programming, support, systems administration. We deployed software to production by FTP directly from our workstations.
 
@@ -84,7 +84,7 @@ Then in 2004 I got a job at ThoughtWorks, a consultancy where my first gig was w
 
 That project inspired a lot of the ideas in both the *Continuous Delivery* (Addison-Wesley, 2000) book and this one. A lot of what drives me and others working in this space is the knowledge that, whatever your constraints, we can always do better, and the desire to help people on their journey.
 
-# *Patrick Debois*
+### *Patrick Debois*
 
 For me, it was a collection of moments. In 2007 I was working on a data center migration project with some Agile teams. I was jealous that they had such high productivity—able to get so much done in so little time.
 
@@ -94,7 +94,7 @@ After seeing the 2009 Velocity Conference presentation "10 Deploys per Day" by J
 
 The energy at the event was unique and contagious. When people started to thank me because it changed their life for the better, I understood the impact. I haven't stopped promoting DevOps since.
 
-# *John Willis*
+### *John Willis*
 
 In 2008, I had just sold a consulting business that focused on large-scale, legacy IT operations practices around configuration management and monitoring (Tivoli) when I first met Luke Kanies (the founder of Puppet Labs). Luke was giving a presentation on Puppet at an O'Reilly open source conference on configuration management (CM).
 
@@ -142,7 +142,7 @@ Each of the authors has been inspired by the amazing innovations happening in th
 
 It is our sincere hope that *The DevOps Handbook* will serve as a valuable resource for many people in different ways: a guide for planning and executing DevOps transformations, a set of case studies to research and learn from, a chronicle of the history of DevOps, a means to create a coalition that spans Product Owners, Architecture, Development, QA, IT Operations, and Information Security to achieve common goals, a way to get the highest levels of leadership support for DevOps initiatives, as well as a moral imperative to change the way we manage technology organizations to enable better effectiveness and efficiency, as well as enabling a happier and more humane work environment, helping everyone become lifelong learners—this not only helps everyone achieve their highest goals as human beings, but also helps their organizations win.
 
-### **Foreword**
+# **Foreword**
 
 In the past, many fields of engineering have experienced a sort of notable evolution, continually "leveling-up" its understanding of its own work. While there are university curriculums and professional support organizations situated within specific disciplines of engineering (civil, mechanical, electrical, nuclear, etc.), the fact is, modern society needs all forms of engineering to recognize the benefits of and work in a multidisciplinary way.
 
@@ -219,7 +219,7 @@ even quarterly. Nor are production deployments routine, instead involving outage
 
 In an age where competitive advantage requires fast time to market, high service levels, and relentless experimentation, these organizations are at a significant competitive disadvantage. This is in large part due to their inability to resolve a core, chronic conflict within their technology organization.
 
-# THE CORE, CHRONIC CONFLICT
+### THE CORE, CHRONIC CONFLICT
 
 In almost every IT organization, there is an inherent conflict between Development and IT Operations which creates a downward spiral, resulting in ever-slower time to market for new products and features, reduced quality, increased outages, and, worst of all, an ever-increasing amount of technical debt.
 
@@ -236,9 +236,7 @@ Frequently, Development will take responsibility for responding to changes in th
 
 <span id="page-23-0"></span>This conflict creates a downward spiral so powerful it prevents the achievement of desired business outcomes, both inside and outside the IT organization. These chronic conflicts often put technology workers into situations that lead to poor software and service quality, and bad customer outcomes, as well as a daily need for workarounds, firefighting, and heroics, whether in Product Management, Development, QA, IT Operations, or Information Security. See [Appendix 2](#page-514-0).
 
-<span id="page-23-2"></span>
-
-# DOWNWARD SPIRAL IN THREE ACTS
+### <span id="page-23-2"></span>DOWNWARD SPIRAL IN THREE ACTS
 
 The downward spiral in IT has three acts that are likely familiar to most IT practitioners.
 
@@ -264,7 +262,7 @@ As a result, our product delivery cycles continue to move slower and slower, few
 
 disease" or rapidly "like a fiery crash...the destruction can be just as complete."
 
-# WHY DOES THIS DOWNWARD SPIRAL HAPPEN EVERYWHERE?
+### WHY DOES THIS DOWNWARD SPIRAL HAPPEN EVERYWHERE?
 
 For over a decade, the authors of this book have observed this destructive spiral occur in countless organizations of all types and sizes. We understand better than ever why this downward spiral occurs and why it requires DevOps principles to mitigate. First, as described earlier, every IT organization has two opposing goals, and second, every company is a technology company, whether they know it or not.
 
@@ -276,9 +274,7 @@ For over a decade, the authors of this book have observed this destructive spira
 
 <span id="page-26-1"></span>Projects are typically funded through capital spending (i.e., factories, equipment, and major projects, and expenditures are capitalized when payback is expected to take years), of which 50% is now technology related. This is even true in "low tech" industry verticals with the lowest historical spending on technology, such as energy, metal, resource extraction, automotive, and construction. In other words, business leaders are far more reliant upon the effective management of IT in order to achieve their goals than they think.[\\*\\*](#page-40-4)
 
-<span id="page-27-0"></span>
-
-# THE COSTS: HUMAN AND ECONOMIC
+### <span id="page-27-0"></span>THE COSTS: HUMAN AND ECONOMIC
 
 When people are trapped in this downward spiral for years, especially those who are downstream of Development, they often feel stuck in a system that pre-ordains failure and leaves them powerless to change the outcomes. This powerlessness is often followed by burnout, with the associated feelings of fatigue, cynicism, and even hopelessness and despair.
 
@@ -300,9 +296,7 @@ In the previous sections, we described the problems and the negative consequence
 
 This exciting and rare combination may explain why DevOps has generated so much excitement and enthusiasm in so many in such a short time, including technology leaders, engineers, and much of the software ecosystem we reside in.
 
-<span id="page-29-0"></span>
-
-# BREAKING THE DOWNWARD SPIRAL WITH DEVOPS
+### <span id="page-29-0"></span>BREAKING THE DOWNWARD SPIRAL WITH DEVOPS
 
 Ideally, small teams of developers independently implement their features, validate their correctness in production-like environments, and have their code deployed into production quickly, safely and securely. Code deployments are routine and predictable. Instead of starting deployments at midnight on Friday and spending all weekend working to complete them, deployments occur throughout the business day when everyone is already in the office and without our customers even noticing except when they see new features and bug fixes that delight them. And, by deploying code in the middle of the workday, for the first time in decades IT Operations is working during normal business hours like everyone else.
 
@@ -338,7 +332,7 @@ Because we care about quality, we even inject faults into our production environ
 
 In this world, everyone has ownership in their work, regardless of their role in the technology organization They have confidence that their work matters and is meaningfully contributing to organizational goals, proven by their low-stress work environment and their organization's success in the marketplace. Their proof is that the organization is indeed winning in the marketplace.
 
-# THE BUSINESS VALUE OF DEVOPS
+### THE BUSINESS VALUE OF DEVOPS
 
 We have decisive evidence of the business value of DevOps. From 2013 through 2016, as part of Puppet Labs' *State Of DevOps Report,* to which authors Jez Humble and Gene Kim contributed, we collected data from over twenty-five thousand technology professionals, with the goal of better understanding the health and habits of organizations at all stages of DevOps adoption.
 
@@ -359,9 +353,7 @@ In other words, high performers were both more agile and more reliable, providin
 
 Furthermore, high performers were twice as likely to exceed profitability, market share, and productivity goals. And, for those organizations that provided a stock ticker symbol, we found that high performers had 50% higher market capitalization growth over three years. They also had higher employee job satisfaction, lower rates of employee burnout, and their employees were 2.2 times more likely to recommend their organization to friends as a great place to work.[††](#page-40-5) High performers also had better information security outcomes. By integrating security objectives into all stages of the development and operations processes, they spent 50% less time remediating security issues.
 
-<span id="page-34-0"></span>
-
-# DEVOPS HELPS SCALE DEVELOPER PRODUCTIVITY
+### <span id="page-34-0"></span>DEVOPS HELPS SCALE DEVELOPER PRODUCTIVITY
 
 <span id="page-34-1"></span>When we increase the number of developers, individual developer productivity often significantly decreases due to communication, integration, and testing overhead. This is highlighted in the
 
@@ -379,9 +371,7 @@ Indeed, this is what we found. Figure 1 shows that in low performers, deploys pe
 
 In other words, organizations adopting DevOps are able to linearly increase the number of deploys per day as they increase their number of developers, just as Google, Amazon, and Netflix have done.[§§](#page-40-7)
 
-<span id="page-36-0"></span>
-
-# THE UNIVERSALITY OF THE SOLUTION
+### <span id="page-36-0"></span>THE UNIVERSALITY OF THE SOLUTION
 
 One of the most influential books in the Lean manufacturing movement is *The Goal: A Process of Ongoing Improvement* written by Dr. Eliyahu M. Goldratt in 1984. It influenced an entire generation of professional plant managers around the world. It was a novel about a plant manager who had to fix his cost and product due date issues in ninety days, otherwise his plant would be shut down.
 
@@ -456,7 +446,7 @@ DevOps and its resulting technical, architectural, and cultural practices repres
 
 While the foundation of DevOps can be seen as being derived from Lean, the Theory of Constraints, and the Toyota Kata movement, many also view DevOps as the logical continuation of the Agile software journey that began in 2001.
 
-# THE LEAN MOVEMENT
+### THE LEAN MOVEMENT
 
 Techniques such as Value Stream Mapping, Kanban Boards, and Total Productive Maintenance were codified for the Toyota Production System in the 1980s. In 1997, the Lean Enterprise Institute started researching applications of Lean to other value streams, such as the service industry and healthcare.
 
@@ -464,7 +454,7 @@ Two of Lean's major tenets include the deeply held belief that *manufacturing le
 
 Lean principles focus on how to create value for the customer through systems thinking by creating constancy of purpose, embracing scientific thinking, creating flow and pull (versus push), assuring quality at the source, leading with humility, and respecting every individual.
 
-# THE AGILE MANIFESTO
+### THE AGILE MANIFESTO
 
 The Agile Manifesto was created in 2001 by seventeen of the leading thinkers in software development. They wanted to create a lightweight set of values and principles against heavyweight software development processes such as waterfall development, and methodologies such as the Rational Unified Process.
 
@@ -472,7 +462,7 @@ The Agile Manifesto was created in 2001 by seventeen of the leading thinkers in 
 
 Agile is credited for dramatically increasing the productivity of many development organizations. And interestingly, many of the key moments in DevOps history also occurred within the Agile community or at Agile conferences, as described below.
 
-# AGILE INFRASTRUCTURE AND VELOCITY MOVEMENT
+### AGILE INFRASTRUCTURE AND VELOCITY MOVEMENT
 
 At the 2008 Agile conference in Toronto, Canada, Patrick Debois and Andrew Schafer held a "birds of a feather" session on applying Agile principles to infrastructure as opposed to application code. Although they were the only people who showed up, they rapidly gained a following of like-minded thinkers, including co-author John Willis.
 
@@ -480,15 +470,13 @@ Later, at the 2009 Velocity conference, John Allspaw and Paul Hammond gave the s
 
 Patrick Debois was not there, but was so excited by Allspaw and Hammond's idea that he created the first DevOpsDays in Ghent, Belgium, (where he lived) in 2009. There the term "DevOps" was coined.
 
-# THE CONTINUOUS DELIVERY MOVEMENT
+### THE CONTINUOUS DELIVERY MOVEMENT
 
 Building upon the development discipline of continuous build, test, and integration, Jez Humble and David Farley extended the concept to *continuous delivery*, which defined the role of a
 
 "deployment pipeline" to ensure that code and infrastructure are always in a deployable state, and that all code checked in to trunk can be safely deployed into production. This idea was first presented at the 2006 Agile conference, and was also independently developed in 2009 by Tim Fitz in a blog post on his website titled "Continuous Deployment."[¶¶](#page-47-0)
 
-<span id="page-46-2"></span><span id="page-46-0"></span>
-
-# TOYOTA KATA
+### <span id="page-46-2"></span><span id="page-46-0"></span>TOYOTA KATA
 
 In 2009, Mike Rother wrote *Toyota Kata: Managing People for Improvement, Adaptiveness and Superior Results*, which framed his twenty-year journey to understand and codify the Toyota Production System. He had been one of the graduate students who flew with GM executives to visit Toyota plants and helped develop the Lean toolkit, but he was puzzled when none of the companies adopting these practices replicated the level of performance observed at the Toyota plants.
 
@@ -496,7 +484,7 @@ In 2009, Mike Rother wrote *Toyota Kata: Managing People for Improvement, Adapti
 
 The above describes the history of DevOps and relevant movements that it draws upon. Throughout the rest of Part I, we look at value streams, how Lean principles can be applied to the
 
-# technology value stream, and the Three Ways of Flow, Feedback, and Continual Learning and Experimentation.
+### technology value stream, and the Three Ways of Flow, Feedback, and Continual Learning and Experimentation.
 
 <span id="page-47-0"></span>[¶¶](#page-46-0) DevOps also extends and builds upon the practices of *infrastructure as code*, which was pioneered by Dr. Mark Burgess, Luke Kanies, and Adam Jacob. In infrastructure as code, the work of Operations is automated and treated like application code, so that modern development practices can be applied to the entire development stream. This further enabled fast deployment flow, including continuous integration (pioneered by Grady Booch and integrated as one of the key 12 practices of Extreme Programming), continuous delivery (pioneered by Jez Humble and David Farley), and continuous deployment (pioneered by Etsy, Wealthfront, and Eric Ries's work at IMVU).
 
@@ -506,7 +494,7 @@ In this chapter, an introduction to the underpinning theory of Lean Manufacturin
 
 Our focus here is primarily on theory and principles, describing many decades of lessons learned from manufacturing, high-reliability organizations, high-trust management models, and others, from which DevOps practices have been derived. The resulting concrete principles and patterns, and their practical application to the technology value stream, are presented in the remaining chapters of the book.
 
-# THE MANUFACTURING VALUE STREAM
+### THE MANUFACTURING VALUE STREAM
 
 One of the fundamental concepts in Lean is the *value stream*. We will define it first in the context of manufacturing and then extrapolate how it applies to DevOps and the technology value stream.
 
@@ -524,7 +512,7 @@ From there, Development teams that follow a typical Agile or iterative process w
 
 Because value is created only when our services are running in production, we must ensure that we are not only delivering fast flow, but that our deployments can also be performed without causing chaos and disruptions such as service outages, service impairments, or security or compliance failures.
 
-# FOCUS ON DEPLOYMENT LEAD TIME
+### FOCUS ON DEPLOYMENT LEAD TIME
 
 <span id="page-50-0"></span>For the remainder of this book, our attention will be on deployment lead time, a subset of the value stream described above. This value stream begins when any engineer[\\*\\*\\*](#page-57-0) in our value stream (which includes Development, QA, IT Operations, and Infosec) checks a change into version control and ends when that change is successfully running in production, providing value to the customer and generating useful feedback and telemetry.
 
@@ -534,9 +522,7 @@ outputs with minimized variability (e.g., short and predictable lead times, near
 
 Instead of large batches of work being processed sequentially through the design/development value stream and then through the test/operations value stream (such as when we have a large batch waterfall process or long-lived feature branches), our goal is to have testing and operations happening simultaneously with design/development, enabling fast flow and high quality. This method succeeds when we work in small batches and build quality into every part of our value stream.[†††](#page-57-1)
 
-<span id="page-51-0"></span>
-
-# *Defining Lead Time vs. Processing Time*
+### <span id="page-51-0"></span>*Defining Lead Time vs. Processing Time*
 
 In the Lean community, lead time is one of two measures commonly used to measure performance in value streams, with the other being processing time (sometimes known as touch time or task time).[‡‡‡](#page-57-2)
 
@@ -548,7 +534,7 @@ In the Lean community, lead time is one of two measures commonly used to measure
 
 <span id="page-52-0"></span>Because lead time is what the customer experiences, we typically focus our process improvement attention there instead of on process time. However, the proportion of process time to lead time serves as an important measure of efficiency—achieving fast flow and short lead times almost always requires reducing the time our work is waiting in queues.
 
-# *The Common Scenario: Deployment Lead Times Requiring Months*
+### *The Common Scenario: Deployment Lead Times Requiring Months*
 
 In business as usual, we often find ourselves in situations where our deployment lead times require months. This is especially common in large, complex organizations that are working with tightly-coupled, monolithic applications, often with scarce integration test environments, long test and production environment lead times, high reliance on manual testing, and multiple required approval processes.When this occurs, our value stream may look like figure 3:
 
@@ -560,7 +546,7 @@ When we have long deployment lead times, heroics are required at almost every st
 
 broke the code and how it can be fixed, and still results in poor customer outcomes.
 
-# *Our DevOps Ideal: Deployment Lead Times of Minutes*
+### *Our DevOps Ideal: Deployment Lead Times of Minutes*
 
 In the DevOps ideal, developers receive fast, constant feedback on their work, which enables them to quickly and independently implement, integrate, and validate their code, and have the code deployed into the production environment (either by deploying the code themselves or by others).
 
@@ -574,7 +560,7 @@ In this scenario, our deployment lead time is measured in minutes, or, in the wo
 
 **Figure 4:** *A technology value stream with a lead time of minutes*
 
-# OBSERVING "%C/A" AS A MEASURE OF REWORK
+### OBSERVING "%C/A" AS A MEASURE OF REWORK
 
 <span id="page-54-0"></span>In addition to lead times and process times, the third key metric in the technology value stream is percent complete and accurate (*%C/A*). This metric reflects the quality of the output of each step in our value stream. Karen Martin and Mike Osterling state that "the %C/A can be obtained by asking downstream customers what percentage of the time they receive work that is 'usable as is,' meaning that they can do their work without having to correct the information that was provided, add missing information that should have been supplied, or clarify information that should have and could have been clearer."
 
@@ -1231,9 +1217,7 @@ through the Cosmetics Business Office application, a COBOL mainframe application
 
 This application allowed department managers to register new salespeople for various product lines carried in their stores, so that they could track sales commissions, enable vendor rebates, and so forth.
 
-<span id="page-120-0"></span>
-
-# Kissler explained:
+### <span id="page-120-0"></span>Kissler explained:
 
 I knew this particular mainframe application well—earlier in my career, I supported this technology team, so I know firsthand that for nearly a decade, during each annual planning cycle, we would debate about how we needed to get this application off the mainframe. Of course, like in most organizations, even when there was full management support, we never seemed to get around to migrating it.
 
@@ -1319,9 +1303,7 @@ If possible, we will free the transformation team from many of the rules and pol
 
 Creating a dedicated team is not only good for the team, but also good for the performance engine. By creating a separate team, we create the space for them to experiment with new practices, protecting the rest of the organization from the potential disruptions and distractions associated with it.
 
-<span id="page-128-0"></span>
-
-# AGREE ON A SHARED GOAL
+### <span id="page-128-0"></span>AGREE ON A SHARED GOAL
 
 One of the most important parts of any improvement initiative is to define a measurable goal with a clearly defined deadline, between six months and two years in the future. It should require considerable effort but still be achievable. And achievement of the goal should create obvious value for the organization as a whole and to our customers.
 
@@ -1336,7 +1318,7 @@ simultaneously to prevent us from overly taxing the organizational change manage
 
 Once the high-level goal is made clear, teams should decide on a regular cadence to drive the improvement work. Like product development work, we want transformation work to be done in an iterative, incremental manner. A typical iteration will be in the range of two to four weeks. For each iteration, the teams should agree on a small set of goals that generate value and makes some progress toward the long-term goal. At the end of each iteration, teams should review their progress and set new goals for the next iteration.
 
-# KEEP OUR IMPROVEMENT PLANNING HORIZONS SHORT
+### KEEP OUR IMPROVEMENT PLANNING HORIZONS SHORT
 
 In any DevOps transformation project, we need to keep our planning horizons short, just as if we were in a startup doing product or customer development. Our initiative should strive to generate measurable improvements or actionable data within weeks (or, in the worst case, months).
 
@@ -1349,7 +1331,7 @@ In any DevOps transformation project, we need to keep our planning horizons shor
 - Quicker realization of improvements that make meaningful differences in our daily work
 - Less risk that our project is killed before we can generate any demonstrable outcomes
 
-# RESERVE 20% OF CYCLES FOR NON-FUNCTIONAL REQUIREMENTS AND REDUCING TECHNICAL DEBT
+### RESERVE 20% OF CYCLES FOR NON-FUNCTIONAL REQUIREMENTS AND REDUCING TECHNICAL DEBT
 
 A problem common to any process improvement effort is how to properly prioritize it—after all, organizations that need it most are those that have the least amount of time to spend on improvement. This is especially true in technology organizations because of technical debt.
 
@@ -1401,7 +1383,7 @@ However, Vance described the massively positive results of Operation InVersion. 
 
 By allowing LinkedIn to pay down nearly a decade of technical debt, Project InVersion enabled stability and safety, while setting the next stage of growth for the company. However, it required two months of total focus on nonfunctional requirements, at the expense of all the promised features made to the public markets during an IPO. By finding and fixing problems as part of our daily work, we manage our technical debt so that we avoid these "near death" experiences.
 
-# INCREASE THE VISIBILITY OF WORK
+### INCREASE THE VISIBILITY OF WORK
 
 In order to be able to know if we are making progress toward our goal, it's essential that everyone in the organization knows the current state of work. There are many ways to make the current state visible, but what's most important is that the information we display is up to date, and that we constantly revise what we measure to make sure it's helping us understand progress toward our current target conditions.
 
@@ -1610,7 +1592,7 @@ Bounded contexts are described in the book *Domain Driven Design* by Eric J. Eva
 
 <span id="page-158-0"></span>Randy Shoup, former Engineering Director for Google App Engine, observed that "organizations with these types of serviceoriented architectures, such as Google and Amazon, have incredible flexibility and scalability. These organizations have tens of thousands of developers where small teams can still be incredibly productive."
 
-# KEEP TEAM SIZES SMALL (THE "TWO-PIZZA TEAM" RULE)
+### KEEP TEAM SIZES SMALL (THE "TWO-PIZZA TEAM" RULE)
 
 Conway's Law helps us design our team boundaries in the context of desired communication patterns, but it also encourages us to keep our team sizes small, reducing the amount of inter-team communication and encouraging us to keep the scope of each team's domain small and bounded.
 
@@ -1631,7 +1613,7 @@ way, technology programmers and architects get direct feedback from the business
 
 Another example of how architecture can profoundly improve productivity is the API Enablement program at Target, Inc.
 
-# **Case Study API Enablement at Target (2015)**
+### **Case Study API Enablement at Target (2015)**
 
 <span id="page-160-0"></span>Target is the sixth-largest retailer in the US and spends over \$1 billion on technology annually. Heather Mickman, a director of development for Target, described the beginnings of their DevOps journey: "In the bad old days, it used to take ten different teams to provision a server at Target, and when things broke, we tended to stop making changes to prevent further issues, which of course makes everything worse."
 
@@ -1766,7 +1748,7 @@ For a variety of reasons, such as cost and scarcity, we may be unable to embed O
 - <span id="page-173-1"></span>Any departures from previous architectures and patterns, and the justifications for them
 - Any extra needs for infrastructure and how usage will affect infrastructure capacity
 
-# Feature launch plans
+### Feature launch plans
 
 Furthermore, just like in the embedded Ops model, this liaison attends the team standups, integrating their needs into the Operations road map and performing any needed tasks. We rely on these liaisons to escalate any resource contention or prioritization issue. By doing this, we identify any resource or time conflicts that should be evaluated and prioritized in the context of wider organizational goals.
 
@@ -1780,7 +1762,7 @@ When Ops engineers are embedded or assigned as liaisons into our product teams, 
 
 <span id="page-175-2"></span>As Ernest Mueller observed, "I believe DevOps works a lot better if Operations teams adopt the same agile rituals that Dev teams have used—we've had fantastic successes solving many problems associated with Ops pain points, as well as integrating better with Dev teams."
 
-# INVITE OPS TO OUR DEV STANDUPS
+### INVITE OPS TO OUR DEV STANDUPS
 
 One of the Dev rituals popularized by Scrum is the daily standup, a quick meeting where everyone on the team gets together and presents to each other three things: what was done yesterday, what is going to be done today, and what is preventing you from getting your work done.[\\*\\*](#page-180-4)
 
@@ -1790,7 +1772,7 @@ A common problem is that this information is compartmentalized within the Develo
 
 resources are available to support the rollout. Alternatively, we may highlight areas where closer interaction or more preparation is needed (e.g., creating more monitoring checks or automation scripts). By doing this, we create the conditions where Operations can help solve our current team problems (e.g., improving performance by tuning the database, instead of optimizing code) or future problems before they turn into a crisis (e.g., creating more integration test environments to enable performance testing).
 
-# INVITE OPS TO OUR DEV RETROSPECTIVES
+### INVITE OPS TO OUR DEV RETROSPECTIVES
 
 <span id="page-176-0"></span>Another widespread agile ritual is the retrospective. At the end of each development interval, the team discusses what was successful, what could be improved, and how to incorporate the successes and improvements in future iterations or projects. The team comes up with ideas to make things better and reviews experiments from the previous iteration. This is one of the primary mechanisms where organizational learning and the development of countermeasures occurs, with resulting work implemented immediately or added to the team's backlog.
 
@@ -1807,7 +1789,7 @@ Feedback from Operations helps our product teams better see and understand the d
 
 However, we must remind everyone that improvement of daily work is more important than daily work itself, and that all teams must have dedicated capacity for this (e.g., reserving 20% of all cycles for improvement work, scheduling one day per week or one week per month, etc.). Without doing this, the productivity of the team will almost certainly grind to a halt under the weight of its own technical and process debt.
 
-# MAKE RELEVANT OPS WORK VISIBLE ON SHARED KANBAN BOARDS
+### MAKE RELEVANT OPS WORK VISIBLE ON SHARED KANBAN BOARDS
 
 Often, Development teams will make their work visible on a project board or kanban board. It's far less common, however, for work boards to show the relevant Operations work that must be performed in order for the application to run successfully in production, where customer value is actually created. As a result, we are not aware of necessary Operations work until it becomes an urgent crisis, jeopardizing deadlines or creating a production outage.
 
@@ -2123,7 +2105,7 @@ does what the customer meant it to, not that it works the way its programmers th
 
 <span id="page-212-0"></span>Martin Fowler observes that, in general, "a ten-minute build [and test process] is perfectly within reason…[We first] do the compilation and run tests that are more localized unit tests with the database completely stubbed out. Such tests can run very fast, keeping within the ten minute guideline. However any bugs that involve larger scale interactions, particularly those involving the real database, won't be found. The second stage build runs a different suite of tests [acceptance tests] that do hit the real database and involve more end-to-end behavior. This suite may take a couple of hours to run."
 
-# CATCH ERRORS AS EARLY IN OUR AUTOMATED TESTING AS POSSIBLE
+### CATCH ERRORS AS EARLY IN OUR AUTOMATED TESTING AS POSSIBLE
 
 A specific design goal of our automated test suite is to find errors as early in the testing as possible. This is why we run fasterrunning automated tests (e.g., unit tests) before slower-running automated tests (e.g., acceptance and integration tests), which are both run before any manual testing.
 
@@ -2143,7 +2125,7 @@ If we find that unit or acceptance tests are too difficult and expensive to writ
 
 integration environments. Acceptance test suites for even the most complex applications that run in minutes are possible.
 
-# ENSURE TESTS RUN QUICKLY (IN PARALLEL, IF NECESSARY)
+### ENSURE TESTS RUN QUICKLY (IN PARALLEL, IF NECESSARY)
 
 Because we want our tests to run quickly, we need to design our tests to run in parallel, potentially across many different servers. We may also want to run different categories of tests in parallel. For example, when a build passes our acceptance tests, we may run our performance testing in parallel with our security testing, as shown in figure 15. We may or may not allow manual exploratory testing until the build has passed all our automated tests—which enables faster feedback, but may also allow manual testing on builds that will eventually fail.
 
@@ -2155,7 +2137,7 @@ Because we want our tests to run quickly, we need to design our tests to run in 
 
 Any tester (which includes all our developers) should use the latest build that has passed all the automated tests, as opposed to waiting for developers to flag a specific build as ready to test. By doing this, we ensure that testing happens as early in the process as possible.
 
-# WRITE OUR AUTOMATED TESTS BEFORE WE WRITE THE CODE ("TEST-DRIVEN DEVELOPMENT")
+### WRITE OUR AUTOMATED TESTS BEFORE WE WRITE THE CODE ("TEST-DRIVEN DEVELOPMENT")
 
 One of the most effective ways to ensure we have reliable automated testing, is to write those tests as part of our daily work, using techniques such as *test-driven development* (TDD) and *acceptance test-driven development* (ATDD). This is when we begin every change to the system by first writing an automated test that validates the expected behavior *fails*, and then we write the code to make the tests pass.
 
@@ -2167,9 +2149,7 @@ One of the most effective ways to ensure we have reliable automated testing, is 
 
 These automated test suites are checked in to version control alongside our code, which provides a living, up-to-date specification of the system. Developers wishing to understand how to use the system can look at this test suite to find working examples of how to use the system's API.[\\*\\*\\*](#page-225-4)
 
-<span id="page-216-0"></span>
-
-# AUTOMATE AS MANY OF OUR MANUAL TESTS AS POSSIBLE
+### <span id="page-216-0"></span>AUTOMATE AS MANY OF OUR MANUAL TESTS AS POSSIBLE
 
 <span id="page-216-1"></span>Our goal is to find as many code errors through our automated test suites, reducing our reliance on manual testing. In her 2013 presentation at Flowcon titled "On the Care and Feeding of Feedback Cycles," Elisabeth Hendrickson observed, "Although testing can be automated, creating quality cannot. To have humans executing tests that should be automated is a waste of human potential."
 
@@ -2189,7 +2169,7 @@ time, we grew this test suite to having hundreds of thousands of automated tests
 
 In other words, we start with a small number of reliable automated tests and add to them over time, creating an everincreasing level of assurance that we will quickly detect any changes to the system that take us out of a deployable state.
 
-# INTEGRATE PERFORMANCE TESTING INTO OUR TEST SUITE
+### INTEGRATE PERFORMANCE TESTING INTO OUR TEST SUITE
 
 All too often, we discover that our application performs poorly during integration testing or after it has been deployed to production. Performance problems are often difficult to detect, such as when things slow down over time, going unnoticed until it is too late (e.g., database queries without an index). And many problems are difficult to solve, especially when they are caused by architectural decisions we made or unforeseen limitations of our networking, database, storage, or other systems.
 
@@ -2207,7 +2187,7 @@ Due to the large amount of compute and I/O that is required to run performance t
 
 To find performance problems early, we should log performance results and evaluate each performance run against previous results. For instance, we might fail the performance tests if performance deviates more than 2% from the previous run.
 
-# INTEGRATE NON-FUNCTIONAL REQUIREMENTS TESTING INTO OUR TEST SUITE
+### INTEGRATE NON-FUNCTIONAL REQUIREMENTS TESTING INTO OUR TEST SUITE
 
 In addition to testing that our code functions as designed and it performs under production-like loads, we also want to validate every other attribute of the system we care about. These are often called non-functional requirements, which include availability, scalability, capacity, security, and so forth.
 
@@ -2244,7 +2224,7 @@ To increase the visibility of automated test failures, we should create highly v
 
 <span id="page-223-0"></span>In many ways, this step is more challenging than creating our builds and test servers—those were purely technical activities, whereas this step requires changing human behavior and incentives. However, continuous integration and continuous delivery require these changes, as we explore in the next section.
 
-# WHY WE NEED TO PULL THE ANDON CORD
+### WHY WE NEED TO PULL THE ANDON CORD
 
 The consequence of not pulling the Andon cord and immediately fixing any deployment pipeline issues results in the all too familiar problem where it becomes ever more difficult to bring our applications and environment back into a deployable state. Consider the following situation:
 
@@ -2370,7 +2350,7 @@ Having these practices in place, we can now again modify our definition of "done
 
 Adhering to this revised definition of done helps us further ensure the ongoing testability and deployability of the code we're producing. By keeping our code in a deployable state, we are able to eliminate the common practice of having a separate test and stabilization phase at the end of the project.
 
-# **Case Study Continuous Integration at Bazaarvoice (2012)**
+### **Case Study Continuous Integration at Bazaarvoice (2012)**
 
 <span id="page-235-1"></span>Ernest Mueller, who helped engineer the DevOps transformation at National Instruments, later helped transform the development and release processes at Bazaarvoice in 2012. Bazaarvoice supplies customer generated content (e.g., reviews, ratings) for thousands of retailers, such as Best Buy, Nike, and Walmart.
 
@@ -2473,7 +2453,7 @@ The requirements for our deployment pipeline include:
 
 Of course, when any problems occur during deployment, we pull the Andon cord and swarm the problem until the problem is resolved, just as we do when our deployment pipeline fails in any of the earlier steps.
 
-# **Case Study Daily Deployments at CSG International (2013)**
+### **Case Study Daily Deployments at CSG International (2013)**
 
 <span id="page-244-0"></span>CSG International runs one of the largest bill printing operations in the US. Scott Prugh, their chief architect and VP of Development, in an effort to improve the predictability and reliability of their software releases, doubled their release frequency from two per year to four per year (halving their deployment interval from twenty-eight weeks to fourteen weeks).
 
@@ -2485,9 +2465,7 @@ To solve this problem, they created a Shared Operations Team (SOT) that was resp
 
 <span id="page-246-1"></span>They also focused on making all their environments look as similar as possible, including the restricted security access rights and load balancers. Prugh writes, "We made nonproduction environments as similar to production as possible, and we sought to emulate production constraints in as many ways as possible. Early exposure to productionclass environments altered the designs of the architecture to make them friendlier in these constrained or different environments. Everyone gets smarter from this approach."
 
-<span id="page-246-2"></span>
-
-# Prugh also observes:
+### <span id="page-246-2"></span>Prugh also observes:
 
 <span id="page-246-0"></span>"We have experienced many cases where changes to database schemas are either 1) handed off to a DBA team for them to 'go and figure it out' or 2) automated tests that run on unrealistically small data sets (i.e., "100's of MB vs. 100's of GBs"), which led to production failures. In our old way of working, this would become a late-night blame game between teams trying to unwind the mess. We created a development and deployment process that removed the need for handoffs to DBAs by cross-training developers, automating schema changes, and executing them daily. We created realistic load testing against sanitized customer data, ideally running migrations every day. By doing this, we run our service hundreds of times with realistic scenarios before seeing actual production traffic."[§](#page-272-2)
 
@@ -2501,7 +2479,7 @@ Their results were astonishing. By doing daily deployments and doubling the freq
 
 *[https://www.youtube.com/watch?v=tKdIHCL0DUg.](https://www.youtube.com/watch?v=tKdIHCL0DUg))*
 
-# ENABLE AUTOMATED SELF-SERVICE DEPLOYMENTS
+### ENABLE AUTOMATED SELF-SERVICE DEPLOYMENTS
 
 <span id="page-248-0"></span>Consider the following quote from Tim Tischler, Director of Operations Automation at Nike, Inc., that describes the common experience of a generation of developers: "As a developer, there has never been a more satisfying point in my career than when I wrote the code, when I pushed the button to deploy it, when I could see the production metrics confirm that it actually worked in production, and when I could fix it myself if it didn't."
 
@@ -2521,7 +2499,7 @@ To better enable fast flow, we want a code promotion process that can be perform
 
 These are the practices that enable deployments to be performed successfully, regardless of who is performing the deployment.
 
-# INTEGRATE CODE DEPLOYMENT INTO THE DEPLOYMENT PIPELINE
+### INTEGRATE CODE DEPLOYMENT INTO THE DEPLOYMENT PIPELINE
 
 Once the code deployment process is automated, we can make it part of the deployment pipeline. Consequently, our deployment automation must provide the following capabilities:
 
@@ -2540,7 +2518,7 @@ Once the code deployment process is automated, we can make it part of the deploy
 
 <span id="page-251-1"></span>By building this capability, we now have a "deploy code" button that allows us to safely and quickly promote changes to our code and our environments into production through our deployment pipeline.
 
-# **Case Study Etsy Self-Service Developer Deployment, an Example of Continuous Deployment (2014)**
+### **Case Study Etsy—Self-Service Developer Deployment, an Example of Continuous Deployment (2014)**
 
 <span id="page-251-0"></span>Unlike at Facebook where deployments are managed by release engineers, at Etsy deployments are performed by anyone who wants to perform a deployment, such as Development, Operations, or Infosec. The deployment process at Etsy has become so safe and routine that new
 
@@ -2590,13 +2568,13 @@ If we have extremely long deployment lead times, this dictates how frequently we
 
 operate as designed, our entire customer base. As discussed earlier, this enables a technique called dark launching, where we stage all the functionality to be launched in production and test it with production traffic before our release. For instance, we may invisibly test our new functionality with production traffic for weeks before our launch in order to expose problems so that they can be fixed before our actual launch.
 
-# ENVIRONMENT-BASED RELEASE PATTERNS
+### ENVIRONMENT-BASED RELEASE PATTERNS
 
 Decoupling deployments from our releases dramatically changes how we work. We no longer have to perform deployments in the middle of the night or on weekends to lower the risk of negatively impacting customers. Instead, we can do deployments during typical business hours, enabling Ops to finally have normal working hours, just like everyone else.
 
 This section focuses on environment-based release patterns, which require no changes to application code. We do this by having multiple environments to deploy into, but only one of them receives live customer traffic. By doing this, we can significantly decrease the risk associated with production releases and reduce the deployment lead time.
 
-# *The Blue-Green Deployment Pattern*
+### *The Blue-Green Deployment Pattern*
 
 The simplest of the three patterns is called blue-green deployment. In this pattern, we have two production environments: blue and green. At any time, only one of these is serving customer traffic—in figure 20, the green environment is live.
 
@@ -2608,7 +2586,7 @@ To release a new version of our service, we deploy to the inactive environment w
 
 The blue-green deployment pattern is simple, and it is extremely easy to retrofit onto existing systems. It also has incredible benefits, such as enabling the team to perform deployments during normal business hours and conduct simple changeovers (e.g., changing a router setting, changing a symlink) during offpeak times. This alone can dramatically improve the work conditions for the team performing the deployment.
 
-# *Dealing with Database Changes*
+### *Dealing with Database Changes*
 
 Having two versions of our application in production creates problems when they depend upon a common database—when the deployment requires database schema changes or adding, modifying, or deleting tables or columns, the database cannot support both versions of our application. There are two general approaches to solving this problem:
 
@@ -2635,7 +2613,7 @@ Depending on their business needs, some managers wanted to use the new features 
 
 The result was a significantly smoother and faster release, higher satisfaction from the store managers, and far less disruption to store operations. Furthermore, this application of blue-green deployments to thick-client PC applications demonstrates how DevOps patterns can be universally applied to different technologies, often in very surprising ways but with the same fantastic outcomes.
 
-# *The Canary and Cluster Immune System Release Patterns*
+### *The Canary and Cluster Immune System Release Patterns*
 
 The blue-green release pattern is easy to implement and can dramatically increase the safety of software releases. There are variants of this pattern that can further improve safety and deployment lead times using automation, but with the potential trade-off of additional complexity.
 
@@ -2659,9 +2637,7 @@ The term *canary release* comes from the tradition of coal miners bringing caged
 
 There are two significant benefits to this type of safeguard. First, we protect against defects that are hard to find through automated tests, such as a web page change that renders some critical page element invisible (e.g., CSS change). Second, we reduce the time required to detect and respond to the degraded performance created by our change.[§§](#page-272-7)
 
-<span id="page-263-0"></span>
-
-# APPLICATION-BASED PATTERNS TO ENABLE SAFER RELEASES
+### <span id="page-263-0"></span>APPLICATION-BASED PATTERNS TO ENABLE SAFER RELEASES
 
 In the previous section, we created environment-based patterns that allowed us to decouple our deployments from our releases by using multiple environments and by switching between which
 
@@ -2669,7 +2645,7 @@ environment was live, which can be entirely implemented at the infrastructure le
 
 In this section, we describe application-based release patterns that we can implement in our code, allowing even greater flexibility in how we safely release new features to our customer, often on a per-feature basis. Because application-based release patterns are implemented in the application, these require involvement from Development.
 
-# *Implement Feature Toggles*
+### *Implement Feature Toggles*
 
 The primary way we enable application-based release patterns is by implementing feature toggles, which provide us with the mechanism to selectively enable and disable features without requiring a production code deployment. Feature toggles can also control which features are visible and available to specific user segments (e.g., internal employees, segments of customers).
 
@@ -2688,7 +2664,7 @@ To ensure that we find errors in features wrapped in feature toggles, our automa
 
 <span id="page-265-0"></span>Feature toggles enable the decoupling of code deployments and feature releases, later in the book we use feature toggles to enable hypothesis-driven development and A/B testing, furthering our ability to achieve our desired business outcomes.
 
-# *Perform Dark Launches*
+### *Perform Dark Launches*
 
 Feature toggles allow us to deploy features into production without making them accessible to users, enabling a technique known as *dark launching*. This is where we deploy all the functionality into production and then perform testing of that functionality while it is still invisible to customers. For large or risky changes, we often do this for weeks before the production launch, enabling us to safely test with the anticipated productionlike loads.
 
@@ -2704,7 +2680,7 @@ Furthermore, when we launch a feature, we can progressively roll out the feature
 
 By doing this, we no longer wait until a big bang release to test whether customers want to use the functionality we build. Instead, by the time we announce and release our big feature, we have already tested our business hypotheses and run countless experiments to continually refine our product with real customers, which helps us validate that the features will achieve the desired customer outcomes.
 
-# **Case Study Dark Launch of Facebook Chat (2008)**
+### **Case Study Dark Launch of Facebook Chat (2008)**
 
 <span id="page-267-2"></span>For nearly a decade, Facebook has been one of the most widely visited Internet sites, as measured by pages viewed and unique site users. In 2008, it had over seventy million
 
@@ -2829,11 +2805,11 @@ At some point in their history, most DevOps organizations were hobbled by tightl
 
 <span id="page-280-0"></span>
 
-|                                                                                                                        | Pros                                                                                                                                                   | Cons                                                                                                                                                              |
-|------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Monolithic v1<br>(All functionality in one<br>application)                                                             | Simple at first Low inter-process<br>latencies Single codebase, one<br>deployment unit Resource-efficient at<br>small scales                           | Coordination overhead increases as team grows Poor enforcement of modularity Poor scaling All-or-nothing deploy (downtime, failures) Long build times             |
-| Monolithic v2<br>(Sets of monolithic tiers:<br>"front end presentation,"<br>"application server,"<br>"database layer") | Simple at first Join queries are easy Single schema,<br>deployment Resource-efficient at<br>small scales                                               | Tendency for increased coupling over time Poor scaling and redundancy (all or nothing, vertical only) Difficult to tune properly All-or-nothing schema management |
-| Microservice<br>(Modular, independent,<br>graph relationship vs. tiers,<br>isolated persistence)                       | Each unit is simple Independent scaling and performance Independent testing and deployment Can optimally tune performance (caching, replication, etc.) | Many cooperating units Many small repos Requires more sophisticated tooling and dependency management Network latencies                                           |
+|                                                                                                                        | Pros                                                                                                                                                                  | Cons                                                                                                                                                                                   |
+|------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Monolithic v1<br>(All functionality in one<br>application)                                                             | Simple at first Low inter-process<br>latencies Single codebase, one<br>deployment unit Resource-efficient at<br>small scales                                          | Coordination<br>overhead increases<br>as team grows Poor enforcement of<br>modularity Poor scaling All-or-nothing<br>deploy (downtime,<br>failures) Long build times                   |
+| Monolithic v2<br>(Sets of monolithic tiers:<br>"front end presentation,"<br>"application server,"<br>"database layer") | Simple at first Join queries are easy Single schema,<br>deployment Resource-efficient at<br>small scales                                                              | Tendency for<br>increased coupling<br>over time Poor scaling and<br>redundancy (all or<br>nothing, vertical<br>only) Difficult to tune<br>properly All-or-nothing<br>schema management |
+| Microservice<br>(Modular, independent,<br>graph relationship vs. tiers,<br>isolated persistence)                       | Each unit is simple Independent scaling<br>and performance Independent testing<br>and deployment Can optimally tune<br>performance<br>(caching, replication,<br>etc.) | Many cooperating<br>units Many small repos Requires more<br>sophisticated tooling<br>and dependency<br>management Network latencies                                                    |
 
 *(Source: Shoup, "From the Monolith to Micro-services.")*
 
@@ -2841,9 +2817,7 @@ The major architectural archetypes are shown in table 3, each row indicates a di
 
 from an architecture that needs hundreds of teams of developers, each of whom must be able to independently deliver value to the customer. By supporting evolutionary architectures, we can ensure that our architecture always serves the current needs of the organization.
 
-<span id="page-281-3"></span>
-
-# **Case Study Evolutionary Architecture at Amazon (2002)**
+### <span id="page-281-3"></span>**Case Study Evolutionary Architecture at Amazon (2002)**
 
 <span id="page-281-0"></span>One of the most studied architecture transformations occurred at Amazon. In an interview with ACM Turing Award-winner and Microsoft Technical Fellow Jim Gray, Amazon CTO Werner Vogels explains that Amazon.com started in 1996 as a "monolithic application, running on a web server, talking to a database on the back end. This application, dubbed Obidos, evolved to hold all the business logic, all the display logic, and all the functionality that Amazon eventually became famous for: similarities, recommendations, Listmania, reviews, etc."
 
@@ -2883,7 +2857,7 @@ think such a thing is easy—just make the new one do what the old one did. Yet 
 
 As with any transformation, we seek to create quick wins and deliver early incremental value before continuing to iterate. Upfront analysis helps us identify the smallest possible piece of work that will usefully achieve a business outcome using the new architecture.
 
-# **Case Study Strangler Pattern at Blackboard Learn (2011)**
+### **Case Study Strangler Pattern at Blackboard Learn (2011)**
 
 <span id="page-285-3"></span><span id="page-285-0"></span>Blackboard Inc. is one of the pioneers of providing technology for educational institutions, with annual revenue of approximately \$650 million in 2011. At that time, the development team for their flagship Learn product, packaged software that was installed and run on-premise at their customer sites, was living with the daily consequences of a legacy J2EE codebase that went back to 1997. As David Ashman, their chief architect, observes, "we still have fragments of Perl code still embedded throughout our codebase."
 
@@ -3142,9 +3116,7 @@ One of the first actions I take when starting in an organization is to use infor
 
 We may even extend this transparency further—instead of trying to keep customer-impacting problems a secret, we can broadcast this information to our external customers. This demonstrates that we value transparency, thereby helping to build and earn customers' trust.[\\*\\*](#page-323-4) See [Appendix 10.](#page-526-0)
 
-<span id="page-313-0"></span>
-
-# **Case Study Creating Self-Service Metrics at LinkedIn (2011)**
+### <span id="page-313-0"></span>**Case Study Creating Self-Service Metrics at LinkedIn (2011)**
 
 As described in Part III, LinkedIn was created in 2003 to help users connect "to your network for better job opportunities." By November 2015, LinkedIn had over 350 million members generating tens of thousands of requests per second, resulting in millions of queries per second on the LinkedIn back-end systems.
 
@@ -3186,7 +3158,7 @@ By having telemetry coverage in all of these areas, we will be able to see the h
 
 By detecting and correcting problems earlier, we can fix them while they are small and easy to fix, with fewer customers impacted. Furthermore, after every production incident, we should identify any missing telemetry that could have enabled faster detection and recovery; or, better yet, we can identify these gaps during feature development in our peer review process.
 
-# APPLICATION AND BUSINESS METRICS
+### APPLICATION AND BUSINESS METRICS
 
 At the application level, our goal is to ensure that we are generating telemetry not only around application health (e.g., memory usage, transaction counts, etc.), but also to measure to what extent we are achieving our organizational goals (e.g., number of new users, user login events, user session lengths, percent of users active, how often certain features are being used, and so forth).
 
@@ -3210,7 +3182,7 @@ Further business context can be created by being aware of and visually displayin
 
 <span id="page-319-0"></span>By radiating how customers interact with what we build in the context of our goals, we enable fast feedback to feature teams so they can see whether the capabilities we are building are actually being used and to what extent they are achieving business goals. As a result, we reinforce the cultural expectations that instrumenting and analyzing customer usage is also a part of our daily work, so we better understand how our work contributes to our organizational goals.
 
-# INFRASTRUCTURE METRICS
+### INFRASTRUCTURE METRICS
 
 Just as we did for application metrics, our goal for production and non-production infrastructure is to ensure that we are generating enough telemetry so that if a problem occurs in any environment, we can quickly determine whether infrastructure is a contributing cause of the problem. Furthermore, we must be able to pinpoint exactly what in the infrastructure is contributing to the problem (e.g., database, operating system, storage, networking, etc.).
 
@@ -3226,7 +3198,7 @@ These tools enable services to register themselves, storing information that oth
 
 <span id="page-321-1"></span>Note that in addition to monitoring our production services, we also need telemetry for those services in our pre-production environments (e.g., development, test, staging, etc.). Doing this enables us to find and fix issues before they go into production, such as detecting when we have ever-increasing database insert times due to a missing table index.
 
-# OVERLAYING OTHER RELEVANT INFORMATION ONTO OUR METRICS
+### OVERLAYING OTHER RELEVANT INFORMATION ONTO OUR METRICS
 
 Even after we have created our deployment pipeline that allows us to make small and frequent production changes, changes still inherently create risk. Operational side effects are not just outages, but also significant disruptions and deviations from standard operations.
 
@@ -3308,9 +3280,7 @@ Each of these metrics is a potential precursor to a production incident. For eac
 
 By repeating this process on ever-weaker failure signals, we find problems ever earlier in the life cycle, resulting in fewer customer impacting incidents and near misses. In other words, we are preventing problems as well as enabling quicker detection and correction.
 
-<span id="page-329-0"></span>
-
-# PROBLEMS THAT ARISE WHEN OUR TELEMETRY DATA HAS NON-GAUSSIAN DISTRIBUTION
+# <span id="page-329-0"></span>PROBLEMS THAT ARISE WHEN OUR TELEMETRY DATA HAS NON-GAUSSIAN DISTRIBUTION
 
 Using means and standard deviations to detect variance can be extremely useful. However, using these techniques on many of the telemetry data sets that we use in Operations will not generate the
 
@@ -3340,7 +3310,7 @@ problem before we do, at which point the problem may be much more difficult to s
 
 Fortunately, there are techniques we can use to detect anomalies in even non-Gaussian data sets, which are described next.
 
-# **Case Study Auto-Scaling Capacity at Netflix (2012)**
+### **Case Study Auto-Scaling Capacity at Netflix (2012)**
 
 Another tool developed at Netflix to increase service quality, Scryer, addresses some of the shortcomings of Amazon Auto Scaling (AAS), which dynamically increases and decreases AWS compute server counts based on workload data. Scryer works by predicting what customer demands will be based on historical usage patterns and provisions the necessary capacity.
 
@@ -3382,9 +3352,7 @@ We can expect that a large percentage of telemetry concerning user data will hav
 
 Because of the usefulness of these techniques in forecasting, we may be able to find people in the Marketing or Business Intelligence departments with the knowledge and skills necessary to analyze this data. We may want to seek these people out and explore working together to identify shared problems and use improved anomaly detection and incident prediction to solve them.[§](#page-341-2)
 
-<span id="page-337-0"></span>
-
-# **Case Study Advanced Anomaly Detection (2014)**
+### <span id="page-337-0"></span>**Case Study Advanced Anomaly Detection (2014)**
 
 <span id="page-337-1"></span>At Monitorama in 2014, Dr. Toufic Boubez described the power of using anomaly detection techniques, specifically highlighting the effectiveness of the Komogorov-Smirnov test, a technique that is often used in statistics to determine whether two data sets differ significantly and is found in the
 
@@ -3566,9 +3534,7 @@ This mechanism serves as our pressure escape valve, ensuring that we never put O
 
 The hand-back remains a long-standing practice at Google and is perhaps one of the best demonstrations of the mutual respect between Dev and Ops engineers. By doing this, Development is able to quickly generate new services, with Ops engineers joining the team when the services become strategically important to the company and, in rare cases, handing them back when they become too troublesome to manage in production.[††](#page-361-3) The following case study of Site Reliability Engineering at Google describes how the Hand-off Readiness Review and Launch Readiness Review processes evolved, and the benefits that resulted.
 
-<span id="page-356-0"></span>
-
-# **Case Study The Launch and Hand-off Readiness Review at Google (2010)**
+### <span id="page-356-0"></span>**Case Study The Launch and Hand-off Readiness Review at Google (2010)**
 
 <span id="page-356-2"></span><span id="page-356-1"></span>One of the many surprising facts about Google is that they have a functional orientation for their Ops engineers, who are referred to as "Site Reliability Engineers" (SRE), a term coined by Ben Treynor Sloss in 2004.[‡‡](#page-361-4) That year, Treynor
 
@@ -3698,7 +3664,7 @@ Etsy open-sourced their experimentation framework Feature API (formerly known as
 
 Adopting an experimental approach to product development requires us to not only break down work into small units (stories or requirements), but also validate whether each unit of work is delivering the expected outcomes. If it does not, we modify our road map of work with alternative paths that will actually achieve those outcomes.
 
-# **Case Study**
+### **Case Study**
 
 **Doubling Revenue Growth through Fast Release Cycle Experimentation at Yahoo! Answers (2010)**
 
@@ -3853,7 +3819,7 @@ A logical place to require reviews is prior to committing code to trunk in sourc
 
 <span id="page-383-2"></span><span id="page-383-1"></span>Furthermore, our ability to meaningfully critique code changes goes down as the change size goes up. As Giray Özil tweeted, "Ask a programmer to review ten lines of code, he'll find ten issues. Ask him to do five hundred lines, and he'll say it looks good."
 
-# Guidelines for code reviews include:
+### Guidelines for code reviews include:
 
 Everyone must have someone to review their changes (e.g., to the code, environment, etc.) before committing to trunk.
 
@@ -3874,11 +3840,9 @@ other platforms such as Gerrit, Atlassian Stash, and Atlassian Crucible).
 
 Close scrutiny of changes in many forms is effective in locating errors previously overlooked. Code reviews can facilitate increased code commits and production deployments, and support trunkbased deployment and continuous delivery at scale, as we will see in the following case study.
 
-<span id="page-385-1"></span><span id="page-385-0"></span>
+### <span id="page-385-1"></span><span id="page-385-0"></span>**Case Study**
 
-# **Case Study**
-
-# **Code Reviews at Google (2010)**
+### **Code Reviews at Google (2010)**
 
 Google is an excellent example of a company that employees trunk-based development and continuous delivery at scale. As noted earlier in this book, Eran Messeri described that in 2013 the processes at Google enabled over thirteen thousand developers to work off of trunk on a single source code tree, performing over 5,500 code commits per week, resulting in hundreds of production deployments per week. In 2010, there were 20+ changes being checked in to trunk every minute, resulting in 50% of the codebase being changed every month.
 
@@ -3920,7 +3884,7 @@ In one common pattern of pairing, one engineer fills the role of the *driver*, t
 
 <span id="page-389-0"></span>Pair programming has the additional benefit of spreading knowledge throughout the organization and increasing information flow within the team. Having more experienced engineers review while the less experienced engineer codes is also an effective way to teach and be taught.
 
-# **Case Study Pair Programming Replacing Broken Code Review Processes at Pivotal Labs (2011)**
+### **Case Study Pair Programming Replacing Broken Code Review Processes at Pivotal Labs (2011)**
 
 Elisabeth Hendrickson, VP of Engineering at Pivotal Software, Inc. and author of *Explore It!: Reduce Risk and Increase Confidence with Exploratory Testing*, has spoken extensively about making every team responsible for their own quality, as
 
@@ -3936,7 +3900,7 @@ To fix the problem and eliminate all of these delays, they ended up dismantling 
 
 Hendrickson is quick to note that code reviews work fine in many organizations, but it requires a culture that values reviewing code as highly as it values writing the code in the first place. When that culture is not yet in place, pair programming can serve as a valuable interim practice.
 
-# EVALUATING THE EFFECTIVENESS OF PULL REQUEST PROCESSES
+### EVALUATING THE EFFECTIVENESS OF PULL REQUEST PROCESSES
 
 Because the peer review process is an important part of our control environment, we need to be able to determine whether it is working effectively or not. One method is to look at production outages and examine the peer review process for any relevant changes.
 
@@ -4575,10 +4539,7 @@ In Part VI, we'll explore how to extend flow, feedback, and learning and experim
 
 # **PART VI**
 
-The Technical Practices
-of Integrating Information
-Security, Change Management,
-and Compliance
+The Technical Practices of Integrating Information Security, Change Management, and Compliance
 
 # <span id="page-456-1"></span>22Information Security as Everyone's Job, Every Day
 
@@ -5033,9 +4994,7 @@ Mary Smith (a pseudonym) heads up the DevOps initiative for the consumer banking
 
 <span id="page-501-0"></span>services organization. She made the observation that information security, auditors, and regulators often put too much reliance on code reviews to detect fraud. Instead, they should be relying on production monitoring controls in addition to using automated testing, code reviews, and approvals, to effectively mitigate the risks associated with errors and fraud.
 
-<span id="page-501-1"></span>
-
-# She observed:
+### <span id="page-501-1"></span>She observed:
 
 Many years ago, we had a developer who planted a backdoor in the code that we deploy to our ATM cash machines. They were able to put the ATMs into maintenance mode at certain times, allowing them to take cash out of the machines. We were able to detect the fraud very quickly, and it wasn't through a code review. These types of backdoors are difficult, or even impossible, to detect when the perpetrators have sufficient means, motive, and opportunity.
 
@@ -5103,7 +5062,7 @@ We believe that DevOps is benefiting from an incredible convergence of managemen
 
 John Willis named this "the Convergence of DevOps." The various elements of this convergence are described below in approximate chronological order. (Note that these descriptions are not intended to be an exhaustive description, but merely enough to show the progression of thinking and the rather improbable connections that led to DevOps.)
 
-# THE LEAN MOVEMENT
+### THE LEAN MOVEMENT
 
 <span id="page-510-1"></span>The Lean Movement started in the 1980s as an attempt to codify the Toyota Production System with the popularization of techniques such as Value Stream Mapping, kanban boards, and Total Productive Maintenance.
 
@@ -5113,33 +5072,29 @@ and employee happiness; and that one of the best predictors of short lead times 
 
 Lean principles focus on creating value for the customer—thinking systematically, creating constancy of purpose, embracing scientific thinking, creating flow and pull (versus push), assuring quality at the source, leading with humility, and respecting every individual.
 
-<span id="page-511-1"></span>
-
-# THE AGILE MOVEMENT
+### <span id="page-511-1"></span>THE AGILE MOVEMENT
 
 Started in 2001, the Agile Manifesto was created by seventeen of the leading thinkers in software development, with the goal of turning lightweight methods such as DP and DSDM into a wider movement that could take on heavyweight software development processes such as waterfall development and methodologies such as the Rational Unified Process.
 
 <span id="page-511-0"></span>A key principle was to "deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale." Two other principles focus on the need for small, self-motivated teams, working in a high-trust management model and an emphasis on small batch sizes. Agile is also associated with a set of tools and practices such as Scrum, Standups, and so on.
 
-# THE VELOCITY CONFERENCE MOVEMENT
+### THE VELOCITY CONFERENCE MOVEMENT
 
 Started in 2007, the Velocity Conference was created by Steve Souders, John Allspaw, and Jesse Robbins to provide a home for the IT Operations and Web Performance tribe. At the Velocity
 
 2009 conference, John Allspaw and Paul Hammond gave the seminal "10 Deploys per Day: Dev and Ops Cooperation at Flickr."
 
-# THE AGILE INFRASTRUCTURE MOVEMENT
+### THE AGILE INFRASTRUCTURE MOVEMENT
 
 At the 2008 Agile Toronto conference, Patrick Dubois and Andrew Schafer held a "birds of a feather" session on applying Agile principles to infrastructure as opposed to application code. They rapidly gained a following of like-minded thinkers, including John Willis. Later, Dubois was so excited by Allspaw and Hammond's "10 Deploys per Day: Dev and Ops Cooperation at Flickr" presentation that he created the first DevOpsDays in Ghent, Belgium, in 2009, coining the word "DevOps."
 
-# THE CONTINUOUS DELIVERY MOVEMENT
+### THE CONTINUOUS DELIVERY MOVEMENT
 
 Building upon the Development discipline of continuous build, test, and integration, Jez Humble and David Farley extended the concept of continuous delivery, which included a "deployment pipeline" to ensure that code and infrastructure are always in a deployable state and that all code checked in to truck is deployed into production.
 
 <span id="page-512-0"></span>This idea was first presented at Agile 2006 and was also independently developed by Tim Fitz in a blog post titled "Continuous Deployment."
 
-<span id="page-512-1"></span>
-
-# THE TOYOTA KATA MOVEMENT
+### <span id="page-512-1"></span>THE TOYOTA KATA MOVEMENT
 
 In 2009, Mike Rother wrote *Toyota Kata: Managing People for Improvement, Adaptiveness and Superior Results*, which described learnings over his twenty-year journey to understand and codify the causal mechanisms of the Toyota Production
 
@@ -5147,25 +5102,23 @@ In 2009, Mike Rother wrote *Toyota Kata: Managing People for Improvement, Adapti
 
 <span id="page-513-1"></span>His conclusion was that the Lean community missed the most important practice of all, which he described as the Improvement Kata. He explains that every organization has work routines, and the critical factor in Toyota was making improvement work habitual, and building it into the daily work of everyone in the organization. The Toyota Kata institutes an iterative, incremental, scientific approach to problem solving in the pursuit of a shared organizational true north.
 
-# THE LEAN STARTUP MOVEMENT
+### THE LEAN STARTUP MOVEMENT
 
 <span id="page-513-2"></span>In 2011, Eric Ries wrote *The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses*, codifying his lessons learned at IMVU, a Silicon Valley startup, which built upon the work of Steve Blank in *The Four Steps to the Epiphany* as well as continuous deployment techniques. Eric Ries also codified related practices and terms including Minimum Viable Product, the build-measure-learn cycle, and many continuous deployment technical patterns.
 
-# THE LEAN UX MOVEMENT
+### THE LEAN UX MOVEMENT
 
 In 2013, Jeff Gothelf wrote *Lean UX: Applying Lean Principles to Improve User Experience*, which codified how to improve the "fuzzy front end" and explained how product owners can frame business hypotheses, experiment, and gain confidence in those business hypotheses before investing time and resources in the
 
 resulting features. By adding Lean UX, we now have the tools to fully optimize the flow between business hypotheses, feature development, testing, deployment, and service delivery to the customer.
 
-# THE RUGGED COMPUTING MOVEMENT
+### THE RUGGED COMPUTING MOVEMENT
 
 <span id="page-514-1"></span>In 2011, Joshua Corman, David Rice, and Jeff Williams examined the apparent futility of securing applications and environments late in the life cycle. In response, they created a philosophy called "Rugged Computing," which attempts to frame the non-functional requirements of stability, scalability, availability, survivability, sustainability, security, supportability, manageability, and defensibility.
 
 Because of the potential for high release rates, DevOps can put incredible pressure on QA and Infosec, because when deploy rates go from monthly or quarterly to hundreds or thousands daily, no longer are two week turnaround times from Infosec or QA tenable. The Rugged Computing movement posited that the current approach to fighting the vulnerable industrial complex being employed by most information security programs is hopeless.
 
-<span id="page-514-0"></span>
-
-# APPENDIX 2 THEORY OF CONSTRAINTS AND CORE, CHRONIC CONFLICTS
+# <span id="page-514-0"></span>APPENDIX 2 THEORY OF CONSTRAINTS AND CORE, CHRONIC CONFLICTS
 
 The Theory of Constraints body of knowledge extensively discusses the use of creating core conflict clouds (often referred to as "C3"). Here is the conflict cloud for IT:
 
@@ -5183,9 +5136,7 @@ The principles behind DevOps work patterns are the same as those that transforme
 
 value stream, converting business needs into capabilities and services that provide value for our customers.
 
-<span id="page-516-0"></span>
-
-# APPENDIX 3 TABULAR FORM OF DOWNWARD SPIRAL
+# <span id="page-516-0"></span>APPENDIX 3 TABULAR FORM OF DOWNWARD SPIRAL
 
 The columnar form of the downward spiral depicted in *The Phoenix Project* is shown below:
 
@@ -5205,9 +5156,7 @@ The columnar form of the downward spiral depicted in *The Phoenix Project* is sh
 | Business misses Wall Street commitments                |                                                                                                             |
 | Business makes even larger promises to<br>Wall Street  |                                                                                                             |
 
-<span id="page-517-0"></span>
-
-# APPENDIX 4 THE DANGERS OF HANDOFFS AND QUEUES
+# <span id="page-517-0"></span>APPENDIX 4 THE DANGERS OF HANDOFFS AND QUEUES
 
 The problem with high amounts of queue time is exacerbated when there are many handoffs, because that is where queues are created. Figure 47 shows wait time as a function of how busy a resource at a work center is. The asymptotic curve shows why a "simple thirty-minute change" often takes weeks to complete specific engineers and work centers often become problematic bottlenecks when they operate at high utilization. As a work center approaches 100% utilization, any work required from it will languish in queues and won't be worked on without someone expediting/escalating.
 
@@ -5239,9 +5188,7 @@ Assuming that all work centers were 90% busy, the figure shows us that the avera
 
 In other words, the total % of *value added time* (sometimes known as process time) was only 0.16% of the total lead time (thirty minutes divided by sixty-three hours). That means that for 99.8% of our total lead time, the work was simply sitting in queue, waiting to be worked on.
 
-<span id="page-519-0"></span>
-
-# APPENDIX 5 MYTHS OF INDUSTRIAL SAFETY
+# <span id="page-519-0"></span>APPENDIX 5 MYTHS OF INDUSTRIAL SAFETY
 
 Decades of research into complex systems shows that countermeasures are based on several myths. In "Some Myths about Industrial Safety," by Denis Besnard and Erik Hollnagel, they are summarized as such:
 
@@ -5263,9 +5210,7 @@ The differences between what is myth and what is true are shown below:
 | Saying what people should have done is a satisfying way to describe failure. | Saying what people should have done doesn't explain why it made sense for them to do what they did. |
 | Telling people to be more careful will make the problem go away.             | Only by constantly seeking out their vulnerabilities can organizations enhance safety.              |
 
-<span id="page-520-0"></span>
-
-# APPENDIX 6 THE TOYOTA ANDON CORD
+# <span id="page-520-0"></span>APPENDIX 6 THE TOYOTA ANDON CORD
 
 <span id="page-520-5"></span><span id="page-520-4"></span>Many ask how can any work be completed if the Andon cord is being pulled over five thousand times per day? To be precise, not every Andon cord pull results in stopping the entire assembly line. Rather, when the Andon cord is pulled, the team leader overseeing the specified work center has fifty seconds to resolve the problem. If the problem has not been resolved by the time the fifty seconds
 
@@ -5275,9 +5220,7 @@ is up, the partially assembled vehicle will cross a physically drawn line on the
 
 **Figure 48:** *The Toyota Andon cord*
 
-<span id="page-521-0"></span>
-
-# APPENDIX 7 COTS SOFTWARE
+# <span id="page-521-0"></span>APPENDIX 7 COTS SOFTWARE
 
 Currently, in order to get complex COTS (commercial off-theshelf) software (e.g., SAP, IBM WebSphere, Oracle WebLogic) into version control, we may have to eliminate the use of graphical point-and-click vendor installer tools. To do that, we need to discover what the vendor installer is doing, and we may need to do an install on a clean server image, diff the file system, and put those added files into version control. Files that don't vary by environment are put into one place ("base install"), while environment-specific files are put into their own directory ("test"
 
@@ -5285,9 +5228,7 @@ or "production"). By doing this, software install operations become merely a ver
 
 We may also have to transform any application configuration settings so that they are in version control. For instance, we may transform application configurations that are stored in a database into XML files and vice versa.
 
-<span id="page-522-0"></span>
-
-# APPENDIX 8 POST-MORTEM MEETINGS
+# <span id="page-522-0"></span>APPENDIX 8 POST-MORTEM MEETINGS
 
 A sample agenda of the post-mortem meeting is shown below:
 
@@ -5318,9 +5259,7 @@ We will also generate a separate list of lower priority ideas and assign an owne
 
 <span id="page-524-1"></span><span id="page-524-0"></span>Bethany Macri from Etsy observed, "Blamelessness in a postmortem does not mean that no one takes responsibility. It means <span id="page-525-3"></span>that we want to find out what the circumstances were that allowed the person making the change or who introduced the problem to do this. What was the larger environment….The idea is that by removing blame, you remove fear, and by removing fear, you get honesty."
 
-<span id="page-525-0"></span>
-
-# APPENDIX 9 THE SIMIAN ARMY
+# <span id="page-525-0"></span>APPENDIX 9 THE SIMIAN ARMY
 
 <span id="page-525-1"></span>After the 2011 AWS EAST Outage, Netflix had numerous discussions about engineering their systems to automatically deal with failure. These discussions have evolved into a service called "Chaos Monkey."
 
@@ -5340,9 +5279,7 @@ belong to an auto-scaling group or when there is no escalation engineer email ad
 - **Janitor Monkey:** ensures that their cloud environment is running free of clutter and waste; searches for unused resources and disposes of them
 - <span id="page-526-2"></span>**Security Monkey:** an extension of Conformity Monkey; finds and terminates instances with security violations or vulnerabilities, such as improperly configured AWS security groups
 
-<span id="page-526-0"></span>
-
-# APPENDIX 10 TRANSPARENT UPTIME
+# <span id="page-526-0"></span>APPENDIX 10 TRANSPARENT UPTIME
 
 <span id="page-526-1"></span>Lenny Rachitsky wrote about the benefits of what he called "transparent uptime":
 
@@ -5353,7 +5290,7 @@ belong to an auto-scaling group or when there is no escalation engineer email ad
 - 4. Trust is the cornerstone of any successful SaaS adoption. Your customers are betting their business and their livelihoods on your service or platform. Both current and prospective customers require confidence in your service. Both need to know they won't be left in the dark, alone and uninformed, when you run into trouble. Real time insight into unexpected events is the best way to build this trust. Keeping them in the dark and alone is no longer an option.
 - 5. It's only a matter of time before every serious SaaS provider will be offering a public health dashboard. Your users will demand it.
 
-# Additional Resources
+### Additional Resources
 
 - Many of the common problems faced by IT organizations are discussed in the first half of the book *The Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win* by Gene Kim, Kevin Behr, and George Spafford.
 - This video shows a speech Paul O'Neill gave on his tenure as CEO of Alcoa, including the investigation he took part in after a teenage worker was killed at one of Alcoa's plants: [https://www.youtube.com/watch?v=tC2ucDs\\_XJY](https://www.youtube.com/watch?v=tC2ucDs_XJY) .
@@ -5387,9 +5324,9 @@ Andrew Cunningham and Andrew Myers and edited by Jez Humble: <https://puppetlabs
 - The story of how application configuration settings were transformed by Jez Humble and David Farley for Oracle WebLogic was described in the book *Continuous Delivery: Reliable Software Releases Through Build, Test, and Deployment Automation*. Mirco Hering described a more generic approach to this process here: [http://notafactoryanymore.com/2015/10/19/devops-for-systems-of-record-a-new-hope](http://notafactoryanymore.com/2015/10/19/devops-for-systems-of-record-a-new-hope-preview-of-does-talk/)preview-of-does-talk/ .
 - A sample list of DevOps operational requirements can be found here: <http://blog.devopsguys.com/2013/12/19/the-top-ten-devops-operational-requirements/>.
 
-# Endnotes
+### Endnotes
 
-# INTRODUCTION
+### INTRODUCTION
 
 *[Before the revolution](#page-19-0)*… Eliyahu M. Goldratt, *Beyond the Goal: Eliyahu Goldratt Speaks on the Theory of Constraints (Your Coach in a Box)* (Prince Frederick, Maryland: Gildan Media, 2005), Audiobook.
 
@@ -5425,13 +5362,13 @@ Andrew Cunningham and Andrew Myers and edited by Jez Humble: <https://puppetlabs
 
 *[As with](#page-37-0)* The… JGFLL, review of *The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win*, by Gene Kim, Kevin Behr, and George Spafford, Amazon.com review, March 4, 2013, <http://www.amazon.com/review/R1KSSPTEGLWJ23>; Mark L Townsend, review of *The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win*, by Gene Kim, Kevin Behr, and George Spafford, Amazon.com review, March 2, 2013, http://uedata.amazon.com/gp/customer[reviews/R1097DFODM12VD/ref=cm\\_cr\\_getr\\_d\\_rvw\\_ttl?ie=UTF8&ASIN=B00VATFAMI](http://uedata.amazon.com/gp/customer-reviews/R1097DFODM12VD/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8&ASIN=B00VATFAMI) ; Scott Van Den Elzen, review of *The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win*, by Gene Kim, Kevin Behr, and George Spafford, Amazon.com review, March 13, 2013, http://uedata.amazon.com/gp/customer[reviews/R2K95XEH5OL3Q5/ref=cm\\_cr\\_getr\\_d\\_rvw\\_ttl?ie=UTF8&ASIN=B00VATFAMI](http://uedata.amazon.com/gp/customer-reviews/R2K95XEH5OL3Q5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8&ASIN=B00VATFAMI) .
 
-# PART I INTRODUCTION
+### PART I INTRODUCTION
 
 *[One key principle](#page-44-0)*… Kent Beck, et al., "Twelve Principles of Agile Software," AgileManifesto.org, 2001, <http://agilemanifesto.org/principles.html>.
 
 *[He concluded that](#page-46-1)*… Mike Rother, *Toyota Kata: Managing People for Improvement, Adaptiveness and Superior Results* (New York: McGraw Hill, 2010), Kindle edition, Part III.
 
-# CHAPTER 1
+### CHAPTER 1
 
 *[Karen Martin and](#page-49-0)*… Karen Martin and Mike Osterling, *Value Stream Mapping: How to Visualize Work and Align Leadership for Organizational Transformation* (New York: McGraw Hill, 2013), Kindle edition, chap 1.
 
@@ -5439,7 +5376,7 @@ Andrew Cunningham and Andrew Myers and edited by Jez Humble: <https://puppetlabs
 
 *[Karen Martin and](#page-54-0)*… Ibid.
 
-# CHAPTER 2
+### CHAPTER 2
 
 *[Studies have shown](#page-61-0)*… Joshua S. Rubinstein, David E. Meyer, and Jeffrey E. Evans, "Executive Control of Cognitive Processes in Task Switching," *Journal of Experimental Psychology: Human Perception and Performance* 27, no. 4 (2001): 763-797, doi: 10.1037//0096- 1523.27.4.763, <http://www.umich.edu/~bcalab/documents/RubinsteinMeyerEvans2001.pdf> .
 
@@ -5463,7 +5400,7 @@ Andrew Cunningham and Andrew Myers and edited by Jez Humble: <https://puppetlabs
 
 *[The following categories](#page-71-1)*… Adapted from Damon Edwards, "DevOps Kaizen: Find and Fix What Is Really Behind Your Problems," Slideshare.net, posted by dev2ops, May 4, 2015, <http://www.slideshare.net/dev2ops/dev-ops-kaizen-damon-edwards> .
 
-# CHAPTER 3
+### CHAPTER 3
 
 *[Dr. Charles Perrow](#page-75-0)*… Charles Perrow, *Normal Accidents: Living with High Risk Technologies* (Princeton, NJ: Princeton University Press, 1999).
 
@@ -5489,7 +5426,7 @@ Andrew Cunningham and Andrew Myers and edited by Jez Humble: <https://puppetlabs
 
 *[As Gary Gruver](#page-84-0)*… Gary Gruver, personal correspondence with Gene Kim, 2014.
 
-# CHAPTER 4
+### CHAPTER 4
 
 *[For instance, in](#page-87-0)*… Paul Adler, "Time-and-Motion Regained," *Harvard Business Review*, January-February 1993,<https://hbr.org/1993/01/time-and-motion-regained>.
 
@@ -5589,7 +5526,7 @@ CHAPTER 5
 
 *[Peter Drucker, a](#page-118-5)*… Leigh Buchanan, "The Wisdom of Peter Drucker from A to Z," *Inc*., November 19, 2009, <http://www.inc.com/articles/2009/11/drucker.html>.
 
-# CHAPTER 6
+### CHAPTER 6
 
 *[Over the years](#page-119-0)*… Kissler, "DOES14 - Courtney Kissler - Nordstrom."
 
@@ -5643,7 +5580,7 @@ CHAPTER 5
 
 *[As Ryan Martens](#page-138-0)*… Ryan Martens, personal correspondence with Gene Kim, 2013.
 
-# CHAPTER 7
+### CHAPTER 7
 
 *[He observed, "After](#page-140-0)*… Dr. Melvin E. Conway, "How Do Committees Invent?" MelConway.com, <http://www.melconway.com/research/committees.html> , previously published in *Datamation*, April 1968.
 
@@ -5731,7 +5668,7 @@ CHAPTER 5
 
 *The API Enablement*… Ibid.
 
-# CHAPTER 8
+### CHAPTER 8
 
 *[At Big Fish](#page-166-0)*… "Big Fish Celebrates 11th Consecutive Year of Record Growth," BigFishGames.com, January 28, 2014, http://pressroom.bigfishgames.com/2014-01-28-Big-[Fish-Celebrates-11th-Consecutive-Year-of-Record-Growth .](http://pressroom.bigfishgames.com/2014-01-28-Big-Fish-Celebrates-11th-Consecutive-Year-of-Record-Growth)
 
@@ -5757,7 +5694,7 @@ CHAPTER 5
 
 *[Scrum is an agile](#page-180-6)*… Hirotaka Takeuchi and Ikujiro Nonaka, "New Product Development Game," *Harvard Business Review* (January 1986): 137-146.
 
-# CHAPTER 9
+### CHAPTER 9
 
 *[In her presentation](#page-185-0)*… Em Campbell-Pretty, "DOES14 - Em Campbell-Pretty - How a Business Exec Led Agile, Lead, CI/CD," YouTube video, 29:47, posted by DevOps Enterprise Summit, April 20, 2014, <https://www.youtube.com/watch?v=-4pIMMTbtwE> .
 
@@ -5781,7 +5718,7 @@ CHAPTER 5
 
 *[The entire application](#page-199-5)*… John Willis, "Docker and the Three Ways of DevOps Part 1: The First Way—Systems Thinking," *Docker*[, May 26, 2015, https://blog.docker.com/2015/05/docker-](https://blog.docker.com/2015/05/docker-three-ways-devops/) [three-ways-devops/ .](https://blog.docker.com/2015/05/docker-three-ways-devops/)
 
-# CHAPTER 10
+### CHAPTER 10
 
 *[Gary Gruver, former](#page-200-0)*… Gary Gruver, personal correspondence with Gene Kim, 2014.
 
@@ -5831,7 +5768,7 @@ CHAPTER 5
 
 *[This is sometimes](#page-225-8)*… David West, "Water scrum-fall is-reality\_of\_agile\_for\_most," [Slideshare.net, posted by harsoft, April 22, 2013, http://www.slideshare.net/harsoft/water](http://www.slideshare.net/harsoft/water-scrumfall-isrealityofagileformost)scrumfall-isrealityofagileformost .
 
-# CHAPTER 11
+### CHAPTER 11
 
 *[The surprising breadth](#page-227-0)*… Gene Kim, "The Amazing DevOps Transformation of the HP LaserJet Firmware Team (Gary Gruver)," ITRevolution.com, 2013, [http://itrevolution.com/the-amazing-devops-transformation-of-the-hp-laserjet-firmware](http://itrevolution.com/the-amazing-devops-transformation-of-the-hp-laserjet-firmware-team-gary-gruver/)team-gary-gruver/ .
 
@@ -5859,7 +5796,7 @@ CHAPTER 5
 
 *[However, the data](#page-238-4)*… Kersten, IT Revolution, and PwC, *2015 State of DevOps Report*.
 
-# CHAPTER 12
+### CHAPTER 12
 
 *[In 2012, Rossi](#page-239-2)*… Chuck Rossi, "Release engineering and push karma: Chuck Rossi," post on [Chuck Rossi's Facebook page, April 5, 2012, https://www.facebook.com/notes/facebook](https://www.facebook.com/notes/facebook-engineering/release-engineering-and-push-karma-chuck-rossi/10150660826788920)engineering/release-engineering-and-push-karma-chuck-rossi/10150660826788920 .
 
@@ -5939,7 +5876,7 @@ CHAPTER 5
 
 *[At Amazon and](#page-271-0)*… Ibid.
 
-# CHAPTER 13
+### CHAPTER 13
 
 *[This is the](#page-274-1)*… Jez Humble, "What is Continuous Delivery," ContinuousDelivery.com, accessed May 28, 2016, <https://continuousdelivery.com/>.
 
@@ -5995,7 +5932,7 @@ CHAPTER 5
 
 *[Ashman concluded, "Having](#page-288-1)*… Ibid.
 
-# CHAPTER 14
+### CHAPTER 14
 
 *[In Operations, we](#page-295-0)*… Kim, Behr, and Spafford, *The Visible Ops Handbook: Implementing ITIL in 4 Practical and Auditable Steps* (Eugene, OR: IT Process Institute, 2004), Kindle edition, Introduction.
 
@@ -6059,7 +5996,7 @@ CHAPTER 5
 
 *[As Jody Mulkey](#page-321-2)*… Jody Mulkey, "DOES15 - Jody Mulkey - DevOps in the Enterprise: A Transformation Journey," YouTube video, 28:22, posted by DevOps Enterprise Summit, November 5, 2015,<https://www.youtube.com/watch?v=USYrDaPEFtM>.
 
-# CHAPTER 15
+### CHAPTER 15
 
 *[In 2015, Netflix](#page-324-0)*… Netflix Letter to Shareholders*,* January 19, 2016, [http://files.shareholder.com/downloads/NFLX/2432188684x0x870685/C6213FF9-5498-](http://files.shareholder.com/downloads/NFLX/2432188684x0x870685/C6213FF9-5498-4084-A0FF-74363CEE35A1/Q4_15_Letter_to_Shareholders_-_COMBINED.pdf) 4084-A0FF-74363CEE35A1/Q4\_15\_Letter\_to\_Shareholders\_-\_COMBINED.pdf .
 
@@ -6091,7 +6028,7 @@ CHAPTER 5
 
 *[Even saying Kilmogorov-Smirnov](#page-339-0)*… "Simple math for anomaly detection toufic boubez metafor software - monitorama pdx 2014-05-05," Slideshare.net, posted by tboubez, May 6, 2014, http://www.slideshare.net/tboubez/simple-math-for-anomaly-detection -touficboubez-metafor-software-monitorama-pdx-20140505.
 
-# CHAPTER 16
+### CHAPTER 16
 
 *[In 2006, Nick](#page-342-0)*… Mark Walsh, "Ad Firms Right Media, AdInterax Sell To Yahoo," *MediaPost,* [October 18, 2006, http://www.mediapost.com/publications/article/49779/ad-firms-right](http://www.mediapost.com/publications/article/49779/ad-firms-right-media-adinterax-sell-to-yahoo.html?edition=)media-adinterax-sell-to-yahoo.html?edition= .
 
@@ -6127,7 +6064,7 @@ CHAPTER 5
 
 *[Limoncelli explained, "Helping](#page-359-2)*… Ibid., 2015.
 
-# CHAPTER 17
+### CHAPTER 17
 
 *[In general, Jez](#page-362-0)*… Humble, O'Reilly and Molesky, *Lean Enterprise*, Part II.
 
@@ -6167,7 +6104,7 @@ CHAPTER 5
 
 *[Stoneham concluded, "This](#page-372-2)*… Ibid.
 
-# CHAPTER 18
+### CHAPTER 18
 
 *[Once a pull](#page-375-0)*… Scott Chacon, "Github Flow," ScottChacon.com, August 31, 2011, <http://scottchacon.com/2011/08/31/github-flow.html> .
 
@@ -6229,7 +6166,7 @@ CHAPTER 5
 
 *[Consider a story](#page-395-1)*… John Allspaw and Jez Humble, personal correspondence with Gene Kim, 2014.
 
-# CHAPTER 19
+### CHAPTER 19
 
 *[The result is](#page-401-0)*… Spear, *The High-Velocity Edge*, chap. 1.
 
@@ -6325,7 +6262,7 @@ CHAPTER 5
 
 *[As Peter Senge](#page-421-7)*… Widely attributed to Peter Senge.
 
-# CHAPTER 20
+### CHAPTER 20
 
 *[As Jesse Newland](#page-423-0)*… Jesse Newland, "ChatOps at GitHub," SpeakerDeck.com, February 7, 2013,<https://speakerdeck.com/jnewland/chatops-at-github> .
 
@@ -6373,7 +6310,7 @@ CHAPTER 5
 
 *[Similarly, Dan McKinley](#page-437-2)*… Dan McKinley, "Why MongoDB Never Worked Out at Etsy," [McFunley.com, December 26, 2012, http://mcfunley.com/why-mongodb-never-worked-out](http://mcfunley.com/why-mongodb-never-worked-out-at-etsy)at-etsy .
 
-# CHAPTER 21
+### CHAPTER 21
 
 *[One of the](#page-439-0)*… "Kaizen," *Wikipedia*, last modified May 12, 2016, <https://en.wikipedia.org/wiki/Kaizen>.
 
@@ -6447,7 +6384,7 @@ CHAPTER 5
 
 *[These Fixits, as](#page-452-1)*… Ibid.
 
-# CHAPTER 22
+### CHAPTER 22
 
 *[One of the top](#page-456-0)*… James Wickett, "Attacking Pipelines--Security meets Continuous Delivery," Slideshare.net, posted by James Wickett, June 11, 2014,
 
@@ -6509,7 +6446,7 @@ CHAPTER 5
 
 *[As Jonathan Claudius](#page-481-0)*… Jonathan Claudius, "Attacking Cloud Services with Source Code," Speakerdeck.com, posted by Jonathan Claudius, April 16, 2013, <https://speakerdeck.com/claudijd/attacking-cloud-services-with-source-code>.
 
-# CHAPTER 23
+### CHAPTER 23
 
 *[ITIL defines utility](#page-503-4)*… *Axelos, ITIL Service Transition* (ITIL Lifecycle Suite) (Belfast, Ireland: TSO, 2011), 48.
 
@@ -6561,17 +6498,15 @@ https://webcache.googleusercontent.com/search?
 
 *[Shinn gives an](#page-499-3)*… Ibid.
 
-*[To help solve](#page-500-0)*… James DeLuccia, Jeff Gallimore, Gene Kim, and Byron Miller, *DevOps Audit Defense Toolkit* [\(Portland, OR: IT Revolution, 2015\), http://itrevolution.com/devops-and-](http://itrevolution.com/devops-and-auditors-the-devops-audit-defense-toolkit) 
-
-# CONCLUSION
+*[To help solve](#page-500-0)*… James DeLuccia, Jeff Gallimore, Gene Kim, and Byron Miller, *DevOps Audit Defense Toolkit* [\(Portland, OR: IT Revolution, 2015\), http://itrevolution.com/devops-and-](http://itrevolution.com/devops-and-auditors-the-devops-audit-defense-toolkit) [auditors-the-devops-audit-defense-toolkit .](http://itrevolution.com/devops-and-auditors-the-devops-audit-defense-toolkit)
 
 *[She made the](#page-501-0)*… Mary Smith (a pseudonym), personal correspondence with Gene Kim, 2013 *[She observed:](#page-501-1)*… Ibid., 2014.
 
-# CONCLUSION
+### CONCLUSION
 
 *[As Jesse Robbins](#page-507-0)*… "Hacking Culture at VelocityConf," Slideshare.net, posted by Jesse [Robbins, June 28, 2012, http://www.slideshare.net/jesserobbins/hacking-culture-at](http://www.slideshare.net/jesserobbins/hacking-culture-at-velocityconf)velocityconf .
 
-# APPENDIX
+### APPENDIX
 
 *[The Lean movement started](#page-510-1)*… Ries, *The Lean Startup.*
 
@@ -6615,11 +6550,9 @@ https://webcache.googleusercontent.com/search?
 
 <http://www.transparentuptime.com/2008/11/rules-for-successful-public-health.html> .
 
-## Index
+# Index
 
-<span id="page-568-3"></span>
-
-### [Symbols](#page-568-0) [Numbers](#page-568-1) [A](#page-568-2) [B](#page-572-0) [C](#page-574-0) [D](#page-579-0) [E](#page-584-0) [F](#page-587-0) [G](#page-589-0) [H](#page-591-0) [I](#page-592-0) [J](#page-594-0) [K](#page-595-0) [L](#page-595-1) [M](#page-599-0) [N](#page-601-0) [O](#page-601-1) [P](#page-604-0) [Q](#page-606-0) [R](#page-606-1) [S](#page-608-0) [T](#page-610-0) [U](#page-620-0) [V](#page-620-1) [W](#page-622-0) [Y](#page-623-0) [Z](#page-623-1)
+### <span id="page-568-3"></span>[Symbols](#page-568-0) [Numbers](#page-568-1) [A](#page-568-2) [B](#page-572-0) [C](#page-574-0) [D](#page-579-0) [E](#page-584-0) [F](#page-587-0) [G](#page-589-0) [H](#page-591-0) [I](#page-592-0) [J](#page-594-0) [K](#page-595-0) [L](#page-595-1) [M](#page-599-0) [N](#page-601-0) [O](#page-601-1) [P](#page-604-0) [Q](#page-606-0) [R](#page-606-1) [S](#page-608-0) [T](#page-610-0) [U](#page-620-0) [V](#page-620-1) [W](#page-622-0) [Y](#page-623-0) [Z](#page-623-1)
 
 Note: Figures are indicated with *f*; footnotes are indicated with *n*
 
@@ -8474,21 +8407,21 @@ Zhao, Haiping, 302
 Zuckerberg, Mark, 302
 ```
 
-## Acknowledgments
+# Acknowledgments
 
-# *Jez Humble*
+### *Jez Humble*
 
 Creating this book has been a labor of love for Gene in particular. It's an immense privilege and pleasure to have worked with Gene and my other co-authors, John and Pat, along with Todd, Anna, Robyn and the editorial and production team at IT Revolution preparing this work—thank you. I also want to thank Nicole Forsgren whose work with Gene, Alanna Brown, Nigel Kersten and I on the PuppetLabs/DORA *State of DevOps Report* over the last three years has been instrumental in developing, testing and refining many of the ideas in this book. My wife, Rani, and my two daughters, Amrita and Reshmi, have given me boundless love and support during my work on this book, as in every part of my life. Thank you. I love you. Finally, I feel incredibly lucky to be part of the DevOps community, which almost without exception walks the talk of practicing empathy and growing a culture of respect and learning. Thanks to each and every one of you.
 
-# *John Willis*
+### *John Willis*
 
 First and foremost, I need to acknowledge my saint of a wife for putting up with my crazy career. It would take another book to express how much I learned from my co-authors Patrick, Gene and Jez. Other very important influencers and advisers in my journey are Mark Hinkle, Mark Burgess, Andrew Clay Shafer, and Michael Cote. I also want to give a shout out to Adam Jacob for hiring me at Chef and giving me the freedom to explore, in the early days, this thing we call Devops. Last but definitely not least is my partner in crime, my *Devops Cafe* cohost, Damon Edwards.
 
-# *Patrick Debois*
+### *Patrick Debois*
 
 I would like to thank those who were on this ride, much gratitude to you all.
 
-# *Gene Kim*
+### *Gene Kim*
 
 I cannot thank Margueritte, my loving wife of nearly eleven amazing years, enough for putting up with me being in deadline mode for over five years, as well as my sons, Reid, Parker, and Grant. And of course, my parents, Ben and Gail Kim, for helping me become a nerd early in life. I also want to thank my fellow coauthors for everything that I learned from them, as well as Anna Noak, Aly Hoffman, Robyn Crummer-Olsen, Todd Sattersten, and the rest of the IT Revolution team for shepherding this book to its completion.
 
@@ -8502,7 +8435,7 @@ And I am so profoundly grateful for the many reviewers who gave us fantastic fee
 
 And several people gave me an amazing glimpse of what the future of authoring with modern toolchains looks like, including Andrew Odewahn (O'Reilly Media) who let us use the fantastic Chimera reviewing platform, James Turnbull (Kickstarter) for his help creating my first publishing rendering toolchain, and Scott Chacon (GitHub) for his work on GitHub Flow for authors.
 
-## Author Biographies
+# Author Biographies
 
 ![](_page_628_Picture_1.jpeg)
 

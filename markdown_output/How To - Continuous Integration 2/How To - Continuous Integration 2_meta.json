@@ -1,0 +1,286 @@
+{
+  "table_of_contents": [
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          304.7556675062972,
+          10.496883348174531
+        ],
+        [
+          586.992443324937,
+          10.496883348174531
+        ],
+        [
+          586.992443324937,
+          69.72929652715939
+        ],
+        [
+          304.7556675062972,
+          69.72929652715939
+        ]
+      ]
+    },
+    {
+      "title": "10 Tips for Continuous Integration",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          83.31989924433249,
+          208.4381121994657
+        ],
+        [
+          514.9319899244332,
+          208.4381121994657
+        ],
+        [
+          514.9319899244332,
+          247.9130859375
+        ],
+        [
+          83.31989924433249,
+          247.9130859375
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER\nDAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          306.25692695214104,
+          14.995547640249331
+        ],
+        [
+          585.4911838790931,
+          14.995547640249331
+        ],
+        [
+          585.4911838790931,
+          67.0146484375
+        ],
+        [
+          306.25692695214104,
+          67.0146484375
+        ]
+      ]
+    },
+    {
+      "title": "10 Tips for Continuous Integration",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          84.0705289672544,
+          113.8837890625
+        ],
+        [
+          514.9319899244332,
+          113.8837890625
+        ],
+        [
+          514.9319899244332,
+          152.5302734375
+        ],
+        [
+          84.0705289672544,
+          152.5302734375
+        ]
+      ]
+    },
+    {
+      "title": "Continuous Integration is the antidote to \"Integration Hell\".",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          32.277078085642316,
+          174.6981300089047
+        ],
+        [
+          366.3073047858942,
+          174.6981300089047
+        ],
+        [
+          366.3073047858942,
+          191.587890625
+        ],
+        [
+          32.277078085642316,
+          191.587890625
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER\nDAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          307.007556675063,
+          13.5673828125
+        ],
+        [
+          586.2418136020151,
+          13.5673828125
+        ],
+        [
+          586.2418136020151,
+          67.0146484375
+        ],
+        [
+          307.007556675063,
+          67.0146484375
+        ]
+      ]
+    },
+    {
+      "title": "My Top Tips",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          25.900390625,
+          98.671875
+        ],
+        [
+          132.11083123425692,
+          98.671875
+        ],
+        [
+          132.11083123425692,
+          128.2734375
+        ],
+        [
+          25.900390625,
+          128.2734375
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          3
+        ],
+        [
+          "Span",
+          3
+        ],
+        [
+          "Picture",
+          2
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "PageFooter",
+          2
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 1960,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          30
+        ],
+        [
+          "Span",
+          30
+        ],
+        [
+          "Text",
+          6
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Span",
+          31
+        ],
+        [
+          "Line",
+          29
+        ],
+        [
+          "ListItem",
+          10
+        ],
+        [
+          "Picture",
+          3
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "ListGroup",
+          2
+        ],
+        [
+          "Text",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/How To - Continuous Integration 2"
+}

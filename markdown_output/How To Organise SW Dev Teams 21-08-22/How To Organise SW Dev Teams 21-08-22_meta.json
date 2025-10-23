@@ -1,0 +1,772 @@
+{
+  "table_of_contents": [
+    {
+      "title": "How To Organise Software \nDevelopment Teams",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          50.16072082519531,
+          239.6904296875
+        ],
+        [
+          556.7030639648438,
+          239.6904296875
+        ],
+        [
+          556.7030639648438,
+          371.0630798339844
+        ],
+        [
+          50.16072082519531,
+          371.0630798339844
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          12.22265625,
+          36.5908203125
+        ],
+        [
+          83.23046875,
+          36.5908203125
+        ],
+        [
+          83.23046875,
+          88.3935546875
+        ],
+        [
+          12.22265625,
+          88.3935546875
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          317.20703125,
+          51.802734375
+        ],
+        [
+          581.44921875,
+          51.802734375
+        ],
+        [
+          581.44921875,
+          78.115234375
+        ],
+        [
+          317.20703125,
+          78.115234375
+        ]
+      ]
+    },
+    {
+      "title": "How to set up your Software Development Teams?",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          25.609375,
+          118.40625
+        ],
+        [
+          469.1885681152344,
+          118.40625
+        ],
+        [
+          469.1885681152344,
+          148.5093994140625
+        ],
+        [
+          25.609375,
+          148.5093994140625
+        ]
+      ]
+    },
+    {
+      "title": "Team Size and Structure",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          22.69921875,
+          271.7587890625
+        ],
+        [
+          227.05970764160156,
+          271.7587890625
+        ],
+        [
+          227.05970764160156,
+          301.4312744140625
+        ],
+        [
+          22.69921875,
+          301.4312744140625
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          313.7632241813602,
+          50.984861976847725
+        ],
+        [
+          583.9899244332494,
+          50.984861976847725
+        ],
+        [
+          583.9899244332494,
+          78.115234375
+        ],
+        [
+          313.7632241813602,
+          78.115234375
+        ]
+      ]
+    },
+    {
+      "title": "Team Skills & Responsibilities",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          27.022670025188916,
+          117.1728515625
+        ],
+        [
+          279.98488664987406,
+          117.1728515625
+        ],
+        [
+          279.98488664987406,
+          144.3076171875
+        ],
+        [
+          27.022670025188916,
+          144.3076171875
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          12.22265625,
+          38.646484375
+        ],
+        [
+          83.23046875,
+          38.646484375
+        ],
+        [
+          83.23046875,
+          87.982421875
+        ],
+        [
+          12.22265625,
+          87.982421875
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          313.7632241813602,
+          50.5693359375
+        ],
+        [
+          583.9899244332494,
+          49.485307212822796
+        ],
+        [
+          583.9899244332494,
+          76.0595703125
+        ],
+        [
+          313.7632241813602,
+          79.47640249332146
+        ]
+      ]
+    },
+    {
+      "title": "Team Organisation",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          27.022670025188916,
+          117.1728515625
+        ],
+        [
+          184.65491183879092,
+          117.1728515625
+        ],
+        [
+          184.65491183879092,
+          144.3076171875
+        ],
+        [
+          27.022670025188916,
+          144.3076171875
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          317.20703125,
+          51.3916015625
+        ],
+        [
+          581.44921875,
+          51.3916015625
+        ],
+        [
+          581.44921875,
+          78.5263671875
+        ],
+        [
+          317.20703125,
+          78.5263671875
+        ]
+      ]
+    },
+    {
+      "title": "Platform Teams",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          30.556640625,
+          122.9287109375
+        ],
+        [
+          174.75021362304688,
+          122.9287109375
+        ],
+        [
+          174.75021362304688,
+          157.63360595703125
+        ],
+        [
+          30.556640625,
+          157.63360595703125
+        ]
+      ]
+    },
+    {
+      "title": "Cooperation and Collaboration",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          30.731250762939453,
+          633.5556640625
+        ],
+        [
+          309.44256591796875,
+          633.5556640625
+        ],
+        [
+          309.44256591796875,
+          666.0158081054688
+        ],
+        [
+          30.731250762939453,
+          666.0158081054688
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          12.8046875,
+          37.001953125
+        ],
+        [
+          81.484375,
+          37.001953125
+        ],
+        [
+          81.484375,
+          87.982421875
+        ],
+        [
+          12.8046875,
+          87.982421875
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          317.20703125,
+          50.98046875
+        ],
+        [
+          581.44921875,
+          50.98046875
+        ],
+        [
+          581.44921875,
+          78.9375
+        ],
+        [
+          317.20703125,
+          78.9375
+        ]
+      ]
+    },
+    {
+      "title": "Here are some recommendations:",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          20.953125,
+          141.8408203125
+        ],
+        [
+          281.35052490234375,
+          141.8408203125
+        ],
+        [
+          281.35052490234375,
+          169.3909912109375
+        ],
+        [
+          20.953125,
+          169.3909912109375
+        ]
+      ]
+    },
+    {
+      "title": "Transforming Team Structure",
+      "heading_level": null,
+      "page_id": 5,
+      "polygon": [
+        [
+          30.265625,
+          572.296875
+        ],
+        [
+          273.3584289550781,
+          572.296875
+        ],
+        [
+          273.3584289550781,
+          602.3509063720703
+        ],
+        [
+          30.265625,
+          602.3509063720703
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          12.8046875,
+          37.4130859375
+        ],
+        [
+          81.484375,
+          37.4130859375
+        ],
+        [
+          81.484375,
+          87.5712890625
+        ],
+        [
+          12.8046875,
+          87.5712890625
+        ]
+      ]
+    },
+    {
+      "title": "",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          316.625,
+          51.802734375
+        ],
+        [
+          582.03125,
+          51.802734375
+        ],
+        [
+          582.03125,
+          78.115234375
+        ],
+        [
+          316.625,
+          78.115234375
+        ]
+      ]
+    },
+    {
+      "title": "Transforming Team Structure, cont'd",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          22.1171875,
+          119.228515625
+        ],
+        [
+          325.54644775390625,
+          119.228515625
+        ],
+        [
+          325.54644775390625,
+          151.7318115234375
+        ],
+        [
+          22.1171875,
+          151.7318115234375
+        ]
+      ]
+    },
+    {
+      "title": "More Resources:",
+      "heading_level": null,
+      "page_id": 6,
+      "polygon": [
+        [
+          22.69921875,
+          528.0055847167969
+        ],
+        [
+          181.46728515625,
+          528.0055847167969
+        ],
+        [
+          181.46728515625,
+          559.9459228515625
+        ],
+        [
+          22.69921875,
+          559.9459228515625
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          5
+        ],
+        [
+          "Line",
+          3
+        ],
+        [
+          "Picture",
+          2
+        ],
+        [
+          "PageHeader",
+          1
+        ],
+        [
+          "SectionHeader",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 3717,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          51
+        ],
+        [
+          "Line",
+          25
+        ],
+        [
+          "Text",
+          10
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          41
+        ],
+        [
+          "Span",
+          13
+        ],
+        [
+          "Text",
+          7
+        ],
+        [
+          "ListItem",
+          3
+        ],
+        [
+          "SectionHeader",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "ListGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          51
+        ],
+        [
+          "Span",
+          20
+        ],
+        [
+          "Text",
+          6
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "ListItem",
+          3
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "ListGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 4,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          57
+        ],
+        [
+          "Line",
+          29
+        ],
+        [
+          "Text",
+          9
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 5,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          76
+        ],
+        [
+          "Line",
+          29
+        ],
+        [
+          "ListItem",
+          10
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "Text",
+          4
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "ListGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 6,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "Span",
+          47
+        ],
+        [
+          "Line",
+          24
+        ],
+        [
+          "Text",
+          11
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/How To Organise SW Dev Teams 21-08-22"
+}

@@ -584,7 +584,7 @@ This book describes how to use these ten ideas as tools to steer software develo
 - Speed
 - Controlling the variables
 
-### Continuous delivery
+#### • Continuous delivery
 
 When we apply this thinking, the results are profound. We create software of higher quality, we produce work more quickly, and the people working on the teams that adopt these principles report that they enjoy their work more, feel less stress, and have a better work-life balance.[1](#page-25-1)
 
@@ -2408,7 +2408,7 @@ One of the key ideas that is at the root of scientific thinking is to move away 
 
 Science is the belief in the ignorance of experts.
 
-### He also said:
+#### He also said:
 
 Have no respect whatsoever for authority; forget who said it and instead look what he starts with, where he ends up, and ask yourself, 'Is it reasonable?'
 
@@ -3360,9 +3360,7 @@ Without good separation of concerns, this would have taken months or years and p
 
 Let's look at a simple example. In the previous chapter, I showed three examples of code solving the same problem; [Listing 11.1](#page-181-0) shows them again.
 
-<span id="page-181-0"></span>
-
-### **Listing 11.1** *Three Separation of Concern Examples*
+#### <span id="page-181-0"></span>**Listing 11.1** *Three Separation of Concern Examples*
 
 ```
 def add_to_cart1(self, item):
@@ -3609,9 +3607,7 @@ some code that invokes the storage itself, which is a decent start for separatin
 
 For this code to work, there will have been some setup somewhere to initialize the s3client so that it knows the necessary details of the account that owns the bucket and so on. I haven't shown that code here, on purpose; I am sure that you can imagine several different ways that s3client arrived at this point. Some of these ways demonstrate better or worse separation of concerns. In this case, let's just focus on what we have in this function.
 
-<span id="page-192-0"></span>
-
-### **Listing 11.6** *Storing a String in S3*
+#### <span id="page-192-0"></span>**Listing 11.6** *Storing a String in S3*
 
 ```
 void doSomething(Thing thing) {
@@ -4143,9 +4139,7 @@ We could imagine several ways that this could work.
 
 If, for example, the lack of storage is transactional with the addition of the item to the cart, then we'd need to undo the change to the cart. This is unpleasant, because the technicalities of the storage are intruding into our previously pure abstraction. Perhaps we could work to limit the extent of the leak; take a look at [Listing 12.2.](#page-222-0)
 
-<span id="page-222-0"></span>
-
-### **Listing 12.2** *Reducing the Abstraction Leak*
+#### <span id="page-222-0"></span>**Listing 12.2** *Reducing the Abstraction Leak*
 
 ```
 def add_to_cart2(self, item):
@@ -4200,9 +4194,7 @@ the more general representations rather than more specific, but this is slightly
 
 [Listing 12.3](#page-225-0) shows three versions of a function signature. One of these looks a lot better to me than the others, though as usual, it is contextual.
 
-<span id="page-225-0"></span>
-
-### **Listing 12.3** *Prefer to Hide Information*
+#### <span id="page-225-0"></span>**Listing 12.3** *Prefer to Hide Information*
 
 ```
 public ArrayList<String> doSomething1(HashMap<String, String>
@@ -4336,9 +4328,7 @@ Here we have eight lines of code, if we ignore the blank lines. If we make this 
 
 In [Listing 13.2,](#page-232-0) the reduction in coupling, improved cohesion, and better separation of concerns has cost us two additional lines of code. If we took the next step, of introducing a new module or class that we passed as a parameter, we'd add several more lines to further improve our design.
 
-<span id="page-232-0"></span>
-
-### **Listing 13.2** *Reducing Coupling*
+#### <span id="page-232-0"></span>**Listing 13.2** *Reducing Coupling*
 
 ```
 def add_to_cart1(self, item):
@@ -4668,9 +4658,7 @@ This class has an engine, a PetrolEngine. When you "start the car," it does a fe
 
 Now let's test it, as shown in [Listing 14.2](#page-249-0).
 
-<span id="page-249-0"></span>
-
-### **Listing 14.2** *Test for a Simple Car*
+#### <span id="page-249-0"></span>**Listing 14.2** *Test for a Simple Car*
 
 ```
 @Test
@@ -4710,9 +4698,7 @@ public class BetterCar {
 
 In [Listing 14.4,](#page-250-0) we see the test for the BetterCar.
 
-<span id="page-250-0"></span>
-
-### **Listing 14.4** *Test for a BetterCar*
+#### <span id="page-250-0"></span>**Listing 14.4** *Test for a BetterCar*
 
 ```
 @Test
@@ -4778,9 +4764,7 @@ We create some suitable abstraction that represents our interaction at this edge
 
 [Listing 14.6,](#page-253-0) shows a simple example, we have some code that needs to display something. So, we could create a robot, with a camera to record the output on a screen of some kind, but that would be overkill. Instead, we abstract the act of showing some result by injecting a piece of my code that provides the ability to "display" some text.
 
-<span id="page-253-0"></span>
-
-### **Listing 14.6** *Stuff to Display*
+#### <span id="page-253-0"></span>**Listing 14.6** *Stuff to Display*
 
 ```
 public interface Display
@@ -4803,9 +4787,7 @@ public class MyClassWithStuffToDisplay
 
 By abstracting the act of displaying information, I have gained the nice side effect that my class with stuff to display is now decoupled from any actual display device, at least outside of the bounds of the abstraction that I have provided. Obviously, this also means that now we can test this code in the absence of a real Display. I have included an example of such a test in [Listing 14.7](#page-253-1).
 
-<span id="page-253-1"></span>
-
-### **Listing 14.7** *Testing Stuff to Display*
+#### <span id="page-253-1"></span>**Listing 14.7** *Testing Stuff to Display*
 
 ```
 @Test
@@ -4821,9 +4803,7 @@ MyClassWithStuffToDisplay(display);
 
 Finally, we can create a concrete implementation of Display. In this simple case, it's a ConsoleDisplay, but we could imagine replacing this with all kinds of different options if the need arose, such as LaserDisplayBoard, MindImprintDisplay, 3DGameEngineDisplay, and so on.
 
-<span id="page-254-0"></span>
-
-### **Listing 14.8** *Displaying Stuff*
+#### <span id="page-254-0"></span>**Listing 14.8** *Displaying Stuff*
 
 ```
 public class ConsoleDisplay implements Display

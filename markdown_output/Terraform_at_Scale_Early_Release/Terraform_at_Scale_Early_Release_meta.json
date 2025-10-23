@@ -2974,7 +2974,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 22494,
+        "llm_tokens_used": 22530,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -5022,7 +5022,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2436,
+        "llm_tokens_used": 2432,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

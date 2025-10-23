@@ -17280,12 +17280,12 @@
           74
         ],
         [
-          "TableCell",
-          56
-        ],
-        [
           "Line",
           37
+        ],
+        [
+          "TableCell",
+          36
         ],
         [
           "Text",
@@ -17307,7 +17307,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2718,
+        "llm_tokens_used": 2650,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18897,7 +18897,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2788,
+        "llm_tokens_used": 2783,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19251,7 +19251,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2506,
+        "llm_tokens_used": 2496,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -20339,7 +20339,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3710,
+        "llm_tokens_used": 3744,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23067,7 +23067,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2203,
+        "llm_tokens_used": 2205,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -23311,7 +23311,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 6550,
+        "llm_tokens_used": 3681,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27181,7 +27181,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2343,
+        "llm_tokens_used": 2419,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27231,7 +27231,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2953,
+        "llm_tokens_used": 2999,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27289,7 +27289,7 @@
         ],
         [
           "TableCell",
-          30
+          33
         ],
         [
           "Line",
@@ -27323,7 +27323,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3563,
+        "llm_tokens_used": 3583,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27373,7 +27373,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3514,
+        "llm_tokens_used": 3455,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27423,7 +27423,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3080,
+        "llm_tokens_used": 3083,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27473,7 +27473,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3132,
+        "llm_tokens_used": 3008,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27523,7 +27523,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3466,
+        "llm_tokens_used": 3476,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -27827,9 +27827,9 @@
         ]
       ],
       "block_metadata": {
-        "llm_request_count": 0,
-        "llm_error_count": 1,
-        "llm_tokens_used": 0,
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 3684,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -28835,7 +28835,7 @@
       "block_counts": [
         [
           "TableCell",
-          178
+          177
         ],
         [
           "Line",
@@ -28861,7 +28861,7 @@
       "block_metadata": {
         "llm_request_count": 3,
         "llm_error_count": 0,
-        "llm_tokens_used": 11813,
+        "llm_tokens_used": 11874,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -29287,7 +29287,7 @@
         ],
         [
           "TableCell",
-          42
+          21
         ],
         [
           "Caption",
@@ -29305,7 +29305,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3553,
+        "llm_tokens_used": 2956,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -29730,12 +29730,12 @@
           118
         ],
         [
-          "TableCell",
-          50
-        ],
-        [
           "Line",
           42
+        ],
+        [
+          "TableCell",
+          25
         ],
         [
           "Caption",
@@ -29753,7 +29753,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3078,
+        "llm_tokens_used": 2762,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -29787,7 +29787,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 5000,
+        "llm_tokens_used": 4992,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -30765,7 +30765,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2705,
+        "llm_tokens_used": 2690,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

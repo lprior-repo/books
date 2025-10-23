@@ -1764,16 +1764,16 @@ Finally, Level 3 requires source code provenance and build reproducibility. Prov
 
 <span id="page-126-0"></span>*Table 5-1. SLSA levels*
 
-| Implementer    | Requirement                                             | Degree      | L1 | L2 |
-|----------------|---------------------------------------------------------|-------------|----|----|
-| Producer       | Choose an<br>appropriate<br>build platform              |             | ✓  | ✓  |
-|                | Follow a<br>consistent<br>build process                 |             | ✓  | ✓  |
-|                | Distribute<br>provenance                                |             | ✓  | ✓  |
-| Build platform | Provence<br>generation<br>exists                        | Exists      | ✓  | ✓  |
-|                | Provence<br>generation is<br>ensured to be<br>authentic | Authentic   |    | ✓  |
-|                | Provence<br>generation is<br>unforgeable                | Unforgeable |    |    |
-|                | Isolation<br>strength                                   | Hosted      |    | ✓  |
-|                | Isolation<br>strength                                   | Isolated    |    |    |
+| Implementer    | Requirement                                      | Degree      | L1 | L2 |
+|----------------|--------------------------------------------------|-------------|----|----|
+| Producer       | Choose an appropriate build platform             |             | ✓  | ✓  |
+|                | Follow a consistent build process                |             | ✓  | ✓  |
+|                | Distribute provenance                            |             | ✓  | ✓  |
+| Build platform | Provenance generation exists                     | Exists      | ✓  | ✓  |
+|                | Provenance generation is ensured to be authentic | Authentic   |    | ✓  |
+|                | Provenance generation is unforgeable             | Unforgeable |    |    |
+|                | Isolation strength                               | Hosted      |    | ✓  |
+|                | Isolation strength                               | Isolated    |    |    |
 
 #### **Using SLSA to Ensure Integrity**
 

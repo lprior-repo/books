@@ -7217,7 +7217,7 @@
       "block_counts": [
         [
           "TableCell",
-          144
+          95
         ],
         [
           "Span",
@@ -7241,9 +7241,9 @@
         ]
       ],
       "block_metadata": {
-        "llm_request_count": 2,
+        "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 8906,
+        "llm_tokens_used": 2920,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -7251,6 +7251,74 @@
     },
     {
       "page_id": 5,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "TableCell",
+          243
+        ],
+        [
+          "Span",
+          123
+        ],
+        [
+          "Line",
+          41
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "TableOfContents",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 2,
+        "llm_error_count": 0,
+        "llm_tokens_used": 6819,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 6,
+      "text_extraction_method": "pdftext",
+      "block_counts": [
+        [
+          "TableCell",
+          159
+        ],
+        [
+          "Span",
+          115
+        ],
+        [
+          "Line",
+          38
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "TableOfContents",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 2,
+        "llm_error_count": 0,
+        "llm_tokens_used": 7247,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 7,
       "text_extraction_method": "pdftext",
       "block_counts": [
         [
@@ -7277,75 +7345,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 6689,
-        "previous_text": "",
-        "previous_type": "",
-        "previous_order": 0
-      }
-    },
-    {
-      "page_id": 6,
-      "text_extraction_method": "pdftext",
-      "block_counts": [
-        [
-          "TableCell",
-          161
-        ],
-        [
-          "Span",
-          115
-        ],
-        [
-          "Line",
-          38
-        ],
-        [
-          "PageFooter",
-          2
-        ],
-        [
-          "TableOfContents",
-          1
-        ]
-      ],
-      "block_metadata": {
-        "llm_request_count": 2,
-        "llm_error_count": 0,
-        "llm_tokens_used": 7105,
-        "previous_text": "",
-        "previous_type": "",
-        "previous_order": 0
-      }
-    },
-    {
-      "page_id": 7,
-      "text_extraction_method": "pdftext",
-      "block_counts": [
-        [
-          "Span",
-          123
-        ],
-        [
-          "TableCell",
-          120
-        ],
-        [
-          "Line",
-          41
-        ],
-        [
-          "PageFooter",
-          2
-        ],
-        [
-          "TableOfContents",
-          1
-        ]
-      ],
-      "block_metadata": {
-        "llm_request_count": 1,
-        "llm_error_count": 1,
-        "llm_tokens_used": 3594,
+        "llm_tokens_used": 8037,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -7379,7 +7379,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 7788,
+        "llm_tokens_used": 7748,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -7395,7 +7395,7 @@
         ],
         [
           "TableCell",
-          72
+          71
         ],
         [
           "Line",
@@ -7417,7 +7417,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 1,
-        "llm_tokens_used": 10982,
+        "llm_tokens_used": 10529,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -8693,7 +8693,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2394,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -11283,7 +11283,7 @@
       "block_counts": [
         [
           "TableCell",
-          81
+          82
         ],
         [
           "Span",
@@ -11325,7 +11325,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3572,
+        "llm_tokens_used": 3581,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -14305,7 +14305,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2394,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -17553,7 +17553,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2396,
+        "llm_tokens_used": 2389,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -17703,7 +17703,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3174,
+        "llm_tokens_used": 3161,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18007,7 +18007,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2974,
+        "llm_tokens_used": 2959,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -18413,7 +18413,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2394,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19085,7 +19085,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3356,
+        "llm_tokens_used": 3350,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19131,7 +19131,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3207,
+        "llm_tokens_used": 3218,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19397,7 +19397,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 2389,
+        "llm_tokens_used": 2396,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19589,7 +19589,7 @@
         ],
         [
           "TableCell",
-          136
+          134
         ],
         [
           "Line",
@@ -19615,7 +19615,7 @@
       "block_metadata": {
         "llm_request_count": 1,
         "llm_error_count": 0,
-        "llm_tokens_used": 3840,
+        "llm_tokens_used": 3853,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19631,7 +19631,7 @@
         ],
         [
           "TableCell",
-          204
+          198
         ],
         [
           "Line",
@@ -19649,7 +19649,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 8581,
+        "llm_tokens_used": 8518,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19664,12 +19664,12 @@
           315
         ],
         [
-          "TableCell",
-          188
-        ],
-        [
           "Line",
           97
+        ],
+        [
+          "TableCell",
+          96
         ],
         [
           "PageFooter",
@@ -19683,7 +19683,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 9598,
+        "llm_tokens_used": 7907,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19699,7 +19699,7 @@
         ],
         [
           "TableCell",
-          144
+          186
         ],
         [
           "Line",
@@ -19717,7 +19717,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 10167,
+        "llm_tokens_used": 10433,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19733,7 +19733,7 @@
         ],
         [
           "TableCell",
-          180
+          178
         ],
         [
           "Line",
@@ -19751,7 +19751,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 11352,
+        "llm_tokens_used": 11380,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19767,7 +19767,7 @@
         ],
         [
           "TableCell",
-          194
+          192
         ],
         [
           "Line",
@@ -19785,7 +19785,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 12796,
+        "llm_tokens_used": 12681,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19801,7 +19801,7 @@
         ],
         [
           "TableCell",
-          188
+          194
         ],
         [
           "Line",
@@ -19819,7 +19819,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 13572,
+        "llm_tokens_used": 13672,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19835,7 +19835,7 @@
         ],
         [
           "TableCell",
-          152
+          186
         ],
         [
           "Line",
@@ -19853,7 +19853,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 14690,
+        "llm_tokens_used": 14933,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0
@@ -19869,7 +19869,7 @@
         ],
         [
           "TableCell",
-          204
+          198
         ],
         [
           "Line",
@@ -19887,7 +19887,7 @@
       "block_metadata": {
         "llm_request_count": 2,
         "llm_error_count": 0,
-        "llm_tokens_used": 15754,
+        "llm_tokens_used": 15679,
         "previous_text": "",
         "previous_type": "",
         "previous_order": 0

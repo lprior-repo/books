@@ -1,0 +1,719 @@
+{
+  "table_of_contents": [
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          305.5062972292191,
+          11.996438112199465
+        ],
+        [
+          586.6875,
+          11.996438112199465
+        ],
+        [
+          586.6875,
+          68.97951914514692
+        ],
+        [
+          305.5062972292191,
+          68.97951914514692
+        ]
+      ]
+    },
+    {
+      "title": "TDD Top Tips",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          219.18387909319898,
+          94.47195013357079
+        ],
+        [
+          376.0654911838791,
+          96.205078125
+        ],
+        [
+          376.0654911838791,
+          134.029296875
+        ],
+        [
+          218.43324937027705,
+          134.029296875
+        ]
+      ]
+    },
+    {
+      "title": "When to Use TDD?",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          27.77329974811083,
+          353.89492430988423
+        ],
+        [
+          166.63979848866498,
+          353.89492430988423
+        ],
+        [
+          166.63979848866498,
+          372.486328125
+        ],
+        [
+          27.77329974811083,
+          372.486328125
+        ]
+      ]
+    },
+    {
+      "title": "Start Any New Project with TDD",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          28.51953125,
+          384.6357969723953
+        ],
+        [
+          187.65743073047858,
+          384.6357969723953
+        ],
+        [
+          187.65743073047858,
+          400.8544921875
+        ],
+        [
+          28.51953125,
+          400.8544921875
+        ]
+      ]
+    },
+    {
+      "title": "Write All New Code with TDD",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          27.064453125,
+          443.6123046875
+        ],
+        [
+          174.14609571788412,
+          443.6123046875
+        ],
+        [
+          174.14609571788412,
+          457.5908203125
+        ],
+        [
+          27.064453125,
+          457.5908203125
+        ]
+      ]
+    },
+    {
+      "title": "Test to Evaluate Behaviour, NOT Implementation",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          26.272040302267,
+          617.1103515625
+        ],
+        [
+          365.55667506297226,
+          617.1103515625
+        ],
+        [
+          365.55667506297226,
+          639.3115234375
+        ],
+        [
+          26.272040302267,
+          639.3115234375
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          305.5062972292191,
+          11.246660730187
+        ],
+        [
+          585.5234375,
+          11.246660730187
+        ],
+        [
+          585.5234375,
+          68.22974176313446
+        ],
+        [
+          305.5062972292191,
+          68.22974176313446
+        ]
+      ]
+    },
+    {
+      "title": "Test First To Improve Design",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          27.35546875,
+          96.72128227960819
+        ],
+        [
+          230.44332493702768,
+          96.72128227960819
+        ],
+        [
+          230.44332493702768,
+          120.05078125
+        ],
+        [
+          27.35546875,
+          120.05078125
+        ]
+      ]
+    },
+    {
+      "title": "Three Mindsets of TDD",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          28.523929471032744,
+          351.6455921638468
+        ],
+        [
+          190.65994962216624,
+          351.6455921638468
+        ],
+        [
+          190.65994962216624,
+          371.2529296875
+        ],
+        [
+          28.523929471032744,
+          371.2529296875
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          306.25692695214104,
+          11.996438112199465
+        ],
+        [
+          586.10546875,
+          11.996438112199465
+        ],
+        [
+          586.10546875,
+          68.22974176313446
+        ],
+        [
+          306.25692695214104,
+          68.22974176313446
+        ]
+      ]
+    },
+    {
+      "title": "Refactoring for Legacy Systems",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          29.68359375,
+          101.9609375
+        ],
+        [
+          260.46851385390426,
+          101.9609375
+        ],
+        [
+          260.46851385390426,
+          124.984375
+        ],
+        [
+          29.68359375,
+          124.984375
+        ]
+      ]
+    },
+    {
+      "title": "A Strategy for Refactoring",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          24.770780856423173,
+          187.8876953125
+        ],
+        [
+          159.13350125944584,
+          187.8876953125
+        ],
+        [
+          159.13350125944584,
+          203.5107421875
+        ],
+        [
+          24.770780856423173,
+          203.5107421875
+        ]
+      ]
+    },
+    {
+      "title": "The Shape of Your Tests",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          29.1015625,
+          431.87177203918077
+        ],
+        [
+          201.16876574307304,
+          431.87177203918077
+        ],
+        [
+          201.16876574307304,
+          455.53515625
+        ],
+        [
+          29.1015625,
+          455.53515625
+        ]
+      ]
+    },
+    {
+      "title": "Listen to Your Tests",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          25.521410579345087,
+          600.6650390625
+        ],
+        [
+          125.35516372795969,
+          600.6650390625
+        ],
+        [
+          125.35516372795969,
+          616.2880859375
+        ],
+        [
+          25.521410579345087,
+          616.2880859375
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          305.5062972292191,
+          11.996438112199465
+        ],
+        [
+          586.10546875,
+          10.496883348174531
+        ],
+        [
+          586.10546875,
+          68.22974176313446
+        ],
+        [
+          305.5062972292191,
+          69.72929652715939
+        ]
+      ]
+    },
+    {
+      "title": "Changing Your Design",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          27.9375,
+          94.47195013357079
+        ],
+        [
+          189.90931989924434,
+          94.47195013357079
+        ],
+        [
+          189.90931989924434,
+          118.40625
+        ],
+        [
+          27.9375,
+          118.40625
+        ]
+      ]
+    },
+    {
+      "title": "Testing at the Edges",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          29.27455919395466,
+          409.8994140625
+        ],
+        [
+          173.3954659949622,
+          409.8994140625
+        ],
+        [
+          173.3954659949622,
+          432.1005859375
+        ],
+        [
+          29.27455919395466,
+          432.1005859375
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          305.5062972292191,
+          11.996438112199465
+        ],
+        [
+          585.5234375,
+          11.996438112199465
+        ],
+        [
+          585.5234375,
+          68.22974176313446
+        ],
+        [
+          305.5062972292191,
+          68.22974176313446
+        ]
+      ]
+    },
+    {
+      "title": "Practise",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          29.27455919395466,
+          106.072265625
+        ],
+        [
+          90.07556675062972,
+          104.96883348174532
+        ],
+        [
+          90.82619647355163,
+          124.162109375
+        ],
+        [
+          29.27455919395466,
+          124.46304541406946
+        ]
+      ]
+    },
+    {
+      "title": "Further Learning, Reading & Viewing",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          29.27455919395466,
+          331.40160284951025
+        ],
+        [
+          296.49874055415614,
+          331.40160284951025
+        ],
+        [
+          296.49874055415614,
+          355.6298828125
+        ],
+        [
+          29.27455919395466,
+          355.6298828125
+        ]
+      ]
+    },
+    {
+      "title": "Books*:",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          24.770780856423173,
+          494.10329474621545
+        ],
+        [
+          68.3073047858942,
+          494.10329474621545
+        ],
+        [
+          68.3073047858942,
+          510.2158203125
+        ],
+        [
+          24.770780856423173,
+          510.2158203125
+        ]
+      ]
+    },
+    {
+      "title": "YouTube Videos:",
+      "heading_level": null,
+      "page_id": 4,
+      "polygon": [
+        [
+          24.4453125,
+          694.4033203125
+        ],
+        [
+          108.84130982367758,
+          694.4033203125
+        ],
+        [
+          108.84130982367758,
+          707.7898486197685
+        ],
+        [
+          24.4453125,
+          707.7898486197685
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          53
+        ],
+        [
+          "Span",
+          22
+        ],
+        [
+          "Text",
+          15
+        ],
+        [
+          "SectionHeader",
+          6
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 4351,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          51
+        ],
+        [
+          "Span",
+          20
+        ],
+        [
+          "Text",
+          15
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          50
+        ],
+        [
+          "Span",
+          21
+        ],
+        [
+          "Text",
+          9
+        ],
+        [
+          "SectionHeader",
+          5
+        ],
+        [
+          "ListItem",
+          5
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ],
+        [
+          "ListGroup",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          52
+        ],
+        [
+          "Span",
+          18
+        ],
+        [
+          "Text",
+          12
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Code",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 4,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          50
+        ],
+        [
+          "Span",
+          25
+        ],
+        [
+          "Text",
+          15
+        ],
+        [
+          "SectionHeader",
+          5
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "Footnote",
+          1
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/TDD Top Tips 11-05-22"
+}

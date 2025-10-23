@@ -1464,21 +1464,11 @@ In short, frameworks for writing, running, and reviewing unit tests and their re
 
 **Table 2.1 How testing frameworks help developers write and execute tests and review results**
 
-| Unit testing<br>practice                                | How the framework helps                                                                                                                                        |
-|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Write tests<br>easily and in a<br>structured<br>manner. | A framework supplies the developer with helper functions,<br>assertion functions, and structure-related functions.                                             |
-| Execute one or<br>all of the unit<br>tests.             | A framework provides a test runner, usually at the command<br>line, that                                                                                       |
-|                                                         | 1. Identifies tests in your code                                                                                                                               |
-|                                                         | 2. Runs tests automatically                                                                                                                                    |
-|                                                         | 3. Indicates test status while running                                                                                                                         |
-| Review the<br>results of the                            | A test runner will usually provide information such as                                                                                                         |
-| test runs.                                              | 1. How many tests ran                                                                                                                                          |
-|                                                         | 2. How many tests didn't run                                                                                                                                   |
-|                                                         | 3. How many tests failed                                                                                                                                       |
-|                                                         | 4. Which tests failed                                                                                                                                          |
-|                                                         | 5. The reason tests failed                                                                                                                                     |
-|                                                         | 6. The code location that failed                                                                                                                               |
-|                                                         | 7. Possibly provide a full stack trace for any exceptions that<br>caused the test to fail, and let you go to the various<br>method calls inside the call stack |
+| Unit testing<br>practice                                | How the framework helps                                                                                                                                                                                                                                                                                                                                                                                  |
+|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Write tests<br>easily and in a<br>structured<br>manner. | A framework supplies the developer with helper functions,<br>assertion functions, and structure-related functions.                                                                                                                                                                                                                                                                                       |
+| Execute one or<br>all of the unit<br>tests.             | A framework provides a test runner, usually at the command<br>line, that<br>1. Identifies tests in your code<br>2. Runs tests automatically<br>3. Indicates test status while running                                                                                                                                                                                                                    |
+| Review the<br>results of the<br>test runs.              | A test runner will usually provide information such as<br>1. How many tests ran<br>2. How many tests didn't run<br>3. How many tests failed<br>4. Which tests failed<br>5. The reason tests failed<br>6. The code location that failed<br>7. Possibly provide a full stack trace for any exceptions that<br>caused the test to fail, and let you go to the various<br>method calls inside the call stack |
 
 At the time of writing, there are around 900 unit testing frameworks out there, with more than a couple for most programming languages in public use (and a few dead ones). You can find a good list on Wikipedia:
 
@@ -2498,11 +2488,11 @@ like other things in tests. Table 3.1 lists my thoughts about some patterns from
 
 | Category | Pattern         | Purpose                                                                                                                       | Uses                                                                                                               |
 |----------|-----------------|-------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| Stub     | Test<br>double  | Generic name for stubs<br>and mocks                                                                                           | I also use the term fake.                                                                                          |
+|          | Test<br>double  | Generic name for stubs<br>and mocks                                                                                           | I also use the term fake.                                                                                          |
 | Stub     | Dummy<br>object | Used to specify the<br>values to be used in tests<br>when the only usage is<br>as irrelevant arguments<br>of SUT method calls | Send as a parameter to<br>the entry point or as the<br>arrange part of the AAA<br>pattern.                         |
-| Stub     | Test<br>stub    | Used to verify logic<br>independently when it<br>depends on indirect<br>inputs from other<br>software components              | Inject as a dependency,<br>and configure it to return<br>specific values or<br>behavior into the SUT.              |
+|          | Test<br>stub    | Used to verify logic<br>independently when it<br>depends on indirect<br>inputs from other<br>software components              | Inject as a dependency,<br>and configure it to return<br>specific values or<br>behavior into the SUT.              |
 | Mock     | Test<br>spy     | Used to verify logic<br>independently when it<br>has indirect outputs to<br>other software<br>components                      | Override a single<br>function on a real object,<br>and verify that the fake<br>function was called as<br>expected. |
-| Mock     | Mock<br>object  | Used to verify logic<br>independently when it<br>depends on indirect<br>outputs to other software<br>components               | Inject the fake as a<br>dependency into the<br>SUT, and verify that the<br>fake was called as<br>expected.         |
+|          | Mock<br>object  | Used to verify logic<br>independently when it<br>depends on indirect<br>outputs to other software<br>components               | Inject the fake as a<br>dependency into the<br>SUT, and verify that the<br>fake was called as<br>expected.         |
 
 Here's another way to think about this for the rest of this book:
 
@@ -5080,7 +5070,7 @@ Again, notice that we don't need to add any kind of async/awaitrelated keywords 
 
 <span id="page-249-0"></span>It's also common to create a special interface for the adapter that is simplified for the needs of the consumer of the dependency. Another name for this approach is the *interface segregation principle*. In this case, we'll create a network-adapter module that hides the real fetching functionality and has its own custom functions, as shown in figure 6.7.
 
-**Before** the **Before** **After**
+**Before** After
 
 ![](_page_250_Picture_1.jpeg)
 
@@ -7326,12 +7316,12 @@ on the abstraction level it uses. Table 10.2 shows the scorecard for the unit/co
 
 **Table 10.2 Unit/component test scorecard**
 
-| Complexity                | 1/5 | These are the least complex of all test types due to the<br>smaller scope and the fact that we can control<br>everything in the test.               |
-|---------------------------|-----|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Flakiness                 | 1/5 | These are the least flaky of all test types, since we can<br>control everything in the test.                                                        |
-| Confidence<br>when passes | 1/5 | It feels nice when a unit test passes, but we're not really<br>confident that our application works. We just know that<br>a small piece of it does. |
-| Maintainability           | 5/5 | These are the easiest to maintain out of all test types,<br>since it's relatively simple to read and to reason about.                               |
-| Execution<br>speed        | 5/5 | These are the fastest of all test types, since everything<br>runs in memory without any hard dependencies on files,<br>network, or databases.       |
+| Complexity                | 1/5 | These are the least complex of all test types due to the smaller scope and the fact that we can control everything in the test.                      |
+|---------------------------|-----|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flakiness                 | 1/5 | These are the least flaky of all test types, since we can control everything in the test.                                                            |
+| Confidence<br>when passes | 1/5 | It feels nice when a unit test passes, but we're not really confident that our <i>application</i> works. We just know that a small piece of it does. |
+| Maintainability           | 5/5 | These are the easiest to maintain out of all test types, since it's relatively simple to read and to reason about.                                   |
+| Execution<br>speed        | 5/5 | These are the fastest of all test types, since everything runs in memory without any hard dependencies on files, network, or databases.              |
 
 ### <span id="page-352-0"></span>*10.1.3 Integration tests*
 
@@ -7339,12 +7329,12 @@ on the abstraction level it uses. Table 10.2 shows the scorecard for the unit/co
 
 **Table 10.3 Integration test scorecard**
 
-| Complexity                | 2/5       | These tests are slightly or greatly more complex, depending on the number of dependencies that we do not fake in the test.                                      |
-|---------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Flakiness                 | 2-<br>3/5 | These tests are slightly or much flakier depending on how many real dependencies we use.                                                                        |
-| Confidence<br>when passes | 2-<br>3/5 | It feels much better when an integration test passes because we are verifying that the code uses something we do not control, like a database or a config file. |
-| Maintainability           | 3-<br>4/5 | These tests are more complex than a unit test because of the dependencies.                                                                                      |
-| Execution<br>speed        | 3-<br>4/5 | These tests are slightly or much slower than a unit test because of the dependency on the filesystem, network, database, or threads.                            |
+| Complexity                | 2/5       | These tests are slightly or greatly more complex,<br>depending on the number of dependencies that we do<br>not fake in the test.                                      |
+|---------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Flakiness                 | 2-<br>3/5 | These tests are slightly or much flakier depending on<br>how many real dependencies we use.                                                                           |
+| Confidence<br>when passes | 2-<br>3/5 | It feels much better when an integration test passes<br>because we are verifying that the code uses something<br>we do not control, like a database or a config file. |
+| Maintainability           | 3-<br>4/5 | These tests are more complex than a unit test because<br>of the dependencies.                                                                                         |
+| Execution<br>speed        | 3-<br>4/5 | These tests are slightly or much slower than a unit test<br>because of the dependency on the filesystem, network,<br>database, or threads.                            |
 
 ### <span id="page-353-0"></span>*10.1.4 API tests*
 
@@ -7466,6 +7456,8 @@ Does that mean you should avoid unit tests? Obviously not. But I highly recommen
 ## <span id="page-364-0"></span>*10.2.3 Disconnected low-level and high-level tests*
 
 <span id="page-364-1"></span>This pattern might seem healthy at first, but it really isn't. It might look a bit like figure 10.4.
+
+--------------------------------------------------------->
 
 #### Most confidence
 
@@ -7851,7 +7843,7 @@ Seq Pts: 15490 Unvisited: 10201
 | JetBrains.TeamCity.EventTrackers.dll  | 80.0 %     | 10                  | 84.6 %            |
 | Namespace / Classes                   |            |                     |                   |
 | JetBrains.TeamCity.EventTrackers.Impl |            | 9                   | 85.5 %            |
-| Personal Changes TrackerBase          |            | 0                   | 100.0 %           |
+| PersonalChangesTrackerBase            |            | 0                   | 100.0 %           |
 | ListenerInfo                          |            | 0                   | 100.0 %           |
 
 #### **Figure 11.1 An example of a test-code-coverage report in TeamCity with NCover**
@@ -7992,7 +7984,7 @@ Table 11.1 is an example of an imaginary checklist about someone not performing 
 
 | Influence<br>factor                      | Question to ask                                                                                                                                                                                                                                                 | Example<br>answer                                                                                                                                                  |
 |------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Personal ability                         | Does the person have all the skills or<br>knowledge to perform what is required?                                                                                                                                                                                | Yes. They went<br>through a three-<br>day TDD course<br>with Roy<br>Osherove.                                                                                      |
+| Personal ability                         | Does the person have all the skills or<br>knowledge to perform what is required?                                                                                                                                                                                | Yes. They went<br>through a three<br>day TDD course<br>with Roy<br>Osherove.                                                                                       |
 | Personal<br>motivation                   | Does the person take satisfaction from<br>the right behavior or dislike the wrong<br>behavior? Do they have the self-control<br>to engage in the behavior when it's<br>hardest to do so?                                                                        | I spoke with<br>them, and they<br>like doing TDD.                                                                                                                  |
 | Social ability                           | Do you or others provide the help,<br>information, and resources required by<br>that person, particularly at critical<br>times?                                                                                                                                 | Yes.                                                                                                                                                               |
 | Social<br>motivation                     | Are the people around them actively<br>encouraging the right behavior and<br>discouraging the wrong behavior?Are<br>you or others modeling the right<br>behavior in an effective way?                                                                           | As much as<br>possible.                                                                                                                                            |
@@ -8151,7 +8143,7 @@ Assuming you have existing code inside components, you'll need to create a prior
 | Component     | Logical<br>complexity | Dependency<br>level | Priority | Notes                                                                                                                                                                                                                                                  |
 |---------------|-----------------------|---------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Utils         | 6                     | 1                   | 5        | This utility<br>class has few<br>dependencies<br>but contains a<br>lot of logic. It<br>will be easy to<br>test, and it<br>provides lots<br>of value.                                                                                                   |
-| Person        | 2                     | 1                   | 1        | This is a data-<br>holder class<br>with little logic<br>and no<br>dependencies.<br>There's little<br>real value in<br>testing this.                                                                                                                    |
+| Person        | 2                     | 1                   | 1        | This is a data<br>holder class<br>with little logic<br>and no<br>dependencies.<br>There's little<br>real value in<br>testing this.                                                                                                                     |
 | TextParser    | 8                     | 4                   | 6        | This class has<br>lots of logic<br>and lots of<br>dependencies.<br>To top it off,<br>it's part of a<br>high-priority<br>task in the<br>project.<br>Testing this<br>will provide<br>lots of value<br>but will also<br>be hard and<br>time<br>consuming. |
 | ConfigManager | 1                     | 6                   | 1        | This class<br>holds<br>configuration                                                                                                                                                                                                                   |
 

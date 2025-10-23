@@ -1,0 +1,516 @@
+{
+  "table_of_contents": [
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          306.25692695214104,
+          12.746215494211931
+        ],
+        [
+          585.4911838790931,
+          11.246660730187
+        ],
+        [
+          585.4911838790931,
+          68.97951914514692
+        ],
+        [
+          306.25692695214104,
+          70.47907390917186
+        ]
+      ]
+    },
+    {
+      "title": "Acceptance Test Driven Development",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          67.55667506297229,
+          95.97150489759572
+        ],
+        [
+          526.9420654911838,
+          96.6162109375
+        ],
+        [
+          526.191435768262,
+          133.6181640625
+        ],
+        [
+          67.55667506297229,
+          133.6181640625
+        ]
+      ]
+    },
+    {
+      "title": "Approach",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          26.19140625,
+          149.2412109375
+        ],
+        [
+          120.10075566750629,
+          149.2412109375
+        ],
+        [
+          120.10075566750629,
+          179.6650390625
+        ],
+        [
+          26.19140625,
+          179.6650390625
+        ]
+      ]
+    },
+    {
+      "title": "Properties of Effective Acceptance Tests",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          27.9375,
+          402.63045414069455
+        ],
+        [
+          355.0478589420655,
+          402.63045414069455
+        ],
+        [
+          355.0478589420655,
+          428.8115234375
+        ],
+        [
+          27.9375,
+          428.8115234375
+        ]
+      ]
+    },
+    {
+      "title": "Tips",
+      "heading_level": null,
+      "page_id": 0,
+      "polygon": [
+        [
+          31.138671875,
+          554.6181640625
+        ],
+        [
+          64.55415617128463,
+          554.6181640625
+        ],
+        [
+          64.55415617128463,
+          577.3285841495992
+        ],
+        [
+          31.138671875,
+          577.3285841495992
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER\nDAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          307.7581863979849,
+          14.3896484375
+        ],
+        [
+          586.10546875,
+          14.3896484375
+        ],
+        [
+          586.10546875,
+          66.1923828125
+        ],
+        [
+          307.7581863979849,
+          66.1923828125
+        ]
+      ]
+    },
+    {
+      "title": "Four Layer Separation of Concerns",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          28.523929471032744,
+          115.46571682991986
+        ],
+        [
+          313.0125944584383,
+          115.46571682991986
+        ],
+        [
+          313.0125944584383,
+          139.45859305431878
+        ],
+        [
+          28.523929471032744,
+          139.45859305431878
+        ]
+      ]
+    },
+    {
+      "title": "Test Cases",
+      "heading_level": null,
+      "page_id": 1,
+      "polygon": [
+        [
+          29.27455919395466,
+          425.93359375
+        ],
+        [
+          130.083984375,
+          425.93359375
+        ],
+        [
+          130.083984375,
+          452.11576135351737
+        ],
+        [
+          29.27455919395466,
+          452.11576135351737
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER DAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          305.5062972292191,
+          11.996438112199465
+        ],
+        [
+          586.6875,
+          11.996438112199465
+        ],
+        [
+          586.6875,
+          68.22974176313446
+        ],
+        [
+          305.5062972292191,
+          68.22974176313446
+        ]
+      ]
+    },
+    {
+      "title": "Domain Specific Language (DSL)",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          30.025188916876573,
+          115.1171875
+        ],
+        [
+          335.5314861460957,
+          115.1171875
+        ],
+        [
+          335.5314861460957,
+          144.71875
+        ],
+        [
+          30.025188916876573,
+          144.71875
+        ]
+      ]
+    },
+    {
+      "title": "Protocol Drivers",
+      "heading_level": null,
+      "page_id": 2,
+      "polygon": [
+        [
+          30.025188916876573,
+          436.2119140625
+        ],
+        [
+          181.65239294710327,
+          436.2119140625
+        ],
+        [
+          181.65239294710327,
+          460.3633125556545
+        ],
+        [
+          30.025188916876573,
+          460.3633125556545
+        ]
+      ]
+    },
+    {
+      "title": "BETTER SOFTWARE FASTER\nDAVE FARLEY'S HOW TO GUIDE",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          307.007556675063,
+          13.978515625
+        ],
+        [
+          585.4911838790931,
+          13.978515625
+        ],
+        [
+          585.4911838790931,
+          66.603515625
+        ],
+        [
+          307.007556675063,
+          66.603515625
+        ]
+      ]
+    },
+    {
+      "title": "System Under Test (SUT)",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          29.1015625,
+          95.3828125
+        ],
+        [
+          257.4659949622166,
+          95.3828125
+        ],
+        [
+          257.4659949622166,
+          124.984375
+        ],
+        [
+          29.1015625,
+          124.984375
+        ]
+      ]
+    },
+    {
+      "title": "Growing the DSL",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          30.265625,
+          332.1953125
+        ],
+        [
+          187.65743073047858,
+          332.1953125
+        ],
+        [
+          187.65743073047858,
+          361.796875
+        ],
+        [
+          30.265625,
+          361.796875
+        ]
+      ]
+    },
+    {
+      "title": "More Information",
+      "heading_level": null,
+      "page_id": 3,
+      "polygon": [
+        [
+          36.03022670025189,
+          651.5565449688335
+        ],
+        [
+          198.9168765743073,
+          651.5565449688335
+        ],
+        [
+          198.9168765743073,
+          675.90234375
+        ],
+        [
+          36.03022670025189,
+          675.90234375
+        ]
+      ]
+    }
+  ],
+  "page_stats": [
+    {
+      "page_id": 0,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          32
+        ],
+        [
+          "Span",
+          32
+        ],
+        [
+          "Text",
+          14
+        ],
+        [
+          "SectionHeader",
+          5
+        ],
+        [
+          "PageFooter",
+          3
+        ],
+        [
+          "Picture",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 1,
+        "llm_error_count": 0,
+        "llm_tokens_used": 3051,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 1,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          34
+        ],
+        [
+          "Span",
+          15
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ],
+        [
+          "Figure",
+          1
+        ],
+        [
+          "Text",
+          1
+        ],
+        [
+          "Code",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 2,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          30
+        ],
+        [
+          "Span",
+          30
+        ],
+        [
+          "Text",
+          6
+        ],
+        [
+          "SectionHeader",
+          3
+        ],
+        [
+          "Code",
+          2
+        ],
+        [
+          "PageFooter",
+          2
+        ],
+        [
+          "Picture",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    },
+    {
+      "page_id": 3,
+      "text_extraction_method": "surya",
+      "block_counts": [
+        [
+          "Line",
+          31
+        ],
+        [
+          "Span",
+          31
+        ],
+        [
+          "Text",
+          13
+        ],
+        [
+          "SectionHeader",
+          4
+        ],
+        [
+          "Picture",
+          2
+        ],
+        [
+          "PageFooter",
+          1
+        ]
+      ],
+      "block_metadata": {
+        "llm_request_count": 0,
+        "llm_error_count": 0,
+        "llm_tokens_used": 0,
+        "previous_text": "",
+        "previous_type": "",
+        "previous_order": 0
+      }
+    }
+  ],
+  "debug_data_path": "debug_data/ATDD Guide 26-03-21"
+}

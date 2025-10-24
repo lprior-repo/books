@@ -1,0 +1,23 @@
+{
+  "summary": {
+    "totalPDFs": 94,
+    "converted": 80,
+    "needConversion": 14
+  },
+  "unconvertedBooks": [
+    "Go-for-DevOps-Learn-how-to-use-the-Go-language-to-automate-servers,-the-cloud,-Kubernetes,-GitHub,-Packer,-and-Terraform-by-John-Doak,-David-Justice_bibis.ir",
+    "infrastructure-as-code-designing-and-delivering-dynamic-systems-for-the-cloud-age-3nbsped-109815035x-9781098150358",
+    "AI_Engineering_Building_Applications_-_Chip_Huyen",
+    "Build_an_Orchestrator_in_Go_From_Scratch_-_Tim_Boring",
+    "Data_Structures_and_Algorithms_with_Go_-_Dusan_Stojanovic",
+    "Domain-Driven_Design_with_Golang_-_Matthew_Boyle",
+    "Learning_eBPF_-_Liz_Rice",
+    "Observability_Engineering_2nd_Ed_ER_-_Charity_Majors",
+    "Shipping_Go_-_Joel_Holmes",
+    "The_Value_Flywheel_Effect_-_David_Anderson",
+    "Tidy_First_Empirical_Software_Design_-_Kent_Beck",
+    "Tidy_Together_Early_Release_-_Kent_Beck",
+    "Ultimate_AWS_CDK_for_Infrastructure_Automation_-_Anish_Kumar",
+    "Ultimate_Microservices_with_Go_-_Nir_Shtein"
+  ]
+}

@@ -1,180 +1,1415 @@
-# Learning Go — Best Practices
-**Author:** Jon Bodner (2nd Edition, O'Reilly 2024)
-**Topic tags:** `#general` `#concurrency` `#testing` `#api`
-**Language focus:** Go-first
-**Sources:** `markdown_output/Learning_Go_An_Idiomatic_Approach_to_Real-World_Go_Programming_2nd_Edition_-_Jon_Bodner/Learning_Go_An_Idiomatic_Approach_to_Real-World_Go_Programming_2nd_Edition_-_Jon_Bodner.md` · `summaries/Learning_Go_An_Idiomatic_Approach_to_Real-World_Go_Programming_2nd_Edition_-_Jon_Bodner.md`
+# Learning Go — Maximum-Depth Deep-Dive
 
-## TL;DR
-Idiomatic Go is "boring on purpose": clear, maintainable, predictable. The book's overriding principle is *write code that makes your intentions clear* — comprehensibility beats conciseness. Every feature exists to serve that: zero values eliminate init bugs, explicit type conversions kill a whole class of promotion bugs, returned errors force every call site to confront failure, and channels/select/cancellation make data flow between goroutines obvious. Accept interfaces, return structs; keep concurrency out of your APIs; test at boundaries (table tests + fuzz + race detector + httptest).
+> Source: *Learning Go: An Idiomatic Approach to Real-World Go Programming*, 2nd Edition — Jon Bodner (O'Reilly)
+>
+> Coverage tags: `#general` `#concurrency` `#testing` `#api`
+>
+> This is a deep, code-first extraction organized by topic. Every claim is grounded in the book's source text. Code blocks are reproduced verbatim (or condensed only for length) from the book.
 
 ---
 
-## Best Practices by Topic
+## Table of Contents
 
-### Types, Variables, and Declarations
+1. Go Environment & Toolchain (`#general`)
+2. Composite Types: Arrays, Slices, Maps, Strings, Structs (`#general`)
+3. Blocks, Shadowing, Control Flow (`#general`)
+4. Functions: Multiple Returns, Closures, defer (`#general`)
+5. Pointers & Memory (`#general`)
+6. Types, Methods, Interfaces (`#general`)
+7. Generics (`#general`)
+8. Errors (`#general`)
+9. Modules, Packages, Imports (`#general`)
+10. Go Tooling (`#general`)
+11. Concurrency: Goroutines, Channels, select (`#concurrency`)
+12. Standard Library: io, time, encoding/json, net/http (`#api`)
+13. Context (`#concurrency` `#api`)
+14. Testing (`#testing`)
+15. Reflection, Unsafe, Cgo (`#general`)
 
-**Principle:** Zero values, explicit conversions, and untyped constants exist so the compiler can do as much work for you as possible.
+---
 
-**Do:**
-- Use `int` for all integer variables unless you are working with a specific binary format or network protocol that mandates a fixed-size/signed type.
-- Use `float64` for floating-point work unless compatibility demands `float32`. Never use floats for money — use a decimal library (`shopspring/decimal`).
-- Always capitalize rune literals `'J'` and string literals `"text"` correctly; Go treats them as different types (`int32` vs `string`).
-- Use `_` (underscore) to ignore return values explicitly — `result, _, err := divAndRemainder(5, 2)`.
-- Use `:=` inside functions for the common case. Use `var x int` when the zero value is intentional; use the long `var x T = v` form when the literal's default type is wrong.
-- Read every declared local variable — it is a compile-time error not to. Avoid package-level mutable variables; they complicate data flow analysis.
-- Use raw string literals (backticks) for multi-line strings or strings containing backslashes/quotes.
-- Use `errors.New("only even numbers are processed")` for static messages, `fmt.Errorf("%d isn't even", i)` when runtime data is needed. Error strings should NOT be capitalized, end with punctuation, or end with a newline.
-- Use `byte` (alias for `uint8`) instead of `uint8`, and `rune` (alias for `int32`) instead of `int32` whenever the value represents text.
+## 1. Go Environment & Toolchain `#general`
 
-**Don't:**
-- Don't use `==` to compare floating-point values. Define an epsilon and check `math.Abs(a-b) < epsilon`.
-- Don't use leading-zero octal literals (`0755`) — they are confusing. Use `0o755`.
-- Don't use the look-alike Unicode code points as variable names; the compiler treats them as distinct and the code is unmaintainable.
-- Don't try to convert an int to a bool (or vice versa). Use a comparison operator: `x == 0`, `s == ""`.
-- Don't declare package-level mutable variables — the Go compiler can't enforce immutability, so you must enforce it socially.
-- Don't reassign exported sentinel errors — they are treated as read-only by convention.
+### 1.1 Installation & Single Native Binary
 
-**Code:**
-```go
-// Always copy the literal value to a variable before taking its address
-func makePointer[T any](t T) *T { return &t }
+Go programs compile to a **single native binary** with no external runtime. Distribution is dramatically simpler than JVM, Python, or JavaScript workloads:
 
-type Person struct {
-    FirstName  string
-    MiddleName *string // can't take address of literal
-    LastName   string
-}
-p := Person{
-    FirstName:  "Pat",
-    MiddleName: makePointer("Perry"), // works
-    LastName:   "Peterson",
-}
-
-// Float comparison — never use ==
-const epsilon = 1e-9
-if math.Abs(a-b) < epsilon { /* equal */ }
+```sh
+$ tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz
+$ echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bash_profile
+$ source $HOME/.bash_profile
+$ go version
+go version go1.20.5 linux/amd64
 ```
-*Ref: Learning_Go.md — "Predeclared Types and Declarations", "var Versus :=", "Pointers Indicate Mutable Parameters"*
 
----
+This property lets Go apps ship inside `scratch` or `distroless` Docker images.
 
-### Composite Types (Arrays, Slices, Maps, Strings, Structs)
+### 1.2 The Three Foundational Commands
 
-**Principle:** Slices and maps are reference types implemented on top of pointers — copying the slice header does NOT copy the backing storage. Use the three-part slice expression to prevent accidental overwrites.
+| Command     | Purpose                                                                                  |
+|-------------|------------------------------------------------------------------------------------------|
+| `go build`  | Compiles to a binary named after the module (`hello_world` by default; override with `-o`) |
+| `go fmt`    | Enforces the single standard format (tabs, opening brace on same line as declaration) |
+| `go vet`    | Catches likely bugs (e.g. `fmt.Printf("Hello, %s!\n")` with no arg) — valid syntax, almost certainly wrong |
 
-**Do:**
-- Prefer slices over arrays; arrays exist primarily as backing storage for slices or for fixed binary layouts (e.g. cryptographic checksums).
-- Use `make([]T, 0, n)` with the expected capacity when you know the size upfront — it avoids repeated reallocations and copies.
-- Use `len()` and `cap()` to inspect slices, and the three-part slice expression `s[low:high:max]` to limit a subslice's capacity so `append` cannot overwrite the parent's backing array.
-- Use `copy(dst, src)` to create independent slices.
-- Compare slices with `slices.Equal` / `slices.EqualFunc` (Go 1.21+) — never with `==` (compile error).
-- Use the comma-ok idiom to disambiguate "missing key" from "zero value" on map reads: `v, ok := m[key]`.
-- Use `map[string]struct{}{}` as a memory-zero set only when set size is large; otherwise `map[T]bool` is clearer.
-- Use struct literal field-name syntax (`person{Name: "Bob", Age: 30}`) for any non-trivial struct — it's forward-compatible when fields are added.
-- Use anonymous structs for one-off data shapes (table tests, JSON unmarshal targets).
-- Iterate strings with `for i, r := range s` to get runes (code points), not bytes.
-- Use `clear(m)` (Go 1.21+) to empty a map or zero a slice's contents (length preserved on slices).
-- Use `delete(m, key)` — it's a no-op on missing keys or nil maps.
+### 1.3 Semicolon Insertion Rule
 
-**Don't:**
-- Don't declare a slice with `var x = []int{}` when `var x []int` (nil slice) works — they are not equivalent (`len` and JSON output differ).
-- Don't append to a subslice (`y := x[:2]; y = append(y, ...)`) without the three-part slice expression — it can clobber the parent's data.
-- Don't use `reflect.DeepEqual` in new code for slice/map comparison; use `slices.Equal` / `maps.Equal`.
-- Don't use a slice or map as a map key — they are not comparable.
-- Don't index into a string by byte position when characters may be multibyte UTF-8 — use `[]rune(s)` or `for-range`.
-- Don't try to convert an `int` directly to `string` — `string(65)` yields `"A"` (rune), not `"65"`.
-- Don't write a `func` field or channel field in a struct if you need it comparable — those make the struct uncomparable.
+Go automatically inserts semicolons after the last token on a line if that token is any of:
 
-**Code:**
+- An **identifier** (e.g. `int`, `float64`)
+- A **literal** (number, string)
+- One of `break`, `continue`, `fallthrough`, `return`, `++`, `--`, `)`, `}`
+
+This is why braces must open on the **same line** as the preceding statement. If you write:
+
 ```go
-// Three-part slice expression prevents aliasing
-x := make([]string, 0, 5)
-x = append(x, "a", "b", "c", "d")
-y := x[:2:2]   // y has length 2, capacity 2 — append on y cannot touch x
-z := x[2:4:4]  // z has length 2, capacity 2
-
-// Map presence vs zero value
-v, ok := m["key"]
-if !ok { /* key absent — don't treat zero value as "present" */ }
-
-// Anonymous struct for one-shot JSON
-var raw struct {
-    Name string `json:"name"`
-    Age  int    `json:"age"`
+func main()
+{
+    fmt.Println("Hello, world!")
 }
-json.Unmarshal(bytes, &raw)
 ```
-*Ref: Learning_Go.md — "Slices", "Maps", "Using Maps as Sets", "Anonymous Structs", "Comparing and Converting Structs"*
+
+The lexer turns it into:
+
+```go
+func main();
+{
+    fmt.Println("Hello, world!");
+};
+```
+
+— which is not valid Go.
+
+### 1.4 Your First Program — `hello.go`
+
+```go
+package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, world!")
+}
+```
+
+```sh
+$ go mod init hello_world
+$ go build
+$ ./hello_world
+Hello, world!
+```
+
+**Module path**: globally unique identifier, usually the repo URL (`github.com/jonbodner/proteus`). For local-only modules the name does not need to be unique.
+
+### 1.5 Makefiles
+
+```
+.DEFAULT_GOAL := build
+.PHONY: fmt vet build
+fmt:
+    go fmt ./...
+vet: fmt
+    go vet ./...
+build: vet
+    go build
+```
+
+- `.PHONY` prevents make from being confused if a directory or file shares a target name.
+- Indentation **must** be tabs (not spaces). Make is not installed by default on Windows.
+
+### 1.6 The Go Compatibility Promise
+
+Since Go 1.0 (and reaffirmed by Russ Cox in the 2017 keynote "Compatibility: How Go Programs Keep Working"):
+
+> Go 1 programs will continue to compile and run unchanged, in all major environments, for years to come.
+
+This guarantee applies to the **language and standard library** — *not* to `go` command flags, which have been broken in the past.
+
+### 1.7 Staying Up-to-Date
+
+Linux/BSD: tar + replace. macOS/Windows: installers remove old versions automatically.
 
 ---
 
-### Blocks, Shadowing, and Control Flow
+## 2. Composite Types `#general`
 
-**Principle:** Go's block scoping is small but strict. The `:=` operator reuses outer variables only if at least one variable on the left is new — this is the #1 source of accidental shadow bugs.
+### 2.1 The Zero Value
 
-**Do:**
-- Use the `if n := rand.Intn(10); n == 0 { ... }` init-statement form to scope a value to the if/else blocks.
-- Use a `switch` (including blank `switch {}` for boolean chains) instead of long `if/else` chains.
-- Use `goto` only for cleanup jumps to a top-of-function label; it cannot skip declarations or jump into inner blocks.
-- Use `for i := 0; i < n; i++ {}` (complete), `for condition {}` (while), `for {}` (infinite), or `for-range` — those are Go's only loop forms.
-- Rely on Go 1.22+ semantics: the `for-range` loop variable is per-iteration (no more classic `v := v` shadow dance).
+Every type in Go has a default zero value, eliminating the C/C++ bug class of uninitialized variables:
 
-**Don't:**
-- Don't put parens around `if` conditions: `if (x > 0)` is not idiomatic.
-- Don't rely on switch fall-through — Go cases don't fall through by default. Use `fallthrough` explicitly and rarely.
-- Don't shadow predeclared identifiers (`true`, `false`, `nil`, `len`, `int`, `make`, ...). It compiles but corrupts the universe block.
-- Don't shadow loop variables in pre-Go-1.22 closures — pass values explicitly or upgrade to Go 1.22.
+| Type                    | Zero value                                |
+|-------------------------|-------------------------------------------|
+| Numeric (int, float, …) | `0`                                        |
+| `bool`                  | `false`                                    |
+| `string`                | `""`                                       |
+| Pointer / slice / map / channel / function / interface | `nil` |
 
-**Code:**
 ```go
-// Pre-Go-1.22 closure capture workaround
-for _, v := range a {
-    v := v                       // shadow to give each goroutine its own copy
+var flag bool    // false
+var isAwesome = true
+```
+
+### 2.2 Literals
+
+**Integer**: base 10 default; prefixes `0b` (binary), `0o` (octal), `0x` (hex). Avoid the legacy `0` for octal — confusing.
+
+**Underscore digit separators**: `1_234` is legal; underscores cannot lead/trail or sit adjacent.
+
+**Floating-point**: decimal `6.03e23`; hex `0x12.34p5` (=582.5).
+
+**Rune** (single quotes only): `'a'`, `'\141'`, `'\x61'`, `'\u0061'`, `'\U00000061'`.
+
+**Strings**:
+- **Interpreted**: `"Greetings and\n\"Salutations\""`
+- **Raw** (backticks): `` `Greetings and "Salutations"` `` — no escapes, may span lines.
+
+Single and double quotes are **not** interchangeable.
+
+### 2.3 Numeric Types
+
+12 types + special names. Default type for an integer literal is `int`.
+
+| Type      | Use                                                                |
+|-----------|--------------------------------------------------------------------|
+| `int8`–`int64` | Signed integer (specified width)                            |
+| `uint8`–`uint64` | Unsigned                                                |
+| `float32`, `float64` | IEEE-754 floats; default to **float64**              |
+| `complex64`, `complex128` | Built-in complex; rarely used                  |
+| `byte`    | Alias for `uint8`                                                  |
+| `rune`    | Alias for `int32`                                                  |
+| `int`     | Platform word (32 or 64 bits); **the default**                    |
+| `uint`    | Platform word, unsigned                                           |
+| `uintptr` | Large enough to hold a pointer bit pattern (used in `unsafe`)      |
+
+**Choosing an integer**:
+1. Binary file format / network protocol with a specified width → use that width.
+2. Generic library function → use a type parameter (Go 1.18+).
+3. Everything else → **`int`**.
+
+Operators: `+ - * / %`, with combined-assignment `+= -= *= /= %=`. `int / int` truncates toward zero. Comparison: `== != > >= < <=`.
+
+**Floating-point pitfalls**:
+- `0/0.0` → `NaN`; `x/0.0` → `+Inf` or `-Inf`.
+- Never use `==` or `!=` to compare floats — use an epsilon.
+- **Never represent money with floats** — use `shopspring/decimal` or similar.
+
+### 2.4 Arrays — "Too Rigid to Use Directly"
+
+The size is part of the type: `[3]int` and `[4]int` are *not* assignable.
+
+```go
+var x [3]int                          // all zero
+var y = [3]int{10, 20, 30}            // full literal
+var z = [12]int{1, 5: 4, 6, 10: 100, 15}  // sparse: index 0=1, 5=4, 6=6, 10=100, 11=15
+var w = [...]int{10, 20, 30}          // size inferred
+```
+
+Read/write with `[i]`. Out-of-bounds with a constant → compile error; with a variable → runtime panic. `len(x)` returns length.
+
+```go
+var x [2][3]int   // multidim: array of 2 arrays of 3 ints
+```
+
+Arrays exist primarily as backing storage for slices.
+
+### 2.5 Slices — The Workhorse
+
+A slice is a 3-field struct `(pointer, length, capacity)` over an underlying array.
+
+```go
+var x = []int{10, 20, 30}
+var y []int               // nil slice, len 0
+x = append(x, 10)        // MUST assign return value
+x = append(x, 5, 6, 7)   // multiple
+y := []int{20, 30, 40}
+x = append(x, y...)      // spread
+```
+
+**Growth**: when `len == cap`, `append` allocates a new array. Go 1.18+ growth rule:
+- capacity < 256: **double**
+- larger: `(cap + 768) / 4` (≈ 25% growth)
+
+**`make`**: `make([]T, len)` or `make([]T, len, cap)`.
+
+**`clear`** (Go 1.21+): zeroes elements; length unchanged.
+
+**Nil vs empty slice**:
+```go
+var data []int      // nil — len 0, == nil true, JSON encodes as null
+var x = []int{}     // empty — len 0, == nil false, JSON encodes as []
+```
+
+Prefer **nil** slices; reserve empty for JSON interop where `[]` is required.
+
+**Slicing slices** (no copy — memory is shared):
+```go
+x := []string{"a","b","c","d"}
+y := x[:2]    // ["a","b"], cap 4 — appending y can corrupt x!
+z := x[1:3:3] // full slice expression — cap equals len, safe append
+```
+
+**Three-part expression** (`x[low:high:max]`): `cap(z) = max - low`. Limits subslice capacity to prevent silent append-overwrites.
+
+**`copy`**:
+```go
+src := []int{1,2,3,4}
+dst := make([]int, 4)
+n := copy(dst, src)        // copies min(len(dst), len(src)) elements
+copy(dst, src[2:])         // copies from middle
+copy(x[:3], x[1:])         // overlapping — supported
+```
+
+**Array → slice**: `xArray[:]` (entire) or `xArray[:2]`. Memory is shared.
+
+**Slice → array** (Go 1.20+): `xArray := [4]int(xSlice)`. **Data is copied**. If the array size exceeds the slice length, runtime panic. Also `[4]int{...}` versus `(*[4]int)(xSlice)` — the latter shares memory.
+
+### 2.6 Strings, Runes, and Bytes
+
+Strings are **immutable UTF-8 byte sequences**, *not* rune sequences.
+
+```go
+var s string = "Hello there"
+var b byte = s[6]             // byte 116 == 't'
+var sub = s[4:7]              // "o t"  (byte-indexed)
+len("Hello ☀")               // 10 (sun emoji = 4 bytes), NOT 7
+```
+
+`for-range` over a string yields runes (correctly iterating multi-byte code points):
+
+```go
+samples := []string{"hello", "apple_π!"}
+for _, sample := range samples {
+    for i, r := range sample {
+        fmt.Println(i, r, string(r))
+    }
+}
+// for "apple_π!" — index 6 = 960 ('π'), then index jumps to 8 (skipping 7)
+```
+
+`rune` is `int32`. A single rune can be cast to string:
+
+```go
+var a rune = 'x'
+var s string = string(a)        // "x"
+```
+
+`go vet` blocks `string(intVal)` conversions (Go 1.15+) — a common new-developer bug.
+
+```go
+var bs []byte = []byte(s)        // [72 101 108 ...]
+var rs []rune = []rune(s)        // [72 101 108 ...]
+```
+
+`clear(s)` zeroes string characters (Go 1.21+).
+
+### 2.7 Maps
+
+```go
+var m1 map[string]int                          // nil; READ returns zero, WRITE panics
+m2 := map[string]int{}                        // empty literal — readable & writable
+m3 := map[string][]string{                    // composite value
+    "Orcas": {"Fred", "Ralph"},
+}
+m4 := make(map[int][]string, 10)               // initial size hint
+```
+
+**Read/Write**:
+```go
+totalWins["Orcas"] = 1
+v := totalWins["Orcas"]    // returns 0 if missing — same as zero value!
+```
+
+**Comma-ok**:
+```go
+v, ok := m["hello"]    // ok = true if key present
+```
+
+**Delete**: `delete(m, "key")` — safe on missing key or nil map.
+
+**Clear** (Go 1.21+): `clear(m)` empties the map (length → 0).
+
+**Equality**: `==` only works vs `nil`. Use `maps.Equal` / `maps.EqualFunc` (Go 1.21+).
+
+**Key constraints**: any comparable type. No slices, no maps.
+
+**Set idiom**:
+```go
+intSet := map[int]bool{}
+for _, v := range vals {
+    intSet[v] = true
+}
+```
+
+Use `map[T]struct{}` to save 1 byte per entry if you have huge sets; otherwise `bool` is clearer.
+
+### 2.8 Structs
+
+```go
+type person struct {
+    name string
+    age  int
+    pet  string
+}
+
+var fred person                      // zero-valued struct
+bob := person{}                      // same as var bob person
+julia := person{"Julia", 40, "cat"}  // positional — all fields required
+beth := person{                      // named — partial allowed (missing → zero)
+    age:  30,
+    name: "Beth",
+}
+```
+
+**Anonymous structs** — useful for JSON and table tests:
+```go
+var person struct {
+    name string
+    age  int
+    pet  string
+}
+person.name = "bob"
+```
+
+**Comparison**: structs are comparable iff all fields are comparable. Slices/maps/functions in fields → not comparable.
+
+**Conversion**: allowed only when both structs have identical field names, order, and types. A named struct and an anonymous struct with the same fields are assignable directly (no conversion needed).
+
+---
+
+## 3. Blocks, Shadowing, Control Flow `#general`
+
+### 3.1 Block Hierarchy
+
+```
+universe block   ←  true, false, nil, int, len, make, …
+└── package block ←  declared at package scope
+    └── file block ←  imports
+        └── function block ←  parameters + locals
+            └── inner block ←  if/for/switch bodies
+```
+
+Inner blocks can read outer; **declarations in inner blocks shadow outer identifiers**.
+
+### 3.2 Shadowing — The Most Common Beginner Bug
+
+```go
+func main() {
+    x := 10
+    if x > 5 {
+        fmt.Println(x)   // 10 — outer x visible
+        x := 5            // SHADOWS outer x — new variable
+        fmt.Println(x)   // 5  — inner x
+    }
+    fmt.Println(x)       // 10 — outer x unchanged
+}
+```
+
+Output: `10 5 10`.
+
+`:=` makes accidental shadowing dangerously easy:
+
+```go
+x := 10
+if x > 5 {
+    x, y := 5, 20    // x is shadowed (NOT reused) — surprise!
+    fmt.Println(x, y)
+}
+```
+
+**Package shadowing** is even worse:
+```go
+fmt.Println(x)
+fmt := "oops"
+fmt.Println(fmt)   // compile error: type string has no field or method Println
+```
+
+**Universe shadowing** (the truly insidious one):
+```go
+fmt.Println(true)
+true := 10          // compiler doesn't catch this for built-ins!
+fmt.Println(true)   // prints "true 10"
+```
+
+Use a linter like `shadow` (in golangci-lint) to detect accidental shadowing.
+
+### 3.3 `if` — With Init Statement
+
+```go
+if n := rand.Intn(10); n == 0 {
+    fmt.Println("That's too low")
+} else if n > 5 {
+    fmt.Println("That's too big:", n)
+} else {
+    fmt.Println("That's a good number:", n)
+}
+fmt.Println(n)   // COMPILE ERROR — n out of scope
+```
+
+`n` lives only within the if/else chain.
+
+### 3.4 `for` — The Only Loop Keyword
+
+Four forms:
+
+```go
+// 1. C-style
+for i := 0; i < 10; i++ { }
+
+// 2. While-style (condition only)
+for i < 100 {
+    i = i * 2
+}
+
+// 3. Infinite
+for {
+    if done { break }
+}
+
+// 4. for-range
+for i, v := range slice {
+    fmt.Println(i, v)
+}
+```
+
+**Map iteration order varies per run** — a deliberate security feature against Hash DoS attacks. `fmt.Println` of a map sorts keys.
+
+**String iteration yields runes**, not bytes, with offset in bytes:
+```go
+for i, r := range "apple_π!" {
+    fmt.Println(i, r)
+}
+// 6 960  (π = U+03C0, 2 bytes in UTF-8)
+// 8 33   (next offset is 8, not 7)
+```
+
+**Pre-Go 1.22 bug**: `for _, v := range data` reused the same `v` across iterations. With goroutines this caused all closures to see the final value. **Go 1.22+ creates a fresh `v` per iteration** (controlled by `go 1.22` directive in go.mod).
+
+```go
+// Mitigation for older Go:
+for _, v := range data {
+    v := v                            // explicit shadow
     go func() { ch <- v * 2 }()
 }
-
-// Switch for related comparisons
-switch {
-case x < 0:
-    return errors.New("negative")
-case x == 0:
-    return nil
-default:
-    return process(x)
+// OR pass explicitly:
+for _, v := range data {
+    go func(val int) { ch <- val * 2 }(v)
 }
 ```
-*Ref: Learning_Go.md — "Blocks, Shadows, and Control Structures", "for, Four Ways"*
+
+**Labels**: nested-loop escape:
+```go
+outer:
+    for _, sample := range samples {
+        for i, r := range sample {
+            if r == 'l' { continue outer }
+        }
+    }
+```
+
+### 3.5 `switch`
+
+**No implicit fallthrough**. Multiple values with comma:
+
+```go
+switch size := len(word); size {
+case 1, 2, 3, 4:
+    fmt.Println(word, "is a short word!")
+case 5:
+    wordLen := len(word)
+    fmt.Println(word, "is exactly the right length:", wordLen)
+case 6, 7, 8, 9:
+    // empty case = nothing happens
+default:
+    fmt.Println(word, "is a long word!")
+}
+```
+
+**Blank switch** (`switch {}`) — like `if/else if` with N boolean comparisons:
+```go
+switch {
+case i%3 == 0 && i%5 == 0: fmt.Println("FizzBuzz")
+case i%3 == 0:            fmt.Println("Fizz")
+case i%5 == 0:            fmt.Println("Buzz")
+default:                  fmt.Println(i)
+}
+```
+
+**`fallthrough`** exists but should be avoided.
+
+### 3.6 `goto`
+
+Heavily restricted — cannot skip variable declarations, cannot jump into inner blocks. One valid use: cleanup at end of function regardless of how exited:
+
+```go
+done:
+    fmt.Println("cleanup")
+```
+
+`continue` and `break` cover most labeled-loop needs; prefer them.
 
 ---
 
-### Functions, defer, Closures, and Methods
+## 4. Functions `#general`
 
-**Principle:** Functions are values; closures capture surrounding variables; `defer` runs LIFO after `return`.
+### 4.1 Declaration
 
-**Do:**
-- Return `(value, error)` as the last return is the strongest Go convention. On success, return `nil` for the error.
-- Use named return values only when the names clarify the code or when `defer` must modify a return value (the canonical error-wrapping pattern).
-- Use `defer` for ALL resource cleanup (Close, Unlock, Remove). Defer runs even on panic.
-- Use the resource-allocation + cleanup-closure pattern: `func getFile(name string) (*os.File, func(), error)`.
-- Defer arguments are evaluated at the `defer` statement, not at the deferred function's execution. Capture deliberately.
-- Use closures to keep helpers local to one function — reduces package-level noise.
-- Use methods when logic depends on state stored on a struct; use functions when logic depends only on its inputs.
-- Use `defer` for `sync.Mutex.Unlock` and `*sql.Tx` rollback — name the receiver so the deferred closure can see the error.
-
-**Don't:**
-- Don't use bare `return` (blank returns) — they obscure data flow. Always `return value, err`.
-- Don't put `defer` inside a tight loop for per-iteration cleanup; it accumulates until the function returns. Call the cleanup inline.
-- Don't create getters/setters for Go structs unless they are needed to satisfy an interface — direct field access is the idiom.
-- Don't reassign package-level function variables — package-level state should be effectively immutable.
-
-**Code:**
 ```go
-// Error wrapping with defer and named return value
+func div(num, denom int) int {  // consecutive same-type parameters
+    if denom == 0 {
+        return 0
+    }
+    return num / denom
+}
+```
+
+Returns:
+- `(int, int, error)` — multiple values are common, error always last by convention
+- Named returns: `(result int, remainder int, err error)` — pre-declared, modifiable, useful with `defer`
+
+**Never use blank (naked) returns** — they obscure data flow.
+
+### 4.2 Variadic Parameters
+
+```go
+func addTo(base int, vals ...int) []int {
+    out := make([]int, 0, len(vals))
+    for _, v := range vals {
+        out = append(out, base+v)
+    }
+    return out
+}
+addTo(3)                 // []
+addTo(3, 2)              // [5]
+addTo(3, 2, 4, 6, 8)     // [5 7 9 11]
+addTo(3, []int{4, 3}...) // [7 6] — spread
+```
+
+### 4.3 Multiple Return Values Are Values (Not Tuples)
+
+```go
+result, remainder, err := divAndRemainder(5, 2)
+result, _, err := divAndRemainder(5, 2)        // discard remainder
+divAndRemainder(5, 2)                          // discards ALL returns — usually bad
+```
+
+You must assign each return to a separate variable. `_, _ = f()` is allowed.
+
+### 4.4 Functions as Values
+
+```go
+var opMap = map[string]func(int, int) int{
+    "+": add, "-": sub, "*": mul, "/": div,
+}
+opFunc, ok := opMap[op]
+result := opFunc(p1, p2)
+```
+
+**Function type declaration** for documentation:
+```go
+type opFuncType func(int, int) int
+```
+
+### 4.5 Anonymous Functions and Closures
+
+```go
+f := func(j int) {
+    fmt.Println("printing", j, "from inside of an anonymous function")
+}
+f(10)
+```
+
+**Closures capture variables** from their enclosing scope:
+```go
+func main() {
+    a := 20
+    f := func() {
+        fmt.Println(a)
+        a = 30
+    }
+    f()              // 20
+    fmt.Println(a)   // 30
+}
+```
+
+Using `:=` inside a closure creates a *new* variable that disappears when the closure exits:
+```go
+a := 20
+f := func() {
+    fmt.Println(a)
+    a := 30           // shadow — different a!
+    fmt.Println(a)
+}
+f()                    // 20 30
+fmt.Println(a)         // 20
+```
+
+### 4.6 Passing / Returning Functions
+
+**Higher-order functions** are common — `sort.Slice(slice, func(i, j int) bool { ... })`.
+
+```go
+func makeMult(base int) func(int) int {
+    return func(factor int) int {
+        return base * factor
+    }
+}
+twoBase := makeMult(2)
+fmt.Println(twoBase(5))   // 10
+```
+
+### 4.7 `defer`
+
+```go
+f, err := os.Open(name)
+if err != nil { return err }
+defer f.Close()        // runs when function exits — even on panic
+```
+
+**Rules**:
+- Multiple `defer` runs in **LIFO** order.
+- Arguments to deferred calls are evaluated **immediately** (the function's reference, but the args are captured now).
+- Input parameters are NOT evaluated immediately — the function call is.
+- Deferred function **return values are discarded** (Go does let you pass them into a wrapper).
+
+**Modify return values via named returns** — the canonical pattern for adding context to errors:
+```go
+func DoSomeInserts(ctx context.Context, db *sql.DB, val1, val2 string) (err error) {
+    tx, err := db.BeginTx(ctx, nil)
+    if err != nil { return err }
+    defer func() {
+        if err == nil {
+            err = tx.Commit()
+        }
+        if err != nil {
+            tx.Rollback()
+        }
+    }()
+    _, err = tx.ExecContext(ctx, "INSERT ...", val1)
+    return err
+}
+```
+
+### 4.8 Closures as Cleanup Handlers
+
+Returning a cleanup closure enforces its use:
+```go
+func getFile(name string) (*os.File, func(), error) {
+    file, err := os.Open(name)
+    if err != nil { return nil, nil, err }
+    return file, func() { file.Close() }, nil
+}
+
+f, closer, err := getFile(os.Args[1])
+if err != nil { log.Fatal(err) }
+defer closer()
+```
+
+### 4.9 Go Is Call by Value
+
+```go
+type person struct { age int; name string }
+func modifyFails(i int, s string, p person) {
+    i = i*2; s = "Goodbye"; p.name = "Bob"
+}
+
+p := person{}
+i, s := 2, "Hello"
+modifyFails(i, s, p)
+fmt.Println(i, s, p)   // 2 Hello {0 }  — nothing changed
+```
+
+**Maps**: passes the pointer — modifications are visible to caller.
+
+**Slices**: header (ptr, len, cap) is copied but the underlying array is shared — element changes are visible, `append` (which may reallocate) is NOT visible.
+
+### 4.10 The `simple_cat` Pattern (I/O Starter)
+
+```go
+func main() {
+    if len(os.Args) < 2 { log.Fatal("no file specified") }
+    f, err := os.Open(os.Args[1])
+    if err != nil { log.Fatal(err) }
+    defer f.Close()
+    data := make([]byte, 2048)
+    for {
+        count, err := f.Read(data)
+        os.Stdout.Write(data[:count])
+        if err != nil {
+            if err != io.EOF { log.Fatal(err) }
+            break
+        }
+    }
+}
+```
+
+---
+
+## 5. Pointers & Memory `#general`
+
+### 5.1 Anatomy
+
+```go
+var x int32 = 10
+var y bool = true
+pointerX := &x       // type *int32
+pointerY := &y       // type *bool
+var pointerZ *string // nil
+```
+
+- `&x` — address-of operator (yields `*T`).
+- `*p` — dereference / indirection.
+- Dereferencing nil → **panic**.
+
+```go
+var x = new(int)       // *int pointing to a zero int
+fmt.Println(x == nil)  // false
+fmt.Println(*x)         // 0
+```
+
+`new(T)` returns `*T` to a zero-valued T. For structs prefer `&Foo{}`. Cannot `&(literal)` — literals have no address.
+
+**Generic helper to take the address of a literal**:
+```go
+func makePointer[T any](t T) *T {
+    return &t
+}
+p := person{ FirstName: "Pat", MiddleName: makePointer("Perry"), LastName: "Peterson" }
+```
+
+### 5.2 Pointers Are Just Familiar OOP Behavior
+
+Java/JavaScript/Python/Ruby always pass class instances by pointer (under the hood). Go gives you the **choice**:
+
+| Situation                              | Use Pointer or Value?          |
+|----------------------------------------|--------------------------------|
+| Want to mutate the parameter           | Pointer                        |
+| Want to signal "optional / no value"   | Pointer (nil)                  |
+| Data > 10 MB                           | Pointer (perf)                 |
+| Pure functional transform              | Value                          |
+| All other cases                        | **Value (default)**            |
+
+The book offers this analogy: **"pointer parameters behave exactly like class instances in Java."** The surprising thing for newcomers is not pointers but Go's *value* semantics.
+
+### 5.3 Pointers = Mutable Parameters
+
+```go
+func failedUpdate(g *int) {
+    x := 10
+    g = &x        // reassigning local g; caller still sees nil
+}
+func update(px *int) {
+    *px = 20       // dereference and write through — caller sees change
+}
+```
+
+You **cannot** make a nil parameter non-nil — `g = &x` only updates the copy.
+
+### 5.4 "Pointers Are a Last Resort"
+
+```go
+// DON'T
+func MakeFoo(f *Foo) error {
+    f.Field1 = "val"
+    f.Field2 = 20
+    return nil
+}
+// DO
+func MakeFoo() (Foo, error) {
+    return Foo{Field1: "val", Field2: 20}, nil
+}
+```
+
+**Exception**: when the function expects an interface (e.g. `json.Unmarshal([]byte, &f)` must take pointer because of generics absence pre-1.18 and allocation control).
+
+### 5.5 Pointer Passing Performance
+
+| Data size       | Pass by value | Pass by pointer |
+|-----------------|---------------|-----------------|
+| 100 B           | ~10 ns        | ~30 ns          |
+| 100 KB          | similar       | faster          |
+| 10 MB           | ~0.7 ms       | ~0.5 ms         |
+| 10 MB return    | ~1.5 ms       | ~0.5 ms         |
+
+For data under 10 MB, **value returns are faster** (no heap allocation).
+
+### 5.6 Zero Value vs No Value (Pointer in JSON Fields)
+
+```go
+type person struct {
+    FirstName  string
+    MiddleName *string  // nil = "not set"; "" = "explicitly empty"
+    LastName   string
+}
+```
+
+Use `*string` for **nullable JSON fields**, otherwise use plain `string`.
+
+### 5.7 Memory Model: Stack vs Heap
+
+- **Stack**: local variables, parameters. Very fast. Known-size data.
+- **Heap**: data whose lifetime can't be predicted at compile time. Subject to GC.
+
+**Escape analysis** (compiler):
+- Pointer returned from function → escapes to heap.
+- Pointer passed to a function the compiler can't fully trace → escapes.
+
+```sh
+go build -gcflags="-m"
+# main.go:5:6: moved to heap: x
+```
+
+**Goroutine stacks** grow dynamically (unlike OS threads). Initial stack is small (2 KB); can grow to 1 GB. Growing requires copying — expensive.
+
+### 5.8 GOGC and GOMEMLIMIT
+
+```sh
+GOGC=100           # default — trigger GC when heap doubles
+GOGC=200           # halve GC CPU time (bigger heap)
+GOGC=off           # disable GC (memory leak risk)
+
+GOMEMLIMIT=3GiB    # soft limit; soft means it can be exceeded under pressure
+```
+
+`GOMEMLIMIT` is **soft** to prevent thrashing — Go allows temporary overruns rather than spinning in GC.
+
+### 5.9 Map and Slice Memory Layout
+
+**Map**: implemented as `*runtime.hmap` — passing a map passes the pointer.
+
+**Slice**: struct `(data *T, len int, cap int)` — header copied, underlying array shared. Length-changing `append` is invisible to caller; element changes are visible.
+
+```go
+func modSlice(s []int) {
+    for k, v := range s { s[k] = v * 2 }   // visible to caller
+    s = append(s, 10)                     // NOT visible
+}
+```
+
+---
+
+## 6. Types, Methods, Interfaces `#general`
+
+### 6.1 Type Declarations — Executable Documentation
+
+```go
+type Score int
+type Converter func(string) Score
+type TeamScores map[string]Score
+```
+
+`type X Y` creates a **distinct type** sharing Y's underlying representation. Not inheritance — no implicit conversion, no method sharing.
+
+```go
+var i int = 300
+var s Score = 100
+s = i              // compile error
+s = Score(i)       // OK
+```
+
+**User-defined types whose underlying type is a built-in can use literals and operators**:
+```go
+var s Score = 50
+scoreWithBonus := s + 100   // also Score
+```
+
+### 6.2 Methods
+
+```go
+type Counter struct {
+    total       int
+    lastUpdated time.Time
+}
+
+func (c *Counter) Increment() {       // pointer receiver
+    c.total++
+    c.lastUpdated = time.Now()
+}
+
+func (c Counter) String() string {    // value receiver
+    return fmt.Sprintf("total: %d, last updated: %v", c.total, c.lastUpdated)
+}
+```
+
+**Receiver choice**:
+- Mutates receiver → **pointer** (required).
+- Must handle `nil` → **pointer** (required).
+- Otherwise, **value** unless the type has other pointer receivers — then be consistent.
+- `nil`-pointer **value receiver method** → panic. `nil`-pointer **pointer receiver method** → works if the method handles nil.
+
+**Method set rules**:
+- Pointer instance has both value-receiver and pointer-receiver methods in its method set.
+- Value instance has only value-receiver methods.
+- `(&c).String()` and `c.Increment()` syntax is interchangeable — Go inserts the address/dereference.
+
+```go
+// Common pattern:
+type IntTree struct {
+    val         int
+    left, right *IntTree
+}
+
+func (it *IntTree) Insert(val int) *IntTree {
+    if it == nil {
+        return &IntTree{val: val}
+    }
+    if val < it.val { it.left  = it.left.Insert(val) }
+    if val > it.val { it.right = it.right.Insert(val) }
+    return it
+}
+
+func (it *IntTree) Contains(val int) bool {
+    switch {
+    case it == nil:            return false
+    case val < it.val:         return it.left.Contains(val)
+    case val > it.val:         return it.right.Contains(val)
+    default:                   return true
+    }
+}
+
+var it *IntTree
+it = it.Insert(5).Insert(3).Insert(10).Insert(2)
+fmt.Println(it.Contains(2))   // true
+```
+
+### 6.3 Methods as Functions
+
+```go
+type Adder struct{ start int }
+func (a Adder) AddTo(val int) int { return a.start + val }
+
+myAdder := Adder{start: 10}
+
+// Method value — closure-like
+f1 := myAdder.AddTo
+f1(5)                // 15
+
+// Method expression
+f2 := Adder.AddTo
+f2(myAdder, 15)      // 25
+```
+
+### 6.4 `iota` for Enumerations
+
+```go
+type MailCategory int
+const (
+    Uncategorized MailCategory = iota  // 0
+    Personal                            // 1
+    Spam                                // 2
+    Social                              // 3
+    Advertisements                      // 4
+)
+```
+
+**iota is fragile** when reordered or inserted in the middle. **Best practice**: use iota only when the **names** matter, not the values. If the spec dictates values, hard-code them.
+
+If zero value is meaningless, assign `_` or `Invalid` to iota=0 to make uninitialized detection easy:
+```go
+const (
+    InvalidStatus Status = iota   // 0 = invalid sentinel
+    Active
+    Paused
+)
+```
+
+### 6.5 Embedding for Composition — Not Inheritance
+
+```go
+type Employee struct {
+    Name string
+    ID   string
+}
+func (e Employee) Description() string { return fmt.Sprintf("%s (%s)", e.Name, e.ID) }
+
+type Manager struct {
+    Employee          // embedded — methods promoted
+    Reports []Employee
+}
+
+m := Manager{
+    Employee: Employee{Name: "Bob Bobson", ID: "12345"},
+    Reports:  []Employee{},
+}
+fmt.Println(m.ID)              // 12345 — promoted
+fmt.Println(m.Description())    // promoted method
+```
+
+**Embedding is NOT inheritance**:
+- `var e Employee = m` — compile error. `var e Employee = m.Employee` works.
+- No dynamic dispatch. If `Manager.Double()` exists, embedded field's `Double()` still wins inside embedded methods.
+
+You can embed **any type** (not just structs). Embedded field methods are promoted.
+
+### 6.6 Interfaces — Type-Safe Duck Typing
+
+```go
+type Stringer interface {
+    String() string
+}
+type Incrementer interface {
+    Increment()
+}
+
+var counter Counter
+var inc Incrementer = &counter   // pointer has pointer-receiver methods
+inc.Increment()
+
+var val Counter
+var inc2 Incrementer = val         // COMPILE ERROR — value lacks pointer-receiver methods
+```
+
+Implicit — no `implements` keyword. Implementation is structural.
+
+**Interface rule of thumb**:
+```go
+// Wrong:
+type Customer interface { ... }    // defined in same package as implementation
+
+// Right:
+type Customer interface { ... }    // defined in package that USES it
+// Implementation lives elsewhere with no awareness of Customer
+```
+
+### 6.7 `Accept Interfaces, Return Structs`
+
+- Input parameters: interfaces (flexible, testable, documented contract).
+- Return values: concrete structs (avoids breaking backward compat when methods are added).
+
+**Rare exceptions**: factory functions returning interfaces (database drivers, parsers with multiple token types), `error` (must be interface), `io.Reader`.
+
+### 6.8 Interfaces and `nil`
+
+An interface value is a `(type, value)` pair. **Both** must be nil for the interface to be nil:
+
+```go
+var pc *Counter            // nil pointer
+var inc Incrementer = pc   // type=*Counter, value=nil → NOT nil interface
+fmt.Println(inc == nil)   // false
+```
+
+Detecting a nil underlying value requires reflection (`reflect.Value.IsNil()`).
+
+### 6.9 Interfaces Are Comparable — Carefully
+
+Two interface values are equal iff types match and values are equal:
+
+```go
+type Doubler interface{ Double() }
+type DoubleInt int
+func (d *DoubleInt) Double()      { *d *= 2 }
+type DoubleIntSlice []int
+func (d DoubleIntSlice) Double()  { for i := range d { d[i] *= 2 } }
+
+DoublerCompare(&di, dis2)         // PANIC: DoubleIntSlice not comparable
+```
+
+Panic at runtime. **Avoid `==` on interface values** unless you control all implementations.
+
+### 6.10 The Empty Interface — `any`
+
+```go
+var i any
+i = 20
+i = "hello"
+i = struct{ FirstName, LastName string }{"Fred", "Fredson"}
+```
+
+`any` is an alias for `interface{}` since Go 1.18. **Use sparingly** — it loses type safety.
+
+### 6.11 Type Assertions and Type Switches
+
+```go
+i2 := i.(MyInt)                      // type assertion — panics if wrong type
+i2, ok := i.(int)                    // comma-ok — safe
+```
+
+```go
+switch j := i.(type) {
+case nil:                  // j is any
+case int:                  // j is int
+case MyInt:                // j is MyInt
+case io.Reader:            // j is io.Reader
+case string:               // j is string
+case bool, rune:           // j is any (multiple types)
+default:                   // j is any
+}
+```
+
+**Use sparingly**. Prefer accepting concrete types or interfaces in function signatures.
+
+### 6.12 Function Types as a Bridge to Interfaces
+
+```go
+type HandlerFunc func(http.ResponseWriter, *http.Request)
+func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    f(w, r)
+}
+```
+
+Now any plain function with that signature satisfies `http.Handler`.
+
+### 6.13 Implicit Interfaces Enable Dependency Injection
+
+```go
+type Logger interface{ Log(message string) }
+type DataStore interface{ UserNameForID(string) (string, bool) }
+
+type LoggerAdapter func(string)
+func (lg LoggerAdapter) Log(msg string) { lg(msg) }
+
+// LoggerAdapter and *SimpleDataStore* implicitly satisfy Logger and DataStore — neither
+// "knows" it implements the interface.
+type SimpleLogic struct {
+    l  Logger
+    ds DataStore
+}
+
+func main() {
+    l  := LoggerAdapter(LogOutput)
+    ds := NewSimpleDataStore()
+    logic := NewSimpleLogic(l, ds)
+    c   := NewController(l, logic)
+    http.HandleFunc("/hello", c.SayHello)
+    http.ListenAndServe(":8080", nil)
+}
+```
+
+This is what enables idiomatic Go testing — interfaces let you substitute fakes/stubs in tests without changing production code.
+
+For heavyweight projects, [Wire](https://github.com/google/wire) generates the wiring.
+
+---
+
+## 7. Generics `#general`
+
+### 7.1 Why Generics
+
+Before Go 1.18, generic algorithms required interface-based wrappers which lose compile-time type safety:
+
+```go
+type Orderable interface { Order(any) int }
+type OrderableInt int
+func (oi OrderableInt) Order(val any) int {
+    return int(oi - val.(OrderableInt))   // panics if wrong type
+}
+```
+
+Generics bring back static type safety for reusable algorithms.
+
+### 7.2 Generic Stack — First Example
+
+```go
+type Stack[T any] struct { vals []T }
+
+func (s *Stack[T]) Push(val T) { s.vals = append(s.vals, val) }
+
+func (s *Stack[T]) Pop() (T, bool) {
+    if len(s.vals) == 0 { var zero T; return zero, false }
+    top := s.vals[len(s.vals)-1]
+    s.vals = s.vals[:len(s.vals)-1]
+    return top, true
+}
+
+var intStack Stack[int]
+intStack.Push(10)
+intStack.Push("nope")    // COMPILE ERROR
+```
+
+### 7.3 Type Constraints
+
+```go
+type Stack[T comparable] struct { vals []T }   // comparable = supports ==, !=
+
+type Integer interface {
+    int | int8 | int16 | int32 | int64 |
+    uint | uint8 | uint16 | uint32 | uint64 | uintptr
+}
+
+func divAndRemainder[T Integer](num, denom T) (T, T, error) {
+    if denom == 0 { return 0, 0, errors.New("division by zero") }
+    return num / denom, num % denom, nil
+}
+```
+
+Use `~T` to match **types with T as underlying type**. The `cmp.Ordered` interface (Go 1.21+) covers all comparable + ordered types.
+
+### 7.4 Generic Functions — Map/Reduce/Filter
+
+```go
+func Map[T1, T2 any](s []T1, f func(T1) T2) []T2 {
+    r := make([]T2, len(s))
+    for i, v := range s { r[i] = f(v) }
+    return r
+}
+
+func Reduce[T1, T2 any](s []T1, init T2, f func(T2, T1) T2) T2 {
+    r := init
+    for _, v := range s { r = f(r, v) }
+    return r
+}
+
+func Filter[T any](s []T, f func(T) bool) []T {
+    var r []T
+    for _, v := range s { if f(v) { r = append(r, v) } }
+    return r
+}
+```
+
+### 7.5 Limitations & Performance
+
+- ❌ No method-level type parameters (can't chain `.Map().Reduce()`).
+- ❌ No variadic type parameters. ❌ No specialization, currying, metaprogramming.
+
+**Performance**: Go 1.20 shares generated functions across pointer types with runtime lookups. **Replacing interface parameters with type parameters can make code ~30% slower** for trivial functions. Benchmark before optimizing.
+
+**New standard library helpers** (Go 1.21+): `slices.Equal/Insert/Delete/Clone/Sort*/BinarySearch*`, `maps.Equal/Clone/Copy/DeleteFunc`, `cmp.Compare/Less/Ordered`.
+
+---
+
+## 8. Errors `#general`
+
+### 8.1 The `error` Interface
+
+```go
+type error interface { Error() string }
+```
+
+Convention: error is **last return value**. `nil` means success.
+
+```go
+func calcRemainderAndMod(num, denom int) (int, int, error) {
+    if denom == 0 { return 0, 0, errors.New("denominator is 0") }
+    return num / denom, num % denom, nil
+}
+
+remainder, mod, err := calcRemainderAndMod(numerator, denominator)
+if err != nil { fmt.Println(err); os.Exit(1) }
+fmt.Println(remainder, mod)
+```
+
+**Error message style**: not capitalized, no trailing punctuation/newline.
+
+### 8.2 Sentinel Errors
+
+```go
+package zip
+var ErrFormat = errors.New("not a valid zip file")
+
+notAZipFile := bytes.NewReader(data)
+_, err := zip.NewReader(notAZipFile, int64(len(data)))
+if err == zip.ErrFormat { fmt.Println("Told you so") }
+```
+
+**Rules**: rare, names start with `Err` (except `io.EOF`), use `==` to test. Once public, you cannot remove.
+
+### 8.3 Custom Error Types
+
+```go
+type Status int
+const (
+    InvalidLogin Status = iota + 1
+    NotFound
+)
+
+type StatusErr struct {
+    Status  Status
+    Message string
+}
+func (se StatusErr) Error() string { return se.Message }
+```
+
+**Critical**: always return `error`, never `*StatusErr` or `StatusErr`. An uninitialized custom error variable has non-nil type and is **non-nil**:
+
+```go
+// BAD — interface has type=StatusErr, value=zero → NOT nil!
+func GenerateErrorBroken(flag bool) error {
+    var genErr StatusErr
+    if flag { genErr = StatusErr{Status: NotFound} }
+    return genErr
+}
+
+// GOOD — explicit nil
+func GenerateErrorOK(flag bool) error {
+    if flag { return StatusErr{Status: NotFound} }
+    return nil
+}
+
+// GOOD — error-typed variable
+func GenerateErrorVar(flag bool) error {
+    var genErr error
+    if flag { genErr = StatusErr{Status: NotFound} }
+    return genErr
+}
+```
+
+### 8.4 Wrapping Errors — `%w`
+
+```go
+func fileChecker(name string) error {
+    f, err := os.Open(name)
+    if err != nil { return fmt.Errorf("in fileChecker: %w", err) }
+    f.Close()
+    return nil
+}
+// Output: in fileChecker: open not_here.txt: no such file or directory
+```
+
+`%v` creates a new message without the chain. `%w` preserves it. Custom type with chain:
+
+```go
+type StatusErr struct {
+    Status Status; Message string; Err error
+}
+func (se StatusErr) Error() string { return se.Message }
+func (se StatusErr) Unwrap() error { return se.Err }
+```
+
+### 8.5 Multiple Errors — `errors.Join`
+
+```go
+func ValidatePerson(p Person) error {
+    var errs []error
+    if len(p.FirstName) == 0 { errs = append(errs, errors.New("field FirstName cannot be empty")) }
+    if len(p.LastName) == 0  { errs = append(errs, errors.New("field LastName cannot be empty")) }
+    if p.Age < 0             { errs = append(errs, errors.New("field Age cannot be negative")) }
+    if len(errs) > 0 { return errors.Join(errs...) }
+    return nil
+}
+```
+
+Or with multiple `%w`: `fmt.Errorf("first: %w, second: %w", err1, err2)`. Implement custom `Unwrap() []error` for multi-wrapping.
+
+### 8.6 `errors.Is` and `errors.As`
+
+```go
+err := fileChecker("not_here.txt")
+if errors.Is(err, os.ErrNotExist) { fmt.Println("That file doesn't exist") }
+
+var myErr MyErr
+if errors.As(err, &myErr) { fmt.Println(myErr.Codes) }
+// Or by interface:
+var coder interface { CodeVals() []int }
+if errors.As(err, &coder) { fmt.Println(coder.CodeVals()) }
+```
+
+**Custom `Is` for pattern matching**:
+```go
+type ResourceErr struct { Resource string; Code int }
+func (re ResourceErr) Is(target error) bool {
+    if other, ok := target.(ResourceErr); ok {
+        return other.Resource == re.Resource || other.Code == re.Code
+    }
+    return false
+}
+if errors.Is(err, ResourceErr{Resource: "Database"}) { /* ... */ }
+```
+
+> `errors.Is` looks for **specific instances / values**. `errors.As` looks for **specific types**.
+
+### 8.7 Wrapping Errors with `defer`
+
+```go
 func DoSomeThings(val1 int, val2 string) (_ string, err error) {
     defer func() {
-        if err != nil {
-            err = fmt.Errorf("in DoSomeThings: %w", err)
-        }
+        if err != nil { err = fmt.Errorf("in DoSomeThings: %w", err) }
     }()
     val3, err := doThing1(val1)
     if err != nil { return "", err }
@@ -183,653 +1418,1240 @@ func DoSomeThings(val1 int, val2 string) (_ string, err error) {
     return doThing3(val3, val4)
 }
 ```
-*Ref: Learning_Go.md — "Functions", "defer", "Methods Are Functions Too", "Functions Versus Methods"*
 
----
+Named return + deferred wrap = clean repetitive context.
 
-### Types, Methods, Interfaces, Embedding
+### 8.8 `panic` and `recover`
 
-**Principle:** Go has no inheritance. Composition via embedding and implicit interfaces replace class hierarchies. The interface lives with the consumer, not the provider.
-
-**Do:**
-- Define a new named type when you want a concept to be self-documenting: `type Percentage int`, `type Score int`. The new type is NOT the underlying type — explicit conversion is required in both directions.
-- Choose pointer vs value receivers consistently within a type. If ANY method needs a pointer receiver, use pointer receivers for ALL methods (so the method set is uniform).
-- Use pointer receivers when the method mutates the receiver, when the type contains sync primitives, or when the struct is large (≥10 MB).
-- Use value receivers for small, immutable, naturally-copyable types.
-- Define your own error types with multiple fields (`Status`, `Message`) when callers need to react programmatically (not just string-compare).
-- Use `errors.Is(err, target)` to check for a sentinel, `errors.As(err, &typedErr)` to extract a typed error from the chain. Never string-compare error messages.
-- Declare interfaces in the package that CONSUMES the behavior — small (1–3 methods), named with `-er` suffix, package-private when only your package needs them.
-- Combine small interfaces via embedding: `type ReadCloser interface { Reader; Closer }`.
-- Embed interfaces in stub structs to satisfy them with only the methods you implement for a test.
-- Implement `http.Handler` via `http.HandlerFunc` so any function with the right signature is automatically a handler.
-- Return concrete types from factory functions. Return interfaces only for the rare case where multiple implementations are genuinely possible (e.g., `database/sql/driver`).
-
-**Don't:**
-- Don't assign a value instance to an interface variable that requires a pointer-receiver method — the method is not in the value's method set and the compiler will reject the assignment.
-- Don't use embedding expecting polymorphism. `Outer` is NOT substitutable for `Inner` even if `Inner` is embedded. Use an interface field for that.
-- Don't write getter/setter methods just because Java does. Go wants direct field access.
-- Don't return `error` as a concrete type — always declare the return as `error` even when you return a custom type, to avoid the nil-interface trap.
-- Don't compare two interface values containing uncomparable types — it panics at runtime (`reflect.Value.Comparable` first if you must).
-- Don't use `any` / `interface{}` to dodge type design. It's a placeholder, not an abstraction. Save it for genuinely dynamic data (config blobs, decoded JSON).
-- Don't use type assertions to peek at "optional" interfaces in wrapped/decorated chains — the wrapper hides them. Define a wider interface and use it explicitly.
-- Don't make the interface unexported unless you also make at least one of its methods unexported — otherwise anyone can embed the interface in a struct and accidentally satisfy it.
-
-**Code:**
 ```go
-// Pointer vs value receiver consistency
-type Counter struct {
-    total       int
-    lastUpdated time.Time
-}
-func (c *Counter) Increment() { c.total++; c.lastUpdated = time.Now() }
-func (c Counter)  String() string { /* value receiver is fine because all in 1 type */ }
-
-// Custom error type with status + wrap
-type StatusErr struct {
-    Status  Status
-    Message string
-    Err     error
-}
-func (se StatusErr) Error() string  { return se.Message }
-func (se StatusErr) Unwrap() error  { return se.Err }
-
-// Accept interface, return struct
-func NewController(l Logger, logic Logic) Controller { return Controller{l: l, logic: logic} }
-
-// Interface lives with consumer
-type Logic interface {
-    SayHello(userID string) (string, error)
+func div60(i int) {
+    defer func() {
+        if v := recover(); v != nil { fmt.Println(v) }
+    }()
+    fmt.Println(60 / i)
 }
 ```
-*Ref: Learning_Go.md — "Types, Methods, and Interfaces", "Pointer Receivers and Value Receivers", "Code Your Methods for nil Instances", "Accept Interfaces, Return Structs", "Implicit Interfaces Make Dependency Injection Easier"*
+
+**When to use**:
+- ✅ Wrap third-party libraries that may panic, to prevent escape from your public API.
+- ✅ Genuine unrecoverable situations (out of memory).
+- ❌ Not for normal error flow — return errors instead.
+- ❌ The Go team now considers `net/http` server's automatic `panic` recovery in handlers a mistake.
+
+`panic(nil)` is identical to `panic(new(runtime.PanicNilError))` since Go 1.21.
+
+`panic(nil)` → since Go 1.21, treated as `panic(new(runtime.PanicNilError))`.
 
 ---
 
-### Generics
+## 9. Modules, Packages, Imports `#general`
 
-**Principle:** Use generics to write one implementation that the compiler type-checks at instantiation. Don't reach for them when an interface or a simple function suffices.
+### 9.1 Repository → Module → Package Hierarchy
 
-**Do:**
-- Use type parameters to factor out algorithms (Map, Filter, Reduce, custom Tree) without losing compile-time type safety.
-- Use `any` when no constraint is needed (the unconstrained case).
-- Use `comparable` when you need `==` / `!=` in the body. Beware: `comparable` matches interfaces too — and comparing interface values containing uncomparable types panics.
-- Define custom constraints as interfaces, including type elements (unions): `type Integer interface { ~int | ~int8 | ~int16 | ... }`. Use `~T` to allow user-defined types whose underlying type is `T`.
-- Combine operators with constraints: `type Ordered interface { ~int | ~float64 | ~string }`.
-- Combine type elements and methods: `type PrintableInt interface { ~int; String() string }`.
-- Let the compiler infer type arguments whenever possible; supply them explicitly only when the inference fails (e.g. when a type parameter is used only as a return value).
-- Prefer Go 1.21+ standard library generics (`slices`, `maps`, `cmp`) over hand-rolling.
-- For zero values in generic code: `var zero T; return zero` — `nil` is NOT a valid zero for a value type like `int`.
-
-**Don't:**
-- Don't convert an interface-parameter function to a generic-parameter function hoping for speedups. As of Go 1.21, generics actually share generated functions for pointer types and add runtime lookups; measured costs can be ~30% slower for trivial functions.
-- Don't expect specialization, variadic type parameters, currying, or parameterized methods — Go generics intentionally don't have them.
-- Don't write a constraint like `interface { int; String() string }` (without `~`) — it has zero valid instantiations and the compiler will block any use.
-- Don't over-reach: use a generic function only when you genuinely need the same algorithm for multiple concrete types.
-
-**Code:**
-```go
-// Map, Filter, Reduce — generic
-func Map[T1, T2 any](s []T1, f func(T1) T2) []T2 {
-    out := make([]T2, len(s))
-    for i, v := range s { out[i] = f(v) }
-    return out
-}
-
-// Operator-bearing constraint (with ~ for user types)
-type Ordered interface {
-    ~int | ~int8 | ~int32 | ~int64 |
-    ~uint | ~uint8 | ~uint32 | ~uint64 | ~uintptr |
-    ~float32 | ~float64 | ~string
-}
-
-// Custom Tree without type parameters on the algorithm — pass the comparator
-type OrderableFunc[T any] func(t1, t2 T) int
-type Tree[T any] struct { f OrderableFunc[T]; root *Node[T] }
 ```
-*Ref: Learning_Go.md — "Generics", "Idiomatic Go and Generics", "Adding Generics to the Standard Library"*
+Repository (git)
+└── Module (go.mod)  ← one per repo (recommended)
+    ├── Package (directory) ← "do-format" imports as "format"
+    │   └── .go files (all share package clause)
+    └── Package ...
+```
 
----
+Go's "module" ≈ Node's "package", Go's "package" ≈ Node's "module".
 
-### Error Handling
+### 9.2 `go.mod`, Commands, and MVS
 
-**Principle:** Errors are values, not control flow. Wrap to add context; unwrap with `errors.Is`/`errors.As` to inspect. `panic` is for programmer errors only.
-
-**Do:**
-- Always return `error` as the last return value. Always check it: `if err != nil { return err }` or handle.
-- Set non-error return values to their zero values when returning a non-nil error.
-- Use `errors.New` for static messages, `fmt.Errorf` for formatted messages.
-- Wrap with `%w` to preserve the error chain: `return fmt.Errorf("in fileChecker: %w", err)`.
-- Use `%v` (not `%w`) when you want the message but explicitly do NOT want callers to be able to inspect the wrapped error.
-- Define sentinel errors as `ErrFoo` (uppercase prefix) at the package level for states where processing cannot continue. Compare with `errors.Is`, not `==`.
-- Define custom error types with extra fields (status codes, retry info) for cases callers must react to programmatically.
-- Use `errors.Join(err1, err2, ...)` (Go 1.20+) to merge multiple validation errors into one.
-- Implement `Unwrap() error` on your custom error so `errors.Is`/`As` traverse it.
-- Implement `Is(target error) bool` on your custom error for non-equality matches (e.g. pattern matching by subset of fields).
-- Centralize "wrap every returned error with the same prefix" via `defer` + named return:
-  ```go
-  func DoWork() (_ string, err error) {
-      defer func() {
-          if err != nil { err = fmt.Errorf("in DoWork: %w", err) }
-      }()
-      ...
-  }
-  ```
-- Define JSON-time error returns as `error`, never as your concrete type — to avoid the nil-interface trap (`var genErr StatusErr; return genErr` is a NON-nil interface even when StatusErr is zero-valued).
-
-**Don't:**
-- Don't define sentinel errors casually — once exported, they're part of your public API forever and can never be removed.
-- Don't use string comparison on error messages — text changes break callers.
-- Don't use a type assertion or type switch to peek at custom error fields. Use `errors.As(err, &typedErr)` instead.
-- Don't panic for ordinary error conditions (bad input, network failure). Reserve panic for genuinely unrecoverable situations (programmer error, out of memory).
-- Don't let a panic escape a library boundary — wrap it in `recover` and return an `error`.
-- Don't call `errors.Unwrap` directly — `errors.Is` and `errors.As` already traverse the chain correctly.
-- Don't return a typed nil (e.g. `*MyErr` nil) as `error` — it compares != nil because the interface's type field is set.
-
-**Code:**
 ```go
-// Sentinel + Is
-var ErrInvalidLogin = errors.New("invalid login")
-if errors.Is(err, ErrInvalidLogin) { /* ... */ }
+module github.com/learning-go-book-2e/money
+go 1.21
+require (
+    github.com/learning-go-book-2e/formatter v0.0.0-20220918024742-...
+    github.com/shopspring/decimal v1.3.1
+)
+```
 
-// Typed error + As
-var se *StatusErr
-if errors.As(err, &se) {
-    switch se.Status {
-    case InvalidLogin: /* ... */
-    case NotFound:     /* ... */
-    }
-}
+**`go` directive** (Go 1.21+) interacts with `toolchain` and `GOTOOLCHAIN`: `auto` (default), `local`, or `go1.X.Y`. **Go 1.22+** enables per-iteration loop variables when `go 1.22` is set.
 
-// Multiple errors joined
-return errors.Join(errs...)
+```sh
+go mod init github.com/me/project     # create go.mod
+go get ./...                          # scan imports and add requires
+go get pkg@version                    # add or update specific version
+go get -u=patch                       # upgrade within current minor
+go get -u                             # upgrade to latest (within major)
+go mod tidy                           # sync go.mod with imports
+go mod vendor                         # copy deps into vendor/
+go list -m -versions pkg              # show available versions
+go mod graph                          # full dependency graph
+```
 
-// Pattern-matching Is
-func (re ResourceErr) Is(target error) bool {
-    other, ok := target.(ResourceErr)
-    if !ok { return false }
-    return (other.Resource == "" || other.Resource == re.Resource) &&
-           (other.Code == 0 || other.Code == re.Code)
+**Minimal Version Selection**: when two deps want different versions, Go picks the **lowest version that satisfies all** `require` directives.
+
+### 9.3 Incompatible Versions (Major ≥ 2)
+
+Major version bumps require **module path suffix**: `github.com/me/project/v2`. The v1 and v2 are *separate modules* that can be imported side by side.
+
+### 9.4 Package Basics
+
+```go
+// package_clause.go
+package math
+func Double(a int) int { return a * 2 }
+```
+
+```go
+package main
+import (
+    "fmt"
+    "github.com/learning-go-book-2e/package_example/do-format"
+    "github.com/learning-go-book-2e/package_example/math"
+)
+
+func main() {
+    num := math.Double(2)
+    output := format.Number(num)
+    fmt.Println(output)
 }
 ```
-*Ref: Learning_Go.md — "Errors", "How to Handle Errors: The Basics", "Sentinel Errors", "Errors Are Values", "Wrapping Errors", "Wrapping Multiple Errors", "Is and As", "panic and recover"*
 
----
+Package name (in clause) need not match directory name — but should. `package main` is the program entry; not importable. **Don't use underscores in package names.**
 
-### Concurrency
+**Naming**: short, lowercase, descriptive purpose. `names.Extract` not `names.ExtractNames`. Exception: `sort.Sort`, `context.Context`.
 
-**Principle:** Concurrency is a tool to clarify data flow between stages — not free parallelism. "Share memory by communicating; do not communicate by sharing memory." Always design for cancellation.
-
-**When to use concurrency (and when NOT to):**
-- Use it when you must wait on independent I/O or independent data streams, or when you have multiple sequential steps with natural parallelism.
-- Do NOT use it for trivial in-memory computations — the goroutine overhead overwhelms the gain.
-- Concurrency ≠ parallelism. Parallel speedup is bounded by Amdahl's law.
-
-**Goroutines:**
-- Launch with `go f(args)` — return values are dropped. Wrap business logic in a closure that handles the concurrency bookkeeping so the business logic itself stays concurrency-unaware.
-- Keep concurrency out of your APIs. Channels and mutexes must NOT appear in exported types, function signatures, or struct fields (with rare exceptions for concurrency-helper libraries).
-- Pass the loop variable explicitly to the goroutine to capture by value:
-  ```go
-  for _, v := range a {
-      go func(val int) { ch <- val * 2 }(v)   // go 1.22 also fixes this
-  }
-  ```
-- ALWAYS ensure goroutines can exit. A goroutine that never exits leaks its stack and pins heap memory.
-- Treat goroutine leaks like memory leaks — design for termination up front.
-
-**Channels:**
-- Channels are reference types (zero value is nil). Prefer UNBUFFERED channels by default — they synchronize sender and receiver at the handoff.
-- Use BUFFERED channels in exactly these three situations:
-  1. You know exactly how many goroutines you launched and want each to exit without blocking (`make(chan T, N)`).
-  2. You want to limit concurrency (token-bucket backpressure).
-  3. You want to queue a bounded amount of work and shed load when full.
-- Use directional channel types (`<-chan T` for read-only, `chan<- T` for write-only) to enforce correct usage at compile time. Assign them in struct fields or parameters; never expose a bare `chan T`.
-- The writer closes the channel. Closing is required ONLY when a reader is using `for-range` (or comma-ok) to detect completion. Closing twice panics; closing from the wrong goroutine panics.
-- Reading from a closed channel returns the zero value — always use `v, ok := <-ch` to distinguish "closed" from "zero".
-- `len(ch)` and `cap(ch)` work on buffered channels.
-- NIL channels block forever — use this deliberately to disable a `select` case (set the variable to `nil`).
-
-**select:**
-- `select` randomly picks among cases that are ready → no starvation. Use it to multiplex concurrent sources.
-- For-Select loops are the idiomatic cancellable processing loop:
-  ```go
-  for {
-      select {
-      case <-ctx.Done(): return
-      case v, ok := <-ch: if !ok { return }; process(v)
-      }
-  }
-  ```
-- `select` with a `default` is a NONBLOCKING read/write. Do NOT put `default` inside an infinite `for-select` unless you want a busy-spin CPU loop.
-
-**Cancellation:**
-- Pass `context.Context` as the FIRST parameter to any function that may block or call out.
-- Always call the `cancel` function returned from `context.WithCancel` / `WithTimeout` / `WithDeadline` (typically via `defer cancel()`).
-- Propagate `ctx` through every I/O call: `http.NewRequestWithContext`, `db.QueryContext`, etc.
-- Use `context.WithCancelCause(ctx)` (Go 1.20+) when you need to attach an error to the cancellation; retrieve via `context.Cause(ctx)`.
-- Wrap timeouts via `context.WithTimeout(parent, 50*time.Millisecond)`. Child deadlines are bounded by parent deadlines.
-- Use `context.Background()` at process entry points, `context.TODO()` only as a temporary placeholder.
-
-**Patterns:**
-- Backpressure (limit concurrent execution):
-  ```go
-  type PressureGauge struct{ ch chan struct{} }
-  func (pg *PressureGauge) Process(f func()) error {
-      select {
-      case pg.ch <- struct{}{}:
-          defer func() { <-pg.ch }()
-          f()
-          return nil
-      default:
-          return errors.New("no more capacity")
-      }
-  }
-  ```
-- Disable a select case when its channel is closed by setting the variable to `nil`.
-- Timeout pattern:
-  ```go
-  func timeLimit[T any](worker func() T, limit time.Duration) (T, error) {
-      out := make(chan T, 1)              // size 1 so the worker never blocks on write
-      ctx, cancel := context.WithTimeout(context.Background(), limit)
-      defer cancel()
-      go func() { out <- worker() }()
-      select {
-      case r := <-out:    return r, nil
-      case <-ctx.Done():  var z T; return z, errors.New("timed out")
-      }
-  }
-  ```
-- `sync.WaitGroup` to wait for N goroutines — never pass it by value (it would be copied), capture it in a closure. Use it ONLY when you need cleanup after workers exit (e.g. closing the shared output channel exactly once):
-  ```go
-  var wg sync.WaitGroup
-  wg.Add(num)
-  for i := 0; i < num; i++ {
-      go func() { defer wg.Done(); for v := range in { out <- process(v) } }()
-  }
-  go func() { wg.Wait(); close(out) }()    // single closer, after all writers done
-  ```
-- `sync.Once` (or `sync.OnceValue[T]` / `sync.OnceValues[T]` in Go 1.21+) for lazy one-shot initialization. Never copy a `sync.Once`.
-- `errgroup.Group` (`golang.org/x/sync/errgroup`) cancels siblings when one fails.
-
-**Mutexes vs channels (Cox-Buday decision tree):**
-- Coordinating goroutines or tracking a value as it's transformed → use **channels**.
-- Sharing access to a field in a struct → use **mutexes** (`sync.Mutex` / `sync.RWMutex`).
-- Performance-critical AND no clear ownership flow → measure, then maybe a mutex.
-
-**Mutex rules:**
-- Pair every `Lock`/`RLock` with a `defer Unlock`/`RUnlock` immediately after.
-- Go mutexes are NOT reentrant — recursive lock acquisition deadlocks.
-- Never copy a mutex; pass via pointer.
-- Never access a shared variable from multiple goroutines without locking.
-- For shared maps, prefer `map[K]V` protected by `sync.RWMutex` over `sync.Map`. `sync.Map` is only for keys written once and read many times, with disjoint goroutine access.
-- Prefer `sync.RWMutex` when reads dominate writes.
-
-**Atomics:**
-- Almost never needed. `sync/atomic` is for low-level experts after profiling. Channels and mutexes are correct enough for 99% of code.
-
-**Race detector:**
-- Run tests with `go test -race` in CI. It is roughly 10× slower — run it always on tests, never in production binaries.
-- Do NOT try to fix races with sleeps. Add the lock.
-
-**Code (canonical orchestration):**
+**Collision resolution**:
 ```go
-func GatherAndProcess(ctx context.Context, data Input) (COut, error) {
-    ctx, cancel := context.WithTimeout(ctx, 50*time.Millisecond)
-    defer cancel()
-    ab := newABProcessor()
-    ab.start(ctx, data)
-    inputC, err := ab.wait(ctx)
-    if err != nil { return COut{}, err }
-    c := newCProcessor()
-    c.start(ctx, inputC)
-    return c.wait(ctx)
-}
+import (
+    crand "crypto/rand"      // renamed
+    "math/rand"              // default name
+)
 ```
-*Ref: Learning_Go.md — "Concurrency in Go" — full chapter (Goroutines, Channels, select, Concurrency Practices and Patterns, Goroutines for Loops, Always Clean Up, Use the Context, Buffered vs Unbuffered, Backpressure, Turn Off a case, Time Out Code, Use WaitGroups, Run Code Exactly Once, Put Your Concurrent Tools Together, When to Use Mutexes Instead of Channels, Atomics — full chapter*
 
----
+`.` (dot) import — discouraged. `_` blank import triggers `init()` for side effects (database drivers, image format registration).
 
-### The Standard Library (I/O, Time, JSON, HTTP, slog)
+### 9.5 Documentation
 
-**io and io.Reader/io.Writer:**
-- `io.Reader.Read(p []byte) (n int, err error)` — pass a reusable buffer; don't `make([]byte, n)` inside Read loops.
-- Always check `io.EOF` to detect end of stream; check `io.ErrUnexpectedEOF` for truncation.
-- Implement small interfaces: `io.Closer` (`Close() error`), `io.Seeker`, and composites like `io.ReadCloser`, `io.ReadWriteSeeker`.
-- Use `io.Copy(dst, src)` for streaming copies.
-- Use `io.MultiReader`, `io.MultiWriter`, `io.LimitReader`, `io.NopCloser` for composable wrappers.
-- For one-method bridging (e.g. to make a Reader into a ReadCloser), use the embedded-interface pattern:
-  ```go
-  type nopCloser struct{ io.Reader }
-  func (nopCloser) Close() error { return nil }
-  ```
-
-**time:**
-- Use `time.Duration` constants (`time.Hour`, `time.Millisecond`) for readability and type-safety. `d := 2*time.Hour + 30*time.Minute`.
-- Format with the reference time `Mon Jan 2 15:04:05 MST 2006` (the magic date). Use `time.RFC3339`, `time.RFC822Z`, etc. constants when available.
-- Compare `time.Time` with `.Equal()` — NOT `==` — to handle time zones correctly.
-- Trust monotonic time automatically mixed into `time.Now()` results for elapsed-time calculations; that's why `Sub` is reliable across DST/NTP.
-- For recurring timers: `time.NewTicker` (not `time.Tick`, which cannot be stopped and leaks).
-- `time.AfterFunc(d, f)` for one-shot delayed calls.
-
-**encoding/json:**
-- Always declare struct tags: `Field int `json:"id"``. Don't rely on case-insensitive field-name fallback.
-- Use `,omitempty` on optional fields. Zero structs are NOT considered empty (zero slices/maps ARE).
-- Use `-` for fields to skip both directions: `json:"-"`.
-- Use pointer fields (`*string`, `*int`) to distinguish "absent" from "zero" on unmarshal — `nil` means missing, non-nil with zero value means present-but-zero.
-- Stream with `json.NewDecoder(r).Decode(&v)` for large or unknown-size data; call until `io.EOF`. Use `json.NewEncoder(w).Encode(v)` to stream out.
-- Implement `json.Marshaler` (`MarshalJSON() ([]byte, error)`) and `json.Unmarshaler` (`UnmarshalJSON([]byte) error`) for custom encoding. To avoid infinite recursion, define a `type Dup T` alias and use it inside the methods.
-- Pass `map[string]any` to `json.Marshal`/`Unmarshal` only for the exploratory phase — replace with a concrete type once the schema is known.
-- `encoding/gob` and `net/rpc` are language-specific. Prefer gRPC or a language-agnostic protocol.
-
-**net/http (Client):**
-- Never use `http.DefaultClient` or the package-level `http.Get`/`Post`/`PostForm` helpers in production — they have no timeout. Construct your own:
-  ```go
-  client := &http.Client{ Timeout: 30 * time.Second }
-  ```
-- Build requests with `http.NewRequestWithContext(ctx, method, url, body)` so the context can cancel in-flight requests.
-- Always `defer resp.Body.Close()` and check `resp.StatusCode`. Stream the body with `json.NewDecoder(resp.Body).Decode(&v)` rather than loading it all into memory.
-
-**net/http (Server):**
-- Build around `http.Server` with explicit timeouts:
-  ```go
-  s := http.Server{
-      Addr:         ":8080",
-      ReadTimeout:  30 * time.Second,
-      WriteTimeout: 90 * time.Second,
-      IdleTimeout:  120 * time.Second,
-      Handler:      mux,
-  }
-  ```
-- Avoid the package-level `http.Handle`, `http.HandleFunc`, `http.ListenAndServe`, `http.ListenAndServeTLS` outside trivial programs — they use the shared `http.DefaultServeMux` (third-party libs can register there too) and you cannot configure server timeouts.
-- Use `http.NewServeMux()` (Go 1.22+ supports HTTP verbs and `{name}` wildcards: `mux.HandleFunc("GET /hello/{name}", ...)`). Read path values via `r.PathValue("name")`.
-- Nest `*http.ServeMux` instances for hierarchical routing; use `http.StripPrefix` to remove already-matched path segments.
-- Middleware = `func(http.Handler) http.Handler` (or `func(http.Handler) http.Handler` that returns a closure). Apply by composition:
-  ```go
-  wrappedMux := terribleSecurity(RequestTimer(mux))
-  s.Handler = wrappedMux
-  ```
-- For optional response methods (Flush, Hijack, SetReadDeadline, etc.) that can't be added to the interface without breaking compatibility, wrap with `http.NewResponseController(rw)` and check the returned error against `http.ErrNotSupported` via `errors.Is`.
-- Function-to-interface adapter pattern (used by stdlib for handlers):
-  ```go
-  type HandlerFunc func(http.ResponseWriter, *http.Request)
-  func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) { f(w, r) }
-  ```
-
-**log/slog (Go 1.21+):**
-- Use `slog.Info/Warn/Error/Debug` for structured logging. `slog.Debug` is suppressed at the default level.
-- Pass key/value pairs as alternating args: `slog.Info("user login", "id", userID, "login_count", loginCount)`.
-- For high-throughput paths, use `LogAttrs(ctx, level, msg, slog.String(...), slog.Int(...), slog.Time(...), slog.Any(...))` to avoid the allocation from variadic boxing.
-- Create your own logger when you need JSON output, a minimum level, or a custom destination:
-  ```go
-  handler := slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelDebug})
-  logger := slog.New(handler)
-  ```
-- Include `context.Context` as the first arg of `LogAttrs` so loggers can pull request-scoped fields (request IDs, trace IDs).
-- Bridge legacy `log.Logger` to slog via `slog.NewLogLogger(handler, level)`.
-*Ref: Learning_Go.md — "The Standard Library", "io and Friends", "time", "encoding/json", "net/http", "Structured Logging"*
-
----
-
-### Modules, Packages, Project Layout
-
-**Principle:** The module path is a globally unique identifier — make it match the import URL.
-
-**Do:**
-- Initialize modules with `go mod init <modulepath>` (e.g. `github.com/org/project`). Never edit `go.mod` by hand; use `go get` and `go mod tidy`.
-- Set the `go` directive in `go.mod` to the minimum supported Go version. With Go 1.22+, set it to 1.22 or later to opt into per-iteration loop variables.
-- Use `go 1.21+` default `GOTOOLCHAIN=auto` to let `go.mod`'s `toolchain` directive download the needed Go version automatically.
-- Use the `internal/` directory name to restrict a package's visibility to the parent directory tree (and its siblings).
-- Name packages short, lowercase, single-word, no underscores. Don't repeat the package name in identifiers (`names.Extract`, not `names.ExtractNames`).
-- Name a function with the package's noun (`context.Context`, `sort.Sort`).
-- Document every exported identifier with a `//` comment that starts with the identifier name. Use a `doc.go` file for long package-level docs.
-- Use `pkg.go.dev` for documentation; preview locally with `pkgsite`.
-- Resolve name collisions on import with an alias: `import crand "crypto/rand"`. Avoid the dot import (`.`) — it pollutes the namespace.
-- Run `go vet` and `go fmt ./...` (or `goimports`) before every commit. Add `staticcheck` / `revive` / `golangci-lint` / `govulncheck` to CI.
-- Avoid `init()` — reserve it for effectively immutable package-level state (e.g. endpoint-detection from `unsafe`).
-- Use `go generate ./...` for code generation; document `//go:generate` directives at the source.
-- Use `//go:embed` to bake static files (templates, configs, HTML) into the binary.
-- Cross-compile with `GOOS=linux GOARCH=arm64 go build`. Use `//go:build linux` constraints for OS-specific files.
-- Use `go.work` for multi-module local development; remove temporary `replace` directives.
-- Use semver: incompatible majors live at `/v2`, `/v3`, etc. Use `retract` in `go.mod` to yank a bad release.
-
-**Don't:**
-- Don't use relative import paths — they don't work with modules.
-- Don't put business logic in `init()` — testing and ordering become nightmares.
-- Don't create `util`, `helpers`, `common`, `misc` packages — name packages by what they ARE, not what they CONTAIN.
-- Don't expose channels, mutexes, or other concurrency primitives in exported types.
-
-**Code:**
 ```go
-// Package documentation starts with the package name
-// Package convert provides utilities for converting money between currencies.
+// Package convert provides utilities to convert money
+// from one currency to another.
 package convert
 
-// Document every exported identifier; start with its name
-// Money represents an amount and the currency it's denominated in.
+// Money represents an amount of money and the currency.
+// The value is stored using a [github.com/shopspring/decimal.Decimal]
 type Money struct {
     Value    decimal.Decimal
     Currency string
 }
+
+// Convert converts the value of one currency to another.
+//
+// [Investopedia]: https://www.investopedia.com/terms/e/exchangerate.asp
+func Convert(from Money, to string) (Money, error) { /* ... */ }
 ```
-*Ref: Learning_Go.md — "Modules, Packages, and Imports", "Documenting Your Code with Go Doc Comments", "Using the internal Package", "Avoiding Circular Dependencies"*
+
+Rules:
+- Comment directly above declaration, no blank line.
+- Start with the identifier name (or "A"/"An" + identifier).
+- `// Package x ...` for package-level docs (or `doc.go`).
+- Bracket syntax: `[pkg]`, `[Symbol]`, `[text]: url`.
+
+### 9.6 Internal Packages, Cycles, Workspaces, Proxy
+
+```
+myapp/
+└── internal/         ← only myapp and its subpackages can import
+    └── pkg/
+```
+
+A imports B (directly or indirectly) → B cannot import A. Fix by extracting shared code, merging packages, or introducing interfaces.
+
+Workspaces (`go.work`):
+```sh
+go work init ./app
+go work use ./lib
+```
+Edit multiple modules simultaneously. **Do not commit** `go.work`.
+
+Module proxy: by default `go get` hits Google's proxy. Disable with `GOPROXY=direct` or set `GOPRIVATE`:
+```sh
+GOPRIVATE=*.example.com,company.com/repo
+```
 
 ---
 
-### Go Tooling
+## 10. Go Tooling `#general`
 
-**Do:**
-- Use `go run` for quick experiments and small programs.
-- Install third-party tools with `go install tool@version` (e.g. `go install honnef.co/go/tools/cmd/staticcheck@latest`).
-- Use `goimports` (not just `gofmt`) — it groups and removes unused imports automatically on save.
-- Run `staticcheck` for hundreds of additional checks beyond `go vet`.
-- Run `govulncheck ./...` in CI — it scans your dependency graph against the Go vulnerability database.
-- Use `//go:embed` to include static assets at compile time.
-- Use `go generate ./...` for any code generation; keep `//go:generate` directives near the source they affect.
-- Cross-compile via `GOOS` / `GOARCH` env vars.
-- Use `//go:build linux` (or the older `// +build linux`) constraints for OS-specific files.
-- Read build info from a running binary via `debug.ReadBuildInfo()` — gives you VCS revision, build settings.
-- Always include a Makefile (or justfile) so `make`, `make fmt`, `make vet`, `make build` are reproducible.
-- The Go Compatibility Promise guarantees no breaking language or stdlib changes within Go 1.x. New behaviors (e.g. Go 1.22 loop scoping) are gated by the `go` directive in `go.mod`.
+### 10.1 `go run`
 
-**Don't:**
-- Don't add the `// +build` syntax in new code — use `//go:build` (it allows `&&`, `||`, `!`).
-- Don't write tooling that depends on undocumented `go` command flags.
-*Ref: Learning_Go.md — "Setting Up Your Go Environment", "Go Tooling"*
+Compiles to temp dir, runs, deletes. Use for quick experiments.
 
----
+### 10.2 `go install`
 
-### Testing
+```sh
+go install github.com/rakyll/hey@latest
+go install honnef.co/go/tools/cmd/staticcheck@latest
+go install golang.org/x/vuln/cmd/govulncheck@latest
+```
 
-**Principle:** Tests live next to the code they test. Use table tests for breadth, fuzz tests for unknown inputs, `httptest` for handlers, and `-race` for concurrency bugs. 100% coverage does NOT mean correct.
+**Always include `@version` or `@latest`**. Without it, you get confusing behavior based on `go.mod` state.
 
-**Test layout & conventions:**
-- Test files end in `_test.go` and live in the same package as the production code. Use `package foo` (white-box) for unit tests, `package foo_test` (black-box) to test the public API only — both can coexist in the same directory.
-- Test functions: `func TestXxx(t *testing.T)`. Benchmark functions: `func BenchmarkXxx(b *testing.B)`. Fuzz functions: `func FuzzXxx(f *testing.F)`. Examples: `func ExampleXxx()`.
-- Test names should describe what is being tested: `TestValidateUser`, not `TestUser`.
-- Run all tests in a module: `go test ./...`. Add `-v` for verbose output.
+Binaries go to `$GOBIN` (default `$HOME/go/bin`); add to `$PATH`.
 
-**Reporting failures:**
-- `t.Error` / `t.Errorf` — mark failed but CONTINUE the test.
-- `t.Fatal` / `t.Fatalf` — mark failed and STOP the test.
-- Use `Fatal` when further checks would always fail or panic. Use `Error` when reporting many independent field validations (so one run surfaces every problem).
-- Never call `t.Fatal` from a goroutine other than the one running the test — use `t.Errorf` and signal via channel.
+### 10.3 `goimports`
 
-**Setup / teardown:**
-- `TestMain(m *testing.M)` — at most ONE per package. Use for package-level setup (DB connection, env). Don't use it for things that could be `t.Cleanup`.
-- `t.Cleanup(func())` — registers a cleanup callback. Multiple callbacks run LIFO. Use this for per-test cleanup in helpers.
-- `t.TempDir()` — returns a fresh temp dir that is auto-deleted after the test. Prefer over manual `os.MkdirTemp` + `defer os.RemoveAll`.
-- `t.Setenv(key, value)` — sets an env var for the test and auto-restores it on completion.
+```sh
+go install golang.org/x/tools/cmd/goimports@latest
+goimports -l -w .   # list and write-in-place
+```
 
-**Sample data:**
-- Store test data in a subdirectory named `testdata/` and access via RELATIVE paths — `go test` changes the working directory to the package.
-- `testdata/` is reserved by the Go tooling; it is excluded from build and never gets packaged.
+Like `go fmt` but also alphabetizes imports and removes unused ones.
 
-**Comparing results — use `go-cmp`:**
-- Prefer `cmp.Diff(expected, actual)` (from `github.com/google/go-cmp/cmp`) over hand-rolled deep equality or `reflect.DeepEqual`.
-- Use `cmp.Comparer(func(x, y T) bool { ... })` to ignore non-deterministic fields (timestamps, generated IDs).
-- `slices.Equal` / `maps.Equal` (Go 1.21+) beat `reflect.DeepEqual` for slices/maps.
+### 10.4 Code-Quality Scanners
 
-**Table-driven tests:**
-- Define a slice of anonymous structs with fields for `name`, input args, expected output, expected error. Loop with `t.Run(name, func(t *testing.T) { ... })`.
-- Name every subtest so `-v` output and `go test -run` selectors work.
-- For error comparisons: prefer `errors.Is`/`errors.As` over message string comparison. Message strings have no compatibility guarantee.
+- **`go vet`** — built-in, mandatory.
+- **`staticcheck`** (honnef.co) — 150+ checks, few false positives. Recommended first third-party tool.
+- **`revive`** — golint successor, configurable.
+- **`golangci-lint`** — meta-linter running 50+ tools.
 
-**Parallel tests:**
-- `t.Parallel()` marks a test as eligible to run concurrently with other parallel tests in the package.
-- Don't use `t.Parallel()` on tests that share mutable state.
-- On Go 1.21 or earlier, capture the loop variable before invoking `t.Run`:
-  ```go
-  for _, d := range data {
-      d := d
-      t.Run(d.name, func(t *testing.T) {
-          t.Parallel()
-          ...
-      })
-  }
-  ```
-  Go 1.22+ makes this unnecessary.
-- `go vet` flags loop-variable capture in test closures (`go test -vet=all`).
+Run all in CI: `staticcheck ./...` plus `golangci-lint run`.
 
-**Code coverage:**
-- `go test -cover` — summary. `go test -coverprofile=c.out` + `go tool cover -html=c.out` — annotated HTML.
-- 100% coverage does NOT mean bug-free. Cover branches AND invariants.
-- Use coverage to find UNTESTED code, not to prove correctness.
+### 10.5 `govulncheck`
 
-**Fuzzing (Go 1.18+):**
-- Write fuzz tests for any function that consumes untrusted input (parsers, decoders, validators).
-- Seed corpus via `f.Add(seed...)`. The seed types are limited: ints, floats, bool, string, `[]byte`.
-- Inside `f.Fuzz(func(t *testing.T, in T) { ... })`, write invariants (round-trip, parse-doesn't-panic) — you cannot predict the random output.
-- Failures are written to `testdata/fuzz/FuzzName/<hash>` and re-run as regression tests.
-- Run with `go test -fuzz=FuzzName` — only ONE fuzz test at a time. Resource intensive (multi-GB).
-- Common catches: integer overflow in allocations, negative lengths, whitespace-only inputs, zero-divisors.
+```sh
+go install golang.org/x/vuln/cmd/govulncheck@latest
+govulncheck ./...
+```
 
-**Benchmarks:**
-- `func BenchmarkXxx(b *testing.B)` with a loop `for i := 0; i < b.N; i++ { ... }`.
-- Write benchmark results to a `var blackhole int` package-level sink so the compiler doesn't optimize the call away.
-- Add `-benchmem` to see `B/op` and `allocs/op`.
-- Sub-benchmarks with `b.Run(name, func(b *testing.B) { ... })` to compare variants.
-- Profiling (`pprof`) is the next step when benchmark numbers reveal a problem.
-- DON'T optimize without benchmarks. If the program is fast enough, stop.
+Scans deps + your call graph against a vulnerability database. Reports only reachable vulns.
 
-**Stubs and fakes:**
-- Extract dependencies into interfaces, then provide fake implementations for tests. This is the #1 reason to "accept interfaces, return structs".
-- For large interfaces, embed the interface in the stub struct — you only have to implement the methods you actually call.
-- For per-test customization, use a struct of function fields:
-  ```go
-  type EntitiesStub struct {
-      GetUser    func(id string) (User, error)
-      GetPets    func(userID string) ([]Pet, error)
-      ...
-  }
-  ```
-- Stubs return canned values for known inputs. Mocks validate call sequences — write mocks by hand or use `gomock` / `testify`.
-- Reserve shared-state package-level fixtures for things that are truly immutable per package; otherwise inject.
+### 10.6 Embedding
 
-**httptest:**
-- Use `httptest.NewServer(http.Handler)` to spin up a real HTTP server on a random port for end-to-end tests. `defer server.Close()`.
-- Use `httptest.NewRecorder()` to inspect handler output without a network.
-- `server.Client()` returns a `*http.Client` pre-configured to talk to the test server (handles TLS, redirects, etc.).
-
-**Integration tests:**
-- Gate with build tags: `//go:build integration` at the top of `*_integration_test.go`. Run with `go test -tags integration ./...`.
-- Alternative: check `os.Getenv("INTEGRATION")` and call `t.Skip("set INTEGRATION=1 to run")` — more discoverable.
-- Run integration tests separately from unit tests in CI.
-
-**Race detector:**
-- ALWAYS run tests with `-race`. Add it to your CI matrix.
-- ~10× slowdown but acceptable for tests; never use in production binaries.
-- Inserts sleep calls to "fix" races — DON'T.
-
-**Code (canonical test file):**
 ```go
-func DoMath(num1, num2 int, op string) (int, error) { /* ... */ }
+import _ "embed"
 
-func TestDoMath(t *testing.T) {
-    data := []struct {
-        name     string
-        num1, num2 int
-        op       string
-        expected int
-        errMsg   string
-    }{
-        {"addition", 2, 2, "+", 4, ""},
-        {"bad_division", 2, 0, "/", 0, `division by zero`},
+//go:embed passwords.txt
+var passwords string
+
+//go:embed help
+var helpInfo embed.FS
+
+func main() {
+    data, err := helpInfo.ReadFile("help/" + os.Args[1])
+}
+```
+
+- Variable type: `string`, `[]byte`, or `embed.FS`.
+- Variable must be **package-level**.
+- `all:dir` includes hidden files; `dir/*` includes root hidden files only.
+
+### 10.7 `go generate`
+
+```go
+//go:generate stringer -type=Direction
+//go:generate protoc -I=. --go_out=. --go_opt=module=github.com/... person.proto
+```
+
+```sh
+go generate ./...
+```
+
+Commit generated code to version control — readers see everything invoked.
+
+### 10.8 Build Info
+
+```go
+import "runtime/debug"
+
+info, ok := debug.ReadBuildInfo()
+// info.Settings has GOOS, GOARCH, vcs.revision, etc.
+```
+
+```sh
+$ go version -m mybinary
+mybinary: go1.20
+    path github.com/learning-go-book-2e/vulnerable
+    build vcs=git
+    build vcs.revision=623a65b...
+```
+
+### 10.9 Cross-Compilation
+
+```sh
+GOOS=linux GOARCH=arm64 go build
+GOOS=windows GOARCH=amd64 go build
+```
+
+Valid values in `go help buildconstraint`.
+
+### 10.10 Build Tags
+
+```go
+//go:build linux
+//go:build !darwin && !linux
+//go:build linux && amd64
+//go:build go1.22
+//go:build integration      ← custom tag, enable with -tags integration
+```
+
+Or use filename suffix: `something_linux_arm64.go`.
+
+**Custom tag** for skipping experimental files:
+```go
+//go:build ignore
+```
+
+### 10.11 Secondary Go Versions
+
+```sh
+go install golang.org/dl/go1.19.2@latest
+go1.19.2 download
+go1.19.2 build
+```
+
+Uninstall: `rm -rf ~/sdk/go1.19.2 ~/go/bin/go1.19.2`.
+
+---
+
+## 11. Concurrency `#concurrency`
+
+> Go's concurrency model is based on **Communicating Sequential Processes (CSP)** (Hoare, 1978).
+
+### 11.1 When to Use Concurrency
+
+Use concurrency when:
+- Independent operations can run in parallel (I/O-bound).
+- Multiple data streams need combining.
+- Latency budget requires parallel fan-out.
+
+Do NOT use when:
+- Algorithm is in-memory and fast (overhead exceeds gain).
+- Operations are inherently sequential.
+
+**Concurrency ≠ Parallelism.** More goroutines don't automatically mean more speed (Amdahl's law).
+
+### 11.2 Goroutines
+
+A goroutine is a **lightweight thread managed by the Go runtime**. Each has its own stack that grows dynamically (2 KB → up to 1 GB).
+
+```go
+func process(val int) int { /* do something with val */ }
+
+func processConcurrently(inVals []int) []int {
+    in  := make(chan int, 5)
+    out := make(chan int, 5)
+    for i := 0; i < 5; i++ {
+        go func() {
+            for val := range in {
+                out <- process(val)
+            }
+        }()
     }
-    for _, d := range data {
-        d := d
-        t.Run(d.name, func(t *testing.T) {
-            result, err := DoMath(d.num1, d.num2, d.op)
-            if result != d.expected {
-                t.Errorf("got %d, want %d", result, d.expected)
+    // ... load in, drain out
+}
+```
+
+Business logic stays oblivious to concurrency — wrappers handle it.
+
+### 11.3 Channels
+
+```go
+ch := make(chan int)        // unbuffered
+ch := make(chan int, 10)   // buffered (capacity 10)
+
+a := <-ch       // read
+ch <- b         // write
+```
+
+**Directional types** enforce usage at compile time:
+```go
+func reader(ch <-chan int)       { <-ch }   // can only read
+func writer(ch chan<- int)       { ch <- 1 } // can only write
+```
+
+**Unbuffered channels**: every write blocks until a read; every read blocks until a write. Synchronization.
+
+**Buffered channels**: writes don't block until buffer is full; reads don't block until empty. Behavior:
+
+| Operation | Unbuffered open | Unbuffered closed | Buffered open | Buffered closed | Nil |
+|-----------|-----------------|-------------------|---------------|-----------------|-----|
+| Read      | Pause until written | Return zero value (use `,ok`) | Pause if empty | Return buffered value; if empty, zero value | **Hang forever** |
+| Write     | Pause until read  | **PANIC**         | Pause if full | **PANIC**       | **Hang forever** |
+| Close     | Works            | **PANIC**         | Works        | **PANIC**       | **PANIC** |
+
+### 11.4 `for-range` and Closing
+
+```go
+for v := range ch {
+    fmt.Println(v)
+}
+// exits when ch is closed
+```
+
+```go
+v, ok := <-ch   // ok = false after close
+```
+
+**Rules**:
+- Closing is required only if someone is waiting via `for-range`.
+- Writing goroutine closes; multiple writers → use `sync.WaitGroup` to close exactly once.
+
+### 11.5 `select` — The Concurrency Control Structure
+
+```go
+select {
+case v := <-ch1:
+    fmt.Println(v)
+case v := <-ch2:
+    fmt.Println(v)
+case ch3 <- x:
+    fmt.Println("wrote", x)
+case <-ch4:
+    fmt.Println("got value on ch4, ignored")
+}
+```
+
+**Critical**: if multiple cases are ready, `select` picks **randomly** (not by source order). This prevents starvation and the deadlock-from-lock-order bug.
+
+```go
+// DISABLE a case via nil channel:
+for count := 0; count < 2; {
+    select {
+    case v, ok := <-in:
+        if !ok { in = nil; count++; continue }
+        // process v
+    case v, ok := <-in2:
+        if !ok { in2 = nil; count++; continue }
+        // process v
+    }
+}
+```
+
+### 11.6 Goroutine Leaks — Always Clean Up
+
+```go
+// BAD — if consumer breaks early, goroutine blocks forever:
+func countTo(max int) <-chan int {
+    ch := make(chan int)
+    go func() {
+        for i := 0; i < max; i++ {
+            ch <- i
+        }
+        close(ch)
+    }()
+    return ch
+}
+```
+
+### 11.7 Context Cancellation
+
+```go
+func countTo(ctx context.Context, max int) <-chan int {
+    ch := make(chan int)
+    go func() {
+        defer close(ch)
+        for i := 0; i < max; i++ {
+            select {
+            case <-ctx.Done():
+                return
+            case ch <- i:
             }
-            var msg string
-            if err != nil { msg = err.Error() }
-            if msg != d.errMsg {
-                t.Errorf("got err %q, want %q", msg, d.errMsg)
+        }
+    }()
+    return ch
+}
+
+func main() {
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+    ch := countTo(ctx, 10)
+    for i := range ch {
+        if i > 5 { break }
+        fmt.Println(i)
+    }
+}
+```
+
+### 11.8 `context.WithCancelCause`
+
+```go
+ctx, cancel := context.WithCancelCause(context.Background())
+defer cancel(nil)
+if errSomething {
+    cancel(errors.New("bad status"))
+}
+fmt.Println(context.Cause(ctx))
+```
+
+### 11.9 Timeouts
+
+```go
+func timeLimit[T any](worker func() T, limit time.Duration) (T, error) {
+    out := make(chan T, 1)
+    ctx, cancel := context.WithTimeout(context.Background(), limit)
+    defer cancel()
+    go func() { out <- worker() }()
+    select {
+    case result := <-out:
+        return result, nil
+    case <-ctx.Done():
+        var zero T
+        return zero, errors.New("work timed out")
+    }
+}
+```
+
+Note: the worker **keeps running** after timeout — only context cancellation stops it.
+
+### 11.10 `sync.WaitGroup`
+
+```go
+var wg sync.WaitGroup
+wg.Add(3)
+go func() { defer wg.Done(); doThing1() }()
+go func() { defer wg.Done(); doThing2() }()
+go func() { defer wg.Done(); doThing3() }()
+wg.Wait()
+```
+
+**Pattern**: pass `WaitGroup` via **closure** (not parameter) to avoid copies.
+
+**Closing exactly once with WaitGroup**:
+```go
+func processAndGather[T, R any](in <-chan T, processor func(T) R, num int) []R {
+    out := make(chan R, num)
+    var wg sync.WaitGroup
+    wg.Add(num)
+    for i := 0; i < num; i++ {
+        go func() {
+            defer wg.Done()
+            for v := range in {
+                out <- processor(v)
             }
+        }()
+    }
+    go func() {
+        wg.Wait()
+        close(out)
+    }()
+    var result []R
+    for v := range out {
+        result = append(result, v)
+    }
+    return result
+}
+```
+
+For "first-error wins": use `errgroup.Group` from `golang.org/x/sync/errgroup`.
+
+### 11.11 `sync.Once` / `sync.OnceValue` (Go 1.21+)
+
+```go
+var parser SlowComplicatedParser
+var once sync.Once
+
+func Parse(data string) string {
+    once.Do(func() { parser = initParser() })
+    return parser.Parse(data)
+}
+
+// Go 1.21+ cleaner:
+var initParserCached func() SlowComplicatedParser = sync.OnceValue(initParser)
+```
+
+`OnceFunc`, `OnceValue`, `OnceValues` differ by number of return values (0, 1, 2).
+
+### 11.12 Backpressure with Buffered Channels
+
+```go
+type PressureGauge struct{ ch chan struct{} }
+
+func New(limit int) *PressureGauge {
+    return &PressureGauge{ch: make(chan struct{}, limit)}
+}
+
+func (pg *PressureGauge) Process(f func()) error {
+    select {
+    case pg.ch <- struct{}{}:
+        f()
+        <-pg.ch
+        return nil
+    default:
+        return errors.New("no more capacity")
+    }
+}
+```
+
+### 11.13 Channels vs Mutexes — Decision Tree
+
+Katherine Cox-Buday's rule (from *Concurrency in Go*):
+
+1. **Coordinate goroutines or pass data between stages** → channels.
+2. **Protect access to a struct field** → mutex.
+3. **Critical perf issue with channels** → switch to mutex.
+
+```go
+type MutexScoreboardManager struct {
+    l         sync.RWMutex
+    scoreboard map[string]int
+}
+func (msm *MutexScoreboardManager) Update(name string, val int) {
+    msm.l.Lock()
+    defer msm.l.Unlock()
+    msm.scoreboard[name] = val
+}
+func (msm *MutexScoreboardManager) Read(name string) (int, bool) {
+    msm.l.RLock()
+    defer msm.l.RUnlock()
+    val, ok := msm.scoreboard[name]
+    return val, ok
+}
+```
+
+**`sync.Map`** is rarely the right choice — keys/values are `any`, only fits "write once, read many times" workloads.
+
+### 11.14 Atomics & Race Detector
+
+`sync/atomic` provides lock-free ops for CPU-level CAS. **Almost never needed** — use channels or mutexes.
+
+```sh
+go test -race ./...
+go build -race           # instruments the binary (~10× slowdown)
+```
+
+The race detector doesn't catch every race, but when it does, fix it. **Never** fix races with sleeps.
+
+---
+
+## 12. Standard Library: io, time, encoding/json, net/http `#api`
+
+### 12.1 `io.Reader` / `io.Writer`
+
+```go
+type Reader interface { Read(p []byte) (n int, err error) }
+type Writer interface { Write(p []byte) (n int, err error) }
+```
+
+**Why slice parameter (not `[]byte` return)?** Caller controls allocation. Reuse a single buffer.
+
+```go
+func countLetters(r io.Reader) (map[string]int, error) {
+    buf := make([]byte, 2048)
+    out := map[string]int{}
+    for {
+        n, err := r.Read(buf)
+        for _, b := range buf[:n] {
+            if (b >= 'A' && b <= 'Z') || (b >= 'a' && b <= 'a') {
+                out[string(b)]++
+            }
+        }
+        if err == io.EOF { return out, nil }
+        if err != nil { return nil, err }
+    }
+}
+```
+
+- `io.EOF` is sentinel "end of data" — not a real error.
+- `io.ErrUnexpectedEOF` for premature termination.
+- `io.Copy(dst, src)`, `io.ReadAll(r)`, `io.MultiReader(rs...)`, `io.MultiWriter(ws...)`, `io.LimitReader(r, n)`, `io.NopCloser(r)`.
+
+### 12.2 `time`
+
+```go
+d := 2*time.Hour + 30*time.Minute  // time.Duration = int64 nanoseconds
+t := time.Now()
+formatted := t.Format(time.RFC3339)
+```
+
+**Reference date**: `Mon Jan 2 15:04:05 MST 2006` (1, 2, 3, 4, 5, 6, 7 in sequence) — memorize once.
+
+`time.Time` contains both wall and monotonic clocks. `Sub` uses monotonic when both instances have it.
+
+**Timers**: `time.After(d)` returns a channel. `time.NewTicker(d)` is preferred over `time.Tick(d)` (Tickers can be stopped; Tick cannot).
+
+### 12.3 `encoding/json`
+
+**Struct tags**:
+```go
+type Order struct {
+    ID          string    `json:"id"`
+    DateOrdered time.Time `json:"date_ordered"`
+    CustomerID  string    `json:"customer_id,omitempty"`   // omit if empty
+    Items       []Item    `json:"items"`
+}
+type Item struct {
+    ID   string `json:"id"`
+    Name string `json:"name"`
+}
+```
+
+- `-` ignores a field.
+- `omitempty` omits zero values (zero-length slices/maps count as empty; zero struct does not).
+
+**Unmarshal/Marshal**:
+```go
+var o Order
+err := json.Unmarshal([]byte(data), &o)
+out, err := json.Marshal(o)
+```
+
+**Streaming**:
+```go
+dec := json.NewDecoder(strings.NewReader(streamData))
+for {
+    err := dec.Decode(&t)
+    if errors.Is(err, io.EOF) { break }
+    if err != nil { panic(err) }
+    // process t
+}
+```
+
+**Custom JSON parsing**:
+```go
+type RFC822ZTime struct{ time.Time }
+func (rt RFC822ZTime) MarshalJSON() ([]byte, error) {
+    out := rt.Time.Format(time.RFC822Z)
+    return []byte(`"` + out + `"`), nil
+}
+func (rt *RFC822ZTime) UnmarshalJSON(b []byte) error {
+    if string(b) == "null" { return nil }
+    t, err := time.Parse(`"`+time.RFC822Z+`"`, string(b))
+    if err != nil { return err }
+    *rt = RFC822ZTime{t}
+    return nil
+}
+```
+
+**Trick to break infinite recursion in MarshalJSON**:
+```go
+func (o Order) MarshalJSON() ([]byte, error) {
+    type Dup Order
+    tmp := struct {
+        DateOrdered string `json:"date_ordered"`
+        Dup
+    }{ Dup: (Dup)(o) }
+    tmp.DateOrdered = o.DateOrdered.Format(time.RFC822Z)
+    return json.Marshal(tmp)
+}
+```
+
+### 12.4 `net/http` Client
+
+**Always** create your own client with a timeout:
+```go
+client := &http.Client{ Timeout: 30 * time.Second }
+
+req, err := http.NewRequestWithContext(ctx, http.MethodGet,
+    "https://jsonplaceholder.typicode.com/todos/1", nil)
+req.Header.Add("X-My-Client", "Learning Go")
+
+res, err := client.Do(req)
+defer res.Body.Close()
+
+if res.StatusCode != http.StatusOK {
+    panic(fmt.Sprintf("unexpected status: got %v", res.Status))
+}
+
+var data struct {
+    UserID    int    `json:"userId"`
+    ID        int    `json:"id"`
+    Title     string `json:"title"`
+    Completed bool   `json:"completed"`
+}
+err = json.NewDecoder(res.Body).Decode(&data)
+```
+
+Avoid `http.Get` / `http.Post` — they use the timeout-less `DefaultClient`.
+
+### 12.5 `net/http` Server
+
+```go
+type Handler interface {
+    ServeHTTP(http.ResponseWriter, *http.Request)
+}
+
+s := http.Server{
+    Addr:         ":8080",
+    ReadTimeout:  30 * time.Second,
+    WriteTimeout: 90 * time.Second,
+    IdleTimeout:  120 * time.Second,
+    Handler:      HelloHandler{},
+}
+err := s.ListenAndServe()
+if err != nil && err != http.ErrServerClosed {
+    panic(err)
+}
+```
+
+**Always set timeouts**. Default = no timeout.
+
+### 12.6 `http.ServeMux` (Go 1.22+ Enhanced Patterns)
+
+```go
+mux := http.NewServeMux()
+mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("Hello!\n"))
+})
+
+// Go 1.22: methods + path wildcards:
+mux.HandleFunc("GET /hello/{name}", func(w http.ResponseWriter, r *http.Request) {
+    name := r.PathValue("name")
+    fmt.Fprintf(w, "Hello, %s!\n", name)
+})
+
+// Nested muxes with prefix stripping:
+person := http.NewServeMux()
+person.HandleFunc("/greet", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("greetings!\n")) })
+dog := http.NewServeMux()
+dog.HandleFunc("/greet", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("good puppy!\n")) })
+mux := http.NewServeMux()
+mux.Handle("/person/", http.StripPrefix("/person", person))
+mux.Handle("/dog/",    http.StripPrefix("/dog",    dog))
+```
+
+Avoid `http.DefaultServeMux`, `http.Handle*`, `http.ListenAndServe*` outside trivial demos.
+
+### 12.7 Middleware & ResponseController
+
+```go
+func RequestTimer(h http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        h.ServeHTTP(w, r)
+        slog.Info("request time", "path", r.URL.Path, "duration", time.Since(start))
+    })
+}
+
+func TerribleSecurityProvider(password string) func(http.Handler) http.Handler {
+    return func(h http.Handler) http.Handler {
+        return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+            if r.Header.Get("X-Secret-Password") != password {
+                w.WriteHeader(http.StatusUnauthorized)
+                return
+            }
+            h.ServeHTTP(w, r)
         })
     }
 }
 
+// Composition:
+mux.Handle("/hello", terribleSecurity(RequestTimer(http.HandlerFunc(handler))))
+wrappedMux := terribleSecurity(RequestTimer(mux))
+```
+
+**`http.ResponseController`** — handles optional ResponseWriter methods without breaking the interface:
+```go
+rc := http.NewResponseController(rw)
+err := rc.Flush()
+if err != nil && !errors.Is(err, http.ErrNotSupported) {
+    slog.Error("error flushing", "msg", err)
+    return
+}
+```
+
+### 12.8 `log/slog` (Structured Logging, Go 1.21+)
+
+```go
+slog.Info("user login", "id", userID, "login_count", loginCount)
+// 2023/04/20 23:36:38 INFO user login id=fred login_count=20
+
+options := &slog.HandlerOptions{Level: slog.LevelDebug}
+handler := slog.NewJSONHandler(os.Stderr, options)
+mySlog := slog.New(handler)
+
+mySlog.LogAttrs(ctx, slog.LevelInfo, "faster logging",
+    slog.String("id", userID),
+    slog.Time("last_login", lastLogin))
+// {"time":"...","level":"INFO","msg":"...","id":"fred","last_login":"..."}
+
+myLog := slog.NewLogLogger(mySlog.Handler(), slog.LevelDebug)  // bridge from log
+```
+
+---
+
+## 13. Context `#concurrency` `#api`
+
+### 13.1 The Interface
+
+```go
+type Context interface {
+    Deadline() (deadline time.Time, ok bool)
+    Done() <-chan struct{}
+    Err() error
+    Value(key any) any
+}
+```
+
+**Convention**: first parameter named `ctx`. Acquire from `context.Background()` or `context.TODO()` at entry points; wrap as it flows down.
+
+### 13.2 Cancellation
+
+```go
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()                       // ALWAYS — resource leak otherwise
+ch := make(chan string)
+var wg sync.WaitGroup
+wg.Add(2)
+
+go func() {
+    defer wg.Done()
+    for {
+        resp, err := makeRequest(ctx, "http://httpbin.org/status/200,200,200,500")
+        if err != nil { cancel(); return }
+        if resp.StatusCode == http.StatusInternalServerError { cancel(); return }
+        select {
+        case ch <- "success":
+        case <-ctx.Done(): return
+        }
+    }
+}()
+
+loop:
+for {
+    select {
+    case s := <-ch:
+        fmt.Println("in main:", s)
+    case <-ctx.Done():
+        fmt.Println("cancelled:", context.Cause(ctx))
+        break loop
+    }
+}
+wg.Wait()
+```
+
+`context.WithCancelCause(ctx)` lets you pass an error to `cancel(err)`, retrievable via `context.Cause(ctx)`.
+
+### 13.3 Timeouts, Deadlines, Values
+
+```go
+ctx, cancel := context.WithTimeout(ctx, 50*time.Millisecond)
+defer cancel()
+// WithDeadline(ctx, time.Time) — similar but absolute.
+```
+
+**Nesting**: child timeout is bounded by parent. Parent 2s, child 3s → child cancels after 2s.
+
+`ctx.Err()` returns `nil` while active, else `context.Canceled` or `context.DeadlineExceeded`.
+
+**Context values** — use sparingly:
+```go
+type userKey int
+const key userKey = iota
+
+func ContextWithUser(ctx context.Context, user string) context.Context {
+    return context.WithValue(ctx, key, user)
+}
+func UserFromContext(ctx context.Context) (string, bool) {
+    user, ok := ctx.Value(key).(string)
+    return user, ok
+}
+```
+
+**Rules**:
+- Uniqueness: use unexported type (`type userKey int` or `type userKey struct{}`) for the key.
+- Naming: `ContextWithX` for setters, `XFromContext` for getters.
+- `Value` lookup is **linear** through the chain — don't store dozens of values.
+- **Don't** pass business data through context. Copy into explicit parameters.
+- **Do** pass metadata (request IDs, auth info) that crosses API boundaries invisibly.
+
+For HTTP requests, the context is retrieved from `req.Context()`.
+
+---
+
+## 14. Testing `#testing`
+
+### 14.1 Basics
+
+```go
+// adder.go
+func addNumbers(x, y int) int { return x + x }   // bug: should be x + y
+
+// adder_test.go
+func Test_addNumbers(t *testing.T) {
+    result := addNumbers(2, 3)
+    if result != 5 { t.Error("incorrect result: expected 5, got", result) }
+}
+```
+
+Files named `*_test.go`, package = same as code under test (or `package_test` for public-API testing).
+
+### 14.2 Reporting Failures & Setup
+
+| Method        | Effect                                    |
+|---------------|-------------------------------------------|
+| `t.Error`     | Mark failure, continue                    |
+| `t.Errorf`    | Same with format string                   |
+| `t.Fatal`     | Mark failure, **stop current test**      |
+| `t.Fatalf`    | Same with format                          |
+
+Use `Error` for independent checks; `Fatal` when further checks are doomed.
+
+**`TestMain`** (once per package), **`t.Cleanup`** (LIFO), **`t.TempDir()`**, **`t.Setenv(key, value)`** all provide auto-revert setup/teardown.
+
+### 14.3 Testing Public API & `testdata/`
+
+```go
+package pubadder_test    // _test suffix forces black-box testing
+
+import (
+    "github.com/learning-go-book-2e/ch15/sample_code/pubadder"
+    "testing"
+)
+
+func TestAddNumbers(t *testing.T) {
+    result := pubadder.AddNumbers(2, 3)
+    if result != 5 { t.Error(...) }
+}
+```
+
+Files in `testdata/` are accessible from tests via relative paths; Go reserves this name.
+
+### 14.4 `go-cmp`
+
+```go
+import "github.com/google/go-cmp/cmp"
+
+func TestCreatePerson(t *testing.T) {
+    expected := Person{Name: "Dennis", Age: 37}
+    result := CreatePerson("Dennis", 37)
+    if diff := cmp.Diff(expected, result); diff != "" {
+        t.Error(diff)
+    }
+}
+```
+
+Output shows line-by-line diff with `-` / `+` markers. Custom comparator (skip fields):
+```go
+comparer := cmp.Comparer(func(x, y Person) bool {
+    return x.Name == y.Name && x.Age == y.Age
+})
+cmp.Diff(expected, result, comparer)
+```
+
+### 14.5 Table Tests
+
+```go
+data := []struct {
+    name        string
+    num1, num2  int
+    op          string
+    expected    int
+    errMsg      string
+}{
+    {"addition",       2, 2, "+", 4, ""},
+    {"subtraction",    2, 2, "-", 0, ""},
+    {"multiplication", 2, 2, "*", 4, ""},
+    {"division",       2, 2, "/", 1, ""},
+    {"bad_division",   2, 0, "/", 0, `division by zero`},
+    {"bad_op",         2, 2, "?", 0, `unknown operator ?`},
+}
+for _, d := range data {
+    t.Run(d.name, func(t *testing.T) {
+        result, err := DoMath(d.num1, d.num2, d.op)
+        // assert result == d.expected and errMsg == d.errMsg
+    })
+}
+```
+
+Each entry gets a name: `--- PASS: TestDoMath/addition`.
+
+### 14.6 Parallel Tests
+
+```go
+func TestMyCode(t *testing.T) {
+    t.Parallel()
+}
+```
+
+**Pre-Go 1.22 trap** — same loop variable captured by all parallel subtests. **Fix**: shadow `d := d`, or pass `d` as parameter, or upgrade to Go 1.22.
+
+### 14.7 Code Coverage
+
+```sh
+go test -v -cover -coverprofile=c.out
+go tool cover -html=c.out   # browser with green/red highlighting
+```
+
+**Coverage ≠ correctness** — 100% coverage still allows bugs (the `DoMath` example has `*` implemented as `+` and 100% coverage doesn't catch it).
+
+### 14.8 Fuzzing (Go 1.18+)
+
+```go
 func FuzzParseData(f *testing.F) {
-    f.Add([]byte("3\nhello\ngoodbye\ngreetings\n"))
-    f.Add([]byte("0\n"))
+    testcases := [][]byte{
+        []byte("3\nhello\ngoodbye\ngreetings\n"),
+        []byte("0\n"),
+    }
+    for _, tc := range testcases { f.Add(tc) }
+
     f.Fuzz(func(t *testing.T, in []byte) {
         r := bytes.NewReader(in)
         out, err := ParseData(r)
         if err != nil { t.Skip("handled error") }
-        roundTrip := ToData(out)
-        rtr := bytes.NewReader(roundTrip)
-        out2, err := ParseData(rtr)
-        if diff := cmp.Diff(out, out2); diff != "" {
-            t.Error(diff)
-        }
+        out2, err := ParseData(bytes.NewReader(ToData(out)))
+        if diff := cmp.Diff(out, out2); diff != "" { t.Error(diff) }
     })
 }
 ```
-*Ref: Learning_Go.md — "Writing Tests" (full chapter: Test Basics, Reporting Failures, Setup/Teardown, Environment Variables, testdata, Caching, Public API, go-cmp, Table Tests, Concurrent Tests, Code Coverage, Fuzzing, Benchmarks, Stubs, httptest, Integration Tests, Data Race Detector)*
+
+Each failure is auto-saved as a **seed corpus entry** in `testdata/fuzz/` — becomes a regression test. ⚠️ Fuzzing consumes gigabytes of resources.
+
+### 14.9 Benchmarks
+
+```go
+var blackhole int  // prevent compiler from optimizing away the call
+
+func BenchmarkFileLen1(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        result, err := FileLen("testdata/data.txt", 1)
+        if err != nil { b.Fatal(err) }
+        blackhole = result
+    }
+}
+```
+
+```sh
+$ go test -bench=. -benchmem
+BenchmarkFileLen/FileLen-1-12     25 47201025 ns/op  65342 B/op 65208 allocs/op
+BenchmarkFileLen/FileLen-1000-12 16491   71281 ns/op  68744 B/op    70 allocs/op
+```
+
+Columns: `name-GOMAXPROCS`, `N` (runs), `ns/op`, `B/op`, `allocs/op`.
+
+**Sub-benchmarks** via `b.Run`.
+
+### 14.12 Stubs
+
+**Small interface — inline implementation**:
+```go
+type MathSolverStub struct{}
+func (ms MathSolverStub) Resolve(_ context.Context, expr string) (float64, error) {
+    switch expr {
+    case "2 + 2 * 10":   return 22, nil
+    case "( 2 + 2 ) * 10": return 40, nil
+    case "( 2 + 2 * 10":  return 0, errors.New("invalid expression")
+    }
+    return 0, nil
+}
+```
+
+**Large interface — embed the interface** (unimplemented methods panic):
+```go
+type Entities interface {
+    GetUser(id string) (User, error)
+    GetPets(userID string) ([]Pet, error)
+    // ...
+}
+type GetPetNamesStub struct { Entities }
+func (ps GetPetNamesStub) GetPets(userID string) ([]Pet, error) {
+    switch userID {
+    case "1": return []Pet{{Name: "Bubbles"}}, nil
+    case "2": return []Pet{{Name: "Stampy"}, {Name: "Snowball II"}}, nil
+    default: return nil, fmt.Errorf("invalid id: %s", userID)
+    }
+}
+```
+
+**Per-test variation — function fields**:
+```go
+type EntitiesStub struct {
+    getUser func(id string) (User, error)
+    getPets func(userID string) ([]Pet, error)
+    // ...
+}
+func (es EntitiesStub) GetPets(userID string) ([]Pet, error) { return es.getPets(userID) }
+// In test:
+l := Logic{Entities: EntitiesStub{getPets: d.getPets}}
+```
+
+### 14.13 `httptest`
+
+```go
+server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+    expression := req.URL.Query().Get("expression")
+    if expression != io.expression {
+        rw.WriteHeader(http.StatusBadRequest)
+        return
+    }
+    rw.WriteHeader(io.code)
+    rw.Write([]byte(io.body))
+}))
+defer server.Close()
+
+rs := RemoteSolver{MathServerURL: server.URL, Client: server.Client()}
+```
+
+### 14.14 Integration Tests with Build Tags
+
+```go
+//go:build integration
+
+package solver
+
+func TestRemoteSolver_ResolveIntegration(t *testing.T) {
+    // hits real service via docker
+}
+```
+
+```sh
+go test -tags integration ./...
+```
+
+Alternative: use environment variable check + `t.Skip` for discoverability.
+
+### 14.15 Data Race Detector
+
+```sh
+go test -race ./...
+go build -race           # ~10× slower; use in CI
+```
+
+**Never** fix races by inserting sleeps — fix them with proper synchronization.
 
 ---
 
-### Reflection, unsafe, cgo
+## 15. Reflection, Unsafe, Cgo `#general`
 
-**Principle:** These break Go's safety guarantees. Use them only at boundaries (serialization, OS interop, C libraries). Each has a real performance or ergonomics cost; prefer safe code unless you have measured.
+### 15.1 Reflection (`reflect`)
 
-**Reflection (`reflect`):**
-- Reserve reflection for: encoding/decoding (JSON, XML, DB), templates, generic marshaling, writing tools.
-- DON'T use it as a substitute for generics or interfaces — it's slower, more fragile (many operations panic on type mismatch), and more verbose.
-- Benchmarks: a reflection-based `Filter` is 50–75× slower than a custom or generic version (same allocations differ by thousands).
-- Use `reflect.TypeOf(v)` for type info, `reflect.ValueOf(v)` for value access. Use `reflect.Kind` to know which methods are safe.
-- `Elem()` follows pointers, interface boxes, slice/map/channel wrappers to the contained type.
-- To create a `reflect.Type` from scratch:
-  ```go
-  var stringType = reflect.TypeOf((*string)(nil)).Elem()
-  var stringSliceType = reflect.TypeOf([]string(nil))
-  ```
-- Check `reflect.Value.IsValid()` BEFORE calling any other method on it; check `IsNil()` ONLY when Kind is one of Pointer/Slice/Map/Func/Interface.
-- `reflect.New(T)` returns a pointer; `reflect.MakeSlice/MakeMap/MakeChan` parallel `make`.
-- To detect nil inside an interface (the case where `== nil` lies): combine `IsValid()` and `IsNil()` on the relevant kinds.
-- `reflect.MakeFunc` can build a function dynamically (e.g. for timing wrappers); but don't use it for hot-path code.
-- You CANNOT add methods via reflection — so you cannot reflectively implement an interface.
+Used at program boundaries — serialization, configuration, templates. **Slower, fragile, verbose**. Many operations panic on type mismatch.
 
-**unsafe:**
-- `unsafe.Pointer` is the bridge between arbitrary pointer types. `unsafe.Sizeof` and `unsafe.Offsetof` are compile-time constants (use them in `const` declarations).
-- `unsafe.String`, `unsafe.StringData`, `unsafe.Slice`, `unsafe.SliceData` (Go 1.20+) provide safer alternatives for binary data conversion.
-- Primary use cases: reading/writing network protocols without per-byte copies, interop with OS syscalls (the `syscall` package itself relies on `unsafe`).
-- Struct field order matters for layout: place fields of the same size together to minimize padding. Reorder large types if you hold millions of them.
-- NEVER use `unsafe` to bypass type safety unless you have profiled and identified the unsafe operation as a real bottleneck. Always pass `-gcflags=-d=checkptr` in test builds to catch misuse.
-- Avoid `unsafe` to access unexported fields of another package — coupling to internals will break.
-
-**cgo:**
-- Each C call costs ~30–50 ns. Calling a C function from Go is roughly 29× slower than C-to-C. Use cgo ONLY for integration with C libraries, NOT for performance.
-- Keep the cgo boundary NARROW. Wrap the C call in a small Go function so business code never sees Cgo types.
-- You cannot pass Go strings, slices, or other pointer-containing types directly to C — they contain pointers the C side can't safely hold. Use `cgo.NewHandle` to wrap, pass the handle as `uintptr_t`, then `handle.Value()` on the way back and `handle.Delete()` when done.
-- C functions cannot store Go pointers across calls (Go's GC may relocate).
-- Cannot call variadic C functions (`printf`) directly via cgo, cannot pass function pointers, cannot pass unions cleanly.
-- If a third-party Go wrapper exists for your C library, use it instead of writing your own cgo.
-
-**Code:**
+**Core types**:
 ```go
-// Detecting nil inside an interface with reflection
+t := reflect.TypeOf(v)         // describes the type
+v := reflect.ValueOf(v)        // describes the value
+k := t.Kind()                  // reflect.Kind constant (Struct, Slice, Int, ...)
+```
+
+**Inspecting structs and tags**:
+```go
+type Foo struct {
+    A int    `myTag:"value"`
+    B string `myTag:"value2"`
+}
+var f Foo
+ft := reflect.TypeOf(f)
+for i := 0; i < ft.NumField(); i++ {
+    cur := ft.Field(i)
+    fmt.Println(cur.Name, cur.Type.Name(), cur.Tag.Get("myTag"))
+}
+```
+
+**Setting via reflection** (must use pointer indirection):
+```go
+i := 10
+iv := reflect.ValueOf(&i).Elem()
+iv.SetInt(20)
+// i is now 20
+```
+
+**Creating new values**:
+```go
+var stringSliceType = reflect.TypeOf([]string(nil))
+ssv := reflect.MakeSlice(stringSliceType, 0, 10)
+sv := reflect.New(stringType).Elem()
+sv.SetString("hello")
+ssv = reflect.Append(ssv, sv)
+```
+
+**Detecting nil interface value**:
+```go
 func hasNoValue(i any) bool {
     iv := reflect.ValueOf(i)
     if !iv.IsValid() { return true }
@@ -840,140 +2662,128 @@ func hasNoValue(i any) bool {
         return false
     }
 }
-
-// Safer binary-data conversion (Go 1.20+)
-data := *(*Data)(unsafe.Pointer(&b))
-// Or via unsafe.Slice / unsafe.SliceData when the source is a slice.
 ```
-*Ref: Learning_Go.md — "Here Be Dragons: Reflect, Unsafe, and Cgo"*
+
+**Performance**: reflection `Filter` is **~50× slower** than generic:
+```
+BenchmarkFilterReflectString-8    5870   203962 ns/op   46616 B/op   2219 allocs/op
+BenchmarkFilterGenericString-8  294355     3920 ns/op   16384 B/op      1 allocs/op
+```
+
+Use reflection only when type is truly unknown at compile time.
+
+### 15.2 `unsafe`
+
+Key API:
+- `unsafe.Sizeof(v)` — bytes occupied.
+- `unsafe.Offsetof(struct{Field})` — byte offset.
+- `unsafe.Pointer` — bridge between pointer types.
+- `unsafe.Add(ptr, n)` — pointer arithmetic.
+- `unsafe.Slice(ptr, len)` / `unsafe.SliceData(s)` — slice over raw memory (Go 1.17+).
+- `unsafe.String(ptr, len)` / `unsafe.StringData(s)` — string views (Go 1.20+).
+
+**Field order affects size**:
+```go
+type BoolIntBool struct { b bool; i int64; b2 bool }   // 24 bytes (padding both sides)
+type BoolBoolInt struct { b bool; b2 bool; i int64 }   // 16 bytes (group bools)
+```
+
+**Binary protocol deserialization**:
+```go
+type Data struct {
+    Value  uint32    // 4 bytes
+    Label  [10]byte  // 10 bytes
+    Active bool      // 1 byte
+}
+const dataSize = unsafe.Sizeof(Data{})   // legal in const expression
+
+func DataFromBytesUnsafe(b [dataSize]byte) Data {
+    data := *(*Data)(unsafe.Pointer(&b))
+    if isLE { data.Value = bits.ReverseBytes32(data.Value) }
+    return data
+}
+```
+
+~2–2.5× faster than safe code. **Use sparingly.**
+
+**Accessing unexported fields**:
+```go
+sf, _ := reflect.TypeOf(huf).Elem().FieldByName("b")
+pos := unsafe.Add(unsafe.Pointer(huf), sf.Offset)
+b := (*bool)(pos)
+*b = true   // bypasses visibility
+```
+
+Runtime check: `go build -gcflags=-d=checkptr`.
+
+### 15.3 Cgo
+
+`import "C"` is a magic import exposing C functions/types declared in the comment block above.
+
+```go
+package main
+/*
+#cgo LDFLAGS: -lm
+#include <stdio.h>
+#include <math.h>
+#include "mylib.h"
+
+int add(int a, int b) {
+    int sum = a + b;
+    printf("a: %d, b: %d, sum %d\n", a, b, sum);
+    return sum;
+}
+*/
+import "C"
+
+func main() {
+    sum := C.add(3, 2)
+    fmt.Println(sum)
+    fmt.Println(C.sqrt(100))
+}
+```
+
+**Exporting Go to C**:
+```go
+//export doubler
+func doubler(i int) int { return i * 2 }
+```
+Then in `.c` file:
+```c
+#include "_cgo_export.h"
+int add(int a, int b) {
+    int doubleA = doubler(a);
+    return doubleA + b;
+}
+```
+
+**Passing pointer-containing types** — use `cgo.Handle`:
+```go
+//export processor
+func processor(handle C.uintptr_t) {
+    h := cgo.Handle(handle)
+    p := h.Value().(Person)
+    fmt.Println(p.Name, p.Age)
+    h.Delete()
+}
+// Call site: C.in_c(C.uintptr_t(cgo.NewHandle(p)))
+```
+
+**Performance**: cgo calls are **~29–40× slower** than pure C function calls. Use cgo for **integration with C libraries you cannot replace**, not for performance.
 
 ---
 
-## Anti-Patterns & Common Mistakes
+## Closing Notes (Idiomatic Go Themes)
 
-- **Shadowing variables with `:=` in a tight block**: `if err := do(); err != nil { ... }` re-declares `err`, hiding any outer `err`. When multiple returns are involved, accidentally shadowing one of them causes silent bugs. Prefer `var` or rename explicitly.
-  → *Fix:* be explicit about what you're shadowing; `go vet` won't catch this — use a third-party linter.
-- **Returning a typed nil as `error`**: `var e *MyErr; return e` returns a NON-nil interface because the type field is set.
-  → *Fix:* always declare the local as `var err error` and assign the typed value to it, OR explicitly `return nil` in the no-error branch.
-- **Slice subslice aliasing**: `y := x[:2]; y = append(y, "z")` overwrites `x[2]` because the subslice kept x's full capacity.
-  → *Fix:* `y := x[:2:2]` to cap capacity at length; or `copy` if you need independence.
-- **Method set mismatch**: a value instance only has the value-receiver methods in its method set. Assigning a `Counter` value to a `Incrementer` interface that requires pointer-receiver `Increment()` won't compile.
-  → *Fix:* use `&Counter{}`, or change all receivers consistently.
-- **Embedding as inheritance**: `Outer` containing `Inner` does NOT make `Outer` substitutable for `Inner`. There is no dynamic dispatch through embedded fields.
-  → *Fix:* declare an interface and assign an `Inner` field of that interface type.
-- **Goroutine leaks**: launching a goroutine that depends on a channel that no one will ever read from.
-  → *Fix:* always provide an exit path via `context.Done()` or by closing the input channel.
-- **Looping with `default` in `select`**: a `for { select { default: ... } }` burns CPU at 100% when no channel is ready.
-  → *Fix:* omit `default` so the goroutine blocks; add a `<-ctx.Done()` case for cancellation.
-- **Race "fixes" with `time.Sleep`**: makes races intermittent, never fixes them.
-  → *Fix:* add proper synchronization; verify with `go test -race`.
-- **Closing channels from the wrong goroutine**: closing from a reader panics on subsequent writes; closing twice panics.
-  → *Fix:* exactly one writer goroutine closes the channel, and only when readers are using `for-range` to detect end.
-- **`time.Tick` in non-trivial programs**: the underlying `time.Ticker` cannot be stopped, so it leaks goroutines.
-  → *Fix:* use `time.NewTicker` and call `Stop()` when done.
-- **String comparison for errors**: `err.Error() == "..."` breaks when messages change.
-  → *Fix:* use sentinel errors + `errors.Is`, or typed errors + `errors.As`.
-- **Returning interfaces from constructors**: prevents callers from using new methods/fields you add later.
-  → *Fix:* return concrete types. Use interfaces at parameter boundaries, not return boundaries.
-- **Big interfaces**: hard to stub, hard to evolve. "The bigger the interface, the weaker the abstraction."
-  → *Fix:* define small, role-focused interfaces (`Reader`, `Writer`, `Closer`) and let consumers compose them.
-- **Reaching for reflection instead of generics/interfaces**: 50–75× slower, panics on type mismatch, fragile under refactors.
-  → *Fix:* generics for type-parameterized algorithms, interfaces for behavior contracts, reflection only at boundaries.
-- **`init()` for business logic**: test ordering becomes opaque, side-effects surprise readers.
-  → *Fix:* use explicit initialization in `main` (or a DI container) and pass dependencies down.
-- **Reaching for `sync.Map` everywhere**: only wins in narrow conditions (write-once, read-many, disjoint keys).
-  → *Fix:* default to `map[K]V` protected by `sync.RWMutex`.
-- **Code that relies on the for-range loop variable across goroutines** (pre-Go 1.22):
-  → *Fix:* pass the variable as a parameter or shadow it (`v := v`).
-- **Comparing `time.Time` with `==`**: ignores time zone.
-  → *Fix:* use `.Equal()`.
+The book's recurring philosophy:
 
----
+1. **Clarity over cleverness** — explicit, readable code wins.
+2. **Composition over inheritance** — embed structs; use interfaces.
+3. **Accept interfaces, return structs** — flexibility at boundaries, stability in outputs.
+4. **Errors are values** — wrap with `%w`, inspect with `Is`/`As`, prefer errors over panics.
+5. **Concurrency is implementation detail** — keep it out of your APIs.
+6. **Less is more** — Go deliberately omits exceptions, inheritance, operator overloading, named params — minimalism is a feature.
 
-## Decision Heuristics / Checklists
+> "Properly written, Go is boring. Well-written Go programs tend to be straightforward and sometimes a bit repetitive." — Jon Bodner
 
-### "Should I use a pointer or a value?"
-- Type contains a `sync.Mutex` or other non-copyable primitive → **pointer**.
-- Method needs to mutate the receiver → **pointer**.
-- Struct is large (≥10 MB or so) and the cost of copying is measurable → **pointer**.
-- Type is logically a reference (e.g. an `io.Reader`) → **pointer**.
-- Otherwise → **value** (makes data flow obvious, reduces GC pressure).
-
-### "Channel or mutex?"
-- Sharing a field across goroutines AND no clear transformation pipeline → **mutex** (with `RWMutex` if reads dominate).
-- Coordinating multiple goroutines or tracking a value through a pipeline → **channel**.
-- Performance-critical with no clean ownership story → measure first, then maybe a mutex.
-
-### "Buffered or unbuffered channel?"
-- Default: **unbuffered**.
-- You know the exact number of goroutines writing → **buffered to that count**.
-- Implementing backpressure (token bucket) → **buffered with `select default`**.
-- Otherwise unbuffered.
-
-### "Generics, interfaces, or reflection?"
-- Same algorithm, different concrete types, no behaviour polymorphism needed → **generics**.
-- Behaviour polymorphism across concrete types → **interface**.
-- Type unknown until runtime (JSON parsing, DB drivers) → **reflection**, but only at the boundary.
-
-### "What test should I write?"
-- Code has many independent input/output scenarios → **table test**.
-- Code reads untrusted input / network data → **fuzz test** (alongside table tests).
-- Code does concurrency → **run with `-race`** and add table tests.
-- Code wraps an HTTP handler → **httptest.NewServer + table test**.
-- Code uses an interface with many methods → **stub via embedded interface or function-field struct**.
-- Want to test only the public API → use `package foo_test`.
-
-### "When do I use the `context`?"
-- Function blocks on I/O, network, or another goroutine that may need cancellation → **first parameter is `ctx`**.
-- Top-level entrypoint → use `context.Background()` or `context.TODO()`.
-- HTTP server: extract via `r.Context()` in middleware, re-attach via `req.WithContext(ctx)`.
-- Cross-cutting request data (request IDs, trace IDs, user identity) → store via `context.WithValue` using a private key type.
-- Cancellation propagation → `WithCancel` / `WithTimeout` / `WithDeadline`; always `defer cancel()`.
-
-### "When to use `defer`?"
-- Resource cleanup (Close, Unlock, Remove, Rollback) → **always defer**.
-- Per-iteration cleanup in a loop → **inline the cleanup**, do NOT defer (defers accumulate until function exit).
-- Need to modify a named return value (especially the error) → use `defer func() { if err != nil { ... } }()`.
-
-### "When to use a custom error type vs a sentinel?"
-- Caller must react programmatically (e.g. status code mapping) → **custom type + `errors.As`**.
-- State means "cannot continue, but caller needs no extra info" → **sentinel + `errors.Is`**.
-- Routine validation with several independent problems → **sentinel + `errors.Join`**.
-
-### "What should I do before committing?"
-1. `gofmt` / `goimports ./...`
-2. `go vet ./...`
-3. `go test -race ./...`
-4. `staticcheck ./...`
-5. `govulncheck ./...`
-6. Check coverage on changed files (`go test -coverprofile=... ./...`)
-
----
-
-## Key Takeaways
-
-1. **Make intentions explicit.** Idiomatic Go is verbose on purpose — clarity beats cleverness.
-2. **Errors are values.** Return them, wrap them with `%w`, inspect with `errors.Is`/`errors.As`. Never panic for ordinary failure.
-3. **Zero values are useful.** Design types so the zero value is a valid starting state.
-4. **Accept interfaces, return structs.** Decouple input, stay flexible on output.
-5. **Composition over inheritance.** Embed for promotion, interfaces for polymorphism.
-6. **Concurrency is data-flow design.** Channels for pipelines, mutexes for shared state, contexts for cancellation. Never expose concurrency primitives in your public API.
-7. **Always clean up goroutines.** Every `go` statement must have an exit path.
-8. **Test at boundaries.** Table tests for breadth, fuzz for unknown input, httptest for HTTP, `-race` for concurrency, go-cmp for comparison.
-9. **100% coverage is necessary, not sufficient.** Coverage tells you what you DIDN'T exercise — never use it as proof of correctness.
-10. **Use reflection, unsafe, and cgo only at boundaries.** Each one breaks Go's safety guarantees for a real but bounded payoff.
-11. **The Go Compatibility Promise is real.** Lean on `go.mod`'s `go` directive and the new `GOTOOLCHAIN` mechanism — your code will keep building.
-12. **Idiomatic Go is boring.** That's the point — boring code is maintainable code.
-
----
-
-## Cross-References
-
-- Related: `[[../Concurrency_in_Go.md]]` (Katherine Cox-Buday — deep concurrency patterns)
-- Related: `[[../Go_Systems_Programming.md]]` (low-level Go, OS interaction)
-- Related: `[[../Building_Modern_CLI_Applications_in_Go.md]]` (CLI patterns, packaging)
-- Related: `[[../The_Art_of_Unit_Testing.md]]` (testing theory, double-loop TDD)
-- Related: `[[../Fundamentals_of_Software_Testing.md]]` (test taxonomy, integration vs unit)
-- Related: `[[../Domain-Driven_Design_with_Golang.md]]` (DDD in Go: bounded contexts, aggregates, repositories)
-- Related: `[[../Efficient_Go_Data-Driven_Optimization.md]]` (data-driven performance tuning)
-- Topic index: `[[../INDEX.md]]`
+That repetition is the price of clarity — and the engine of long-term maintainability.

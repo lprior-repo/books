@@ -1,195 +1,481 @@
 # RESTful Web API Patterns and Practices Cookbook
 **Author:** Mike Amundsen
-**Topic tags:** `#api` `#architecture` `#testing`
-**Language focus:** Language-agnostic (HTML, Collection+JSON, SIREN, HAL, JSON, ALPS; JavaScript/Node.js examples for client/service)
+**Topic tags:** `#api` `#architecture`
+**Language focus:** Language-agnostic; HTTP, HTML, Collection+JSON, SIREN, HAL, JSON, XML, ALPS, and JavaScript examples
 **Sources:** `markdown_output/Restful Web API Patterns and Practices Cookbook/Restful Web API Patterns and Practices Cookbook.md` · `summaries/Restful_Web_API_Patterns_and_Practices_Cookbook.md`
 
 ## TL;DR
-A cookbook of 70+ recipes for designing RESTful hypermedia APIs that machines built by strangers can use reliably over decades. The guiding principle — *"Leverage global reach to solve problems you haven't thought of, for people you have never met"* — is operationalized through four separable layers: **protocol (HTTP) · message format (registered media types) · vocabulary (property names) · actions (hypermedia controls resolved at runtime)**. Where *Mastering API Architecture* tells you *how to choose and operate* an API platform, this book tells you *how to design messages and interactions* so that platform decisions remain reversible. Apply when you need the day-to-day design rules for hypermedia, idempotency, content negotiation, caching, RFC 7807 errors, or evolvable data models.
-
+Design network interfaces for strangers, unknown future uses, and decades of independent change. Keep protocol, representation format, vocabulary, and runtime actions separate; bind clients to stable abstractions and let messages carry volatile details. Make writes idempotent and reversible, publish machine-readable semantics and operational metadata, hide storage and service internals, and model long work as observable hypermedia resources.
 ---
-
 ## Best Practices by Topic
 
-### Separation of Layers (Protocol · Format · Vocabulary · Actions)
+### 1. Optimize for REST Architectural Properties
 `#api` `#architecture`
 
-**Principle:** Keep the four communication layers independent — change one without breaking the others.
+**Principle:** Apply constraints as a whole to induce performance, scalability, simplicity, modifiability, visibility, portability, and reliability.
 
 **Do:**
-- Use HTTP as the protocol contract (methods, status codes, headers).
-- Use a *registered structured media type* (HTML, Collection+JSON, SIREN, HAL) as the message contract.
-- Pull property names from published vocabularies (Schema.org, Microformats, Dublin Core, FHIR, ACORD, PSD2).
-- Express available actions only via runtime hypermedia controls (links + forms).
-- Implement an anti-corruption layer that translates between internal models and the published external vocabulary.
+- Separate concerns and generalize interfaces to produce simplicity.
+- Support large numbers of components and interactions without central knowledge.
+- Put caches, proxies, and mediators where they can observe or improve interactions.
+- Allow components to deploy independently.
+- Design for failures of individual machines and services.
+- Evaluate both network efficiency and user-perceived latency.
 
 **Don't:**
-- Embed internal object/data models directly into messages.
-- Mix vocabulary terms with media-type structural elements (e.g., putting `person` as a JSON key rather than a rel).
+- Call an interface RESTful because it merely uses HTTP.
+- Select constraints independently of the system properties they should induce.
+- Optimize one component while making the complete network brittle.
 
-*Ref: Restful Web API Patterns and Practices Cookbook.md — "Establishing a Foundation with Hypermedia Designs" / "The Power of Vocabularies"*
-
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Fielding's REST"*
 ---
+### 2. Separate the Four Communication Layers
+`#api` `#architecture`
 
-### Registered Media Types (Recipe 3.1)
-`#api`
-
-**Principle:** Adopt one or more open, IANA-registered media types so clients can bind to the format without understanding the content.
+**Principle:** Keep protocol, message format, vocabulary, and runtime actions independent so each can change without forcing the others to change.
 
 **Do:**
-- Default to **HTML** — 30+ year track record, universal browser support, vast tooling, great for testing.
-- Document every media type your service supports; allow consumers to discover and express preferences.
-- Prefer media types that (a) support hypermedia natively and (b) support custom extension.
+- Use HTTP as the protocol-level agreement.
+- Use registered structured media types as the representation agreement.
+- Publish domain terms separately from representation structure.
+- Carry URLs, methods, encodings, and inputs in links and forms at runtime.
+- Translate between internal terms and external vocabulary at the boundary.
+- Treat meaning as independent of the message that carries it.
 
 **Don't:**
-- Author your own media type unless your audience is small (single company), huge (Google/Facebook/Amazon), or you lead a vertical (FHIR-style).
-- Commit to unstructured JSON/XML alone — no stable structure to bind to.
+- Encode domain meaning into transport mechanics.
+- Treat a storage schema as a representation format.
+- Force a vocabulary to depend on a particular protocol or serialization.
 
-*Ref: Cookbook.md — "Recipe 3.1: Creating Interoperability with Registered Media Types"*
-
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Hypermedia Design"*
 ---
+### 3. Design for Global Reach, Strangers, and Decades
+`#api` `#architecture`
 
-### Structured Media Types & Well-Formedness vs. Validity (Recipe 3.2)
-`#api`
-
-**Principle:** Separate message *well-formedness* (compliance with format rules) from *validity* (compliance with content rules) so messages stay well-formed when content evolves.
+**Principle:** Build services that unknown people can combine for uses you did not predict, long after the initial release.
 
 **Do:**
-- Use SMTs whose structure is invariant (e.g., HTML `<ul>/<li>`, Collection+JSON `items/data[]`).
-- Two-phase client parsing: validate structure first, then extract data — unknown properties never crash the client.
+- Lower adoption barriers with open protocols, standard formats, and published semantics.
+- Make interfaces understandable without private meetings or oral history.
+- Carry enough context in each interaction for stateless use.
+- Prefer longevity and independent evolution over short-term convenience.
+- Assume a temporary service may survive for decades.
+- Expect every implementation detail to change eventually.
 
 **Don't:**
-- Use plain JSON and assume the schema won't drift — adding a property changes the JSON *structure*.
+- Design only for the first known consumer.
+- Assume you can coordinate every future change with every caller.
+- Treat undocumented context as part of the contract.
 
-**Code (structure invariant under content change):**
-```html
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Shared Principles for Scalable Services on the Web" / "Guiding Principles of RESTful Web APIs"*
+---
+### 4. Use the Rule of Least Power
+`#api` `#architecture`
+
+**Principle:** Choose the least powerful language or mechanism that can solve the interaction problem safely.
+
+**Do:**
+- Prefer links and simple forms over embedded general-purpose programs.
+- Prefer simple name/value HTTP queries for common information retrieval.
+- Use constrained workflow affordances before inventing a programming language.
+- Keep message exchange generic and local implementations specialized.
+- Favor formats and protocols with low barriers to implementation.
+
+**Don't:**
+- Expose a database query engine when a named form solves the use case.
+- invent a custom language merely to avoid using established standards.
+- Add imperative branching to a declarative workflow document.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "The Web of Tim Berners-Lee" / "The Rule of Least Power"*
+---
+### 5. Treat Links and Forms as Affordances
+`#api` `#architecture`
+
+**Principle:** Express what a consumer can do through controls embedded in the current representation.
+
+**Do:**
+- Use links to afford navigation.
+- Use forms to afford data submission.
+- Return controls with results so the next valid actions are visible.
+- Vary controls by resource, service, user, and request state.
+- Let clients follow controls rather than reconstruct undocumented transitions.
+- Design the connection between resources as carefully as the resources themselves.
+
+**Don't:**
+- Publish data without the actions needed to use it.
+- Make clients infer permissions or state transitions from prose.
+- Assume a fixed workflow is the only path through a service.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Hypermedia: A Definition" / "James J. Gibson"*
+---
+### 6. Model Ontology, Taxonomy, and Choreography
+`#api` `#architecture`
+
+**Principle:** Describe properties, aggregate structures, and valid actions as separate but connected parts of the information architecture.
+
+**Do:**
+- Define ontology terms with stable meanings.
+- Define taxonomies that group terms into recognizable resource states.
+- Define choreography as links, forms, and valid transitions.
+- Publish all three dimensions in a semantic profile.
+- Use the same semantic identifiers consistently across representations.
+- Keep implementation URLs and methods out of the problem-space model.
+
+**Don't:**
+- Publish only a data dictionary and call it a complete service vocabulary.
+- Define actions without the states they return.
+- confuse a semantic profile with an API definition document.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Morville's Information Architecture" / "3.4 Describing Problem Spaces with Semantic Profiles"*
+---
+### 7. Bind Clients to Stable Abstractions
+`#api` `#architecture`
+
+**Principle:** Bind clients to protocol, media type, and semantic profile rather than volatile URLs, object schemas, or one service implementation.
+
+**Do:**
+- Bind HTTP behavior to an HTTP-aware client layer.
+- Bind representation parsing to media-type handlers.
+- Bind domain understanding to a published vocabulary profile.
+- Resolve URLs, methods, encodings, and fields at runtime.
+- Keep goal logic and transient state on the client.
+- Use one starting URL when the service supplies hypermedia.
+
+**Don't:**
+- Generate a captive client whose identity is one endpoint tree.
+- Bind application logic directly to response object layout.
+- Treat a service definition document as the best client contract.
+
+**Code:**
+```
+function onboardCustomer() {
+ results = http.read("/onboarding/work-in-progress", "GET");
+ while(results.actions) {
+ var action = results.actions.pop();
+ http.send(action.url, action.method, map(action.parameters,local.data));
+ }
+ return "200 OK";
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Binding to Protocols and Formats" / "Supporting Client-Centric Workflows"*
+---
+### 8. Combine Orchestration and Choreography with Hypermedia Workflow
+`#api` `#architecture`
+
+**Principle:** Coordinate independent services through a small declarative interface instead of centralizing all decisions or hardwiring point-to-point dependencies.
+
+**Do:**
+- Use orchestration for a few simple, stable steps.
+- Use choreography for many independent, asynchronous steps.
+- Use hypermedia workflow to combine parallel independence with shared job control.
+- Require task actions for Execute, Repeat, Revert, and Cancel.
+- Require job actions for Continue, Restart, and Cancel.
+- Put shared state in addressable documents.
+- Observe each job through a progress resource.
+
+**Don't:**
+- Hide a single fatal workflow engine behind every interaction.
+- Make every service know the complete business process.
+- Share a database as the workflow protocol.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "Choreography, Orchestration, and Hypermedia Workflow"*
+---
+### 9. Use Registered Media Types (Recipe 3.1)
+`#api` `#architecture`
+
+**Principle:** Select open, registered formats so independently built consumers can bind to stable message rules.
+
+**Do:**
+- Start with the IANA Media Types Registry.
+- Support more than one registered media type when practical.
+- Include HTML for broad tooling, browser testing, and long-term support.
+- Prefer formats that support both hypermedia and safe extension.
+- Document supported types and runtime selection.
+- Register and maintain a custom type as a public, long-lived commitment if you create one.
+
+**Don't:**
+- Create a custom media type without a limited audience, massive audience, or vertical leadership.
+- Treat plain JSON or XML as structured merely because parsers exist.
+- Abandon community tooling or documentation for a published format.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.1 Creating Interoperability with Registered Media Types"*
+---
+### 10. Separate Well-Formedness from Validity (Recipe 3.2)
+`#api` `#architecture`
+
+**Principle:** Keep representation structure stable while allowing domain content and validation rules to evolve.
+
+**Do:**
+- Validate the media-type structure before domain content.
+- Use invariant containers such as HTML lists or Collection+JSON data arrays.
+- Let added properties remain structurally well formed.
+- Treat validity as a separate, evolving semantic concern.
+- Keep content loosely coupled to representation structure.
+
+**Don't:**
+- Reject a structurally sound message solely because it contains an added field.
+- Equate a JSON object's current keys with a permanent message type.
+- require a new client parser whenever domain content grows.
+
+**Code:**
+```
 <ul name="Person">
  <li name="givenName">Marti</li>
  <li name="familyName">Contardi</li>
- <!-- adding <li name="emailAddress">…</li> does NOT change the structure -->
+</ul>
+ ...
+<ul name="Person">
+ <li name="givenName">Marti</li>
+ <li name="familyName">Contardi</li>
+```
+
+```
+ <li name="emailAddress">mcontardi@example.org</li>
 </ul>
 ```
-Contrast with JSON, where adding `emailAddress` changes the structural schema.
-*Ref: Cookbook.md — "Recipe 3.2: Ensuring Future Compatibility with Structured Media Types"*
 
+```
+{"Person" : {
+ "givenName": "Marti",
+ "familyName": "Contardi"
+ }
+}
+ ...
+{"Person" : {
+ "givenName": "Marti",
+ "familyName": "Contardi",
+ "emailAddress": "mcontardi@example.org",
+ }
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.2 Ensuring Future Compatibility with Structured Media Types"*
 ---
+### 11. Publish Domain Vocabularies (Recipe 3.3)
+`#api` `#architecture`
 
-### Published Vocabularies (Recipe 3.3)
-`#api`
-
-**Principle:** Use well-known property names from published vocabularies so strangers understand your messages.
+**Principle:** Use well-documented public terms and publish every remaining magic string.
 
 **Do:**
-- Pull from Schema.org (general), Microformats.org, Dublin Core, or industry vocabs (PSD2 payments, FHIR health, ACORD insurance).
-- Publish your own vocabulary document listing every "magic string" (id/name/rel values) your service emits, with definitions and source URLs.
-- Keep vocabulary terms disconnected from any software/hardware dependencies.
+- Prefer Schema.org, then declared backup sources such as Microformats.org and Dublin Core.
+- Consider established vertical vocabularies such as PSD2, FHIR, and ACORD.
+- Publish every input, output, action, relation, name, ID, class, and tag with its definition.
+- Link terms to authoritative definitions.
+- Limit synonyms and choose one external term consistently.
+- Mix sources when necessary but document governance priority.
+- Use an anti-corruption layer instead of renaming internal data.
 
 **Don't:**
-- Use proprietary internal names that require NDA'd docs.
+- Require consumers to understand proprietary internal abbreviations.
+- Tie vocabulary terms to a software platform, SDK, or hardware dependency.
+- Assume data properties alone form the complete vocabulary.
 
-*Ref: Cookbook.md — "Recipe 3.3: Sharing Domain Specifics via Published Vocabularies" / "Richardson's Magic Strings"*
+**Code:**
+```
+{ "alps" : {
+ "descriptor": [
+ {"id": "givenName", "def": "https://schema.org/givenName",
+ "title": "Given name. In the U.S., the first name of a Person.",
+ "tag": "ontology"},
+ {"id": "familyName", "def": "https://schema.org/givenName"
+ "title": "Family name. In the U.S., the last name of a Person.",
+ "tag": "ontology"},
+ {"id": "telephone", "def": "https://schema.org/telephone",
+ "title": "The telephone number.",
+ "tag": "ontology"
+ },
+ {"id": "country", "def": "http://microformats.org/wiki/hcard#country-name",
+ "title": "Name of the country associated with this person.",
+ "tag": "ontology"
+ }
+ ]
+ }
+}
+```
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.3 Sharing Domain Specifics via Published Vocabularies"*
 ---
+### 12. Publish ALPS Semantic Profiles (Recipe 3.4)
+`#api` `#architecture`
 
-### Semantic Profiles & ALPS (Recipe 3.4)
-`#api`
-
-**Principle:** Publish a Semantic Profile Document (SPD) covering all three information-architecture pillars — ontology (properties), taxonomy (object groupings), choreography (actions/state transitions). SPDs describe the *problem space*, not the implementation.
+**Principle:** Publish a machine-readable description of the complete problem space, not one implementation.
 
 **Do:**
-- Use **ALPS** (Application-Level Profile Semantics) — simple, JSON/XML/YAML, maps cleanly to the three pillars.
-- Tag each descriptor: `ontology`, `taxonomy`, or `choreography`.
-- Type each action: `safe` (read-only), `unsafe` (non-idempotent write), `idempotent` (repeatable write) — plus `rt` (return type).
-- Advertise the profile via `Link: <…>; rel="profile"` in every response.
-- Make profiles broadly reusable; prefer general over specific.
+- List every property, aggregate object, and action.
+- Tag descriptors as ontology, taxonomy, or choreography.
+- Type actions as safe, unsafe, or idempotent.
+- Use `rt` to identify the returned semantic state.
+- Aim for broad reuse by keeping profiles general.
+- Advertise the profile URI with every response.
+- Host profiles in a central discoverable location.
+- Publish a new URI for a breaking profile change.
 
 **Don't:**
-- Put URLs/HTTP methods/protocol details in an SPD — those belong in OpenAPI/AsyncAPI.
-- Make breaking changes to a published profile — version it at a new URI (`/profiles/personV2`).
-- Confuse SPDs with API definitions (OpenAPI, WSDL, AsyncAPI).
+- Put concrete URLs, MQTT topics, HTTP methods, or status codes in ALPS.
+- Mutate a published profile in place when consumers depend on it.
+- Confuse profile description with OpenAPI, AsyncAPI, WSDL, or schema validation.
 
-**Code (ALPS person profile):**
-```json
+**Code:**
+```
 { "$schema": "https://alps-io.github.io/schemas/alps.json",
  "alps" : {
  "title": "Person Semantic Profile Document",
+ "doc": {"value":
+ "Simple SPD example for http://webapicookbook.com[Web API Cookbook]."},
  "descriptor": [
-   {"id": "givenName", "def": "https://schema.org/givenName", "tag": "ontology"},
-   {"id": "familyName", "def": "https://schema.org/familyName", "tag": "ontology"},
-   {"id": "Person", "tag": "taxonomy",
-    "descriptor": [
-      {"href": "#givenName"}, {"href": "#familyName"}
-    ]},
-   {"id": "goHome",    "type": "safe",       "tag": "choreography", "rt": "#Home"},
-   {"id": "goList",    "type": "safe",       "tag": "choreography", "rt": "#List"},
-   {"id": "doCreate",  "type": "unsafe",     "tag": "choreography", "rt": "#Item"},
-   {"id": "doUpdate",  "type": "idempotent", "tag": "choreography", "rt": "#Item"},
-   {"id": "doRemove",  "type": "idempotent", "tag": "choreography", "rt": "#Item"}
- ]}}
+ {"id": "href", "def": "https://schema.org/url",
+ "tag": "ontology"},
+ {"id": "identifier", "def": "https://schema.org/identifier",
+ "tag": "ontology"},
+ {"id": "givenName", "def": "https://schema.org/givenName",
+ "tag": "ontology"},
+ {"id": "familyName", "def": "https://schema.org/familyName",
+ "tag": "ontology"},
+ {"id": "telephone", "def": "https://schema.org/telephone",
+ "tag": "ontology"},
+ {"id": "Person", "tag": "taxonomy",
+ "descriptor": [
+ {"href": "#href"},
+ {"href": "#identifier"},
+ {"href": "#givenName"},
+ {"href": "#familyName"},
+ {"href": "#telephone"}
+ ]
+ },
+ {"id": "Home", "tag": "taxonomy",
+ "descriptor": [
+ {"href": "#goList"},
+ {"href": "#goHome"}
+ ]
+ },
+ {"id": "List", "tag": "taxonomy",
+ "descriptor": [
+ {"href": "#Person"},
+ {"href": "#goFilter"},
+ {"href": "#goItem"},
+ {"href": "#doCreate"},
+ {"href": "#goList"},
+ {"href": "#goHome"}
+ ]
+ },
+ {"id": "Item", "tag": "taxonomy",
+ "descriptor": [
+ {"href": "#Person"},
+ {"href": "#goFilter"},
+ {"href": "#goItem"},
+ {"href": "#doUpdate"},
+ {"href": "#doRemove"},
+ {"href": "#goList"},
+ {"href": "#goHome"}
+ ]
+ },
+ {"id": "goHome", "type": "safe", "tag": "choreography", "rt": "#Home"},
+ {"id": "goList", "type": "safe", "tag": "choreography", "rt": "#List"},
+ {"id": "goFilter", "type": "safe", "tag": "choreography", "rt": "#List"},
+ {"id": "goItem", "type": "safe", "tag": "choreography", "rt": "#Item"},
+ {"id": "doCreate", "type": "unsafe", "tag": "choreography", "rt": "#Item"},
+ {"id": "doUpdate", "type": "idempotent", "tag": "choreography",
+ "rt": "#Item"},
+ {"id": "doRemove", "type": "idempotent", "tag": "choreography",
+ "rt": "#Item"}
+ ]
+ }
+}
 ```
-*Ref: Cookbook.md — "Recipe 3.4: Describing Problem Spaces with Semantic Profiles"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.4 Describing Problem Spaces with Semantic Profiles"*
 ---
+### 13. Embed Hypermedia Controls at Runtime (Recipe 3.5)
+`#api` `#architecture`
 
-### Embedded Hypermedia Controls (Recipe 3.5)
-`#api`
-
-**Principle:** Express every available action via runtime links/forms so clients never hardcode URLs, methods, or input shapes.
+**Principle:** Put current interaction metadata in each representation so service details can change while clients keep running.
 
 **Do:**
-- Forms carry URL, method, content type, and typed input fields — clients read them at runtime.
-- Use context-dependent forms (e.g., admin sees 5 fields, anonymous sees 3).
-- Service-location changes become non-breaking (extreme late binding).
+- Include target URL, method, encoding, fields, defaults, constraints, and action identity.
+- Let the current caller context determine which controls appear.
+- Change service locations by changing returned controls, not client code.
+- Adapt multistep workflows by changing controls in responses.
+- Support multiple hypermedia formats through content negotiation.
+- Pay the one-time cost of implementing a parser for each supported format.
 
 **Don't:**
-- Hardcode action URLs in client code.
+- Make the client memorize action details from prose.
+- Assume only one hypermedia format can be supported.
+- Return controls the current caller cannot execute.
 
-**Code (HTML form with validation constraints):**
-```html
-<form name="doCreate" action="http://api.example.org/person/"
-    method="post" enctype="application/x-www-form-urlencoded">
+**Code:**
+```
+<html>
+ <head>
+ <title>Create Person</title>
+ <link rel="profile" href="http://api.example.org/profiles/person" />
+ <style>
+ input {display:block;}
+ </style>
+ </head>
+ <body>
+ <h1>Create Person</h1>
+ <form name="doCreate" action="http://api.example.org/person/"
+ method="post" enctype="application/x-www-form-urlencoded">
  <fieldset>
-   <hidden name="identifier" value="q1w2e3r4" />
-   <input name="givenName" placeholder="givenName" required/>
-   <input name="familyName" placeholder="familyName" required/>
-   <input name="telephone" placeholder="telephone" pattern="[0-9]{10}"/>
-   <input type="submit" />
+ <hidden name="identifier" value="q1w2e3r4" />
+ <input name="givenName" placeholder="givenName" required/>
+ <input name="familyName" placeholder="familyName" required/>
+ <input name="telephone" placeholder="telephone" pattern="[0-9]{10}"/>
+ <input type="submit" />
+ <input type="reset" />
+ <input type="button" value="Cancel" />
  </fieldset>
-</form>
+ </form>
+ </body>
+</html>
 ```
-**Code (Collection+JSON template):**
-```json
-{ "collection" : {
+
+```
+{ "collection" :
+ {
+ "version" : "1.0",
+ "href" : "http://api.example.org/person/",
+ "links": [
+ {"rel": "self", "href": "http://api.xample.org/person/doCreate"},
+ {"rel": "reset", "href":"http://api.example.org/person/doCreate?reset"},
+ {"rel": "cancel", "href":"http://api.example.org./person"}
+ ],
  "template" : {
-   "data" : [
-     {"name" : "identifier", "value": "q1w2e3r4"},
-     {"name" : "givenName", "value" : "", "required":true},
-     {"name" : "familyName", "value" : "", "required":true},
-     {"name" : "telephone", "value" : "", "regex":"[0-9]{10}"}
-   ]}}}
+ "data" : [
+ {"name" : "identifer", "value": "q1w2e3r4"},
+ {"name" : "givenName", "value" : "", "required":true},
+ {"name" : "familyName", "value" : "", "required":true},
+ {"name" : "telephone", "value" : "", "regex":"[0-9]{10}"}
+ ]
+ }
+ }
+}
 ```
-*Ref: Cookbook.md — "Recipe 3.5: Expressing Actions at Runtime with Embedded Hypermedia"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.5 Expressing Actions at Runtime with Embedded Hypermedia"*
 ---
+### 14. Use PUT-Create and Conditional Writes (Recipe 3.6)
+`#api` `#architecture`
 
-### Idempotent Writes — PUT-Create (Recipes 3.6, 5.15)
-`#api`
-
-**Principle:** Use **HTTP PUT (not POST)** for all writes — PUT is idempotent by design and solves the *lost-response problem* ("did my POST succeed?").
+**Principle:** Use idempotent PUT plus entity-tag preconditions for both creation and replacement.
 
 **Do:**
-- **PUT-Create**: `PUT /person/{client-supplied-id}` with `If-None-Match: *` → server creates if absent (201) or returns 409 Conflict if it exists.
-- **PUT-Update**: `PUT /person/{id}` with `If-Match: "{current-ETag}"` → server replaces only if the ETag matches; otherwise 412 Precondition Failed.
-- Clients supply their own IDs (UUIDs) → enables offline operation, reliable retries, throughput.
-- Bake `createResource()` / `updateResource()` cover methods into client/server libraries.
-- If you must POST, add an Idempotency-Key header (IETF draft).
+- Create with a client-supplied URL and `If-None-Match: *`.
+- Return `201 Created` and a fresh `ETag` for a successful create.
+- Replace with `If-Match` set to the representation's current ETag.
+- Reject a stale update with a precondition failure.
+- Bake correct header handling into `createResource` and `updateResource` helpers.
+- Retry PUT when the response is lost.
 
 **Don't:**
-- Use POST for writes when network reliability matters — POST is not safely repeatable.
-- Use increments ("add 5%") in update bodies — use replacement values with validators ("if current=100, set to 105").
+- Use POST when a lost response would make retry safety unknowable.
+- Update without an entity-tag precondition.
+- Generate sequential identifiers when the client can provide a unique ID.
 
-**Code (PUT-Create):**
-```http
+**Code:**
+```
 **** REQUEST
 PUT /person/q1w2e3 HTTP/2.0
 Host: api.example.org
@@ -200,9 +486,10 @@ givenName=Mace&familyName=Morris
 HTTP/2.0 201 CREATED
 Content-Type: application/vnd.collection+json
 ETag: "p0o9i8u7y6t5r4e3w2q1"
+...
 ```
-**Code (PUT-Update with optimistic locking):**
-```http
+
+```
 **** REQUEST
 PUT /person/q1w2e3 HTTP/2.0
 Host: api.example.org
@@ -213,84 +500,246 @@ givenName=Mace&familyName=Morris
 HTTP/2.0 200 OK
 Content-Type: application/vnd.collection+json
 ETag: "o9i8u7y6t5r4e3w2q1p0"
+...
 ```
-*Ref: Cookbook.md — "Recipe 3.6: Designing Consistent Data Writes with Idempotent Actions" / "Recipe 5.15: Improving Reliability with Idempotent Create"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.6 Designing Consistent Data Writes with Idempotent Actions"*
 ---
+### 15. Transfer State Between Services (Recipe 3.7)
+`#api` `#architecture`
 
-### Repeatable & Reversible Actions (Recipes 3.8, 3.9)
-`#api`
-
-**Principle:** Design writes to be safely repeatable (network + operation idempotence) and reversible (rollback/undo).
+**Principle:** Make each service independently composable by transferring state through forms or shared resources.
 
 **Do:**
-- **Network idempotence**: prefer PUT/GET/DELETE over POST.
-- **Operation idempotence**: bodies carry `productId, currentPrice, newPrice` (validators) so partial-failure retries are safe.
-- **Reversibility option 1**: re-PUT previous values (assumes no concurrent modification — combine with `If-Match`).
-- **Reversibility option 2**: special actions like `undoDelete` that restore via PUT + ETag.
-- For DELETE, save the resource so it can be restored (HTTP has no UNDELETE).
+- Prefer pass-by-value through an existing form for small state.
+- Add import/export actions for large or complex state collections.
+- Use pass-by-reference through a URL only when both parties share format and vocabulary expectations.
+- Keep state transfer stateless and single-step where possible.
+- Redirect to authentication rather than requiring a bespoke preliminary session.
+- Advertise expected media type and profile for uploaded state.
 
-**Code (replacement-value update body — safely repeatable):**
-```http
-PUT /catalog/priceUpdate HTTP/1.1
-Content-Type: text/csv
+**Don't:**
+- Assume callers are captive to one service workflow.
+- Share internal models or databases as the transfer contract.
+- Add orchestration steps that the receiving action does not need.
+
+**Code:**
+```
+<form action="http://api.example.org/shopping/cart"
+ method="post" name="cartCreate">
+ <input name="cartId" value="q1w2e3r4t5y6u7i8" />
+ <input name="cartName" value="Mike's Cart" />
+</form>
+```
+
+```
+<form action="http://api.example.org/users/q1w2e3r4"
+ method="post" enctype="multipart/form-data">
+ <input type="file" name="userData" accept="application/vnd.collection+json"/>
+</form>
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.7 Enabling Interoperability with Inter-Service State Transfers"*
+---
+### 16. Design Network and Operation Repeatability (Recipe 3.8)
+`#api` `#architecture`
+
+**Principle:** Make both the HTTP method and the requested state transition idempotent.
+
+**Do:**
+- Use GET, PUT, and DELETE for operations that may need automatic repetition.
+- Express replacement state rather than increments.
+- Include identifiers, current values, and target values when validators are useful.
+- Skip already-applied records safely during a replay.
+- Use an idempotency key only when POST cannot be avoided.
+- Design repeatability before the first production failure.
+
+**Don't:**
+- Assume PUT alone makes a percentage increment repeatable.
+- Retry a partial batch whose body says only `updatePercent=.05`.
+- Depend on a human to resolve every lost response.
+
+**Code:**
+```
+**** REQUEST ****
+PUT /catalog/priceUpdate
+Host: api.example.org
+Content-Type:application/x-www-form-urlencoded
+Accept: application/vnd.siren+json
+....
+updatePercent=.05
+```
+
+```
+**** REQUEST ****
+PUT /catalog/priceUpdate
+Host: api.example.org
+Content-Type:text/csv
+Accept: application/vnd.siren+json
 ....
 productId, currentPrice,newPrice
 q1w2e3, 100,105
 t5y6u7, 200,210
 i8o9p0, 250,265
+i8y6r4, 50,55
+...
 ```
-*Ref: Cookbook.md — "Recipe 3.8: Designing for Repeatable Actions" / "Recipe 3.9: Designing for Reversible Actions"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.8 Designing for Repeatable Actions"*
 ---
+### 17. Design Reversible Actions (Recipe 3.9)
+`#api` `#architecture`
 
-### Extensible Messages & "Don't Change It, Add It" (Recipe 3.10)
-`#api`
-
-**Principle:** Evolve messages without breaking existing consumers by *adding*, never *removing or redefining*.
+**Principle:** Preserve enough prior state to reverse writes and expose explicit undo when ordinary replacement cannot restore state.
 
 **Do:**
-- Bake a name-value-pair (NVP) collection into the initial design: `{"name":"…","value":…}`.
-- Add parallel properties alongside old ones (`givenName` + `familyName` while keeping `name`).
-- Use a root wrapper (`{"message":{...}}`) to host multiple output format versions.
+- Re-PUT previous values with the current ETag for simple rollback.
+- Store the prior representation before modification.
+- Add an `undoDelete`-style action when HTTP has no inverse method.
+- Retain deleted resources for a defined restoration window.
+- Return `201 Created` when an undo recreates a resource.
+- Give each dependent service its own rollback capability.
 
 **Don't:**
-- Strip or rename existing fields.
+- Roll back over another consumer's intervening update.
+- Assume DELETE can be reversed without retained history.
+- Hide irreversible side effects inside an apparently reversible action.
 
-**Code (NVP extension pattern):**
-```json
+**Code:**
+```
+**** REQUEST ****
+DELETE /users/q1w2e3r4
+Host: api.example.org
+Accept: application/html
+If-Match "w/y6t5r4e3w2q1"
+**** RESPONSE ****
+204 No Content
+....
+```
+
+```
+**** REQUEST ****
+PUT /users/rollback?id=q1w2e3r4
+Host: api.example.org
+Accept: application/html
+If-Match "w/y6t5r4e3w2q1"
+**** RESPONSE ****
+201 Created
+Location: /users/q1w2e3r4
+....
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.9 Designing for Reversible Actions"*
+---
+### 18. Extend Messages with NVPs and Parallel Properties (Recipe 3.10)
+`#api` `#architecture`
+
+**Principle:** Follow “Don't Change It, Add It” by designing expansion points before extensions are needed.
+
+**Do:**
+- Include a name-value-pair collection in the initial model.
+- Allow NVP values to be scalar, array, object, or null.
+- Add new semantic properties beside old ones.
+- Keep the old property populated while consumers migrate.
+- Add a stable root wrapper that can host multiple representation versions.
+- Accept old and new input forms and translate between them.
+- Prefer structured media types that already separate structure from properties.
+
+**Don't:**
+- Replace a scalar with an array under the same name.
+- Rename or remove an existing property.
+- Reorder positional formats casually.
+- Assume strict consumer schemas will accept additions.
+
+**Code:**
+```
 {
  "name": "Merk Muffly",
- "region": "southwest",
+ "region", "southwest",
+ "age": 21,
+ "nvp" : [...]
+}
+```
+
+```
+{
+ "name": "Merk Muffly",
+ "region", "southwest",
  "age": 21,
  "nvp" : [
-   {"hatsize" : "3"},
-   {"phoneNumbers": ["123-456-7890","980-657-3421"]},
-   {"address": {"street":"...","city":"...","state":"...","zip":"..."}}
+ {"hatsize" : "3"},
+ {"phoneNumbers": ["123-456-7890","980-657-3421"]},
+ {"address": {"street":"...","city":"...","state":"...","zip":"..."}}
  ]
 }
 ```
-*Ref: Cookbook.md — "Recipe 3.10: Designing for Extensible Messages"*
 
+```
+{
+ "givenName": "Merk",
+ "familyName": "Muffly",
+ "name": "Merk Muffly",
+ "region", "southwest",
+ "age": 21,
+ "nvp" : [
+ {"hatsize" : "3"},
+ {"phoneNumbers": ["123-456-7890","980-657-3421"]},
+ {"address": {"street":"...","city":"...","state":"...","zip":"..."}}
+ ]
+}
+```
+
+```
+{"message" : {
+ "personv2": {...},
+ "metadata": [...],
+ "links": [...],
+ "person" : {
+ "givenName": "Merk",
+ "familyName": "Muffly",
+ "name": "Merk Muffly",
+ "region", "southwest",
+ "age": 21,
+ "nvp" : [
+ {"hatsize" : "3"},
+ {"phoneNumbers": ["123-456-7890","980-657-3421"]},
+ {"address": {"street":"...","city":"...","state":"...","zip":"..."}}
+ ]
+ }
+}}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.10 Designing for Extensible Messages"*
 ---
+### 19. Apply the Three Modification Rules (Recipe 3.11)
+`#api` `#architecture`
 
-### Modifiable Interfaces — Three Rules (Recipe 3.11)
-`#api`
-
-**Principle:** Once published, every URL, property, and method is a promise. Three rules: **(1) Take nothing away. (2) Don't redefine things. (3) Make additions optional.**
+**Principle:** Take nothing away, redefine nothing, and make every addition optional.
 
 **Do:**
-- New optional inputs must have sensible defaults.
-- For breaking changes, **fork** the interface — run old and new in parallel until migration completes.
-- Honor Hyrum's Law: with enough users, every observable behavior will be depended on.
+- Treat every published URL, method, input, output, and behavior as a promise.
+- Add optional fields with documented defaults.
+- Add a new action when new inputs must be required.
+- Run old and new interfaces concurrently when a breaking fork is unavoidable.
+- Run the complete old test suite against the modified interface.
+- Assume Hyrum's Law: every observable behavior may have a dependent consumer.
+- Preserve old profile semantics when adding vocabulary.
 
 **Don't:**
-- Redefine `?size` from "page size" to "hat size" — that's a removal in disguise.
-- Make new arguments required on existing forms; define a *new* form instead.
+- Change a query parameter's meaning.
+- add a required field to an existing action.
+- retire the old fork before consumers control their migration.
+- assume documentation alone prevents breakage.
 
-**Code (add optional input with default):**
-```html
-<!-- updated search form — region is optional, defaults to "all" -->
+**Code:**
+```
+<!-- existing search form -->
+<form action="..." method="GET" name="findUsers">
+ <input name="givenName" value="" required="true" />
+ <input name="familyName", value="" required="true" />
+ <input type="submit" />
+</form>
+<!-- updated search form -->
 <form action="..." method="GET" name="findUsers">
  <input name="givenName" value="" required="true" />
  <input name="familyName" value="" required="true" />
@@ -298,57 +747,569 @@ i8o9p0, 250,265
  <input type="submit" />
 </form>
 ```
-*Ref: Cookbook.md — "Recipe 3.11: Designing for Modifiable Interfaces"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "3.11 Designing for Modifiable Interfaces"*
 ---
+### 20. Limit Hardcoded URLs (Recipe 4.1)
+`#api` `#architecture`
 
-### Hypermedia Clients — Limit Hardcoded URLs (Recipes 4.1, 4.9)
-`#api` `#testing`
-
-**Principle:** Client applications should hardcode **exactly one URL** — the service's stable home/entry point. Everything else is discovered at runtime via links/forms.
+**Principle:** Keep URLs out of client logic and reduce the required starting knowledge to one stable URL.
 
 **Do:**
-- Treat the entry-point URL as the single promise; cache and reuse discovered URLs locally.
-- Find elements by `id`, `name`, `rel`, or `tag` identifiers (Recipe 4.8).
-- Code clients to be HTTP-aware: honor cache headers, content negotiation, conditional requests.
+- Give every remembered URL a semantic variable name.
+- Move URL values into replaceable configuration.
+- Use RFC 6570 libraries for URI templates.
+- Discover all nonentry URLs from response controls.
+- Ask nonhypermedia providers for downloadable URL metadata.
 
 **Don't:**
-- Hardcode multiple endpoint paths — couples the client to URL structure.
+- Scatter literal endpoint strings through application code.
+- Treat a configuration file as equivalent to runtime hypermedia.
+- Depend on undocumented URL shape.
 
-*Ref: Cookbook.md — "Recipe 4.1: Limiting the Use of Hardcoded URLs" / "Recipe 4.8" / "Recipe 4.9"*
+**Code:**
+```
+/* find-rel.js */
+var startingURL = "http://service.example.org/";
+var thisURL = "";
+var link = {};
+// using named URL variables
+const http = new XMLHttpRequest();
+// Send a request
+http.open("GET", serviceURLs.list);
+http.send();
+// handle responses
+http.onload = function() {
+ switch (http.responseURL) {
+ case startingURL:
+ link = findREL("list");
+ if(link.href) {
+ thisURL = link.href;
+ ...
+ }
+ ...
+ break;
+ ...
+ }
+}
+```
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.1 Limiting the Use of Hardcoded URLs"*
 ---
+### 21. Keep Clients HTTP-Aware (Recipe 4.2)
+`#api` `#architecture`
 
-### Message-Centric Clients & "Must Ignore" (Recipes 4.3, 6.8)
-`#api` `#testing`
-
-**Principle:** Clients parse message *structure* first (well-formedness), then extract known data and **silently ignore the rest** (Postel's Law / Robustness Principle).
+**Principle:** Preserve direct protocol access even when an SDK offers higher-level helpers.
 
 **Do:**
-- Two-phase processing: structural validation → data extraction.
-- When passing records through to another service, exchange the *complete* record — never strip fields you don't understand.
-- Forward the original `ETag` / `If-Match` through pass-through proxies.
+- Build a thin, reusable HTTP layer for all methods, headers, bodies, and statuses.
+- Make network calls and their multiplicity visible to developers.
+- Mix provider SDK calls with direct HTTP when needed.
+- Let client usage teach service teams which workflows deserve first-class support.
+- Keep semantic helpers from hiding expensive sequential or parallel requests.
 
 **Don't:**
-- Reject messages with unknown fields.
-- Strip data on read — you may corrupt integrity when writing back.
+- Let an SDK prevent valid protocol operations.
+- hide how many HTTP requests one helper makes.
+- use a mandatory SDK as an ineffective security control.
 
-*Ref: Cookbook.md — "Recipe 4.3: Coding Resilient Clients" / "Recipe 6.8: Ignoring Unknown Data Fields"*
+**Code:**
+```
+function getDocument(url) {
+ var args = {};
+ args.url = url;
+ args.callbackFunction = ajaxComplete;
+ args.context = "processLinks";
+ args.headers = {'accept':'application/vnd.collection+json'}
+ ajax.httpGet(args}
+ // later ...
+function ajaxComplete(response,headers,context,status,msg)
+{
+ switch(status) {...} // handle status
+ switch(context) {...} // dispatch to context
+}
+```
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.2 Coding Clients to Be HTTP Aware"*
 ---
+### 22. Build Message-Centric Clients (Recipe 4.3)
+`#api` `#architecture`
 
-### Stable Entry-Point URL (Recipe 5.1)
-`#api`
-
-**Principle:** Every service promises **at least one stable URL** (typically `rel="home"`); all other URLs may move.
+**Principle:** Bind client behavior to the response media type rather than hardcoding domain operations.
 
 **Do:**
-- Emit the home URL as a `Link` header in *every* response.
-- When the service moves, honor the old URL with `301 Moved Permanently` + `Location`.
-- Optionally register a well-known URL (RFC 8615, RFC 7595).
+- Parse requests, responses, controls, and data through media-type modules.
+- Render newly returned actions without adding domain-specific client code.
+- Separate request processing from domain vocabulary.
+- Reuse one client across services that emit the same structured format.
+- Prefer HTML, HAL, SIREN, or Collection+JSON over unstructured payloads.
 
-**Code (Link header for stable home):**
-```http
+**Don't:**
+- Create one client function for every current service operation.
+- make a new server action require a client release.
+- claim message-centric resilience when the provider emits schema-free plain JSON.
+
+**Code:**
+```
+/* to-do-messages.js */
+var thisPage = function() {
+ function init() {}
+ function makeRequest(href, context, body) {}
+ function processResponse(ajax, context) {}
+ function displayResponse() {}
+ function renderControls() {}
+ function handleClicks() {}
+};
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.3 Coding Resilient Clients with Message-Centric Implementations"*
+---
+### 23. Code Clients to Vocabulary Profiles (Recipe 4.4)
+`#api` `#architecture`
+
+**Principle:** Make profile terms the shared domain contract between a generic client and any compliant service.
+
+**Do:**
+- Select RDF, OWL, DCAP, ALPS, or another agreed profile format.
+- Know action and property identifiers, not implementation endpoints.
+- Store the relied-upon profile with client source for reference.
+- Derive a local profile from service documentation when the provider publishes none.
+- Pair profile awareness with hypermedia responses.
+
+**Don't:**
+- Bind a client to the provider's implementation definition when a semantic profile suffices.
+- assume identical property spelling implies shared meaning.
+- treat profile terms as media-type structural elements.
+
+**Code:**
+```
+# data to work with
+STACK PUSH {"id":"zaxscdvf","body":"testing"}
+# vocabulary and format supported
+CONFIG SET {"profile":"http://api.examples.org/profiles/todo-alps.json"}
+CONFIG SET {"format":"application/vnd.mash+json"}
+# write to service
+REQUEST WITH-URL http://api.example.org/todo/list WITH-PROFILE WITH-FORMAT
+REQUEST WITH-FORM doAdd WITH-STACK
+REQUEST WITH-LINK goList
+REQUEST WITH-FORM doRemove WITH-STACK
+EXIT
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.4 Coding Effective Clients to Understand Vocabulary Profiles"*
+---
+### 24. Negotiate Profiles at Runtime (Recipe 4.5)
+`#api` `#architecture`
+
+**Principle:** Use profile identifiers to confirm semantic compatibility before processing a representation.
+
+**Do:**
+- Send the desired profile in `Accept-Profile`.
+- Return the applied profile in `Content-Profile`.
+- Treat profile links as a collection even when only one is present.
+- Return `406 Not Acceptable` with links to supported profiles when appropriate.
+- Keep compatible revisions under one profile identity where possible.
+- assign a new identity to a breaking profile revision.
+
+**Don't:**
+- Version profiles at needless patch-level granularity.
+- continue processing a profile mismatch without an explicit policy.
+- assume profile negotiation is universally deployed; it remains uncommon.
+
+**Code:**
+```
+*** REQUEST
+GET /todo/list HTTP/1.1
+Host: api.example.org
+Accept-Profile: <http://profiles.example.org/to-do>
+*** RESPONSE
+HTTP/2.0 200 OK
+Content-Profile: http://profiles/example.org/to-do
+...
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.5 Negotiating for Profile Support at Runtime"*
+---
+### 25. Manage Representation Formats at Runtime (Recipe 4.6)
+`#api` `#architecture`
+
+**Principle:** Negotiate formats with HTTP and route each returned representation to a dedicated translator.
+
+**Do:**
+- Send `Accept` on every request.
+- Validate `Content-Type` before reading the body.
+- Stop or safely dump unsupported formats.
+- Implement a Message Translator between external formats and internal models.
+- Keep one parser per structured media type.
+- Translate toward a generic internal or rendering model when possible.
+
+**Don't:**
+- Parse a body before confirming its type.
+- make the external representation your internal domain model.
+- expect resilient generic translation from undocumented plain JSON or XML.
+
+**Code:**
+```
+function handleResponse(ajax,url) {
+ var ctype
+ if(ajax.readyState===4) {
+ try {
+ ctype = ajax.getResponseHeader("content-type").toLowerCase();
+ switch(ctype) {
+ case "application/vnd.collection+json":
+ cj.parse(JSON.parse(ajax.responseText));
+ break;
+ case "application/vnd.siren+json":
+ siren.parse(JSON.parse(ajax.responseText));
+ break;
+ case "application/vnd.hal+json":
+ hal.parse(JSON.parse(ajax.responseText));
+ break;
+ default:
+ dump(ajax.responseText);
+ break;
+ }
+ }
+ catch(ex) {
+ alert(ex);
+ }
+ }
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.6 Managing Representation Formats at Runtime"*
+---
+### 26. Use Schemas as Advisory Metadata (Recipe 4.7)
+`#api` `#architecture`
+
+**Principle:** Use schema identifiers to classify incoming messages, but reserve strict schema validation for outgoing bodies.
+
+**Do:**
+- Read schema identifiers from headers, media-type parameters, or bodies.
+- Use identifiers to select client handlers.
+- Keep JSON Schema `additionalProperties` permissive for extensibility.
+- Treat unknown properties as inert until explicitly consumed.
+- prefer media-type and profile awareness over object-schema awareness.
+
+**Don't:**
+- Strictly validate every incoming response against XML or JSON Schema.
+- reject useful input because harmless elements were added or reordered.
+- confuse a schema identifier with proof that values are safe.
+
+**Code:**
+```
+*** REQUEST
+GET /todo/list HTTP/1.1
+Host: api.example.org
+Accept-Schema: <urn:example:schema:e-commerce-payment>
+*** RESPONSE
+HTTP/1.1 200 OK
+Schema: <urn:example:schema:e-commerce-payment
+...
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.7 Using Schema Documents as a Source of Message Metadata"*
+---
+### 27. Identify Every Important Response Element (Recipe 4.8)
+`#api` `#architecture`
+
+**Principle:** Give every actionable form, link, item, and data block a stable machine-findable identifier.
+
+**Do:**
+- Use `id` for document-wide unique identity.
+- Use `name` for application-wide semantic identity.
+- Use multivalue `rel` for system-wide relationships.
+- Use multivalue `tag` or class for solution-specific grouping.
+- Decouple internal IDs from public URLs.
+- Let clients locate controls without positional assumptions.
+
+**Don't:**
+- Make clients depend on array order or visual placement.
+- equate a storage key with the permanent resource URL.
+- publish anonymous controls that machines cannot select.
+
+**Code:**
+```
+http://api.example.org/customers/123
+http://api.example.org/users?customer=123
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.8 Every Important Element Within a Response Needs an Identifier"*
+---
+### 28. Rely on the Response's Hypermedia Signature (Recipe 4.9)
+`#api` `#architecture`
+
+**Principle:** Program clients to understand the link and control factors of each supported media type.
+
+**Do:**
+- Account for embedded, outbound, templated, nonidempotent, and idempotent links.
+- Account for controls describing reads, updates, methods, and relations.
+- Choose formats with enough H-Factors for expected evolution.
+- Read action URLs, methods, encodings, and fields from the control.
+- Combine media-type understanding with semantic-profile understanding.
+
+**Don't:**
+- Assume all hypermedia formats provide forms.
+- describe plain JSON as hypermedia without an added control format.
+- hardcode details already present in a returned control.
+
+**Code:**
+```
+#
+# SIREN Edit Session
+# read a record, save it, modify it, write it back to the server
+#
+# ** make initial request
+REQUEST WITH-URL http://rwcbook10.herokuapp.com
+# ** retreive the first record in the list
+REQUEST WITH-PATH $.entities[0].href
+# ** push the item properties onto the stack
+STACK PUSH WITH-PATH $.properties
+# ** modify the tags property value on the stack
+STACK SET {"tags":"fishing,\.\skiing,\.\hiking"}
+# ** use the supplied edit form and updated stack to send update
+REQUEST WITH-FORM taskFormEdit WITH-STACK
+# ** confirm the change
+SIREN PATH $.entities[0]
+# ** exit session
+EXIT
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.9 Relying on Hypermedia Controls in the Response"*
+---
+### 29. Simulate Controls for Nonhypermedia Services (Recipe 4.10)
+`#api` `#architecture`
+
+**Principle:** Translate human API documentation into machine-readable local action metadata when the provider emits no links or forms.
+
+**Do:**
+- Store action metadata in a separate module or configuration file.
+- Include URL, method, target, arguments, defaults, and validation.
+- Create separate control sets for distinct security roles.
+- Render local controls through the same code used for returned hypermedia.
+- update metadata without rewriting the full client.
+- Share the translation across consumers.
+
+**Don't:**
+- Pretend static local metadata has runtime freshness.
+- forget that server changes can invalidate the local map.
+- scatter reconstructed actions through domain code.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.10 Supporting Links and Forms for Nonhypermedia Services"*
+---
+### 30. Honor Rich Input Descriptions (Recipe 4.11)
+`#api` `#architecture`
+
+**Principle:** Validate inputs from constraints delivered with the form so rule changes do not require client releases.
+
+**Do:**
+- Support core constraints such as readOnly, regex, required, and templated.
+- Add min, max, length, placeholder, step, type, and layout hints when useful.
+- Support enumerated options and selected values.
+- At minimum, implement regular-expression validation for M2M clients.
+- Convert prose-only validation rules into machine-readable metadata.
+
+**Don't:**
+- Hardcode constraints that the server already sends at runtime.
+- require M2M clients to interpret user-interface rendering hints.
+- accept values before applying supplied constraints.
+
+**Code:**
+```
+{
+ "_templates" : {
+ "default" : {
+ ...
+ "properties" : [
+ {
+ "name" : "shipping",
+ "type" : "radio",
+ "prompt" : "Select Shipping Method",
+ "options" : {
+ "selectedValues" : ["FedEx"],
+ "inline" : [
+ {"prompt" : "Federal Express", "value" : "FedEx"},
+ {"prompt" : "United Parcel Service", "value" : "UPS"},
+ {"prompt" : "DHL Express", "value" : "DHL"}
+ ]
+ }
+ }
+ ]
+ }
+ }
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.11 Validating Data Properties at Runtime"*
+---
+### 31. Validate Outgoing Messages with Schemas (Recipe 4.12)
+`#api` `#architecture`
+
+**Principle:** Make the sender responsible for producing a well-formed and valid request body.
+
+**Do:**
+- Check parseable structure first.
+- Check field names, types, ranges, and required values second.
+- Use JSON Schema for JSON and XSD for XML.
+- Convert simple form-urlencoded bodies to JSON only when names are flat.
+- Link required schemas from responses and forms.
+- Write local validation when provider schemas are absent or unreliable.
+
+**Don't:**
+- Send a body and rely on the server to discover avoidable errors.
+- force XML and JSON schemas through unreliable cross-format conversion.
+- treat dotted form names as flat name/value pairs without checking semantics.
+
+**Code:**
+```
+/*
+ * load the schema file from external source
+ * pass in the JSON message to send
+ * process and return results/errors
+ */
+function jsonMessageCheck(schema, message) {
+ var schemaCheck = ajv.compile(schema);
+ var status = schemaCheck(message);
+ return {status:status,errors:schemaCheck.errors};
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.12 Using Document Schemas to Validate Outgoing Messages"*
+---
+### 32. Validate Incoming Messages with Queries (Recipe 4.13)
+`#api` `#architecture`
+
+**Principle:** Inspect protocol, structure, and selected values without demanding exact schema identity.
+
+**Do:**
+- Check expected status and critical headers.
+- Query for required controls and properties.
+- Validate values only after their structural elements exist.
+- Use XPath for mature XML querying.
+- Use JSONPath cautiously and track specification/tool behavior.
+- Generate repetitive validation code where possible.
+
+**Don't:**
+- Use strict whole-document schema matching for incoming responses.
+- omit protocol-level checks.
+- process a value before confirming its type and bounds.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.13 Using Document Queries to Validate Incoming Messages"*
+---
+### 33. Filter and Semantically Validate Incoming Data (Recipe 4.14)
+`#api` `#architecture`
+
+**Principle:** Treat every response as unsafe until an allow-list filter produces a safe internal representation.
+
+**Do:**
+- Allow-list fields the client actually understands.
+- Apply syntactic type checks and min/max bounds.
+- Apply cross-field semantic checks such as start date before stop date.
+- Operate only on the filtered copy.
+- Update the original full document when acting as a pass-through processor.
+- Ignore unknown fields rather than executing or interpreting them.
+
+**Don't:**
+- Use deny lists as the main safety boundary.
+- scrub fields owned by downstream processors.
+- run scripts or operations sourced from unknown properties.
+
+**Code:**
+```
+// make request, pull body, and scrub
+var reponse = httpRequest(url, options);
+var message = filterResponse(response.body, filters.taxRules);
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.14 Validating Incoming Data"*
+---
+### 34. Keep Application State on the Client (Recipe 4.15)
+`#api` `#architecture`
+
+**Principle:** Let the client maintain the authoritative transient history of its multiservice interaction.
+
+**Do:**
+- Store request URL, method, headers, query, and body.
+- Store response URL, status, content type, headers, and body.
+- Retain redirects and final response URLs distinctly.
+- Use a reusable request/response stack.
+- Extract explicit state variables from interaction history.
+- Persist state remotely only when the client platform cannot store it locally.
+
+**Don't:**
+- Ask one server to know the complete state of a multiservice client.
+- store only bodies and discard protocol metadata.
+- make a remote state service an unacknowledged availability dependency.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.15 Maintaining Your Own State"*
+---
+### 35. Give Autonomous Clients Explicit Goals (Recipe 4.16)
+`#api` `#architecture`
+
+**Principle:** Define percepts, actions, goals, environment, and escape conditions for client-driven automation.
+
+**Do:**
+- Use a Defined Exit Goal for processes that halt at an end state.
+- Use a Defined State Goal for continuously maintained ranges.
+- Make monitored properties and thresholds configurable.
+- Discover available actions from hypermedia controls.
+- Verify the current state before acting.
+- Set client-controlled loop limits and alert paths.
+
+**Don't:**
+- Run a goal loop without an escape condition.
+- assume the service knows the client's private objective.
+- rely on another service to decide whether the client must stop.
+
+**Code:**
+```
+// set control values
+var roomURL = "http://api.example.org/rooms/13";
+var min = 18;
+var max = 22;
+var wait = (15*60*1000);
+// set up periodic checks
+setInterval(checkTemp(roomURL,min,max),wait));
+// do the check
+function checkTemp(roomURL, minTemp, maxTemp) {
+ var rtn, temp;
+ rtn = "";
+ response = httpRequest(roomURL);
+ printLine(req)
+ if(response.temp<minTemp) {
+ rtn = response.form("heat");
+ }
+ if(response.temp>maxTemp) {
+ rtn = response.form("cool");
+ }
+ if(rtn!=="") {
+ response = httpRequest(rtn);
+ printLine();
+ }
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "4.16 Having a Goal in Mind"*
+---
+### 36. Publish at Least One Stable URL (Recipe 5.1)
+`#api` `#architecture`
+
+**Principle:** Promise one durable entry URL and let every other location remain discoverable and movable.
+
+**Do:**
+- Document the stable URL as a long-term promise.
+- Return it with `rel="home"` in every possible response.
+- Include it in both Link headers and hypermedia bodies when practical.
+- Keep the old URL alive with `301 Moved Permanently` after relocation.
+- Register a well-known URI only when the governance cost is justified.
+
+**Don't:**
+- Promise many stable endpoints without accepting their lifetime cost.
+- require clients to revisit home before every valid request.
+- break the entry point when moving the underlying service.
+
+**Code:**
+```
 **** REQUEST
 GET / HTTP/1.1
 Host: api.example.org
@@ -357,144 +1318,329 @@ HTTP/1.1 200 OK
 Content-Type: application/vnd.collection+json
 ETag: "p0o9i8u7y6t5r4e3w2q1"
 Link: <http://api.example.org/home>; rel="home"
+...
 ```
-**Code (relocation via 301):**
-```http
-**** RESPONSE
-HTTP/1.1 301 Moved Permanently
-Location: http://new.example.org/home
-```
-*Ref: Cookbook.md — "Recipe 5.1: Publishing at Least One Stable URL"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.1 Publishing at Least One Stable URL"*
 ---
+### 37. Prevent Internal Model Leaks (Recipe 5.2)
+`#api` `#architecture`
 
-### Hide Internal Models (Recipe 5.2)
-`#api`
-
-**Principle:** The API is an independent design effort — your data model is not your object model is not your resource model is not your message model.
+**Principle:** Design the API as an independent interface rather than a serialization of internal data, objects, or processes.
 
 **Do:**
-- Treat the interface as its own design — not a serialization of internal objects.
-- Model API properties as a single flat collection when possible (denormalized externally; normalized internally).
-- Services can use any storage model internally; the external contract is stable.
+- Model external properties around consumer work.
+- Denormalize the interface when that simplifies consumption.
+- Keep data, object, resource, and message models distinct.
+- expose domain actions rather than CRUD-shaped internals.
+- Allow storage and service models to change behind a stable interface.
 
 **Don't:**
-- Expose ORM/ActiveRecord models directly (mass-assignment risk + tight coupling).
+- Generate a public contract directly from ORM or database schema.
+- mirror every internal collection as an HTTP resource.
+- expose mass-assignment surfaces accidentally.
 
-*Ref: Cookbook.md — "Recipe 5.2: Preventing Internal Model Leaks"*
-
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.2 Preventing Internal Model Leaks"*
 ---
+### 38. Convert Internal Models to External Messages (Recipe 5.3)
+`#api` `#architecture`
 
-### Content Negotiation (Recipe 5.6)
-`#api`
-
-**Principle:** Support multiple representation formats and pick one at runtime via the `Accept` header (proactive/server-driven) or `300 Multiple Choices` (reactive/agent-driven).
+**Principle:** Treat representation mapping as explicit design work and support multiple negotiated renderings of one semantic state.
 
 **Do:**
-- **Proactive (PCN)** is the default — client sends `Accept`, server picks.
-- Support `q` values for preference weighting: `application/vnd.hal+json;q=0.8, application/json;q=0.4`.
-- Document supported formats; advertise via Recipe 5.5 (Prefer).
-- Return `406 Not Acceptable` when no format matches.
+- Parse client format preferences before rendering.
+- Map internal data into each media type's defined structure.
+- Document conversion rules internally.
+- Keep internal renames invisible externally.
+- Support one rich hypermedia format, one simple format, and HTML when useful.
+- Pick Collection+JSON when property sets vary frequently.
 
 **Don't:**
-- Use reactive negotiation for M2M unless both parties pre-arrange details.
-- Dedicate URL spaces per format unless necessary (more URLs to maintain).
+- blindly serialize internal objects.
+- publish mapping internals to consumers.
+- assume every internal property must appear in every representation.
 
-**Code (proactive with q values):**
-```http
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.3 Converting Internal Models to External Messages"*
+---
+### 39. Express Internal Functions as External Actions (Recipe 5.4)
+`#api` `#architecture`
+
+**Principle:** Design actions around external intent and translate them to one or many internal operations.
+
+**Do:**
+- Use published external parameter names.
+- Hide dependent calls behind one coherent action when appropriate.
+- Translate external enumerations to internal booleans.
+- Build declarative mapping functions for internal/external names.
+- Collapse fragile internal sequences behind one external form.
+- Keep action semantics stable while implementation functions change.
+
+**Don't:**
+- expose every internal function one-for-one.
+- publish boolean controls that cannot grow beyond two states.
+- leak the order of dependent internal operations.
+
+**Code:**
+```
+function updateAction(identifier, givenName, familyName, email) {
+ var user = data.read(identifier);
+ if(user) {
+ user.id = identifier;
+ user.fname = givenName;
+ user.lname = familyName;
+ user.email = email;
+ user = data.write(user);
+ }
+ return user;
+}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.4 Expressing Internal Functions as External Actions"*
+---
+### 40. Advertise Client Response Preferences (Recipe 5.5)
+`#api` `#architecture`
+
+**Principle:** Publish current protocol and representation options through a cacheable metadata resource.
+
+**Do:**
+- List supported methods, response types, request types, charsets, encodings, languages, and profiles.
+- Support OPTIONS and a `rel="meta"` resource.
+- Return metadata even when only one value is supported.
+- Link the metadata resource from home.
+- cache the standalone metadata resource aggressively.
+- repeat critical options in headers and body.
+
+**Don't:**
+- depend solely on noncacheable OPTIONS at high request volume.
+- omit a capability because it has only one possible value.
+- force clients to infer current preferences from prose.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.5 Advertising Support for Client Response Preferences"*
+---
+### 41. Support Proactive and Reactive Content Negotiation (Recipe 5.6)
+`#api` `#architecture`
+
+**Principle:** Use proactive negotiation by default and reactive negotiation only when the extra round trip and selection protocol are justified.
+
+**Do:**
+- Read client media preferences from `Accept`.
+- Return the selected type in `Content-Type`.
+- Honor quality values as advice, not absolute commands.
+- Return `406 Not Acceptable` when no viable representation exists.
+- Advertise supported formats in metadata.
+- Use `300 Multiple Choices` with alternate links for reactive negotiation.
+
+**Don't:**
+- use RCN for M2M without agreeing on response-selection details.
+- assume the server must return the client's top preference.
+- create format-specific URL trees unless negotiation cannot serve the use case.
+
+**Code:**
+```
 **** REQUEST ****
 GET /list HTTP/1.1
-Accept: application/vnd.siren+json, application/vnd.hal+json, application/json
+Accept: application/vnd.hal+json;q=0.8, application/json;q=0.4
+...
 **** RESPONSE ****
 200 OK HTTP/1.1
 Content-Type: application/json
+....
 ```
-**Code (reactive — 300 Multiple Choices):**
-```http
+
+```
+**** REQUEST ****
+GET /search HTTP/1.1
 **** RESPONSE ****
 HTTP/1.1 300 Multiple Choices
 Link: <http://api.example.org/html/search>;rel="alternate html"
 Link: <http://api.example.org/api/search>;rel="alternate api"
 Location: http://api.example.org/html/search
 ```
-*Ref: Cookbook.md — "Recipe 5.6: Supporting HTTP Content Negotiation"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.6 Supporting HTTP Content Negotiation"*
 ---
+### 42. Publish Complete Machine Vocabularies (Recipe 5.7)
+`#api` `#architecture`
 
-### Service Health Monitoring (Recipe 5.11)
-`#api`
-
-**Principle:** Expose a health-check endpoint using the draft "Health Check Response Format for HTTP APIs" (`application/health+json`).
+**Principle:** Document every semantic identifier a message may contain, including data and action names.
 
 **Do:**
-- Expose `/health` returning `status` (pass/fail/warn), `version`, `releaseId`, `serviceId`, `checks` (downstream dependency detail).
-- Always include `Cache-Control` + `ETag` so frequent polling doesn't DOS your own service.
-- Advertise via `Link: <…>; rel="health-check"` in `OPTIONS` and service-meta responses.
-- Reflect *interface* health, not internal debugging state.
+- Separate domain values from media-type structural names.
+- Explain each identifier and where it appears in each format.
+- Include property, relation, form, class, name, and tag semantics.
+- Map one profile across all supported representations.
+- Use `rel="profile"` to add semantics without changing representation meaning.
+- keep the vocabulary complete as optional features grow.
 
 **Don't:**
-- Set up callback/subscription endpoints for health — polling with cache directives scales better.
+- call a data dictionary a complete service profile.
+- omit action names and link relations.
+- intertwine domain terms with XML element or JSON key structure when avoidable.
 
-**Code (health response):**
-```http
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.7 Publishing Complete Vocabularies for Machine Clients"*
+---
+### 43. Share Vocabularies in Standard Formats (Recipe 5.8)
+`#api` `#architecture`
+
+**Principle:** Serialize shared meaning in a standard profile format and advertise its identifier independently of message format.
+
+**Do:**
+- Use RDF formats when data relationships dominate.
+- Use ALPS when action and state relationships dominate.
+- Use schemas in addition when object validation is needed.
+- Link profile URLs from every applicable response.
+- map profile elements to media-type elements.
+- Include profiles in service documentation and metadata.
+
+**Don't:**
+- treat RDF, schema, ALPS, and OpenAPI as interchangeable.
+- require dereferencing a profile just to compare its identifier.
+- omit choreography from an interaction-oriented vocabulary.
+
+**Code:**
+```
+**** REQUEST ****
+GET /shopping/ HTTP/1.1
+Host: api.example.org
+Accept: application/vnd.collection+json
+**** RESPONSE ****
+HTTP/1.1 200 OK
+Content-Type: application/vnd.collection+json
+Link: <http://docs.alps.io/shopping-v2.json>; rel="profile"
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.8 Supporting Shared Vocabularies in Standard Formats"*
+---
+### 44. Publish Service Definition Documents (Recipe 5.9)
+`#api` `#architecture`
+
+**Principle:** Publish implementation-level interface definitions separately from semantic profiles.
+
+**Do:**
+- Choose a definition format matching HTTP CRUD, events, RPC, data query, messaging, or hypermedia style.
+- Return `rel="service-desc"` in headers and bodies.
+- Include SDD links in service metadata and OPTIONS.
+- Publish multiple definitions when one service supports multiple styles.
+- Use the Link `type` parameter to identify expected document format.
+- Keep the document easy to find near the service root.
+
+**Don't:**
+- ask semantic profiles to carry concrete endpoint definitions.
+- hide the SDD only in a developer portal.
+- assume one interface style implies one universal definition format.
+
+**Code:**
+```
+HTTP/1.1 200 OK
+Content-Type: application/vnd.hal+json
+Link: <http://api.example.org/service-desc>; rel=service-desc
+...
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.9 Publishing Service Definition Documents"*
+---
+### 45. Publish API Metadata (Recipe 5.10)
+`#api` `#architecture`
+
+**Principle:** Make operational, documentary, security, ownership, and tooling metadata discoverable in an APIs.json resource.
+
+**Do:**
+- Publish `/apis.json` with `application/apis+json` when using the format.
+- Link it with `rel="service-meta"`.
+- Include human URL, base URL, documentation, definitions, contacts, tools, specifications, and maintainers.
+- Use extensible property types for local needs.
+- Link metadata from home and normal responses.
+- Keep metadata separate from the API definition itself.
+
+**Don't:**
+- treat APIs.json as an OpenAPI replacement.
+- let contact, security, policy, or status links drift out of date.
+- require manual discovery of the metadata location.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.10 Publishing API Metadata"*
+---
+### 46. Expose Cacheable Health Resources (Recipe 5.11)
+`#api` `#architecture`
+
+**Principle:** Report interface health in `application/health+json` and protect the endpoint with caching.
+
+**Do:**
+- Publish a `/health`-style resource.
+- Report pass, fail, or warn plus public version and release identity.
+- Report downstream checks only at an appropriate authorization level.
+- Return `Cache-Control` and `ETag`.
+- Advertise with `rel="health-check"` in OPTIONS and service metadata.
+- Customize detail by caller context.
+- Keep health reporting focused on the interface.
+
+**Don't:**
+- turn health output into a public debugger.
+- implement callback subscriptions that scale with every consumer.
+- let health polling become a denial-of-service vector.
+
+**Code:**
+```
 HTTP/1.1 200 OK
 Content-Type: application/health+json
 Cache-Control: max-age=3600
 ETag: "w\i8u7y6t5r4e3w2"
+...
 {
  "status": "pass",
  "version": "1",
  "releaseId": "1.2.2",
+ "notes": [""],
+ "output": "",
  "serviceId": "f03e522f-1f44-4062-9b55-9587f91c9c41",
  "description": "health of authz service",
  "checks": {
-   "cassandra:responseTime": [
-     {"componentId": "dfd6cf2b-...",
-      "componentType": "datastore",
-      "observedValue": 250,
-      "observedUnit": "ms",
-      "status": "pass",
-      "affectedEndpoints": ["/users/{userId}", "/shopping/{anything}"],
-      "time": "2018-01-17T03:36:48Z"}]
+ "cassandra:responseTime": [
+ {
+ "componentId": "dfd6cf2b-1b6e-4412-a0b8-f6f7797a60d2",
+ "componentType": "datastore",
+ "observedValue": 250,
+ "observedUnit": "ms",
+ "status": "pass",
+ "affectedEndpoints" : [
+ "/users/{userId}",
+ "/customers/{customerId}/status",
+ "/shopping/{anything}"
+ ],
+ "time": "2018-01-17T03:36:48Z",
+ "output": ""
+ }
+ ],
+ ...
  }
 }
 ```
-*Ref: Cookbook.md — "Recipe 5.11: Supporting Service Health Monitoring"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.11 Supporting Service Health Monitoring"*
 ---
+### 47. Standardize Errors with RFC 7807 (Recipe 5.12)
+`#api` `#architecture`
 
-### Standardized Error Reporting — RFC 7807 (Recipe 5.12)
-`#api`
-
-**Principle:** Treat errors as alternate responses, not failures. Use **RFC 7807 Problem Details** (`application/problem+json`) so clients recognize and resolve errors consistently.
+**Principle:** Treat errors as recognized alternate representations and use Problem Details when a bare status is insufficient.
 
 **Do:**
-- Always include: `type` (URI to human-readable problem def), `title` (short summary), `status` (HTTP code as number), `detail` (specific explanation), `instance` (this occurrence URI).
-- Default `type` is `about:blank`; point `type` to a semantic profile for the error.
-- Extend with custom properties (`balance`, `accounts`, …) documented at the `type` URI.
-- Optionally add `Retry-After` for retryable errors.
+- Return `application/problem+json` or `application/problem+xml`.
+- Include `type`, `title`, numeric `status`, occurrence-specific `detail`, and optional `instance`.
+- Point `type` to documentation for the problem semantics.
+- Document every extension property at the type URI.
+- Keep reusable type/title/status stable across occurrences.
+- Add `Retry-After` when recovery is time-based.
+- Use a media type's built-in error object when it already provides one.
 
 **Don't:**
-- Use Problem Details when a plain 4xx/5xx status suffices (e.g., simple 403 on a forbidden PUT).
-- Return debugging/internal details via this format — it's for *interface* errors.
+- wrap every obvious 4xx or 5xx in a problem document.
+- expose stack traces, storage details, or debugging internals.
+- invent many narrowly reusable problem types.
 
-**Code (basic Problem Details):**
-```http
+**Code:**
+```
 HTTP/1.1 403 Forbidden
 Content-Type: application/problem+json
 Content-Language: en
-{
- "type": "https://example.com/probs/out-of-credit",
- "title": "You do not have enough credit.",
- "detail": "Your current balance is 30, but that costs 50.",
- "instance": "/account/12345/msgs/abc",
- "status": 403
-}
-```
-**Code (extended Problem Details with custom props):**
-```http
-HTTP/1.1 403 Forbidden
-Content-Type: application/problem+json
 {
  "type": "https://example.com/probs/out-of-credit",
  "title": "You do not have enough credit.",
@@ -505,65 +1651,177 @@ Content-Type: application/problem+json
  "accounts": ["/account/12345", "/account/67890"]
 }
 ```
-*Ref: Cookbook.md — "Recipe 5.12: Standardizing Error Reporting"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.12 Standardizing Error Reporting"*
 ---
-
-### Runtime Service Registry (Recipe 5.13)
+### 48. Self-Register with a Runtime Service Registry (Recipe 5.13)
 `#api` `#architecture`
 
-**Principle:** Services self-register at startup, ping health periodically, and unregister on shutdown — enabling runtime "find and bind" by capability.
+**Principle:** Make service discovery a runtime find-and-bind process based on current instances and capabilities.
 
 **Do:**
-- Self-register on startup with: `serviceURL`, `serviceName`, `semanticProfile` URIs, `mediaType` list, `apiDefinitions` links, `tags`.
-- Send periodic keep-alive pings (with optional usage stats).
-- Unregister on graceful shutdown (`SIGTERM`); RSR evicts stale entries after max-ping window.
-- These actions are *internal* — not part of the public API surface.
+- Register every instance or cluster at startup.
+- Supply service URL, name, profiles, media types, definitions, and searchable tags.
+- Send periodic liveness and optional usage reports.
+- Unregister on controlled shutdown.
+- Let the registry expire entries that miss the ping window.
+- Register distinct locations and versions as distinct entries.
+- Use registries to resolve dependent services dynamically.
 
-**Code (Node.js self-registration):**
-```javascript
+**Don't:**
+- expose registry lifecycle actions as the public business API.
+- assume graceful shutdown always happens.
+- register metadata too sparse for capability search.
+
+**Code:**
+```
 var srsResponse = null;
 var srsRegister({Url:"...","name":"...", .....});
+// register this service w/ defaults
 discovery.register(srsRegister, function(data, response) {
  srsResponse = JSON.parse(data);
  initiateKeepAlive(srsResponse.href, srsResponse.milliseconds);
  http.createServer(uuidGenerator).listen(port);
+ console.info('uuid-generator running on port '+port+'.');
 });
 ```
-**Code (graceful unregister with force-timeout):**
-```javascript
+
+```
+// set up proper discovery shutdown
 process.on('SIGTERM', function () {
  discovery.unregister(null, function(response) {
-   try {
-     uuidGenerator.close(function() { process.exit(0); });
-   } catch(e){}
+ try {
+ uuidGenerator.close(function() {
+ console.log('gracefully shutting down');
+ process.exit(0);
  });
- setTimeout(function() { process.exit(1); }, 10000);
+ } catch(e){}
+ });
+ setTimeout(function() {
+ console.error('forcefully shutting down');
+ process.exit(1);
+ }, 10000);
 });
 ```
-*Ref: Cookbook.md — "Recipe 5.13: Improving Service Discoverability with a Runtime Service Registry"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.13 Improving Service Discoverability with a Runtime Service Registry"*
 ---
-
-### Runtime Fallbacks for Dependent Services (Recipe 5.16)
+### 49. Use Client-Supplied Identifiers (Recipe 5.14)
 `#api` `#architecture`
 
-**Principle:** Assume dependencies will fail — implement mitigations in this order: automatic retry → static fallback → dynamic fallback (RSR lookup) → queue for replay → give up.
+**Principle:** Let clients create globally unique IDs before service calls to remove sequencing and enable parallel work.
 
 **Do:**
-- Retry only safe/idempotent methods (GET, HEAD, PUT, DELETE); never auto-retry POST/PATCH.
-- Use exponential backoff with a max retry count (typically 3).
-- For queuing, return `202 Accepted` + status URL (Recipe 7.15).
-- Implement mitigations *locally* — turning them into external services makes them fatal dependencies too.
-- Best candidate status codes for retry/fallback: 500, 502, 503, 504, 408.
+- Generate UUIDs or suitable random/time-based identifiers client-side.
+- Validate identifier syntax and uniqueness server-side.
+- Return `409 Conflict` for an unacceptable collision.
+- Include the ID in the PUT target URL.
+- Provide identifier-generation libraries to consumers.
+- Use friendly display IDs separately when human readability matters.
+- Precompute related IDs to parallelize independent writes.
 
 **Don't:**
-- Retry non-idempotent methods without an idempotency key.
+- assume every random-number generator is sufficiently collision-resistant.
+- make downstream work wait for server-generated IDs unnecessarily.
+- expose predictable sequences when they add no value.
 
-**Code (parameterized retry/fallback request):**
-```javascript
-var reqParams = {}
-reqParam.host = "https:/api.example.com"
+**Code:**
+```
+var cId = makeId();
+var aId = makeId();
+var sId = makeId();
+Promise.all([
+ writeCustomer(cId),
+ writeAccount(cId,aId),
+ writeSalesRecord(cId,aId,sId)
+])
+.then(() => console.log('All done!'))
+.catch(function(err) {
+ rollbackAll(cId,aId,sId);
+ console.log('Write failed!');
+});
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.14 Increasing Throughput with Client-Supplied Identifiers"*
+---
+### 50. Improve Reliability with Idempotent Create (Recipe 5.15)
+`#api` `#architecture`
+
+**Principle:** Eliminate the lost-response ambiguity by requiring client-addressed conditional PUT for creation.
+
+**Do:**
+- Require a complete client-supplied resource URL.
+- Send `If-None-Match: *` for creation.
+- Send `If-Match` with the current ETag for updates.
+- return `201 Created` and `Location` when creation succeeds.
+- reject an occupied create target with conflict information.
+- Return a new ETag after replacement.
+- Repeat a lost PUT confidently.
+
+**Don't:**
+- repeat an ambiguous POST transfer automatically.
+- accept an unconditioned state-changing request.
+- call a POST convention protocol-level idempotence.
+
+**Code:**
+```
+**** REQUEST ****
+GET /persons/q1w2e3r4
+Accept: text/plain
+**** RESPONSE ****
+200 OK
+Content-Type: application/vnd.collection+json
+ETag: "w/p0o9i8u7y6yt5r4"
+{"collection": {
+ "items": [
+ {"href" : "/persons/q1w2e3r4", "data" : [ {"name" : "Mark Morkleson"} ]}
+ ],
+ "template" : { "data" : [ {"name" : "Mork Markleson"} ] }
+}}
+**** REQUEST ****
+PUT /persons/q1w2e3r4
+If-Match: "w/p0o9i8u7y6yt5r4"
+Content-Type: application/x-www-form-urlencoded
+Accept: application/vnd.collection+json
+name=Mork%20Markleson
+**** RESPONSE ****
+200 OK
+Content-Type: application/vnd.collection+json
+ETag: "w/i8u7y6t5r4e3"
+{"collection": {
+ "items": [
+ {"href" : "/persons/q1w2e3r4", "data" : [ {"name" : "Mork Markleson"} ]}
+ ]
+}}
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.15 Improving Reliability with Idempotent Create"*
+---
+### 51. Implement the Dependency Fallback Chain (Recipe 5.16)
+`#api` `#architecture`
+
+**Principle:** Assume every dependency fails and progress through retry, static fallback, dynamic fallback, queued replay, then explicit failure.
+
+**Do:**
+- Distinguish read and write mitigation requirements.
+- Retry only idempotent requests after bounded waits.
+- Try a configured alternate service when state transfer permits.
+- Query a runtime registry for a capability-compatible replacement.
+- Queue work and return `202 Accepted` when delayed completion is part of the contract.
+- Give up with a useful 5xx response and recovery timing.
+- Apply mitigation to 408, 500, 502, 503, and 504 selectively.
+- Keep mitigation logic local to avoid a new fatal dependency.
+
+**Don't:**
+- retry POST or PATCH automatically.
+- hammer a dependency fast enough to resemble a denial-of-service attack.
+- hide a possible 202 response from interface documentation.
+- implement retries, fallback, or queuing as another required remote service.
+
+**Code:**
+```
+var reqParams = {} // request params
+reqParams.host = "https:/api.example.com"
 reqParams.url = "/users/q1w2e3";
 reqParams.body = "mork=mamund&name=Mike Morkelsen";
 reqParams.method = "PUT";
@@ -571,423 +1829,970 @@ reqParams.waitMS = 300;
 reqParams.retryAttempts = 3;
 reqParams.successFunction = requestSucceeded;
 reqParams.failFunction = requestFailed;
-reqParams.alternateHost = "https://alternate-api.example.com";
 reqParams.queuingFunction = queueRequest;
+reqParams.alternateHost = "https://alternate-api.example.com";
 httpLib.request(reqParams);
 ```
-*Ref: Cookbook.md — "Recipe 5.16: Providing Runtime Fallbacks for Dependent Services"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.16 Providing Runtime Fallbacks for Dependent Services"*
 ---
-
-### Semantic Proxies for Noncompliant Services (Recipe 5.17)
+### 52. Wrap Noncompliant Services with Semantic Proxies (Recipe 5.17)
 `#api` `#architecture`
 
-**Principle:** Wrap non-hypermedia/third-party services in a compliant proxy rather than rewriting them.
-
-Three proxy types:
-- **Enterprise-Level Proxy (ELP)** — algorithmic translation of a related-service family.
-- **Custom One-Off Proxy (COP)** — single-service wrapper (e.g., RESTful facade over FTP upload).
-- **Semantic Profile Proxy (SPP)** — vocabulary/media-type normalization (e.g., CSV → SIREN, XML → Collection+JSON).
+**Principle:** Put a compliant interface around irreplaceable legacy or third-party functionality, but treat the proxy as a costly new service.
 
 **Do:**
-- Each proxy needs its own semantic profile, API definition document, and action implementations.
-- Use sparingly — proxies add latency and failure points.
+- Use an enterprise-level proxy for an algorithmically related service family.
+- Use a custom one-off proxy for one narrow integration.
+- Use a semantic profile proxy for format or vocabulary normalization.
+- Design the desired external API before coding translation.
+- Publish the proxy's profile and service definition.
+- Implement all external actions through the underlying service.
+- Reserve proxies for traffic that tolerates added latency.
+- Plan to maintain translation knowledge for its full lifetime.
 
-**Code (COP wrapping FTP upload as HTTP/HTML):**
-```javascript
+**Don't:**
+- assume semantic translation is easier than protocol translation.
+- use a proxy in a low-latency, high-volume hot path without evidence.
+- expose the underlying noncompliant contract through the wrapper.
+- build an enterprise proxy without long-term resources.
+
+**Code:**
+```
+// HTTP upload external action
 function httpUpload(file) {
  var uploader = new httpService();
- return uploader.read();
+ var file = uploader.read();
+ return file;
 }
+// FTP client service
 function ftpUpload(file) {
  var client = new ftpService();
- return client.put(file);
+ var results = client.put(file);
+ return results;
 }
+// proxy function for file uploads
 function proxyUpload(file) {
- var results = null;
- var f = httpUpload(file);
- if(f) { results = ftpUpload(f); }
+ var results = null;;
+ var file = httpUpload(file);
+ if(file) {
+ results = ftpUpload(file)
+ }
  return results;
 }
 ```
-*Ref: Cookbook.md — "Recipe 5.17: Using Semantic Proxies to Access Noncompliant Services"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "5.17 Using Semantic Proxies to Access Noncompliant Services"*
 ---
+### 53. Hide Data Storage Internals (Recipe 6.1)
+`#api` `#architecture`
 
-### Hiding Data Storage Internals (Recipes 6.1, 6.3)
-`#api`
-
-**Principle:** Never leak storage technology, schema, or relationships through the API.
+**Principle:** Expose business capabilities and consumer vocabulary, never storage connections, schemas, or native query syntax.
 
 **Do:**
-- Express queries via domain vocabulary (`?active=true`), not SQL (`?filter=status='active'`).
-- Express relationships via hypermedia links (`rel="customer"`), not foreign keys (`customerId: 123`).
-- Each service owns its own data storage; services interact via messages, not shared DBs.
-
-*Ref: Cookbook.md — "Recipe 6.1: Hiding Your Data Storage Internals" / "Recipe 6.3: Hiding Data Relationships"*
-
----
-
-### URL-Based "Contains" and "AND" Queries (Recipe 6.4)
-`#api`
-
-**Principle:** Use URL paths + query strings for common query patterns — they're intuitive, cacheable, and storage-agnostic.
-
-**Do:**
-- AND queries via query string: `/customers?region=east&status=active`.
-- Containment queries via path segments: `/customers/east/active`.
-
-*Ref: Cookbook.md — "Recipe 6.4: Leveraging HTTP URLs to Support 'Contains' and 'AND' Queries"*
-
----
-
-### Query Response Metadata (Recipe 6.5)
-`#api`
-
-**Principle:** Return metadata *alongside* results so clients can evaluate quality and tune queries.
-
-**Do** (return some/all of): `q-status`, `q-sent`, `q-executed`, `q-returned`, `q-count`, `q-seconds`, `q-datetime`, `q-score`, `q-source`, `q-suggest`, `q-location` (replay URL).
-- Carry via headers, body, or a separate linked `query-metadata` resource.
-- Communicate truncation explicitly (`q-status=truncated`).
+- Model `updateCustomer` and `findUnpaidInvoices`, not database commands.
+- Use named links and forms for common queries.
+- Keep storage and query technology replaceable behind the interface.
+- Make required query parameters optional with defaults when possible.
 
 **Don't:**
-- Leak `q-executed` (raw SQL/internal query) or `q-source` carelessly — security/coupling risk.
+- Expose SQL credentials, statements, tables, GraphQL internals, or storage relationships.
+- turn an application API into an accidental database engine.
 
-**Code (metadata in body via Collection+JSON):**
-```json
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.1 Hiding Your Data Storage Internals"*
+---
+### 54. Make Every Data Change Idempotent (Recipe 6.2)
+`#api` `#architecture`
+
+**Principle:** Require conditional PUT and entity tags for every create, update, and delete path.
+
+**Do:**
+- Create with PUT plus `If-None-Match: *`.
+- Update and delete with `If-Match` plus the latest ETag.
+- Return ETags for every representation and every successful change.
+- Refetch after a lost-update precondition failure before recomputing the change.
+- Treat a representation's ETag as format-specific.
+
+**Don't:**
+- accept an unconditioned state-changing request.
+- use POST or PATCH when reliable automatic repetition is required.
+- overwrite a concurrent update after receiving stale-state evidence.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.2 Making All Changes Idempotent"*
+---
+### 55. Hide Data Relationships Behind Flat Actions (Recipe 6.3)
+`#api` `#architecture`
+
+**Principle:** Accept a flat external property set and split it into internal related writes behind the interface.
+
+**Do:**
+- Collect parent and child properties in one request when M2M payload size allows.
+- Add follow-up controls such as “add another address.”
+- Use WIP for long human-centric related-data collection.
+- Log the complete submitted message for rollback.
+- Keep entity-group hints optional and nonbinding.
+
+**Don't:**
+- expose foreign keys, joins, or storage collection boundaries as the contract.
+- let clients depend on temporary grouping hints.
+
+**Code:**
+```
+var message = http.request.body.toJSON();
+var person = personFilter(message);
+var adddress = addressFilter(message);
+address.person_id = person.id;
+Promise.all([writePerson(person), writeAddress(address)]).then(...);
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.3 Hiding Data Relationships for External Actions"*
+---
+### 56. Use Contains-and-AND HTTP Queries (Recipe 6.4)
+`#api` `#architecture`
+
+**Principle:** Implement the simplest useful IRQL with name/value pairs, contains semantics, and `&` conjunction.
+
+**Do:**
+- Interpret `name=value` as “field contains value” when that fits the domain.
+- Interpret multiple pairs as AND conditions.
+- Ignore empty form fields safely.
+- Use GET forms, Collection+JSON queries, or URI templates to publish queries.
+- Document case sensitivity and repeated names.
+
+**Don't:**
+- smuggle raw SQL or another storage query into `?query=`.
+- invent operators before the simple model proves insufficient.
+- expose query strings that leak storage or invite injection.
+
+**Code:**
+```
+<form method="GET" action="http://api.example.org/persons/" rel="search">
+ <input name="ID" value="e3" />
+ <input name="NAME" value="" />
+ <input name="CITY" value="Mo" />
+ <input type="submit" />
+</form>
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.4 Leveraging HTTP URLs to Support 'Contains' and 'AND' Queries"*
+---
+### 57. Return Query Metadata (Recipe 6.5)
+`#api` `#architecture`
+
+**Principle:** Return enough metadata for consumers to assess result quality, cost, truncation, and replay options.
+
+**Do:**
+- Consider `q-status`, `q-sent`, `q-returned`, `q-count`, `q-seconds`, and `q-datetime`.
+- Add `q-score`, `q-suggest`, and `q-location` when useful.
+- Put a few values in headers or body; link a dedicated resource for many.
+- Mark truncation and cancellation explicitly.
+- Balance consumer utility against information leakage.
+
+**Don't:**
+- expose `q-executed`, `q-source`, debugging, or internal performance data casually.
+- return a result collection with no indication of limits or quality.
+
+**Code:**
+```
 {"collection": {
  "title": "Person",
  "metadata" : [
-   {"name": "q-sent", "value": "?id=q1"},
-   {"name": "q-datetime", "value": "2024-12-12:00:12:0012TZ"},
-   {"name": "q-status", "value": "result set too large, query canceled"},
-   {"name": "q-seconds", "value": "120"},
-   {"name": "q-count", "value": "10000+"},
-   {"name": "q-suggest", "value": "reduce return set with additional query parameters"}
- ]}}
+ {"name": "q-sent", "value": "?id=q1"},
+ {"name": "q-datetime", "value": "2024-12-12:00:12:0012TZ"},
+ {"name": "q-status", "value": "result set too large, query canceled"},
+ {"name": "q-seconds", "value": "120"},
+ {"name": "q-count", "value": "10000+"},
+ {"name": "q-suggest",
+ "value": "reduce return set with additional query parameters"},
+ ]
+ ...
+}}
 ```
-*Ref: Cookbook.md — "Recipe 6.5: Returning Metadata for Query Responses"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.5 Returning Metadata for Query Responses"*
 ---
+### 58. Distinguish 200, 404, 400, and 5xx for Queries (Recipe 6.6)
+`#api` `#architecture`
 
-### HTTP 200 vs 4xx for Empty Results (Recipe 6.6)
-`#api`
+**Principle:** Base status on request and resource semantics, not on whether rows happened to match.
 
-**Principle:** An empty collection from a valid query is **200 OK**, not 4xx.
-
-**Decision table:**
-- **200 OK** — well-formed collection query returns empty set.
-- **404 Not Found** — single-resource URL (`/persons/q1w2e3`) doesn't exist.
-- **400 Bad Request** — malformed query / unknown property (`?hatsize=13` when no such field).
-- **5xx** — valid query, server/data store can't fulfill (timeout, unreachable).
+**Do:**
+- Return `200 OK` plus an empty collection for a valid collection query.
+- Return `404 Not Found` for a requested single resource that does not exist.
+- Return `400 Bad Request` for invalid query fields or syntax.
+- Return an appropriate 5xx when the service cannot fulfill a valid request.
+- Normalize a downstream 404-empty-collection response to your own 200 contract.
 
 **Don't:**
-- Echo a downstream 404-as-empty-collection verbatim — normalize to 200 OK at your interface.
+- call “zero matches” a client error.
+- leak downstream storage behavior through status codes.
 
-**Code (200 + empty collection + metadata):**
-```http
+**Code:**
+```
 **** REQUEST ****
 GET /persons/?status=pending HTTP/1.1
+Host: api.example.org
 Accept: application/vnd.collection+json
+...
 **** RESPONSE ***
 HTTP/1.1 200 OK
 Content-Type: application/vnd.collection+json
+...
 {"collection": {
+ "title": "Persons",
  "metadata": [
-   {"name": "q-status", "value": "success"},
-   {"name": "q-count", "value": "0"}],
+ "name": "q-status", "value": "success",
+ "name": "q-sent", "value": "?status=pending",
+ "name": "q-count", "value": "0"
+ ],
  "items": []
 }}
 ```
-*Ref: Cookbook.md — "Recipe 6.6: Returning HTTP 200 Versus HTTP 400 for Data-Centric Queries"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.6 Returning HTTP 200 Versus HTTP 400 for Data-Centric Queries"*
 ---
-
-### Caching Directives (Recipe 6.9)
+### 59. Carry Query Languages as Media Types (Recipe 6.7)
 `#api` `#architecture`
 
-**Principle:** Mark every response with caching metadata so consumers/proxies/CDNs can reduce latency and load.
-
-**Provider directives:**
-- `Cache-Control: public, max-age=600` — cacheable by any proxy for 10 min.
-- `Cache-Control: private, max-age=300, must-revalidate, stale-if-error` + `ETag` — conditional requests via `If-None-Match` / `If-Match`.
-- `immutable` (RFC 8246) for long-lived static content.
-- Use `Vary: Authorization` (etc.) to prevent wrong cached representation replay.
-
-**Consumer directives:**
-- `max-age=600, min-fresh=300` — accept response ≤10 min old with ≥5 min freshness left.
-- `no-cache` — force fresh copy (use sparingly; only when editing).
-- `max-stale, stale-if-error` — accept stale copy for reads when fresh unavailable.
+**Principle:** Encapsulate established query languages in request media types so the interface can negotiate and translate them independently of storage.
 
 **Do:**
-- Match cache lifetime to data volatility (static lists: days; shopping cart: seconds).
-- Always include `ETag` to enable conditional requests and optimistic locking.
-
-**Code (provider response with conditional-request caching):**
-```http
-GET /user/q1w2e3r4 HTTP/1.1
-**** RESPONSE ****
-HTTP/1.1 200 OK
-Content-Type: application/vnd.siren+json
-ETag: "w/p0o9i8u7y6t5"
-Cache-Control: public, max-age=300, must-revalidate, stale-if-error
-```
-*Ref: Cookbook.md — "Recipe 6.9: Improving Performance with Caching Directives"*
-
----
-
-### Modifying Data Models in Production (Recipe 6.10)
-`#api`
-
-**Principle:** Design data storage for change from day one via a **two-tier explicit + implicit (NVP) model**.
-
-**Do:**
-- Explicit strongly-typed fields for known properties + an `nvp: [{name, value}]` array for future ones.
-- New properties land in `nvp` first; no schema migration needed for consumers.
-- If a release backs out, the NVP data is retained — no loss.
-- Provide a single-access `find({name, message})` function that checks both tiers.
+- Use `application/sql` for SQL query bodies.
+- Use documented personal types for Solr, OData, or GraphQL until registered types exist.
+- Create a query resource with conditional PUT.
+- Keep query and result resources separate.
+- Translate the stable interface query to the current backend engine.
+- Add new query languages without removing old ones.
 
 **Don't:**
-- Set `additionalProperties: false` on schemas *and* require strict rollouts.
+- invent a proprietary query language without resources to maintain it.
+- bind the public HTTP method to the backend engine's method.
+- equate query language with storage technology.
 
-**Code (two-tier model with NVP):**
-```json
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.7 Using Media Types for Data Queries"*
+---
+### 60. Preserve Unknown Fields (Recipe 6.8)
+`#api` `#architecture`
+
+**Principle:** Ignore fields you do not understand, but preserve and return the complete record when updating or forwarding it.
+
+**Do:**
+- Apply the Must Ignore rule to added properties.
+- Modify only fields within the service's responsibility.
+- Return the complete original record with local changes applied.
+- Forward the source ETag in `If-Match`.
+- Keep working when upstream adds unrelated fields.
+
+**Don't:**
+- strip unknown fields before writing a record back.
+- process unknown fields merely because they were accepted.
+- use partial replacement that can violate cross-field integrity.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.8 Ignoring Unknown Data Fields"*
+---
+### 61. Use Cache-Control, ETag, and Vary (Recipe 6.9)
+`#api` `#architecture`
+
+**Principle:** Mark every response with freshness and validation metadata, then require consumers to honor it.
+
+**Do:**
+- Set public/private scope and a volatility-appropriate `max-age`.
+- Add `must-revalidate` and ETag for conditional requests.
+- Permit `stale-if-error` or `max-stale` for suitable read paths.
+- Use `immutable` for truly long-lived content.
+- Use `no-cache` sparingly when the latest representation is required for editing.
+- Set `Vary` for authorization, language, type, or other representation selectors.
+
+**Don't:**
+- replay one caller's cached representation to an incompatible context.
+- give shopping-cart data the lifetime of a static country list.
+- use cache busting for every read.
+
+**Code:**
+```
+HTTP/1.1 200 OK
+Content-Type: application/vnd.siren+json
+Content-Length: NN
+ETag: "w/p0o9i8u7y6t5"
+Date: Tue, 15 Apr 2022 11:12:13 GMT
+Cache-Control: public, max-age=300, must-revalidate, stale-if-error
+...
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.9 Improving Performance with Caching Directives"*
+---
+### 62. Evolve Data with a Two-Tier Model (Recipe 6.10)
+`#api` `#architecture`
+
+**Principle:** Combine explicit typed fields with an implicit NVP collection to support forward and backward model evolution.
+
+**Do:**
+- Keep stable, common fields explicit.
+- Put newly introduced fields in `nvp` first.
+- Allow NVP values to hold number, string, boolean, object, array, or null.
+- Use one access function that searches both tiers.
+- Promote an implicit field to explicit without changing caller access.
+- retain implicit values when rolling back a release.
+- Validate unknown names and values before storage.
+
+**Don't:**
+- expose the storage model directly as the API representation.
+- depend on every consumer schema allowing extra explicit properties.
+- discard newly collected data during model rollback.
+
+**Code:**
+```
 {
  "givenName": "John",
  "familyName": "Doe",
  "age": 23,
  "nvp" : [
-   {"name" : "middleName", "value" : "Seymore"},
-   {"name" : "nicknames", "value" : ["J","JJ","Johnboy","Jack"]},
-   {"name" : "address", "value": {"street":"123 main","city":"Byteville","state":"MD","zip":"12345"}}
+ {"name" : "middleName", "value" : "Seymore"}
  ]
 }
 ```
-**Code (single-access function — JavaScript):**
-```javascript
-function find(args) {
- var a = args || {};
- var n = a.name || "";
- var m = (a.message || local.m) || {};
- var p = (a.nameValuePair || local.p) || "nvp";
- var r = undefined;
- if(m==={} || n==="") { r=undefined; }
- else {
-   if(m.hasOwnProperty(n)) { r=m[n]; }
-   else if(m.hasOwnProperty(p)) {
-     try { r = m[p].filter(function(i) {return i.name===n})[0].value; }
-     catch { r = undefined; }
-   }
- }
- return r;
-}
-```
-*Ref: Cookbook.md — "Recipe 6.10: Modifying Data Models in Production"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.10 Modifying Data Models in Production"*
 ---
+### 63. Extend Remote Stores by Association (Recipe 6.11)
+`#api` `#architecture`
 
-### Limiting Large-Scale Responses (Recipe 6.12)
-`#api`
-
-**Principle:** Always enforce a default maximum record count; communicate limits via query metadata.
+**Principle:** Store local extension properties separately and connect them to remote resources with a URL association.
 
 **Do:**
-- **Direct limit**: pass engine-native directive (`$top=100`, `first:100`, `LIMIT 100`, `rows=100`).
-- **Truncated limit**: service code slices the result collection (use when engine lacks native limits).
-- Always validate/override client-supplied limits (reject `?limit=1000000`).
-- Distinguish **query limits** from **page sizes** (Recipe 7.11).
+- Use the remote resource URL as an associative key.
+- Keep local property names distinct from remote names.
+- Fall back to an appropriate cached remote representation when unavailable.
+- Treat 404 as possibly temporary and 410 as permanent.
+- retain or clean broken local associations according to history needs.
 
-**Code (truncation in service code):**
-```javascript
+**Don't:**
+- enforce cross-store invariants you cannot control atomically.
+- copy remote values locally as if they remain authoritative.
+- delete local history immediately after a transient remote failure.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.11 Extending Remote Data Stores"*
+---
+### 64. Limit Large Responses (Recipe 6.12)
+`#api` `#architecture`
+
+**Principle:** Enforce a documented default maximum on every query and report when results are limited.
+
+**Do:**
+- Push `$top`, `first`, `TOP`, `LIMIT`, or `rows` into the backend query.
+- Insert a default when the client omits a limit.
+- clamp negative or excessive client limits.
+- Truncate in the interface only when the backend cannot limit.
+- Return `q-status=truncated`, returned count, and estimated total.
+- Keep query limits separate from page size.
+
+**Don't:**
+- issue an unbounded backend query.
+- assume truncating after fetching protects backend latency or memory.
+- hide a modified query limit from the caller.
+
+**Code:**
+```
 function executeQuery(dataStoreAddress, dataQuery) {
- var ix=0, maxLimit=100;
+ var ix=0;
+ var maxLimit=100;
  var responseCollection = [];
  var dataCollection = httpRequest(dataStoreAddress, dataQuery);
  for (let item of dataCollection) {
-   if(ix>maxLimit) { break; }
-   responseCollection.push(item);
-   ix++;
+ if(ix>maxLimit) {
+ break;
+ } else {
+ responseCollection.push(item);
+ }
+ ix++;
  });
  return responseCollection;
 }
 ```
-*Ref: Cookbook.md — "Recipe 6.12: Limiting Large-Scale Responses"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.12 Limiting Large-Scale Responses"*
 ---
-
-### Workflow-Compliant Services (Recipe 7.1)
+### 65. Preserve Integrity Through Pass-Through Proxies (Recipe 6.13)
 `#api` `#architecture`
 
-**Principle:** Every service enlisted in a workflow must support a composable 4-action interface: **Execute · Repeat · Revert · Cancel**. Jobs (collections of tasks) add **Continue · Restart · Cancel**.
+**Principle:** Let a proxy expose a subset while retaining the complete downstream response and all concurrency metadata.
 
 **Do:**
-- Make each action a hypermedia affordance with stable semantics.
-- Share state as strongly-typed *documents* (Recipe 7.2), never shared data models or shared DBs.
-- State transfer modes: by value (inline forms), by value (import/export ops), or by reference (shared URL).
-
-**Code (ALPS for shopping cart import/export):**
-```json
-{
- "$schema": "https://alps-io.github.io/schemas/alps.json",
- "alps": {
-   "version": "1.0",
-   "title": "Simple Shopping Cart",
-   "descriptor": [
-     {"id": "doCartImport", "type": "idempotent", "rt": "#cartCollection",
-      "tag": "choreography",
-      "descriptor": [{"href": "#cartCollection"}]},
-     {"id": "doCartExport", "type": "idempotent", "rt": "cartCollection",
-      "tag": "choreography"}
-   ]
- }
-}
-```
-*Ref: Cookbook.md — "Recipe 7.1: Designing Workflow-Compliant Services" / "Recipe 7.2: Supporting Shared State for Workflows"*
-
----
-
-### Async / Delayed Responses — 202 Accepted (Recipe 7.15)
-`#api`
-
-**Principle:** For long-running work, return `202 Accepted` immediately with a status document the client can poll.
-
-**Do:**
-- Initial response carries: `identifier`, `acceptedURL`, `completedURL`, `failedURL`, `description`, `refresh` (ms), `percentCompleted`, `status`, `dateCreated`, `dateUpdated`, `dateEstimated`.
-- Actions: `goAccepted` (safe), `doCancel` (DELETE, idempotent), `goCompleted`/`goFailed`/`goHome` (safe).
-- Emit `Link: <…>; rel=self; refresh=60000` and `Link: <…>; rel=cancel` headers.
-- Support `maxTTL` — auto-cancel work exceeding the limit.
-- Document ahead-of-time which actions may return 202 so clients are prepared.
+- Store the full source response, including ETag and headers.
+- Translate source fields into proxy vocabulary.
+- Merge upstream edits into the retained complete record.
+- Forward the source ETag when writing downstream.
+- Return the relevant failure without revealing hidden source internals.
+- report `502 Bad Gateway` when the source violates the proxy's promised shape.
 
 **Don't:**
-- Stuff transient metadata (percentCompleted, dateUpdated) in headers — it breaks caching.
+- tell callers whether the service is a source or pass-through implementation.
+- lose the mapping between upstream and downstream IDs and URLs.
+- overwrite a downstream record with only the exposed subset.
 
-**Code (initial 202 response):**
-```http
-**** REQUEST
-PUT /services/compute-results HTTP/1.1
-Content-Type: application/vnd.collection+json
-**** RESPONSE
-202 Accepted HTTP/1.1
-Content-Type: application/vnd.collection+json
-Link: <http://api.example.org/services/compute-results/q1w2e3>;rel=self; refresh=60000
-Link: <http://api.example.org/services/cancel-form/q1w2e3>;rel=cancel
-{"collection": {
- "items": [{
-   "data": [
-     {"name":"identifier", "value":"q1w2e3"},
-     {"name":"refresh", "value":"60000"},
-     {"name":"percentCompleted", "value":"10"},
-     {"name":"status", "value":"working"},
-     {"name":"dateEstimated", "value":"2024-02-01:22:15:00"}
-   ]}]}}
-```
-*Ref: Cookbook.md — "Recipe 7.15: Synchronous Reply for Incomplete Work with 202 Accepted"*
-
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "6.13 Using Pass-Through Proxies for Data Exchange"*
 ---
-
-### Automatic Retries with Exponential Backoff (Recipe 7.16)
+### 66. Require a Composable Workflow Interface (Recipe 7.1)
 `#api` `#architecture`
 
-**Principle:** For transient failures, retry idempotent requests with exponential backoff — capped at ~3 attempts.
+**Principle:** Give every task Execute, Repeat, Revert, and Cancel semantics, and give every job Continue, Restart, and Cancel semantics.
 
 **Do:**
-- Exponential backoff (EBO): wait 2s → 4s → 16s; max 3 retries.
-- Add jitter to prevent thundering-herd.
-- Only retry idempotent methods (GET, HEAD, PUT, DELETE) automatically.
-- Inspect status: 4xx = don't retry (client error); 5xx or connection loss = retry candidate.
+- Make every action a fully described form.
+- Treat Repeat as idempotent and Revert as safe even before Execute.
+- Cancel a failed job by reverting all completed tasks.
+- Share `correlation-id` for the job and `request-id` for each task.
+- Support maxTTL for tasks and jobs.
+- expose no-op forms when a required semantic has no local work.
 
 **Don't:**
-- Retry POST/PATCH without an idempotency key.
+- enlist a write service that cannot repeat or revert safely.
+- make a task know the complete job.
+- use a shared database as the workflow contract.
 
-*Ref: Cookbook.md — "Recipe 7.16: Short-Term Fixes with Automatic Retries"*
+**Code:**
+```
+*** Checkout Job
+***
+READ sharedState WITH urlState
+EXECUTE shoppingCartService->checkOutForm WITH sharedSTATE
+IF-NOT-OK EXIT
+EXECUTE salesTaxService->applyTaxesForm WITH sharedSTATE
+IF-NOT-OK EXECUTE shoppingCartService->revertCheckoutForm WITH sharedSTATE
+STORE sharedState WITH urlState
+EXIT
+***
+*** End Job
+```
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.1 Designing Workflow-Compliant Services" / "Hypermedia workflow"*
 ---
+### 67. Share Workflow State as a Resource (Recipe 7.2)
+`#api` `#architecture`
 
-### Local Undo / Rollback (Recipe 7.17) & Calling for Help (Recipe 7.18)
-`#api`
-
-**Principle:** Each service supports local undo; when automation fails, escalate to a human.
+**Principle:** Put job properties in one independently addressable HTTP document that tasks can read and conditionally update.
 
 **Do:**
-- Maintain enough history (snapshots/event logs) to support `undoDelete` and similar.
-- For multi-service workflows, each service implements its own Revert; the coordinator orchestrates.
-- "Call for help" = create a support ticket / pause workflow / capture full context (job state, error, task history) for human review.
+- Use the job ID in the shared-state URL.
+- Pass the URL in headers or response links.
+- Prime the document before starting the job.
+- Use replacement values such as current and updated price.
+- PUT the state after each completed unit of work.
+- archive state after completion.
+- Map state properties into service forms rather than sharing data models.
 
-*Ref: Cookbook.md — "Recipe 7.17: Supporting Local Undo or Rollback" / "Recipe 7.18: Calling for Help"*
+**Don't:**
+- confuse shared state with the progress resource.
+- reduce shared state to an undocumented serialized blob.
+- encode nonidempotent instructions such as percentage increments.
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.2 Supporting Shared State for Workflows"*
 ---
+### 68. Use Code for Small Stable Workflows (Recipe 7.3)
+`#api` `#architecture`
 
-### Standard List Navigation / Pagination (Recipe 7.11)
-`#api`
-
-**Principle:** Expose a fixed set of navigation affordances on every list resource: `list`, `first`, `previous`, `next`, `last`, `select`, `exit`, `home`.
+**Principle:** Hide a simple, rarely changing workflow behind a stable API and implement its service calls in local code.
 
 **Do:**
-- Omit `previous` on the first page and `next` on the last page (affordance visibility = state).
-- Use opaque href values — no need for human-readable `page1`/`page2`.
-- Use `rel="exit"` for confirmation/cleanup when leaving a costly list.
+- Run independent calls in parallel.
+- expose delayed execution with 202 and progress controls.
+- Keep the external interface stable as enlisted services change.
+- Split sequential phases into separate workflow elements.
 
-**Code (Collection+JSON list with navigation links):**
-```json
+**Don't:**
+- use source code for a large family of frequently customized workflows.
+- omit rollback handling for partial success.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.3 Describing Workflow as Code"*
+---
+### 69. Use a DSL for Repeated Workflow Authoring (Recipe 7.4)
+`#api` `#architecture`
+
+**Principle:** Adopt a constrained workflow DSL when source-code implementations no longer scale across many flows.
+
+**Do:**
+- Put URLs and other variables in configuration.
+- Make HTTP, form selection, shared-state mapping, and errors first-class DSL operations.
+- Use constrained syntax to reduce unsafe possibilities.
+- use shell tools only when their additional power is worth the defect risk.
+
+**Don't:**
+- force every workflow author to rebuild HTTP plumbing.
+- mistake unrestricted shell power for safer workflow design.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.4 Describing Workflow as DSL"*
+---
+### 70. Prefer Declarative Workflow Documents (Recipe 7.5)
+`#api` `#architecture`
+
+**Principle:** Describe tasks, job metadata, shared state, progress, time limits, and controls as resources, not imperative programs.
+
+**Do:**
+- Include job and task IDs, statuses, timestamps, maxTTL, and action URLs.
+- Keep editor and execution engine independently evolvable.
+- submit documents as HTTP resources or queue messages.
+- Let task services own branching and local decisions.
+
+**Don't:**
+- put `if/then/else`, variables, or step-by-step execution in the document.
+- use document workflow for noncompliant services without an adapter strategy.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.5 Describing Workflow as Documents"*
+---
+### 71. Standardize RESTful Job Control (Recipe 7.6)
+`#api` `#architecture`
+
+**Principle:** Use a common job-control vocabulary to author, run, monitor, continue, restart, cancel, and archive workflow documents.
+
+**Do:**
+- Require every job's tasks to be parallelizable.
+- Split fixed sequences into separate jobs.
+- Support task start, rerun, rollback, and cancel URLs.
+- Support job continue, restart, success, failure, and cancel URLs.
+- Manage jobs with list, filter, read, create, update, and remove.
+- monitor task and job maxTTL.
+
+**Don't:**
+- build a general JCL before composable services exist.
+- roll your own when one platform's workflow tooling fully meets the requirement.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.6 Supporting RESTful Job Control Language"*
+---
+### 72. Expose a Progress Resource (Recipe 7.7)
+`#api` `#architecture`
+
+**Principle:** Give every job a separate, cacheable progress resource containing minimal job and task execution metadata.
+
+**Do:**
+- Track IDs, URLs, descriptions, statuses, timestamps, and maxTTL.
+- Include a refresh link and caching guidance.
+- Record task messages without exposing private data.
+- archive progress after completion.
+- authorize detailed views carefully.
+
+**Don't:**
+- turn progress into a trace log or debugger.
+- expose request bodies, internal code, or secrets casually.
+- mix workflow-management actions into a read-only progress view.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.7 Exposing a Progress Resource for Your Workflows"*
+---
+### 73. Return All Related Actions Indirectly (Recipe 7.8)
+`#api` `#architecture`
+
+**Principle:** Keep common controls inline and put the complete current transition set behind a `related` resource.
+
+**Do:**
+- Include `rel="related"` where action sets are large.
+- Build the related set from service, resource, client, and identity context.
+- cache or use `text/uri-list` when suitable.
+- Teach clients to search inline first, then related.
+
+**Don't:**
+- inflate every response with every possible form.
+- hide every useful action behind an extra request.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.8 Returning All Related Actions"*
+---
+### 74. Return Most Recently Used Links (Recipe 7.9)
+`#api` `#architecture`
+
+**Principle:** Add a short, context-filtered MRU link list to reduce navigation cost without returning all actions.
+
+**Do:**
+- Track a FIFO of roughly three to five URLs.
+- Filter MRUs for current validity and authorization.
+- return simple links, not full forms.
+- provide a standalone MRU resource when needed.
+- allow preference controls for enabling or sizing MRUs.
+
+**Don't:**
+- store headers or infer intent in the MRU record.
+- put a long MRU collection in response headers.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.9 Returning Most Recently Used Resources"*
+---
+### 75. Model Stateful Work in Progress (Recipe 7.10)
+`#api` `#architecture`
+
+**Principle:** Collect large, long-lived, multi-party input into a persistent WIP document before final submission.
+
+**Do:**
+- Support list, filter, create, read, update, cancel, share, and submit actions.
+- accept any useful partial combination during update.
+- Use submit as the final completeness and validation boundary.
+- assign and filter WIPs with metadata such as owner, due date, and status.
+- archive completed and abandoned WIPs.
+
+**Don't:**
+- create intricate cross-field dependencies during incremental collection.
+- confuse WIP with short-lived partial form submit.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.10 Supporting Stateful Work in Progress"*
+---
+### 76. Navigate Lists with Standard Relations (Recipe 7.11)
+`#api` `#architecture`
+
+**Principle:** Publish list, first, previous, next, last, select, exit, and home controls according to the current page state.
+
+**Do:**
+- Omit previous on the first page and next on the last.
+- Use opaque navigation URLs.
+- provide select links from summary items to details.
+- Make page size configurable with a safe default, often around 50.
+- compute later pages lazily when list generation is costly.
+- Use exit for cleanup or confirmation when abandoning costly state.
+
+**Don't:**
+- promise arbitrary page-number jumps when the list is dynamic or expensive.
+- return full resources when summaries and select links suffice.
+- confuse page size with the overall query limit.
+
+**Code:**
+```
 {"collection" : {
  "title" : "Customer List",
  "links" : [
-   {"rel" : "self list collection", "href" : "/customers/list"},
-   {"rel" : "home", "href" : "/customers/"},
-   {"rel" : "first", "href" : "/customers/list/q1w2"},
-   {"rel" : "next", "href" : "/customers/list/t5y6"},
-   {"rel" : "exit", "href" : "/customers/p0o9"}
- ]}}
+ {"rel" : "self list collection", "href" : "/customers/list"},
+ {"rel" : "home", "href" : "/customers/"},
+ {"rel" : "first", "href" : "/customers/list/q1w2"},
+ {"rel" : "next", "href" : "/customers/list/t5y6"},
+ {"rel" : "exit", "href" : "/customers/p0o9"}
+ ],
+ "items" : [
+ ...
+ ]
+}}
 ```
-*Ref: Cookbook.md — "Recipe 7.11: Enabling Standard List Navigation"*
 
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.11 Enabling Standard List Navigation"*
 ---
+### 77. Support Partial Form Submit (Recipe 7.12)
+`#api` `#architecture`
 
+**Principle:** Separate “save these inputs” from “process this completed form” so machines can validate and recover one field at a time.
+
+**Do:**
+- Offer partialSubmit, resetSubmit, refreshSubmit, cancelSubmit, and finalSubmit.
+- Validate and store each partial submission.
+- return the updated form with accepted values filled in.
+- run dependent and final validation at finalSubmit.
+- allow already submitted values to be corrected.
+
+**Don't:**
+- require all fields before accepting any progress.
+- make dependent validation so complex that an automated client cannot recover.
+
+**Code:**
+```
+GET /users/filter?type=customer&submit=partialSubmit
+GET /users/filter/?salesRep=Mork&submit=partialSubmit
+GET /users/filter/?submit=finalSubmit
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.12 Supporting Partial Form Submit"*
+---
+### 78. Enable Client-Driven Workflow with State-Watch (Recipe 7.13)
+`#api` `#architecture`
+
+**Principle:** Let each client select a small set of watchable values and receive those values in subsequent representations.
+
+**Do:**
+- Publish a watchable-element list.
+- Create a client-specific selected-watch resource.
+- let the client supply the selected resource's unique ID.
+- Return watch-list and watch-selected links with responses.
+- support clear, create, update, list, and selected actions.
+- Use the selected resource rather than long repeated query strings.
+
+**Don't:**
+- assume the service knows the client's private goal.
+- share one selected-watch resource across clients.
+- use an unsafe body query when an addressable watch resource is practical.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.13 Using State-Watch to Enable Client-Driven Workflow"*
+---
+### 79. Store and Replay Queries as Resources (Recipe 7.14)
+`#api` `#architecture`
+
+**Principle:** Put a complex query in a resource body, then execute or replay it through a cacheable GET URL.
+
+**Do:**
+- Create queries with client-addressed conditional PUT.
+- separate execution URLs from management URLs clearly.
+- store query text, cache metadata, description, owner, tags, and timestamps.
+- support list, filter, update, remove, and optional share.
+- return query metadata with results.
+- return 410 after an intentionally temporary query resource expires.
+
+**Don't:**
+- put huge queries in URLs.
+- rely on POST when replay caching is valuable.
+- let share semantics obscure who may edit the source query.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.14 Optimizing Queries with Stored Replays"*
+---
+### 80. Return 202 for Incomplete Work (Recipe 7.15)
+`#api` `#architecture`
+
+**Principle:** Acknowledge long work immediately with a delayed-response resource the client can refresh, complete, fail, or cancel.
+
+**Do:**
+- Return `202 Accepted` before or after work begins.
+- Include identifier, accepted/completed/failed URLs, description, status, refresh, percentage, and timestamps.
+- Provide self, completed, failed, cancel, and home controls as applicable.
+- document every operation that may return 202.
+- keep completed delayed-response documents for an audit period.
+- use maxTTL and cancellation for bounded work.
+
+**Don't:**
+- surprise a client with an undocumented 202 path.
+- put rapidly changing progress fields in headers.
+- claim cancel support when state changes cannot be reversed.
+
+**Code:**
+```
+**** REQUEST
+PUT /services/compute-results HTTP/1.1
+Content-Type: application/vnd.collection+json
+...
+{"collection": {...}}
+**** RESPONSE
+202 Accepted HTTP/1.1
+Content-Type: application/vnd.collection+json
+Link: <http://api.example.org/services/compute-results/q1w2e3>;rel=self;
+ refresh=60000
+Link: <http://api.example.org/services/cancel-form/q1w2e3>;rel=cancel
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.15 Synchronous Reply for Incomplete Work with 202 Accepted"*
+---
+### 81. Retry with Bounded Exponential Backoff (Recipe 7.16)
+`#api` `#architecture`
+
+**Principle:** Retry only retryable idempotent failures, prefer exponential backoff, and stop after a small configured bound.
+
+**Do:**
+- Classify connection failures and selected 5xx responses as retry candidates.
+- avoid retrying unchanged 4xx requests.
+- Prefer waits of 2, 4, then 16 seconds and no more than three retries.
+- Consider incremental, regular, immediate, or randomized strategies only when context warrants.
+- Add randomization when synchronized callers could overload recovery.
+- record attempts as warnings and the terminal failure as an error.
+- cap task and job duration to contain compounded delays.
+
+**Don't:**
+- retry POST, PATCH, or operation-level increments automatically.
+- expose internal retry configuration publicly.
+- retry aggressively enough to trigger abuse defenses.
+
+**Code:**
+```
+<!-- For EBO methods -->
+<retries>
+ <method>EBO<method>
+ <starting-value-seconds>2</starting-value-seconds>
+ <max-retries>3</max-retries>
+</retries>
+```
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.16 Short-Term Fixes with Automatic Retries"*
+---
+### 82. Support Local Undo or Delayed Rollback (Recipe 7.17)
+`#api` `#architecture`
+
+**Principle:** Expose direct undo when previous state is safely restorable; otherwise delay the write so cancellation prevents commitment.
+
+**Do:**
+- Log an undoable action under a context ID before execution.
+- authorize undo with the same rights as its underlying inverse.
+- set a short validity window for direct rollback.
+- queue risky multi-service writes for a bounded cancellation window.
+- return 202 when the delay should be explicit.
+
+**Don't:**
+- undo an old operation after dependent state may have changed.
+- add fixed delays to latency-sensitive workflows without calculating compounding cost.
+- claim local undo reverses an entire multiservice job.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.17 Supporting Local Undo or Rollback"*
+---
+### 83. Call for Human Help (Recipe 7.18)
+`#api` `#architecture`
+
+**Principle:** Escalate unrecoverable workflow failures with enough bounded context for a person to continue, restart, or cancel safely.
+
+**Do:**
+- Include or link the workflow description, progress, shared state, and error report.
+- Put a responsible contact in the job document.
+- send email, SMS, voice, or incident-platform alerts as appropriate.
+- Record each escalation as an incident for recurring-problem analysis.
+- protect private and proprietary data in incident material.
+
+**Don't:**
+- leave an unrecoverable workflow silently paused.
+- publish traces, credentials, or personal data in the alert.
+- build a new incident platform when an existing one can accept the report.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.18 Calling for Help"*
+---
+### 84. Scale Workflows with Queues and Clusters (Recipe 7.19)
+`#api` `#architecture`
+
+**Principle:** Add durable queues for admission and machine clusters for processing without changing the public interface.
+
+**Do:**
+- Acknowledge queued jobs with 202.
+- persist self-describing workflow documents before processing.
+- add processors when queued work approaches maxTTL.
+- cluster workers behind one interface address.
+- keep shared state independently addressable.
+- require tasks to run safely in parallel.
+
+**Don't:**
+- expose queue or cluster topology as public API semantics.
+- rely on machine-local folders when clustered workers require a shared queue.
+- let queued work exceed TTL without cancellation or escalation.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.19 Scaling Workflow with Queues and Clusters"*
+---
+### 85. Proxy Only Safe Workflow Tasks (Recipe 7.20)
+`#api` `#architecture`
+
+**Principle:** Use a workflow proxy only when replacement is impossible, and prefer read-only or compute-only target services.
+
+**Do:**
+- Add shared-state read/write and correlation/request identifiers in the proxy.
+- Map Execute to the target service.
+- implement Repeat idempotently.
+- remove proxy-produced shared state during Revert.
+- use the proxy as a migration bridge when you own the target.
+- replace the target with a compliant service when feasible.
+
+**Don't:**
+- proxy an unknown state-changing service whose side effects cannot be reversed.
+- assume deleting one created resource reverses hidden dependent work.
+- ignore the extra availability and latency failure point.
+
+*Ref: Restful Web API Patterns and Practices Cookbook.md — "7.20 Using Workflow Proxies to Enlist Noncompliant Services"*
+---
 ## Anti-Patterns & Common Mistakes
 
-- **Exposing internal data/object models directly** → *fix:* design the API as its own artifact; use anti-corruption layer (Recipe 5.2).
-- **Using POST for all writes** → *fix:* PUT-Create with `If-None-Match: *` (Recipes 3.6, 5.15).
-- **Returning a 4xx for an empty valid query** → *fix:* 200 OK + empty collection + metadata (Recipe 6.6).
-- **Plain JSON as the only format** → *fix:* adopt a structured media type so structure ≠ content (Recipe 3.2).
-- **Hardcoding every URL in the client** → *fix:* one stable entry URL; discover the rest (Recipes 4.1, 5.1).
-- **Rejecting messages with unknown fields** → *fix:* Must Ignore rule; pass complete records through (Recipe 6.8).
-- **Stripping unfamiliar fields before forwarding** → *fix:* forward the complete record + ETag (Recipe 6.13).
-- **Removing or redefining published properties** → *fix:* "Don't Change It, Add It" + parallel properties (Recipes 3.10, 3.11).
-- **Breaking changes to a published semantic profile** → *fix:* version at a new URI.
-- **No caching metadata on responses** → *fix:* always emit `Cache-Control` + `ETag` (Recipe 6.9).
-- **Retrying POST/PATCH on transient failure** → *fix:* only retry idempotent methods; use idempotency keys otherwise.
-- **No fallback strategy for dependent services** → *fix:* retry → static fallback → dynamic fallback → queue → give up (Recipe 5.16).
-- **Stuffing workflow transient state into headers** → *fix:* put it in the body; headers break caching (Recipe 7.15).
-- **Confusing query limits with page sizes** → *fix:* they're separate controls (Recipes 6.12 vs 7.11).
+- **Four layers collapsed into one schema:** Protocol, representation, vocabulary, and actions cannot evolve independently. → *Fix:* define and publish each layer separately.
+- **Plain JSON called a durable type:** Adding fields changes the object structure clients bind to. → *Fix:* use a structured media type and profile.
+- **Private magic strings:** Consumers need undocumented tribal knowledge. → *Fix:* publish a complete vocabulary with authoritative definitions.
+- **ALPS used as OpenAPI:** Problem semantics become tied to one deployment. → *Fix:* keep implementation details in an SDD.
+- **URLs baked into clients:** Relocation becomes a client release. → *Fix:* memorize one home URL and follow controls.
+- **POST used for critical writes:** A lost response makes repetition ambiguous. → *Fix:* conditional PUT-Create.
+- **Increment bodies:** A retried partial batch compounds changes. → *Fix:* send current and replacement values.
+- **No undo history:** DELETE and complex updates cannot be reversed. → *Fix:* retain prior state and publish rollback actions.
+- **Breaking rename disguised as cleanup:** Existing consumers lose a promised property. → *Fix:* add the new property in parallel.
+- **Required field added in place:** Old clients cannot submit the old form. → *Fix:* optional default or a new action.
+- **Strict incoming schema validation:** Benign additions produce false negatives. → *Fix:* query for required structure and values.
+- **Unknown fields stripped:** Round-trip updates corrupt records. → *Fix:* ignore locally but preserve globally.
+- **Health endpoint without caching:** Monitoring becomes self-inflicted load. → *Fix:* return Cache-Control and ETag.
+- **Problem Details as a debugger:** Internal data escapes the interface boundary. → *Fix:* report only actionable interface semantics.
+- **Fallback service as dependency:** Recovery fails with the same network. → *Fix:* keep mitigation local.
+- **Raw database query in URL:** Security, length, coupling, and encoding fail together. → *Fix:* named forms or query media types.
+- **Empty collection returned as 404:** A valid query is mislabeled as failure. → *Fix:* 200 plus empty items and query metadata.
+- **Unbounded query:** Growth eventually consumes service resources. → *Fix:* enforce a default maximum in every backend query.
+- **Query limit confused with page size:** Collection scope and navigation behavior become inconsistent. → *Fix:* govern them separately.
+- **Progress resource used as trace log:** Secrets and internals become public. → *Fix:* expose minimal status metadata only.
+- **Retries on nonidempotent work:** Recovery duplicates side effects. → *Fix:* idempotent method plus idempotent operation.
+- **Workflow proxy around unknown writes:** Revert is unprovable. → *Fix:* proxy read-only work or replace the service.
 
 ## Decision Heuristics / Checklists
 
-- **Media type selection:** Default HTML. Add Collection+JSON/SIREN/HAL for richer M2M. Avoid custom media types unless you're a vertical leader.
-- **Write method:** PUT for create/update (idempotent); POST only when forced (e.g., browser-only HTML forms) — then add Idempotency-Key.
-- **Status code for empty result:** Collection query empty → 200. Single-resource URL missing → 404. Malformed → 400. Server can't fulfill → 5xx.
-- **Cache lifetime:** Match data volatility. Static lists = hours/days. Shopping cart = seconds.
-- **Retry policy:** Only idempotent methods; exponential backoff (2s → 4s → 16s); max 3; add jitter.
-- **State transfer between services:** Inline FORM (simplest) → import/export ops (larger) → shared URL reference (most coupled).
-- **Error format:** Plain status code when sufficient → RFC 7807 Problem Details when the client needs to programmatically resolve the error.
-- **Workflow style:** Few steps, little branching → orchestration. Many steps, async, parallel → choreography. Hybrid → hypermedia workflow (RJCL).
-- **Proxy type:** COP for a single noncompliant service; ELP for a service family; SPP for vocab/format normalization only.
-- **Modify-or-fork:** Non-breaking addition → modify in place (3 rules). Breaking change → fork the interface, run both, migrate.
+### Interface Design Checklist
+- [ ] Is HTTP behavior separate from representation format?
+- [ ] Is representation structure separate from domain vocabulary?
+- [ ] Are actions discoverable as links or forms?
+- [ ] Is at least one registered structured media type supported?
+- [ ] Is HTML useful as a testable baseline representation?
+- [ ] Is every magic string in a published vocabulary?
+- [ ] Does an ALPS profile cover ontology, taxonomy, and choreography?
+- [ ] Does the API promise one stable home URL?
+- [ ] Are internal models translated rather than serialized?
+- [ ] Can additions remain optional and ignorable?
+
+### Write Safety Checklist
+- [ ] Does create use client-supplied ID, PUT, and `If-None-Match: *`?
+- [ ] Does update use PUT and the current `If-Match` ETag?
+- [ ] Does delete require `If-Match`?
+- [ ] Is the body a replacement operation rather than an increment?
+- [ ] Can the exact request be repeated after a lost response?
+- [ ] Is prior state retained long enough for rollback?
+- [ ] Is every successful representation returned with a new ETag?
+- [ ] Does a stale precondition trigger refetch and recomputation?
+
+### Client Resilience Checklist
+- [ ] Does the client know only the entry URL?
+- [ ] Does it send Accept and validate Content-Type?
+- [ ] Does it parse by media type before reading domain values?
+- [ ] Does it understand the expected profile?
+- [ ] Does it locate controls by ID, name, rel, or tag?
+- [ ] Does it strictly validate outgoing messages?
+- [ ] Does it query-check required incoming elements without whole-schema rejection?
+- [ ] Does it allow-list and semantically validate consumed values?
+- [ ] Does it retain complete request/response history and its own transient state?
+- [ ] Does every autonomous goal have a client-controlled escape?
+
+### Service Operations Checklist
+- [ ] Are preferences available through a cacheable meta resource?
+- [ ] Are profile, service-desc, service-meta, and health links advertised?
+- [ ] Is content negotiation proactive by default?
+- [ ] Are health responses `application/health+json`, cacheable, and authorization-aware?
+- [ ] Are detailed errors represented with RFC 7807 only when useful?
+- [ ] Does every service instance register, ping, and unregister?
+- [ ] Is dependency recovery ordered retry → static fallback → dynamic fallback → queue → give up?
+- [ ] Are retry, fallback, and queue mechanisms local?
+- [ ] Are proxies excluded from latency-sensitive paths unless measured?
+
+### Data and Query Checklist
+- [ ] Does the API hide storage technology and relationships?
+- [ ] Do simple HTTP queries use contains and AND semantics?
+- [ ] Does every query return relevant metadata?
+- [ ] Does an empty valid collection query return 200?
+- [ ] Are complex query languages carried as media types?
+- [ ] Are unknown fields preserved on round trips?
+- [ ] Does every response include caching metadata?
+- [ ] Is `Vary` correct for negotiated or authorized representations?
+- [ ] Does the store support explicit fields plus extensible NVPs?
+- [ ] Is every query bounded before reaching storage?
+- [ ] Are query limits and page sizes independent?
+
+### Workflow Checklist
+- [ ] Does every task support Execute, Repeat, Revert, and Cancel semantics?
+- [ ] Does every job support Continue, Restart, and Cancel?
+- [ ] Are job and task IDs propagated consistently?
+- [ ] Is state an HTTP resource rather than a shared model?
+- [ ] Is progress a separate minimal resource?
+- [ ] Are task and job maxTTL values enforced?
+- [ ] Are sequential phases split into separate jobs?
+- [ ] Is long work represented by 202 plus refresh/status controls?
+- [ ] Are retries idempotent, bounded, and backed off?
+- [ ] Can unrecoverable failures call for human help?
+- [ ] Are queues and clusters hidden behind the interface?
+- [ ] Are workflow proxies limited to safely repeatable and reversible work?
 
 ## Key Takeaways
 
-1. **Hypermedia is the glue** — links + forms embedded in responses let clients discover actions at runtime; this is the foundation of evolvability.
-2. **Separate the four layers** — protocol, message format, vocabulary, actions — so each evolves independently.
-3. **Use structured media types** — HTML, Collection+JSON, HAL, SIREN keep message structure stable while content changes.
-4. **Publish vocabularies + semantic profiles (ALPS)** — ontology, taxonomy, choreography in a machine-readable doc.
-5. **PUT, not POST, for writes** — PUT-Create + `If-None-Match: *` eliminates the lost-response problem.
-6. **Design for repeatability, reversibility, extensibility** — idempotent bodies, undo support, "Don't Change It, Add It."
-7. **Clients are runtime-driven** — one stable URL, discover everything else, maintain own state, validate by structure not content.
-8. **Services are good web citizens** — stable entry point, hidden internals, content negotiation, published metadata/vocab/health, RFC 7807 errors, runtime fallbacks.
-9. **Data hides behind the interface** — no storage/relationship leakage; idempotent changes; honor caching; Must Ignore unknown fields.
-10. **Workflow needs composable interfaces** — Execute/Repeat/Revert/Cancel per task; Continue/Restart/Cancel per job; state shared as documents.
-11. **Start small, iterate** — apply recipes incrementally; wrap legacy via proxies; "smallest thing that teaches the most, over and over."
-12. **The guiding principle dominates** — design for strangers, on the scale of decades, assuming everything will change.
+1. Separate protocol, format, vocabulary, and actions.
+2. Bind clients to HTTP, registered media types, and semantic profiles—not endpoint trees.
+3. Publish links and forms as the runtime engine of application state.
+4. Make every write conditionally idempotent with PUT and entity tags.
+5. Make operations repeatable, reversible, extensible, and nonbreaking by design.
+6. Take nothing away, redefine nothing, and make additions optional.
+7. Publish vocabulary, ALPS, service definitions, API metadata, health, and errors as distinct artifacts.
+8. Hide internal service, storage, query, and relationship models.
+9. Return query metadata, correct 200/4xx/5xx semantics, caching directives, and bounded results.
+10. Preserve unknown fields while consuming only allow-listed values.
+11. Coordinate workflows through documents, shared-state resources, progress resources, and composable actions.
+12. Model long work with 202, bounded retries, rollback, escalation, queues, and clusters.
+13. Introduce proxies only as carefully bounded translation or migration tools.
+14. Make the smallest change that teaches the most, then repeat.
+15. Design for people you have never met, uses you have not imagined, and timescales measured in decades.
 
 ## Cross-References
-- Related: [[../Mastering_Api_Architecture.md]] (REST/gRPC/GraphQL selection, OpenAPI, contract testing, OAuth2, gateway/mesh, threat modeling)
+- Related: [[../Mastering_Api_Architecture.md]]
 - Topic index: [[../INDEX.md]]

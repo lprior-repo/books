@@ -1,8 +1,10 @@
 # Best Practices — Cross-Topic Index
 
 > **Extracted from 54 technical books** in the personal library at `/home/lewis/books`.
-> **~37,300 lines** of distilled principles, do/don't rules, anti-patterns, and
-> verbatim code snippets, drawn from `markdown_output/` + `summaries/`.
+> **~77,000 lines across 55 deep-dive files** of distilled principles, do/don't
+> rules, anti-patterns, and verbatim code snippets, drawn from `markdown_output/`
+> + `summaries/`. Each book targets **30-50 pages** of extracted content
+> (1,500-2,500 lines), with the deepest files exceeding 3,000 lines.
 > Generated from a parallel sweep of the full book library.
 
 ---
@@ -226,9 +228,15 @@ Cross-references between deep-dives are in each file's "Cross-References" sectio
 
 ## Total extracted content
 
-**54 best-practices files · INDEX + TEMPLATE = 56 files · 37,334 lines · ~50+ Go code snippets per rich file · ~1,200+ principles distilled**
+**54 best-practices files · INDEX + TEMPLATE = 56 files · ~77,000 lines · ~50+ Go code snippets per rich file · ~2,500+ principles distilled**
+
+**Page distribution (30-50 page target):**
+- 48 of 55 substantive files are at 30+ pages (1,500+ lines)
+- 6 files under 30 pages are short source books (methodology guides 5-15pp, Early Release sources, etc.)
+- Deepest: 100_Go_Mistakes (3,175L), DDD-with-Golang (3,062L), Mastering_Api_Architecture (3,037L), Functional_Programming_in_Go (2,918L), Mastering_Go (2,888L), Engineering_Resilient_Systems_on_AWS (2,862L)
 
 Wave coverage:
 - Wave 1 — concurrency, testing, CLI, API fundamentals (9 books)
-- Wave 2 — cross-cutting Go + architecture foundations (10 books)
-- Wave 3 — reliability, observability, metrics, evolutionary architecture, event-driven systems, microservices migration, platforms & org design (24 books)
+- Wave 2 — cross-cutting Go + architecture foundations (17 books)
+- Wave 3 — reliability, observability, metrics, evolutionary architecture, event-driven systems, microservices migration, platforms & org design (22 books)
+- Wave 4 — depth expansion: every file re-extracted to 30-50 page target (50 files re-written)

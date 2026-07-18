@@ -7,7 +7,7 @@
 
 # Fundamentals of Software Architecture
 **Authors:** Mark Richards & Neal Ford
-**Topic tags:** `#architecture` `#testing` `#api`
+**Topic tags:** `#architecture` `#testing` `#api` `#distributed-systems`
 **Language focus:** language-agnostic (Java/C# examples where they appear)
 **Sources:** `markdown_output/Fundamentals of Software Architecture/Fundamentals of Software Architecture.md` · `summaries/Fundamentals_of_Software_Architecture.md`
 
@@ -20,7 +20,7 @@ Foundational engineering-discipline treatment of software architecture: how to t
 
 ### Architect Role & Laws of Software Architecture
 
-**Principle:** Architecture is the set of structural decisions, architecture characteristics ("-ilities"), architecture decisions (rules), and design principles (guidelines) — guided by two immutable laws.
+**Principle:** Architecture is the set of **structural decisions**, **architecture characteristics** ("-ilities"), **architecture decisions** (rules), and **design principles** (guidelines) — guided by two immutable laws.
 
 **Do:**
 - Treat architecture as the combination of **structure + characteristics + decisions + principles**; never answer "what's the architecture?" with only the structural style.
@@ -50,6 +50,7 @@ Foundational engineering-discipline treatment of software architecture: how to t
 - For every solution candidate, ask "Programmers know the benefits of everything and the trade-offs of nothing. Do I understand both?"
 - For every decision, ask "What is more important here: extensibility or security?" — the question is always answerable only in context.
 - Practice analyzing trade-offs by enumerating advantages AND disadvantages on both sides of any choice (see auction system topic-vs-queue example).
+- Avoid the **bottleneck trap**: don't own code in the critical path of a project. Delegate framework code to the team; write a business service 1–3 iterations behind.
 
 **Don't:**
 - Don't try to maintain deep expertise in a wide variety of areas — you'll succeed in none.
@@ -57,6 +58,27 @@ Foundational engineering-discipline treatment of software architecture: how to t
 - Don't separate architect from developers with virtual/physical barriers — they form a bidirectional loop, not a waterfall handoff.
 
 *Ref: Fundamentals_of_Software_Architecture.md — "Architectural Thinking", "Technical Breadth", "Frozen Caveman Anti-Pattern", "Analyzing Trade-Offs"*
+
+---
+
+### Trade-Off Analysis: Auction System Topics vs Queues
+
+**Principle:** Every decision has advantages AND disadvantages; identifying them all is the job.
+
+**Topic advantages:**
+- Architectural extensibility (no producer changes for new consumers)
+- Service decoupling (producer doesn't know consumers)
+
+**Topic disadvantages:**
+- Data access / data security concerns (anyone with topic access can read all data)
+- No heterogeneous contracts (all subscribers accept same payload)
+- No per-queue programmatic load balancing/monitoring (AMQP allows it for queues)
+
+**Decision heuristic:**
+- Need extensibility + loose coupling → topic
+- Need heterogeneous contracts + per-queue scaling + security → queue
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Analyzing Trade-Offs" (the auction example)*
 
 ---
 
@@ -201,10 +223,14 @@ void testAllPackages() {
 - Compute **LCOM** to find classes where field/method pairings don't share access — refactor them apart.
 - Use **afferent** (incoming) and **efferent** (outgoing) coupling to analyze dependency graphs; remember the *a*-before-*e* mnemonic for afferent vs efferent.
 - Continually refactor toward the **main sequence** (abstractness vs instability ideal line).
+- Treat modularity as a *first-class implicit characteristic* — sustainable codebases require order and consistency.
 
 **Don't:**
 - Don't mistake LCOM for logical-cohesion detection — it's purely structural.
 - Don't let shared utility classes accumulate; they bind unrelated code via incidental coupling.
+- Don't lump many classes into a monolithic app for convenience — when restructuring, the loose partitioning becomes an impediment.
+
+**LCOM definition:** the sum of sets of methods not shared via sharing fields. A class with two fields accessed by disjoint method groups scores high (lacks cohesion).
 
 *Ref: Fundamentals_of_Software_Architecture.md — "Modularity", "Cohesion", "Coupling", "Abstractness, Instability, and Distance from the Main Sequence"*
 
@@ -350,6 +376,7 @@ NOTES
 - Continually collaborate with developers to validate decisions can be implemented.
 - Communicate using **direct impact**: *"Hi Sandra, I've made an important decision about service communication that directly impacts you. Link…"*
 - Justify decisions with **both technical and business** rationale (cost, time-to-market, user satisfaction, strategic positioning).
+- Make only **architecturally significant** decisions: structure, characteristics, dependencies, interfaces, construction techniques.
 
 **Don't:**
 - Don't fall into the progressive anti-pattern chain: **Covering Your Assets** → **Groundhog Day** → **Email-Driven Architecture**.
@@ -392,6 +419,10 @@ NOTES
 | Identification (individual) | Score each area on the matrix | Each participant alone |
 | Consensus (collaborative) | Place Post-its, debate, agree | All together |
 | Mitigation (collaborative) | Propose refactors | All together + stakeholders |
+
+**Agile story risk analysis:**
+- Add a *Risk* column to the story card with values 1, 3, 6, 9 (the matrix scores).
+- Sum all risks on the iteration backlog → adjust iteration commitment accordingly.
 
 *Ref: Fundamentals_of_Software_Architecture.md — "Risk Matrix", "Risk Assessments", "Risk Storming", "Agile Story Risk Analysis"*
 
@@ -539,6 +570,8 @@ NOTES
 - Use **persistent message queues** + **synchronous send** (Issue 1: producer → queue).
 - Use **client acknowledge mode** — message stays in queue until consumer ACKs (Issue 2: consumer crash).
 - Use **ACID DB transactions** + **last participant support** (Issue 3: queue → DB persistence).
+
+**Hybrid event-driven:** use event-driven for most communication but allow **request-reply** for query-style operations (e.g., Bid History Service querying current bid). Hybrid is a valid topology.
 
 *Ref: Fundamentals_of_Software_Architecture.md — "Event-Driven Architecture Style"*
 
@@ -805,6 +838,1206 @@ NOTES
 
 ---
 
+### Architecture Partitioning — Technical vs Domain
+
+**Principle:** Top-level partitioning decision drives the rest of the architecture. The two fundamental approaches are **technical partitioning** (presentation/business/persistence) and **domain partitioning** (workflows/bounded contexts).
+
+**Do:**
+- Choose **technical** when:
+  - User stories are small, simple CRUD operations
+  - Domain is small, well understood
+  - Limited business-domain expertise on team
+  - No clear domain boundaries yet
+- Choose **domain** when:
+  - Workflows span technical layers (e.g., "Place Bid" → DB → Web Service → messaging)
+  - Domain is complex
+  - Business domain expertise exists
+  - Workflows are the primary unit of change
+- For microservices, **always** use domain partitioning — Conway's law says otherwise.
+
+**Don't:**
+- Don't use technical partitioning for complex domains — you'll end up with a tightly coupled "modular monolith" where every change touches every layer.
+- Don't use domain partitioning for trivial domains — over-engineering.
+- Don't forget technical partitioning traps: in a layered architecture, even an order (with workflow) crosses all layers; teams must coordinate.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Architecture Partitioning"*
+
+---
+
+### Component Granularity — Finding the Sweet Spot
+
+**Principle:** Component granularity drives coupling/cohesion trade-offs. Too fine → excessive inter-component communication. Too coarse → high internal coupling, poor deployability.
+
+**Do:**
+- Start **coarse-grained** — easier to split than merge.
+- Look for **accidental coupling** (shared utility classes binding unrelated functionality) — use LCOM to detect.
+- Look for **transaction boundaries** as granularity hints — components that always participate in the same transaction should be one component.
+- Look for **deployment units** as granularity hints — independently deployable → independent component.
+
+**Don't:**
+- Don't make components mirror database tables (entity trap).
+- Don't merge components just because they share a database — shared DB ≠ same component.
+- Don't split components simply because they're large — measure coupling first.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Component Granularity", "Component Design"*
+
+---
+
+### Discovering Components — Techniques
+
+**Do:**
+- **Actor/Actions approach:** Identify the actors (users, systems) and the actions they perform; group related actions into components.
+- **Event Storming:** Workshop where domain experts walk through business events; group events by lifecycle phase → components.
+- **Workflow approach:** Identify workflows (sets of actions producing an observable result); each workflow is a candidate component.
+- **Naked Objects pattern:** Build pure CRUD UIs exposing domain objects; component boundaries emerge from object clusters.
+
+**Don't:**
+- Don't use the entity trap (one component per table).
+- Don't rely solely on user stories — they underrepresent cross-cutting concerns.
+- Don't skip the iteration step — initial discovery is rarely right.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Discovering Components"*
+
+---
+
+### Case Study: Silicon Sandwiches (Monolith)
+
+**Context:** Online sandwich-ordering startup. Tight budget, time-to-market critical. Limited staff.
+
+**Architecture choices:**
+- **Style:** Layered monolith (no distributed concerns needed initially)
+- **Quantum:** Single (shared DB, single deploy unit)
+- **Domain:** Simple CRUD workflows; technical partitioning chosen
+- **Characteristics:** Time-to-market (agility), simple workflows
+
+**Lessons:**
+- Modular monolith is a valid start — distributed comes later if characteristics demand it.
+- Don't over-engineer for future scale you may never need.
+- The "least worst architecture" principle: optimize for current characteristics, not theoretical future ones.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Case Study: Silicon Sandwiches", "Case Study: Silicon Sandwiches: Partitioning"*
+
+---
+
+### Case Study: Going, Going, Gone (Online Auction)
+
+**Context:** Online auction platform with high concurrency (10,000+ bidders), high data volume, complex event workflows.
+
+**Architecture choices:**
+- **Style:** Event-driven (asynchronous auction events) with hybrid request-reply for queries
+- **Quantum:** Multiple — Bid Capture, Bid Streamer, Bidder Tracker, Online Auction API each have different characteristics
+- **Broker topology:** For high-throughput fan-out of bid events
+- **Asynchronous pub/sub:** Between Bid Capture, Bid Streamer, Bidder Tracker (see ADR 76)
+- **Mediator (jBPM):** For complex multi-step auction workflows
+
+**Lessons:**
+- High concurrency + variable load + complex workflows = event-driven is the natural fit.
+- ADR captured the "Why" — even a decade later, the architect can re-evaluate the decision without losing context.
+- Asynchronous-first design forces decoupling; new event consumers (analytics, fraud detection) added without touching producers.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Case Study: Going, Going, Gone", "Architecture Quantum Redux"*
+
+---
+
+### Architectural Significant Requirements (ASRs)
+
+**Principle:** Not all requirements are architecturally significant. Identify which ones *actually* influence structure.
+
+**ASRs:**
+- Affect structure (component boundaries, communication patterns)
+- Influence cross-cutting concerns (security, observability)
+- Constrain technology choice (performance SLAs dictate DB type)
+- Drive deployment topology (multi-region for availability)
+
+**Non-ASRs (don't architect around these):**
+- Pure business logic that lives inside one component
+- UI-level changes
+- Cosmetic requirements
+- One-off user preferences
+
+**Do:**
+- Tag ASRs explicitly in the requirements backlog.
+- Track ASRs through their lifecycle (proposed → accepted → deprecated).
+
+**Don't:**
+- Don't treat every requirement as architecturally significant — designer overreach.
+- Don't assume an ASR stays ASR forever — context changes.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Architecturally Significant"*
+
+---
+
+### API Design & Layered Contracts
+
+**Principle:** APIs define architectural boundaries. They must be designed with the same care as components and services. Three foundational concerns: **discovery** (URI structure), **contract** (verbs, payloads), **evolution** (versioning, deprecation).
+
+**Do:**
+- Use **resource-oriented URIs** (`/customers/123/orders`) with HTTP verbs carrying semantics (`POST` = create, `GET` = read, `PUT` = replace, `PATCH` = partial update, `DELETE` = remove).
+- Prefer **`/resource/collection/{id}/sub-resource/{subId}`** for hierarchy over query parameters.
+- Use **plural nouns** (`/orders`, not `/order`).
+- Return **whole resource** on GET; use **PATCH** for partial updates (PUT replaces entire representation).
+- Apply the **Postel's Law** for APIs: *be liberal in what you accept, conservative in what you send*.
+- Version APIs at the URI (`/v1/orders`) or via header (`Accept: application/vnd.company.orders.v2+json`).
+- Document with **OpenAPI 3.0** (formerly Swagger) — generates client SDKs, validates payloads.
+- Use **idempotency keys** for state-mutating endpoints (POST/PUT/DELETE).
+- Paginate with **cursor-based** pagination (stable across insertions) over offset (unstable).
+- Specify **content negotiation** (`Accept`, `Content-Type`).
+- Implement **ETag** for optimistic concurrency control on updates.
+
+**Don't:**
+- Don't expose **verbs in URIs** (`/createOrder`) — use HTTP verbs.
+- Don't return **stack traces** or internal error details to clients.
+- Don't use **different field names for the same concept** across endpoints.
+- Don't break the API contract on minor version bumps (use major versions).
+- Don't expose **stamps** (entire objects) when only a subset is needed (returns 500KB to deliver 200B).
+- Don't build **chatty APIs** (multiple round-trips for one logical operation).
+- Don't return **mixed-case JSON** (snake_case vs camelCase) inconsistently.
+
+**Stamp coupling remediation:**
+- **Field selectors** in contracts (`GET /orders?fields=id,total`)
+- **GraphQL** (client specifies needed fields)
+- **Private RESTful endpoints** (dedicated fine-grained resource)
+- **Consumer-Driven Contracts (CDCs)** (provider only returns what consumer needs)
+- **Internal messaging endpoints** (instead of HTTP APIs)
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Foundations" of API design, Microservices API Layer, Distributed Considerations*
+
+---
+
+### Distributed Transactions & Sagas
+
+**Principle:** ACID transactions don't span services. Use sags for eventual consistency across services. Sagas = a sequence of local transactions coordinated via events.
+
+**Saga types:**
+- **Choreography:** Each service emits events; next service subscribes. Decentralized, eventually consistent.
+- **Orchestration:** A central orchestrator (mediator) coordinates the saga steps. Easier to monitor but adds a coordinator service.
+
+**Do:**
+- Use **compensating transactions** — every forward action has an undo action (cancel order → restore inventory).
+- Design compensations to be **idempotent** — they may be retried.
+- Track saga state via **correlation IDs** flowing through events.
+- Build a **saga timeout** — if a step doesn't complete in N seconds, invoke compensation.
+- Make saga definitions **declarative** when possible (jBPM, Camunda).
+- Document saga flows in ADRs — they're load-bearing decisions.
+
+**Don't:**
+- Don't use sags for trivial workflows — they add complexity for limited benefit.
+- Don't put **long-running sagas** (hours/days) in core request paths — human-in-the-loop needed.
+- Don't assume saga guarantees **atomic visibility** — observers see intermediate states.
+- Don't forget **orphan management** — handle cases where compensation never executes (use a sweeper job).
+
+**Trade-off:** "If transactions are the dominant feature, mistakes were made" (Ford/Richards) — usually the granularity is wrong; merge services.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Transactions and Sagas", Microservices*
+
+---
+
+### Component Identification Techniques (Detailed)
+
+**Principle:** Component discovery is one of the hardest architectural tasks. Multiple techniques exist; use them in combination.
+
+**1. Actor/Actions approach:**
+- Identify **actors** (users, external systems, time).
+- For each actor, identify **actions** (verb-noun phrases).
+- Group related actions into **use cases** (or stories).
+- Use cases → components (each component serves a coherent set of use cases).
+
+**2. Event Storming (Alberto Brandolini):**
+- Workshop with domain experts.
+- Use sticky notes for **domain events** (orange), **commands** (blue), **aggregates** (yellow), **policies** (purple), **read models** (green).
+- Walk through a business scenario temporally.
+- Group events by **lifecycle phase** → components.
+- Identify **swim lanes** (parallel business processes) → potential bounded contexts.
+
+**3. Workflow approach:**
+- Identify **workflows** = sets of actions producing an observable result.
+- Each workflow → candidate component.
+- Workflows that share actions → share a component.
+- Workflows that are independent → separate components.
+
+**4. Naked Objects pattern:**
+- Build pure CRUD UIs exposing domain objects.
+- Object clusters → component boundaries.
+- Best for simple CRUD domains only.
+
+**5. Class responsibility collaboration (CRC) cards:**
+- Brainstorm **classes** with **responsibilities** and **collaborators**.
+- Group classes by **strong collaboration** → components.
+
+**Do:**
+- Use **multiple techniques** on the same problem; compare results.
+- Iterate: **identify → analyze roles → analyze characteristics → restructure**.
+- Include **domain experts** (not just architects/developers).
+- Focus on **business capabilities** (not technical components).
+
+**Don't:**
+- Don't use a single technique exclusively — each has blind spots.
+- Don't skip the iteration loop — first pass is rarely right.
+- Don't use technical partitioning as a starting point for microservices.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Discovering Components", "Actor/Actions approach", "Event storming", "Workflow approach"*
+
+---
+
+### C4 Model (Simon Brown)
+
+**Principle:** C4 is a hierarchical diagramming approach with 4 levels: Context, Container, Component, Code. Each level zooms in on one aspect.
+
+**Levels:**
+1. **Level 1: System Context** — shows the system as a black box in its environment; users and external systems; what does the system do?
+2. **Level 2: Containers** — applications, databases, file systems, message brokers; how is it deployed?
+3. **Level 3: Components** — major structural building blocks inside each container (controllers, services, repositories); how is each container built?
+4. **Level 4: Code** (optional) — class diagrams, ER diagrams for the most important components; how is each component implemented?
+
+**Do:**
+- Start with **Level 1**; only add detail that aids the conversation.
+- Use **consistent notation** (boxes for processes, cylinders for data stores, parallelograms for external systems).
+- Label **every element** (no "?").
+- Include **technology choices** in container diagrams (`Spring Boot`, `PostgreSQL`).
+- Use a **legend** with shapes/symbols.
+- Use **colors sparingly** (one or two for emphasis only).
+- Annotate **technology and purpose** (e.g., "Spring Boot REST API — handles customer CRUD").
+
+**Don't:**
+- Don't draw all four levels for every diagram — most meetings need 1-2 levels.
+- Don't use UML symbols (C4 is deliberately UML-free).
+- Don't combine levels in one diagram — purpose is lost.
+- Don't ignore context — always show where the current view fits.
+
+**Tooling:** Structurizr (DSL + rendering), draw.io with C4 plugin, PlantUML with C4-PlantUML.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Diagramming Standards: UML, C4, and ArchiMate"*
+
+---
+
+### Microservices Granularity — Three Signals
+
+**Principle:** "Microservice" is a label, not a description. Use three signals to determine if you've got the granularity right.
+
+**Signal 1: Purpose (single significant behavior)**
+- A microservice captures a **domain** or **workflow**, not a tiny entity.
+- Test: can you explain the service's purpose in one sentence without using "and"? If not, split or merge.
+
+**Signal 2: Transactions (where ACID would naturally live)**
+- A microservice should not span what would naturally be a single ACID transaction.
+- Test: if your service participates in many distributed transactions, you probably split too fine.
+
+**Signal 3: Choreography (if services communicate heavily, merge)**
+- A microservice should be loosely coupled.
+- Test: if removing/changing one service requires touching many others, merge them.
+
+**Do:**
+- Use the **Rule of Three** — if you've built the same kind of service three times with different code, it's a candidate to extract.
+- Use the **Rule of One** — one service = one bounded context (DDD).
+- Allow services to **grow** until they violate one of the three signals — then split.
+
+**Don't:**
+- Don't use team size as the granularity signal — two-pizza teams don't make two-pizza services.
+- Don't use technology as the granularity signal — "everything Java" or "everything Python" doesn't define a service boundary.
+- Don't start with microservices — start with a modular monolith, extract services as needed.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Microservices Architecture", "Granularity"*
+
+---
+
+### Service Mesh & Sidecar Pattern
+
+**Principle:** A service mesh decouples **business logic** (your code) from **operational concerns** (observability, traffic management, security). Each service has a **sidecar proxy** that handles cross-cutting traffic concerns.
+
+**Do:**
+- Use a service mesh when you have:
+  - Many services (typically >10) requiring consistent observability, security, traffic management
+  - Multi-language environment (mesh language-agnostic)
+  - Operational complexity that grows non-linearly with service count
+- Choose a mesh based on **operational maturity** (Istio = full-featured but complex; Linkerd = simpler; Consul Connect = HashiCorp-native).
+- Migrate incrementally — not all services need mesh from day one.
+
+**Don't:**
+- Don't adopt a service mesh for <10 services — operational overhead exceeds value.
+- Don't put **business logic** in sidecars — they're for operational concerns only.
+- Don't run mesh without **observability** (you can't debug what you can't see).
+
+**Trade-off:** Service mesh adds **latency** (sidecar hop), **complexity** (control plane), and **resource usage** (one proxy per service). Justified at scale; over-engineered at small scale.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Operational Reuse", "Sidecars"*
+
+---
+
+### Choreography vs Orchestration
+
+**Principle:** Two patterns for coordinating services. Choose by complexity.
+
+**Choreography:**
+- Each service emits **events**; others react.
+- No central coordinator.
+- Decentralized, eventually consistent.
+- Best for: simple workflows, high decoupling, scale-out.
+
+**Orchestration:**
+- A **central orchestrator** (mediator) calls each service in sequence.
+- Centralized control, easier to monitor.
+- Best for: complex workflows, error handling, ACID-like guarantees.
+
+**Do:**
+- Use **choreography by default** — simpler, more decoupled.
+- Use **orchestration** when:
+  - Workflow complexity justifies central coordination
+  - You need explicit retry/cancel semantics
+  - Step ordering matters (and is hard to enforce via event chains)
+- Apply **Saga pattern** when using choreography for long-running transactions.
+- Document **workflow diagrams** for orchestration — complex flows are hard to remember.
+
+**Don't:**
+- Don't use orchestration for trivial workflows (over-engineering).
+- Don't use choreography for tightly-coupled workflows (causality becomes impossible to reason about).
+- Don't expect choreography to provide **strong consistency** — it's inherently eventual.
+- Don't tightly couple orchestrators to service implementations.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Choreography and Orchestration", "Event-Driven Architecture"*
+
+---
+
+### Observability & Telemetry
+
+**Principle:** You can't manage what you can't measure. Observability = the ability to ask arbitrary questions about your system from its outputs.
+
+**Three pillars:**
+- **Metrics:** Numeric time-series (request rate, error rate, latency percentiles).
+- **Logs:** Discrete events with context (errors, state changes).
+- **Traces:** Causal chains of operations across services (request → service A → service B → DB).
+
+**Do:**
+- Instrument code with **OpenTelemetry** (CNCF standard, vendor-neutral).
+- Adopt **RED method** (Rate, Errors, Duration) for services — gives the right SLOs.
+- Adopt **USE method** (Utilization, Saturation, Errors) for resources — finds bottlenecks.
+- Track **percentiles**, not averages (P50, P95, P99) — averages hide the long tail.
+- Use **distributed tracing** (Jaeger, Zipkin, Tempo) for microservice architectures.
+- Centralize logs (ELK, Loki, CloudWatch) — local logs in 50 services are useless.
+- Set alerts on **symptoms** (latency, errors), not **causes** (CPU, memory) — symptoms drive user pain.
+- Use **structured logging** (JSON) — parseable, queryable, context-rich.
+
+**Don't:**
+- Don't log **PII** (names, emails, credit cards) — log IDs only.
+- Don't rely on **log-based metrics** — use proper metrics systems.
+- Don't sample traces blindly — head-based sampling misses errors; use tail-based.
+- Don't over-instrument — every span costs latency and storage.
+- Don't use averages for SLOs — they hide the failures users care about.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Operational Measures", "Engineering Practices", "Process"*
+
+---
+
+### Capacity Planning & Performance Engineering
+
+**Principle:** Capacity planning answers: "Do we have enough resources for expected load?" Performance engineering answers: "Can we make this faster with the resources we have?"
+
+**Capacity planning process:**
+1. **Profile current load** — request rate, data volume, peak times.
+2. **Project future load** — apply growth multipliers (1.5×, 2×, 10×).
+3. **Model resource needs** — CPU cores, memory, storage, network.
+4. **Provision for headroom** — 60–70% utilization target (not 100%).
+5. **Test under load** — load tests at, above, and below design point.
+6. **Re-plan regularly** — capacity needs shift.
+
+**Do:**
+- Measure **percentiles** (P95, P99) for response time.
+- Identify **long-tail latency** — outliers at 10× average will kill users.
+- Use **load tests** to validate design (not just smoke tests).
+- Plan for **3× the expected peak** — peaks are unpredictable.
+- Monitor **saturation** (queue depth, thread pool utilization) — that's what fails first.
+- Use **statistical models** (prediction intervals) for scaling decisions, not arbitrary thresholds.
+- Document **capacity assumptions** in ADRs — context for future architects.
+
+**Don't:**
+- Don't optimize for the **average** — long-tail requests starve workers.
+- Don't size for **current peak** — peak will grow.
+- Don't skip load testing — "it works" is not "it scales."
+- Don't ignore **downstream dependencies** (DB, message broker, third-party APIs).
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Operational Measures", "Capacity"*
+
+---
+
+### Resilience Patterns — Circuit Breaker, Bulkhead, Timeout
+
+**Principle:** Distributed systems fail. The question isn't *if* but *when*. Apply resilience patterns to **fail fast** and **isolate failures**.
+
+**1. Timeout:**
+- Every remote call needs a **timeout** — without it, slow services tie up threads forever.
+- Tune timeout to **P99 + buffer** — anything beyond that is nearly certain to fail.
+- Use **cascading timeouts** — service A's timeout > service B's timeout > DB timeout.
+
+**2. Circuit breaker:**
+- Track **failure rate** over a window (e.g., 25% errors in 5 seconds).
+- When threshold exceeded → **open circuit** (fail fast without calling the dependent service).
+- After cooldown → **half-open** (allow one test request).
+- If test succeeds → **close circuit** (resume normal).
+- If test fails → **re-open**.
+
+**3. Bulkhead:**
+- Isolate resources per dependency (separate thread pools per external service).
+- Failure of one dependency can't exhaust resources for another.
+- Configurable: max concurrent calls, max wait duration.
+
+**4. Retry with exponential backoff:**
+- Transient failures often self-heal — retry.
+- **Exponential backoff** (1s, 2s, 4s, 8s) avoids stampeding a recovering service.
+- Add **jitter** (±20%) to avoid synchronized retry storms.
+- Set **max retries** — don't retry forever.
+
+**5. Fallback:**
+- Provide **degraded behavior** (cached value, default response) when dependency fails.
+- Read-heavy services often use cache fallback.
+
+**Do:**
+- Apply **all three together** (timeouts + circuit breakers + bulkheads) — they reinforce each other.
+- Make circuit breaker **state visible** — emit metrics, alerts on state changes.
+- Use **libraries** (Resilience4j, Polly, Hystrix) rather than rolling your own.
+- Treat **dependencies asymmetrically** — critical paths have stricter timeouts.
+
+**Don't:**
+- Don't apply these only to "external" services — internal services fail too.
+- Don't retry non-idempotent operations without an idempotency key.
+- Don't open the circuit for "rare" events — failure rate must exceed a threshold.
+- Don't set circuit-breaker thresholds based on a single incident — calibrate empirically.
+
+```python
+# Pseudocode for combined resilience
+@circuit_breaker(failure_threshold=0.25, window_seconds=10)
+@bulkhead(max_concurrent=150)
+@retry(max_attempts=3, backoff=exponential(base=1, jitter=0.2))
+@timeout(seconds=2)
+def call_dependency(request):
+    return dependent_service.call(request)
+```
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Resilience", "Engineering Practices", Microservices Cascading Failure*
+
+---
+
+### Caching Patterns
+
+**Principle:** Cache reads scale; cache correctness is hard. Three primary caching patterns.
+
+**1. Cache-aside (lazy loading):**
+- Application checks cache → on miss, queries DB → populates cache → returns.
+- Most flexible; resilient to cache failure (cache miss = slow, not broken).
+- Invalidation is the application's responsibility.
+
+**2. Read-through:**
+- Cache itself loads from DB on miss.
+- Application always reads from cache.
+- Tighter coupling to cache library.
+
+**3. Write-through:**
+- Application writes through cache → cache writes to DB.
+- Cache and DB always consistent.
+- Higher write latency.
+
+**4. Write-behind (write-back):**
+- Application writes to cache → cache asynchronously writes to DB.
+- Lowest write latency.
+- Risk of data loss if cache fails before async write.
+
+**Do:**
+- Set **TTL** on every cache entry — guarantees eventual freshness.
+- Implement **cache invalidation** for write-heavy data — TTL alone is too slow.
+- Use **LRU/LFU** eviction policies; size cache appropriately.
+- Monitor **hit ratio** — <80% means cache is poorly tuned.
+- Use **cache-aside** by default — most flexible.
+- Store **whole objects** (avoid partial-object caching).
+- Use **namespacing** in cache keys (`user:123`, `order:456`).
+
+**Don't:**
+- Don't cache **transient data** (one-off calculations, error responses).
+- Don't cache **PII** without encryption — caches are often less protected than DBs.
+- Don't rely on cache freshness for **correctness** — assume staleness.
+- Don't use **cache-aside** without TTL — stale data lives forever.
+- Don't cache **large objects** (>1 MB) — memory pressure; consider compression.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Distributed Caching", "Performance"*
+
+---
+
+### Event Sourcing & CQRS
+
+**Principle:** Event sourcing stores state as a sequence of events rather than current state. CQRS (Command Query Responsibility Segregation) separates read and write models.
+
+**Event sourcing:**
+- Persist **events** (CustomerCreated, OrderPlaced, OrderShipped).
+- **State** = function(events) — replay events to reconstruct state.
+- Events are **immutable** (append-only log).
+- Built-in audit trail; supports temporal queries (state at time T).
+- Enables **event replay** to fix bugs or populate new read models.
+
+**CQRS:**
+- **Write side:** Commands → write model (often event-sourced).
+- **Read side:** Queries → read model (denormalized views).
+- Read and write models can be **different stores** (write: event store; read: SQL/NoSQL).
+- Eventually consistent.
+
+**Do:**
+- Use event sourcing when **audit history matters** (finance, compliance, regulated domains).
+- Pair event sourcing with **CQRS** when read and write access patterns differ.
+- Use **snapshots** to avoid replaying millions of events.
+- Design events as **immutable facts** ("OrderPlaced at 10:32 by user 123").
+- Version your **event schema** — events must be readable forever.
+
+**Don't:**
+- Don't use event sourcing for simple CRUD — overkill.
+- Don't expose **events as API** — they're internal representation.
+- Don't lose events — durability is non-negotiable.
+- Don't put read-model logic in the write side — they have different scaling needs.
+- Don't assume event sourcing automatically gives you CQRS — they're complementary but independent.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Choreography and Orchestration", Event Sourcing references in microservices*
+
+---
+
+### Backends for Frontends (BFF) Pattern
+
+**Principle:** Different clients (mobile, web, partner API) have different needs. A single API forces compromises. BFF = one API per client type.
+
+**Do:**
+- Use BFF when:
+  - Different clients need **different response shapes** (mobile wants summary; web wants details).
+  - Different clients have **different performance constraints** (mobile wants compressed; web wants rich).
+  - Different clients need **different auth** (mobile uses OAuth; partner uses API key).
+- Deploy BFF as a **separate service** — not a shared library.
+- Treat BFF as **client-owned** — frontend team maintains it.
+- Use **API composition** in BFF to aggregate multiple backend calls.
+
+**Don't:**
+- Don't have a single API "supporting all clients" — leads to bloated payloads and complex auth.
+- Don't put **business logic** in BFF — only client-specific translation/aggregation.
+- Don't deploy BFF per developer — group by client type (web, mobile, partner).
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Frontends"*
+
+---
+
+### Hybrid Event-Driven Architecture
+
+**Principle:** Pure event-driven loses request-reply semantics. Hybrid = event-driven for most communication + request-reply for query-style operations.
+
+**Do:**
+- Use event-driven for **state changes** (order placed, payment received).
+- Use request-reply for **queries** (current bid amount, account balance).
+- Use **request-reply eventing** pattern for query events:
+  1. Query service sends a query event
+  2. State-owning services respond with reply events
+  3. Query service correlates responses
+- Limit query-event scope to **bounded contexts** (don't query across all services).
+
+**Don't:**
+- Don't try to make all operations asynchronous — query semantics often need request-reply.
+- Don't use query events for transactional updates — eventual consistency breaks invariants.
+- Don't broadcast query events to all consumers — narrow the audience.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Hybrid Event-Driven Architectures", "Choosing Between Request-Based and Event-Based"*
+
+---
+
+### Stamp Coupling & Field Selection
+
+**Principle:** Returning more data than the client needs (stamp coupling) wastes bandwidth, increases latency, and exposes internal data unnecessarily.
+
+**Do:**
+- Use **field selectors** (`GET /orders?fields=id,total,status`).
+- Use **sparse fieldsets** (`fields[orders]=id,name` for related resources).
+- Use **GraphQL** for client-specified queries.
+- Create **purpose-specific endpoints** (`/orders/summary` vs `/orders/details`).
+- Use **Consumer-Driven Contracts** — providers only return what each consumer needs.
+- Document **field semantics** — what each field means and when it changes.
+
+**Don't:**
+- Don't return whole database rows by default — model the response shape.
+- Don't expose internal IDs that clients shouldn't see.
+- Don't change field semantics without an API version bump.
+- Don't add fields to responses "in case they're useful" — clients depend on what's documented.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Fallacy #3: Bandwidth Is Infinite", Stamp Coupling*
+
+---
+
+### DevOps & Continuous Delivery for Architects
+
+**Principle:** Architecture and operations are inseparable. Microservices without automation fails; CD without architectural discipline fails.
+
+**CD Pipeline:**
+1. **Commit** — code push triggers pipeline.
+2. **Build** — compile, package.
+3. **Unit tests** — fast feedback (<5 min).
+4. **Static analysis** — linting, security scans.
+5. **Integration tests** — test against dependencies.
+6. **Performance tests** — load tests on representative data.
+7. **Deploy to staging** — full integration environment.
+8. **Acceptance tests** — business validation.
+9. **Deploy to production** — blue/green, canary, or rolling.
+10. **Monitor** — observability in production.
+
+**Architect's role in CD:**
+- Define **deployment topology** (how many environments, promotion path).
+- Set **deployment budgets** (time, risk tolerance).
+- Design for **deployability** (stateless services, schema migrations, backward compatibility).
+- Specify **rollback strategy** (blue/green, feature flags, compensating migrations).
+- Advocate for **infrastructure as code** (Terraform, CloudFormation, Pulumi).
+
+**Do:**
+- Adopt **continuous delivery** (deployment-ready code always) before **continuous deployment** (auto-deploy).
+- Use **feature flags** for risk mitigation — decouple deploy from release.
+- Implement **database migrations** as backward-compatible (add column → dual-write → migrate → drop column).
+- Use **trunk-based development** — long-lived branches make integration painful.
+
+**Don't:**
+- Don't deploy on Friday — leave time for recovery before the weekend.
+- Don't skip **smoke tests** in production — synthetic transactions verify deploys.
+- Don't break **schema compatibility** — concurrent clients break.
+- Don't rely on **manual deployment** — humans make mistakes.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Engineering Practices", "Continuous Delivery", "DevOps"*
+
+---
+
+### Architecture Katas & Practice
+
+**Principle:** Architectural judgment improves with deliberate practice. Architecture katas = structured exercises for improving design skills.
+
+**Format:**
+- **Team:** 3-6 architects/developers.
+- **Duration:** 45 minutes (hard cap).
+- **Problem:** Pre-defined scenario (often fictional, e.g., online auction for used cars).
+- **Process:**
+  1. Identify architecture characteristics (5 min).
+  2. Sketch domain components (10 min).
+  3. Choose architecture style (5 min).
+  4. Define communication patterns (10 min).
+  5. Sketch diagram (10 min).
+  6. Present + peer review (5 min per team).
+
+**Do:**
+- Practice katas with **diverse teams** — different perspectives reveal different assumptions.
+- Time-box strictly — architectural decisions under constraint mirror real-world pressure.
+- Focus on **trade-offs**, not "right answers" — every decision has alternatives.
+- Rotate facilitators — leadership shouldn't be the only person running katas.
+- Use katas to **calibrate** architectural judgment across teams.
+- Pick problems with **domain familiarity** and **technical unfamiliarity** (or vice versa).
+
+**Don't:**
+- Don't search for "the right answer" — there isn't one.
+- Don't let the loudest voice dominate — explicitly invite dissent.
+- Don't skip the time-box — endless katas teach nothing about constraint.
+- Don't use kata problems that mirror your exact current work — too close to be instructive.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Parting Words of Advice" (architecture katas reference)*
+
+---
+
+### Space-Based Architecture — Detailed Patterns
+
+**Principle:** Space-based (a.k.a. tuple space, cloud architecture pattern) handles extreme concurrency by removing the database from the synchronous request path.
+
+**Components:**
+- **Processing Unit:** Application logic + in-memory data grid (IMDG) cache.
+- **Virtualized Middleware:** Replaces the traditional database as the coordination layer.
+- **Data Grid:** In-memory distributed cache (GemFire, Coherence, GigaSpaces).
+- **Data Pumps:** Async readers/writers between data grid and persistent storage.
+- **Deployment Manager:** Orchestrates processing unit scaling based on load.
+
+**Do:**
+- Use when **concurrent users > 10,000** AND **load is variable/unpredictable**.
+- Replicate cache **asynchronously** between processing units (<100ms typical).
+- Use **distributed caching** for dynamic/inconsistent data; **replicated** for static reference.
+- Pre-warm processing units **before** load spikes.
+- Use **data pumps** to persist to DB asynchronously.
+
+**Don't:**
+- Don't use replicated caching for cache sizes >100 MB — replication breaks.
+- Don't use near-cache model — front caches diverge.
+- Don't expect **strong consistency** — space-based is eventually consistent.
+- Don't use space-based for systems with **complex transactional semantics**.
+- Don't deploy space-based without **observability** — the in-memory nature hides state.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Space-Based Architecture Style", "Processing Unit", "Virtualized Middleware", "Data Pumps"*
+
+---
+
+### Microservices Anti-Patterns to Avoid
+
+**1. Entity Microservice:**
+- Each entity = service → ORM-as-architecture.
+- Result: chatty services, distributed joins.
+- Fix: Bounded context per service, not entity per service.
+
+**2. Distributed Monolith:**
+- Services deployed independently but **coupled at release** (must deploy together).
+- Result: you have all the downsides of microservices + all the downsides of monoliths.
+- Fix: enforce data isolation; avoid shared libraries.
+
+**3. Smart Endpoints, Dumb Pipes:**
+- Pushing logic into ESBs/messaging (the SOA mistake).
+- Result: business logic scattered, hard to change.
+- Fix: Logic in services, messaging = transport only.
+
+**4. Chatty Services:**
+- Services call each other many times for one logical operation.
+- Result: high latency, cascading failures.
+- Fix: Aggregate data; merge services that chat.
+
+**5. Shared Database:**
+- Multiple services sharing one database.
+- Result: tight coupling, can't deploy independently.
+- Fix: One database per service.
+
+**6. Shared Libraries for Domain Logic:**
+- Domain logic in shared JARs across services.
+- Result: must redeploy all services to change domain.
+- Fix: Share via APIs / events, not libraries.
+
+**7. Using ESBs / Orchestrators for Business Logic:**
+- Orchestrators contain logic.
+- Result: same as distributed monolith.
+- Fix: Orchestrators coordinate; logic stays in services.
+
+*Ref: Fundamentals_of_Software_Architecture.md — Microservices anti-patterns*
+
+---
+
+### Architecture in Agile Iterations
+
+**Principle:** Architecture is iterative, not Big Design Up Front (BDUF). But not all architecture is "just-in-time" — some decisions must be made early (foundational) while others can wait (deferrable).
+
+**Decision timing matrix:**
+- **Decide early (foundational):** Architecture style, database technology, deployment topology, programming language.
+- **Decide iteratively:** Component boundaries, API contracts, specific algorithms.
+- **Defer as long as possible:** Internal class design, framework-specific patterns.
+
+**Do:**
+- Practice **Agile architecture** — make decisions when they have to be made, not before.
+- Conduct architecture review at **iteration boundaries** (start + end of each).
+- Use **architecture spikes** (POCs) to validate risky decisions before committing.
+- Hold **just-in-time design sessions** when the team needs to know.
+- Make **reversible decisions** easy to change; make **irreversible decisions** carefully.
+
+**Don't:**
+- Don't skip architecture decisions at the start — some are foundational.
+- Don't make every decision at the start — over-engineering.
+- Don't change foundational decisions casually — switching language mid-project is expensive.
+- Don't hide architecture work — it must be visible to stakeholders.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Process", "Engineering Practices", "Expectations of an Architect"*
+
+---
+
+### Conway's Law & Inverse Conway Maneuver — Deep Dive
+
+**Principle:** Organizations design systems that mirror their communication structures. The Inverse Conway Maneuver deliberately restructures teams to produce the desired architecture.
+
+**Three forms of Conway's Law:**
+
+1. **Conway's Law (1968):** "Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations."
+2. **Reverse Conway Maneuver (Jonny Leroy):** Change team structure first → architecture follows.
+3. **Inverse Conway Maneuver (pragmatic variant):** Deliberately align team boundaries with desired architecture (regardless of which changed first).
+
+**Do:**
+- Audit team boundaries when planning architecture changes.
+- Use **team topology** (Skelton & Pais) — stream-aligned, platform, enabling, complicated-subsystem teams.
+- Match team count to **architectural seams** (each bounded context = one team).
+- Co-locate teams with strong domain ownership.
+- Document team-to-component mapping in the architecture diagram.
+
+**Don't:**
+- Don't fight Conway's Law — the system you build will mirror your org.
+- Don't reorganize for the sake of reorganization — Conway alignment is the goal.
+- Don't assume team boundaries are permanent — they should evolve with architecture.
+- Don't ignore HR constraints — reorganizations have real costs.
+
+**Team size warning signs:**
+- **Process loss** — adding people doesn't add productivity (Brooks's law).
+- **Pluralistic ignorance** — silent agreement masking dissent.
+- **Diffusion of responsibility** — unclear ownership.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Architecture Partitioning", "Conway's Law", "Making Teams Effective"*
+
+---
+
+### Architectural Katas — Reference Problems
+
+**Principle:** Architecture katas give architects and developers a structured way to practice architectural judgment under time pressure.
+
+**Sample kata topics:**
+- Online auction for used cars (event-driven, high concurrency)
+- Smart home device management (IoT, microservices)
+- Hotel booking system (consistency, integration with external systems)
+- Medical records system (compliance, security, audit)
+- Real-time analytics dashboard (streaming, time-series)
+- Social media platform (eventual consistency, fan-out)
+- E-commerce platform (transactional + analytics)
+
+**Process:**
+1. **Read problem** (5 min) — requirements + characteristics.
+2. **Identify characteristics** (10 min) — list top 5.
+3. **Sketch domain components** (10 min) — main bounded contexts.
+4. **Choose style** (5 min) — based on characteristics.
+5. **Define communication** (10 min) — sync/async, topics, APIs.
+6. **Sketch diagram** (10 min) — at least 2 levels of C4.
+7. **Present** (5 min/team) — trade-offs + alternatives.
+
+**Variation:** "Architecture tennis" — one person presents, another challenges.
+
+*Ref: Fundamentals_of_Software_Architecture.md — architecture katas referenced*
+
+---
+
+### Architecture Reviews — Conducting Them
+
+**Principle:** Architecture reviews are how teams align on the direction. Done well, they prevent costly mistakes. Done poorly, they become bureaucratic theater.
+
+**Do:**
+- Schedule reviews at **natural decision points** (start of major features, before irreversible changes).
+- Use **agenda-driven reviews** — circulate materials 24h before.
+- Time-box presentations — 30 min present, 30 min Q&A.
+- Focus on **trade-offs** — what was considered, what was rejected, why.
+- Include **non-architect reviewers** — developers, ops, security.
+- Document outcomes as **ADRs** with action items.
+- Make reviews **safe** — dissension is welcome; personal attacks are not.
+
+**Don't:**
+- Don't surprise the team with a review of completed work.
+- Don't review trivia (variable naming) — focus on architecture.
+- Don't let senior architects dominate — explicit time for junior voices.
+- Don't end a review without **documented outcomes**.
+- Don't skip post-implementation reviews — learn from deviations.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Integrating with the Development Team", Negotiation chapters*
+
+---
+
+### Multi-Tenancy & SaaS Architecture
+
+**Principle:** Multi-tenancy serves multiple customers (tenants) from one codebase. Trade-offs in **isolation** (security, performance) vs **density** (cost efficiency).
+
+**Three multi-tenancy models:**
+
+1. **Single-tenant (one DB per tenant):**
+   - Strongest isolation; easiest to migrate out.
+   - Lowest density (most expensive).
+
+2. **Shared DB, separate schemas:**
+   - Schema-level isolation; reasonable density.
+   - Migrations are per-schema (operational complexity).
+
+3. **Shared DB, shared schema, tenant ID column:**
+   - Highest density; cheapest.
+   - Highest risk: missing tenant_id in WHERE clause = data leak.
+   - Requires row-level security at DB.
+
+**Do:**
+- Use **tenant ID** in every query, every log, every metric.
+- Implement **row-level security** in the database when using shared schema.
+- Use **shared services** with **per-tenant config** (feature flags, quotas).
+- Apply **tenant-aware observability** — segment metrics/logs/traces by tenant.
+- Design for **tenant migration** (out of your platform) — schema/data portability.
+
+**Don't:**
+- Don't assume tenant isolation from app code alone — defense in depth.
+- Don't use **shared credentials** across tenants — separate auth per tenant.
+- Don't ignore **noisy neighbor** — one tenant's load affects others.
+- Don't store tenant data in **shared caches** without keying by tenant.
+
+*Ref: Fundamentals_of_Software_Architecture.md — implicit in Microservices, Architectural Characteristics (security, scalability)*
+
+---
+
+### Serverless & FaaS Architecture
+
+**Principle:** Serverless abstracts infrastructure; you pay per execution. Trade-offs in **cold starts**, **execution time limits**, and **per-function scaling**.
+
+**Do:**
+- Use serverless for:
+  - **Spiky workloads** (marketing campaigns, IoT event bursts).
+  - **Stateless APIs** with low average utilization.
+  - **Event-driven** processing (file uploads → thumbnail generation).
+  - **Cron-like** jobs (daily reports).
+- Optimize **memory size** (more memory = more CPU = sometimes cheaper overall).
+- Mitigate **cold starts** with provisioned concurrency (when latency matters).
+- Design functions as **stateless and short-lived**.
+- Use **step functions** for orchestration of multi-step serverless workflows.
+
+**Don't:**
+- Don't use serverless for:
+  - **Long-running** processes (functions have execution time limits).
+  - **CPU-intensive** work (per-second cost is high).
+  - **Stateful** applications (state must be external).
+- Don't assume infinite scaling — **concurrent execution limits** apply (Lambda: 1000 per region default).
+- Don't ignore **cost at scale** — serverless can be more expensive than provisioned for steady loads.
+
+*Ref: Fundamentals_of_Software_Architecture.md — implied in cloud architecture, Engineering Practices*
+
+---
+
+### Operational Excellence — Day-2 Architecture
+
+**Principle:** Architecture is for Day 2, not just Day 1. The system must be **operable** by humans and tools, not just **buildable** by the original developers.
+
+**Day-2 concerns:**
+- **Deployment:** Can we deploy without downtime? Roll back safely?
+- **Observability:** Can we see what's happening?
+- **Debugging:** Can we diagnose issues from logs/traces?
+- **Scaling:** Can we handle load changes?
+- **Updates:** Can we apply security patches without service disruption?
+- **Disaster recovery:** Can we recover from data loss, region failure?
+- **Compliance:** Can we audit access, prove data handling?
+
+**Do:**
+- Treat **Day-2 capabilities** as architectural requirements from day 1.
+- Apply the **operational readiness review** (ORR) before production launch.
+- Build **runbooks** for common incidents (deployment, rollback, scaling).
+- Use **chaos engineering** (Netflix Chaos Monkey style) to test failure modes.
+- Practice **disaster recovery drills** — DR plans untested are useless.
+- Document **SLOs** (Service Level Objectives) — error budget drives priorities.
+
+**Don't:**
+- Don't build features and assume operations — design for ops from start.
+- Don't skip the ORR — Day-2 gaps are discovered under fire.
+- Don't ignore **dependency failures** — third-party services fail too.
+- Don't rely on **manual runbooks** for frequent operations — automate.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Operations/DevOps", "Engineering Practices"*
+
+---
+
+### Architecture Documentation — What to Write
+
+**Principle:** Documentation supports decision-making. It should be **as simple as possible** but cover the **load-bearing decisions**.
+
+**Documentation hierarchy:**
+1. **README** — what is this system, who owns it, how do I run it.
+2. **Architecture overview** — style, characteristics, diagrams (C4 L1+L2).
+3. **Component documentation** — what each component does, its API, its data.
+4. **ADRs** — why decisions were made (not just what).
+5. **Runbooks** — operational procedures (deploy, rollback, incidents).
+6. **ADRs as Documentation** — search-friendly historical record.
+
+**Do:**
+- Use **arc42** or **C4** as a structure template.
+- Keep diagrams **near code** (in the same repo, ideally).
+- Generate docs from code when possible (OpenAPI, AsyncAPI).
+- Link ADRs to **specific decisions** in code (e.g., ADRs in `docs/adr/`).
+- Document **non-obvious things** (why, not what).
+- Update docs **as part of the PR** that changes the architecture.
+
+**Don't:**
+- Don't write **comprehensive docs that nobody reads** — keep it focused.
+- Don't write **future-state docs** — they lie when the future arrives.
+- Don't duplicate information across many places — single source of truth.
+- Don't write **process documentation** for things that should be automated.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "ADRs as Documentation"*
+
+---
+
+### Cost as an Architecture Characteristic
+
+**Principle:** Cost is a quality attribute like scalability or performance. Architecture decisions have cost implications that must be analyzed.
+
+**Cost dimensions:**
+- **Infrastructure** — compute, storage, network.
+- **Operational** — humans to run the system.
+- **Development** — humans to build and maintain.
+- **Opportunity cost** — what we're not building because of this.
+
+**Do:**
+- Apply the **finops principle** — engineering, finance, and business collaborate on cost.
+- Track cost per **transaction / request / customer** — unit economics.
+- Use **right-sizing** for compute (don't over-provision).
+- Use **spot instances** for fault-tolerant workloads (60-90% cheaper).
+- Set **budgets** and alerts — surprises are bad.
+- Tag resources by **team, service, environment** — understand attribution.
+
+**Don't:**
+- Don't treat cost as a **Phase 2 concern** — design for cost from day 1.
+- Don't ignore **hidden costs** — data transfer, log storage, third-party APIs.
+- Don't optimize prematurely — measure first.
+- Don't sacrifice **availability/security** for cost — those have hard floors.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Scalability and Costs", Manageability*
+
+---
+
+### Process & Workflow Architecture
+
+**Principle:** Process (how teams work) is part of architecture. Process decisions have leverage similar to technical decisions.
+
+**Do:**
+- Define a **branching strategy** (trunk-based preferred; gitflow for some compliance contexts).
+- Define a **PR review process** — required reviewers, automated checks.
+- Define a **deployment cadence** — daily, weekly, on-demand.
+- Define a **release process** — feature flags, gradual rollouts, A/B tests.
+- Use **definition of done** — covers code, tests, docs, monitoring.
+- Define **incident response** — on-call, escalation, post-mortems.
+- Use **GitOps** (infrastructure as code, declarative config in git).
+
+**Don't:**
+- Don't make process decisions ad-hoc — codify them.
+- Don't gate releases on manual approval (humans are slow and inconsistent).
+- Don't skip **post-mortems** — failures are learning opportunities.
+- Don't use **hero culture** — sustainable pace beats heroics.
+- Don't allow process to bypass technical standards (architecture fitness functions).
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Process", "Engineering Practices"*
+
+---
+
+### Data Architecture (Beyond Polyglot Persistence)
+
+**Principle:** Data architecture = decisions about storage, movement, transformation, and access patterns. It interacts tightly with system architecture.
+
+**Data architecture decisions:**
+- **Transactional store:** Where do committed business facts live?
+- **Read models:** Denormalized views for queries.
+- **Cache layer:** What's worth caching, where, how long?
+- **Search index:** Text search, faceting (Elasticsearch, Solr).
+- **Time-series store:** Metrics, events (InfluxDB, TimescaleDB).
+- **Data warehouse:** Analytics, historical (Snowflake, BigQuery).
+- **Data lake:** Raw data for future analysis (S3 + Athena).
+
+**Do:**
+- Match **data model** to **access pattern** (relational for transactional; document for hierarchical; wide-column for sparse).
+- Use **polyglot persistence** — different stores for different needs.
+- Make data **immutable when possible** — easier to reason about.
+- Apply **data partitioning** — vertical (columns), horizontal (rows).
+- Plan for **data retention** — GDPR, regulatory, archival.
+- Document **data flows** — data lineage, transformations, ownership.
+
+**Don't:**
+- Don't use **one database for everything** — polyglot persistence is a thing.
+- Don't store **derived data** in the source of truth — calculate on read or materialize separately.
+- Don't ignore **data gravity** — large datasets attract processing (move compute to data).
+- Don't skip **backup and recovery testing** — backups you haven't restored are guesses.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Data", Microservices Data Isolation*
+
+---
+
+### When NOT to Adopt Microservices
+
+**Principle:** Microservices have a cost. Apply only when the benefits exceed the cost.
+
+**Don't adopt microservices if:**
+- **Team size < 5-7** — coordination overhead exceeds benefits.
+- **Domain is not well understood** — boundaries will be wrong; monolith → refactor first.
+- **Engineering practices are not mature** — without CI/CD, monitoring, automation, microservices fail.
+- **Traffic is low** — single instance can handle load.
+- **Strong consistency across many entities is required** — chatty distributed transactions.
+- **No clear bounded contexts** — boundaries will be technical, not domain.
+
+**Do adopt microservices if:**
+- **Team size > 20-30** — communication overhead demands decentralization.
+- **Independent release cadences** matter (different teams deploy different features).
+- **Scaling varies by component** (e.g., high-write component needs 100× the resources of others).
+- **Polyglot** is required (different stacks for different problems).
+- **Resilience** requires isolation (one component failing shouldn't take down everything).
+
+**Alternative: Modular Monolith:**
+- Single deploy unit, but **disciplined module boundaries**.
+- Each module has clear API, owns its data table(s).
+- Modules can be extracted to services later.
+- **Best of both worlds** for many use cases.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Modular Monolith", Microservices*
+
+---
+
+### Team Topologies (Skelton & Pais)
+
+**Principle:** Team structure drives architecture. Four team types per Skelton & Pais:
+
+1. **Stream-aligned team:** Aligned to a flow of work (e.g., Customer Onboarding team).
+2. **Enabling team:** Helps stream-aligned teams overcome obstacles (e.g., Test Automation team).
+3. **Complicated-subsystem team:** Owns subsystems requiring specialist expertise (e.g., ML models team).
+4. **Platform team:** Provides internal services that stream-aligned teams consume (e.g., authentication platform).
+
+**Team interaction modes:**
+- **Collaboration:** Two teams work closely together.
+- **X-as-a-Service:** One team provides a service, another consumes with minimal interaction.
+- **Facilitating:** One team helps another (enabling team pattern).
+
+**Do:**
+- Identify **cognitive load** — what must each team hold in their heads?
+- Default to **stream-aligned teams** — they're the primary delivery units.
+- Apply **Thinnest Viable Platform** (TVP) — platform provides only what stream-aligned teams can't build faster themselves.
+- Use **team APIs** — explicit contracts between teams, like service APIs.
+- Bound team size by **cognitive load**, not headcount.
+
+**Don't:**
+- Don't create **component teams** (UI team, DB team) — they're anti-pattern.
+- Don't have teams **owned by managers** — teams are owned by missions.
+- Don't let **big team** inertia persist — split when coordination costs exceed delivery speed.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Conway's Law", "Architecture Partitioning" (related to Team Topologies book)*
+
+---
+
+### Architectural Spikes — POCs for Risky Decisions
+
+**Principle:** Architectural spikes are time-boxed investigations to reduce risk on specific decisions. They're not throwaway code.
+
+**Do:**
+- Use spikes for **risky, expensive-to-change decisions**: language, framework, database, architecture style.
+- **Time-box spikes** strictly (1-3 days, max).
+- **Production-quality code** when possible — throwaway code becomes reference architecture.
+- Document spike results as **ADRs** with evidence.
+- Include spikes in **iteration planning** — they're not free.
+- Use **multiple spikes** when comparing alternatives.
+
+**Don't:**
+- Don't spike everything — only high-uncertainty, high-impact decisions.
+- Don't let spikes become **undisciplined exploration** — set goals.
+- Don't skip spike results documentation — the learning is the value.
+- Don't promote spike code to production without review — it's a POC.
+
+*Ref: Fundamentals_of_Software_Architecture.md — "Balancing Architecture and Hands-On Coding", "Expectations of an Architect"*
+
+---
+
+### Architecture Decision Records — Lifecycle Management
+
+**Principle:** ADRs have a lifecycle. Managing them properly keeps documentation trustworthy.
+
+**ADR statuses:**
+- **Proposed:** Drafted, under discussion.
+- **Accepted:** Approved and active.
+- **Superseded:** Replaced by a newer ADR (with link).
+- **Deprecated:** No longer applicable but kept for history.
+- **Rejected:** Not adopted (kept for "why not" context).
+
+**Lifecycle stages:**
+1. **Draft** — author writes initial ADR.
+2. **Review** — team, ARB, stakeholders provide feedback.
+3. **Decision** — status set to Accepted/Rejected.
+4. **Active** — guides current work.
+5. **Supersession** — replaced by newer ADR when context changes.
+6. **Archival** — moved to `docs/adr/archive/` after years.
+
+**Do:**
+- Use **GitOps-style** ADR storage (in repo, versioned with code).
+- Reference ADRs from code comments when relevant.
+- Review ADRs **annually** — context changes, decisions may need updating.
+- Use **templates** for consistency (Context/Decision/Consequences).
+- Link ADRs to **architecture fitness functions** when applicable.
+- Make ADR numbers monotonic — never renumber.
+
+**Don't:**
+- Don't delete superseded ADRs — they're history.
+- Don't skip the **Consequences** section — it's the most useful for future readers.
+- Don't write ADRs as **personal opinions** — they should be team/ARB decisions.
+- Don't let ADRs grow indefinitely — keep them short (1-2 pages).
+
+*Ref: Fundamentals_of_Software_Architecture.md — "ADRs as Documentation", "Using ADRs for Standards"*
+
+---
+
 ## Anti-Patterns & Common Mistakes
 
 - **Covering Your Assets:** Architect avoids/deferring decisions out of fear → *fix:* Make decisions at the last responsible moment; collaborate with developers continuously.
@@ -828,6 +2061,7 @@ NOTES
 - **Process Loss:** Adding people makes project later (Brooks's law) → *fix:* Find parallel work streams; question new hires when no parallelism exists.
 - **Analysis Paralysis:** Forever discussing, never deciding → *fix:* ADR with RFC status + deadline date.
 - **Technical Partitioning for Domain Logic:** Forcing workflow concepts into layered architecture → *fix:* Use modular monolith or domain partitioning.
+- **Italy-ility:** Inventing a unique characteristic for one past incident → *fix:* Distinguish genuine from perceived risk.
 
 *Ref: Fundamentals_of_Software_Architecture.md — Distributed across Chapters 1, 9, 10, 12, 14, 19, 21, 22, 23*
 
@@ -914,6 +2148,9 @@ Sum the five factors; positive = control freak, negative = armchair. Target: sta
 14. **Soft skills (4 C's) are 50% of the architect role** — Communication, Collaboration, Clarity, Conciseness.
 15. **Stay hands-on** — POCs, code reviews, fitness functions, technical-debt stories.
 16. **Architecture is iterative, not waterfall** — all architectures become iterative because of unknown unknowns; Agile just recognizes it sooner.
+17. **Treat the 8 fallacies of distributed computing as design constraints** — every network call needs timeouts, idempotency, and security.
+18. **Partition by domain for microservices, by technique for simple CRUD** — Conway's law cuts both ways.
+19. **Architecture style choice is reversible early and costly late** — make the monolith→distributed transition while characteristics still support either.
 
 ---
 
@@ -921,4 +2158,6 @@ Sum the five factors; positive = control freak, negative = armchair. Target: sta
 - Related: `Building_Evolutionary_Architectures.md` (extends fitness-function concept)
 - Related: `Designing_Data-Intensive_Applications.md` (extends data architecture / distributed transactions)
 - Related: `Software_Architecture_The_Hard_Parts.md` (extends trade-off analysis, modular decomposition)
-- Topic index: `../INDEX.md`
+- Related: `Team_Topologies.md` (extends Conway's law and team boundaries)
+- Related: `Foundations_of_Scalable_Systems.md` (extends distributed-systems fundamentals)
+- Topic index: `INDEX.md`
